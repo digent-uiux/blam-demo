@@ -1,0 +1,40 @@
+/* Account order detail (sections/blko-order-detail.liquid). Tokens come from the color scheme, with Balm fallbacks. */
+.blko-order-detail { color: var(--color-text, #262f29); }
+.blko-order-detail__back { display: inline-block; margin-bottom: 2.5rem; color: var(--color-text, #262f29); font-size: var(--blko-text-small, 14px); text-decoration: underline; text-underline-offset: 3px; }
+.blko-order-detail__back:hover { color: var(--color-text-muted, #59625b); }
+.blko-order-detail__sample { margin: -1.5rem 0 2rem; padding: .5rem .75rem; border: 1px dashed var(--color-border, #d6d1c0); }
+.blko-order-detail__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 1rem 1.5rem; }
+.blko-order-detail__title { display: grid; gap: .5rem; }
+.blko-order-detail__title .blko-label { letter-spacing: .08em; text-transform: uppercase; }
+.blko-order-detail__status { display: inline-flex; align-items: center; min-height: 28px; padding: 0 .75rem; border-radius: 999px; background: var(--color-bg-alt, #e4e0cc); color: var(--color-text, #262f29); font-size: var(--blko-text-label, 12px); font-weight: 500; letter-spacing: .04em; }
+.blko-order-detail__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; margin-top: 2.5rem; }
+.blko-order-detail__items { display: grid; align-content: start; gap: 1rem; }
+.blko-order-detail__list { border-bottom: 1px solid var(--color-border, #d6d1c0); }
+.blko-order-detail__item { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 1rem; padding-block: 1.25rem; border-top: 1px solid var(--color-border, #d6d1c0); }
+.blko-order-detail__item:not(:has(.blko-order-detail__thumb)) { grid-template-columns: minmax(0, 1fr) auto; }
+.blko-order-detail__thumb { width: 72px; aspect-ratio: 1; }
+.blko-order-detail__info { display: grid; gap: .25rem; }
+.blko-order-detail__info a { text-decoration: none; }
+.blko-order-detail__info a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.blko-order-detail__track { color: var(--color-text, #262f29); text-underline-offset: 3px; }
+.blko-order-detail__price { display: grid; justify-items: end; gap: .125rem; font-variant-numeric: tabular-nums; }
+.blko-order-detail__price strong { font-weight: 500; }
+.blko-order-detail__price s { font-size: var(--blko-text-small, 14px); }
+.blko-order-detail__summary { display: grid; align-content: start; gap: 1.25rem; align-self: start; padding: 1.5rem; border-radius: var(--radius-card, 0); background: var(--color-bg-alt, #e4e0cc); }
+.blko-order-detail__totals { display: grid; gap: .75rem; margin: 0; }
+.blko-order-detail__row { display: flex; justify-content: space-between; gap: 1rem; }
+.blko-order-detail__row dt { color: var(--color-text-muted, #59625b); }
+.blko-order-detail__row dd { margin: 0; font-variant-numeric: tabular-nums; }
+.blko-order-detail__row--total { padding-top: .75rem; border-top: 1px solid var(--color-border, #d6d1c0); font-weight: 500; }
+.blko-order-detail__row--total dt { color: var(--color-text, #262f29); }
+.blko-order-detail__address { display: grid; gap: .375rem; padding-top: 1.25rem; border-top: 1px solid var(--color-border, #d6d1c0); }
+.blko-order-detail__address address { font-style: normal; color: var(--color-text-muted, #59625b); }
+@media (min-width: 750px) {
+  .blko-order-detail__thumb { width: 88px; }
+}
+@media (min-width: 1024px) {
+  .blko-order-detail__grid { grid-template-columns: minmax(0, 1.4fr) minmax(17rem, .75fr); gap: clamp(2.5rem, 6vw, 6rem); margin-top: 3rem; }
+  .blko-order-detail--summary-left .blko-order-detail__grid { grid-template-columns: minmax(17rem, .75fr) minmax(0, 1.4fr); }
+  .blko-order-detail--summary-left .blko-order-detail__summary { order: -1; }
+  .blko-order-detail__summary { position: sticky; top: 7rem; padding: 2rem; }
+}

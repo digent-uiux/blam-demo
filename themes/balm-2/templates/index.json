@@ -1,0 +1,243 @@
+{
+  "sections": {
+    "hero": {
+      "type": "blko-hero",
+      "settings": {
+        "overlay_opacity": 60,
+        "heading": "One drop, <em>all day</em> glow.",
+        "text": "Rosehip and squalane, cold-pressed in small batches. Sinks in within a minute and never feels greasy.",
+        "button_label": "Shop face oils",
+        "button_label_2": "See the ingredients"
+      }
+    },
+    "featured_tabs": {
+      "type": "blko-featured-tabs",
+      "blocks": {
+        "tab_bestsellers": {
+          "type": "tab",
+          "settings": {
+            "label": "Bestsellers"
+          }
+        },
+        "tab_new": {
+          "type": "tab",
+          "settings": {
+            "label": "New"
+          }
+        },
+        "tab_sets": {
+          "type": "tab",
+          "settings": {
+            "label": "Sets"
+          }
+        }
+      },
+      "block_order": [
+        "tab_bestsellers",
+        "tab_new",
+        "tab_sets"
+      ],
+      "settings": {
+        "heading": "Shop the routine",
+        "tabs_label": "Product sets"
+      }
+    },
+    "ingredients": {
+      "type": "blko-ingredients",
+      "blocks": {
+        "aloe": {
+          "type": "ingredient",
+          "settings": {
+            "amount": "40%",
+            "name": "Aloe vera",
+            "text": "Cold-pressed leaf juice that cools and calms redness on contact."
+          }
+        },
+        "oat": {
+          "type": "ingredient",
+          "settings": {
+            "amount": "5%",
+            "name": "Colloidal oat",
+            "text": "Finely milled oats soothe itch and help skin hold on to water."
+          }
+        },
+        "orange": {
+          "type": "ingredient",
+          "settings": {
+            "amount": "2%",
+            "name": "Sweet orange",
+            "text": "A gentle source of vitamin C that brightens dull, tired skin."
+          }
+        },
+        "lavender": {
+          "type": "ingredient",
+          "settings": {
+            "amount": "0.5%",
+            "name": "Lavender",
+            "text": "Steam-distilled flowers for a soft scent that winds you down."
+          }
+        }
+      },
+      "block_order": [
+        "aloe",
+        "oat",
+        "orange",
+        "lavender"
+      ],
+      "settings": {
+        "heading": "Four ingredients doing the heavy lifting",
+        "note": "Every ingredient is listed with its concentration. No fillers, no synthetic fragrance, nothing hidden behind “parfum”.",
+        "list_label": "Full ingredient list",
+        "list": "<p>Aloe Barbadensis Leaf Juice, Aqua, Glycerin, Avena Sativa Kernel Flour, Squalane, Citrus Aurantium Dulcis Peel Oil, Niacinamide, Sodium Hyaluronate, Lavandula Angustifolia Oil, Xanthan Gum, Tocopherol, Citric Acid, Linalool.</p>"
+      }
+    },
+    "image_banner": {
+      "type": "blko-image-banner",
+      "settings": {
+        "heading": "Press, don’t rub",
+        "text": "Three drops, warmed in your palms, pressed in after cleansing.",
+        "button_label": "Shop face oils"
+      }
+    },
+    "bestsellers": {
+      "type": "blko-featured-collection",
+      "settings": {
+        "heading": "Bestsellers",
+        "products_to_show": 4,
+        "link_label": "Shop all"
+      }
+    },
+    "why": {
+      "type": "blko-why",
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "icon": "flask-conical",
+            "title": "10% niacinamide, 1% zinc",
+            "text": "Enough to calm shine and visible pores, gentle enough for every day."
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "icon": "droplets",
+            "title": "Water-light texture",
+            "text": "Sinks in within a minute, no film under moisturiser or makeup."
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "icon": "leaf",
+            "title": "Fragrance free, vegan",
+            "text": "No essential oils, no alcohol, nothing added for scent."
+          }
+        },
+        "row_4": {
+          "type": "row",
+          "settings": {
+            "icon": "sun",
+            "title": "Morning and night",
+            "text": "Safe with sunscreen, retinol and vitamin C."
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3",
+        "row_4"
+      ],
+      "settings": {
+        "heading": "Why it's in every routine",
+        "lead": "Two years on one serum, so you don't need three.",
+        "button_label": "Shop the serum"
+      }
+    },
+    "testimonial": {
+      "type": "blko-testimonial",
+      "settings": {
+        "rating": "4.9",
+        "rating_count": "2,140",
+        "button_label": "Read all reviews"
+      },
+      "blocks": {
+        "quote_1": {
+          "type": "quote",
+          "settings": {
+            "quote": "Three drops at night and my skin looks rested by morning. Even better after a month.",
+            "author": "Hannah Moore",
+            "author_detail": "Combination skin"
+          }
+        }
+      },
+      "block_order": [
+        "quote_1"
+      ]
+    },
+    "blog_posts": {
+      "type": "blko-blog-posts",
+      "settings": {
+        "heading": "From the journal",
+        "posts_to_show": 3,
+        "link_label": "All stories"
+      }
+    },
+    "newsletter": {
+      "type": "blko-newsletter",
+      "settings": {
+        "heading": "Calm skin, delivered",
+        "lead": "One letter every other Sunday: new formulas and routines that work.",
+        "button_label": "Subscribe",
+        "note": "Unsubscribe any time."
+      }
+    },
+    "order_detail": {
+      "type": "blko-order-detail",
+      "blocks": {
+        "item_1": {
+          "type": "line_item",
+          "settings": {
+            "title": "Rosehip face oil",
+            "variant": "30 ml",
+            "quantity": 1,
+            "price": 48
+          }
+        },
+        "item_2": {
+          "type": "line_item",
+          "settings": {
+            "title": "Niacinamide serum",
+            "variant": "15 ml travel",
+            "quantity": 1,
+            "price": 36
+          }
+        }
+      },
+      "block_order": [
+        "item_1",
+        "item_2"
+      ],
+      "settings": {
+        "heading": "Order details",
+        "sample_number": "1042",
+        "sample_date": "May 18, 2026",
+        "sample_status": "Delivered",
+        "sample_shipping": 0
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "featured_tabs",
+    "ingredients",
+    "image_banner",
+    "bestsellers",
+    "why",
+    "testimonial",
+    "blog_posts",
+    "order_detail",
+    "newsletter"
+  ]
+}

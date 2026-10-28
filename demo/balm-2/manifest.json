@@ -1,0 +1,860 @@
+[
+  {
+    "id": "announcement",
+    "kind": "section",
+    "category": "announcement",
+    "name": "Announcement bar",
+    "description": "Slim announcement bar with an optional code, link and dismiss button.",
+    "file": "balm-2/sections/announcement--announcement.html",
+    "deps": [],
+    "credits": [],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "blog-posts",
+    "kind": "section",
+    "category": "featured-blog-posts",
+    "name": "Blog posts",
+    "description": "Latest journal posts in a card row with a view-all link.",
+    "file": "balm-2/sections/featured-blog-posts--blog-posts.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1596755389378-c31d21fd1273",
+        "page_url": "https://unsplash.com/photos/photo-1596755389378-c31d21fd1273"
+      },
+      {
+        "photo_id": "photo-1600428877878-1a0fd85beda8",
+        "page_url": "https://unsplash.com/photos/photo-1600428877878-1a0fd85beda8"
+      },
+      {
+        "photo_id": "photo-1763503836825-97f5450d155a",
+        "page_url": "https://unsplash.com/photos/photo-1763503836825-97f5450d155a"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "collection-banner",
+    "kind": "section",
+    "category": "collection-banner",
+    "name": "Collection banner",
+    "description": "Collection title band with description and image.",
+    "file": "balm-2/sections/collection-banner--collection-banner.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1781344116880-029945a42b75",
+        "page_url": "https://unsplash.com/photos/photo-1781344116880-029945a42b75"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "collection-list",
+    "kind": "section",
+    "category": "collection-list",
+    "name": "Collection list",
+    "description": "Grid of collection tiles with a heading and view-all link.",
+    "file": "balm-2/sections/collection-list--collection-list.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1596755389378-c31d21fd1273",
+        "page_url": "https://unsplash.com/photos/photo-1596755389378-c31d21fd1273"
+      },
+      {
+        "photo_id": "photo-1763503836825-97f5450d155a",
+        "page_url": "https://unsplash.com/photos/photo-1763503836825-97f5450d155a"
+      },
+      {
+        "photo_id": "photo-1781080922537-7d5338f96e95",
+        "page_url": "https://unsplash.com/photos/photo-1781080922537-7d5338f96e95"
+      },
+      {
+        "photo_id": "photo-1781344116880-029945a42b75",
+        "page_url": "https://unsplash.com/photos/photo-1781344116880-029945a42b75"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "contact-form",
+    "kind": "section",
+    "category": "contact",
+    "name": "Contact form",
+    "description": "Contact form beside store details and an optional phone field.",
+    "file": "balm-2/sections/contact--contact-form.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1763503836825-97f5450d155a",
+        "page_url": "https://unsplash.com/photos/photo-1763503836825-97f5450d155a"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "faq",
+    "kind": "section",
+    "category": "faq",
+    "name": "FAQ",
+    "description": "Question and answer accordion with a heading and help link.",
+    "file": "balm-2/sections/faq--faq.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1646110929780-b97f94dd7ccf",
+        "page_url": "https://unsplash.com/photos/photo-1646110929780-b97f94dd7ccf"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "featured-collection",
+    "kind": "section",
+    "category": "featured-collection",
+    "name": "Featured collection",
+    "description": "Product row from one collection with quick add.",
+    "file": "balm-2/sections/featured-collection--featured-collection.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1570172619644-dfd03ed5d881",
+        "page_url": "https://unsplash.com/photos/photo-1570172619644-dfd03ed5d881"
+      },
+      {
+        "photo_id": "photo-1609097164502-59a1f0f9a66f",
+        "page_url": "https://unsplash.com/photos/photo-1609097164502-59a1f0f9a66f"
+      },
+      {
+        "photo_id": "photo-1619451334792-150fd785ee74",
+        "page_url": "https://unsplash.com/photos/photo-1619451334792-150fd785ee74"
+      },
+      {
+        "photo_id": "photo-1683944433023-027a3f443ae4",
+        "page_url": "https://unsplash.com/photos/photo-1683944433023-027a3f443ae4"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "featured-tabs",
+    "kind": "section",
+    "category": "featured-collection",
+    "name": "Featured tabs",
+    "description": "Product grid with tabs that switch between collections.",
+    "file": "balm-2/sections/featured-collection--featured-tabs.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1576426863848-c21f53c60b19",
+        "page_url": "https://unsplash.com/photos/photo-1576426863848-c21f53c60b19"
+      },
+      {
+        "photo_id": "photo-1638609927040-8a7e97cd9d6a",
+        "page_url": "https://unsplash.com/photos/photo-1638609927040-8a7e97cd9d6a"
+      },
+      {
+        "photo_id": "photo-1646110929780-b97f94dd7ccf",
+        "page_url": "https://unsplash.com/photos/photo-1646110929780-b97f94dd7ccf"
+      },
+      {
+        "photo_id": "photo-1781344116880-029945a42b75",
+        "page_url": "https://unsplash.com/photos/photo-1781344116880-029945a42b75"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "footer",
+    "kind": "section",
+    "category": "footer",
+    "name": "Footer",
+    "description": "Footer with brand, menus, newsletter, social links and payment marks.",
+    "file": "balm-2/sections/footer--footer.html",
+    "deps": [],
+    "credits": [],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "header",
+    "kind": "section",
+    "category": "header",
+    "name": "Header",
+    "description": "Sticky header with menu, logo, search, account and cart.",
+    "file": "balm-2/sections/header--header.html",
+    "deps": [],
+    "credits": [],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "hero",
+    "kind": "section",
+    "category": "hero-banner",
+    "name": "Hero",
+    "description": "Full-bleed image hero with overlay, heading and two buttons.",
+    "file": "balm-2/sections/hero-banner--hero.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1515377905703-c4788e51af15",
+        "page_url": "https://unsplash.com/photos/photo-1515377905703-c4788e51af15"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "image-banner",
+    "kind": "section",
+    "category": "image-with-text",
+    "name": "Image banner",
+    "description": "Wide image banner with overlay text and a button.",
+    "file": "balm-2/sections/image-with-text--image-banner.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1556760544-74068565f05c",
+        "page_url": "https://unsplash.com/photos/photo-1556760544-74068565f05c"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "image-with-text",
+    "kind": "section",
+    "category": "image-with-text",
+    "name": "Image with text",
+    "description": "Image beside caption, heading, text and button blocks.",
+    "file": "balm-2/sections/image-with-text--image-with-text.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1556760544-74068565f05c",
+        "page_url": "https://unsplash.com/photos/photo-1556760544-74068565f05c"
+      },
+      {
+        "photo_id": "photo-1614961233913-a5113a4a34ed",
+        "page_url": "https://unsplash.com/photos/photo-1614961233913-a5113a4a34ed"
+      },
+      {
+        "photo_id": "photo-1646110929780-b97f94dd7ccf",
+        "page_url": "https://unsplash.com/photos/photo-1646110929780-b97f94dd7ccf"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "ingredients",
+    "kind": "section",
+    "category": "ingredients",
+    "name": "Ingredients",
+    "description": "Ingredient cards with image, name and benefit.",
+    "file": "balm-2/sections/ingredients--ingredients.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1499002238440-d264edd596ec",
+        "page_url": "https://unsplash.com/photos/photo-1499002238440-d264edd596ec"
+      },
+      {
+        "photo_id": "photo-1509423350716-97f9360b4e09",
+        "page_url": "https://unsplash.com/photos/photo-1509423350716-97f9360b4e09"
+      },
+      {
+        "photo_id": "photo-1582979512210-99b6a53386f9",
+        "page_url": "https://unsplash.com/photos/photo-1582979512210-99b6a53386f9"
+      },
+      {
+        "photo_id": "photo-1614961233913-a5113a4a34ed",
+        "page_url": "https://unsplash.com/photos/photo-1614961233913-a5113a4a34ed"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "main-404",
+    "kind": "section",
+    "category": "404-page",
+    "name": "Page not found",
+    "description": "Not-found page with search and links back into the shop.",
+    "file": "balm-2/sections/404-page--main-404.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1515377905703-c4788e51af15",
+        "page_url": "https://unsplash.com/photos/photo-1515377905703-c4788e51af15"
+      },
+      {
+        "photo_id": "photo-1596462502278-27bfdc403348",
+        "page_url": "https://unsplash.com/photos/photo-1596462502278-27bfdc403348"
+      },
+      {
+        "photo_id": "photo-1599305090598-fe179d501227",
+        "page_url": "https://unsplash.com/photos/photo-1599305090598-fe179d501227"
+      },
+      {
+        "photo_id": "photo-1608571423902-eed4a5ad8108",
+        "page_url": "https://unsplash.com/photos/photo-1608571423902-eed4a5ad8108"
+      },
+      {
+        "photo_id": "photo-1617897903246-719242758050",
+        "page_url": "https://unsplash.com/photos/photo-1617897903246-719242758050"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "main-account",
+    "kind": "section",
+    "category": "customer-account",
+    "name": "Customer account",
+    "description": "Signed-in account overview with order history.",
+    "file": "balm-2/sections/customer-account--main-account.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1488426862026-3ee34a7d66df",
+        "page_url": "https://unsplash.com/photos/photo-1488426862026-3ee34a7d66df"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "main-activate-account",
+    "kind": "section",
+    "category": "customer-account",
+    "name": "Activate account",
+    "description": "Account activation form that sets a first password.",
+    "file": "balm-2/sections/customer-account--main-activate-account.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1438761681033-6461ffad8d80",
+        "page_url": "https://unsplash.com/photos/photo-1438761681033-6461ffad8d80"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "main-addresses",
+    "kind": "section",
+    "category": "customer-account",
+    "name": "Customer addresses",
+    "description": "Saved addresses list with add and edit forms.",
+    "file": "balm-2/sections/customer-account--main-addresses.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1488426862026-3ee34a7d66df",
+        "page_url": "https://unsplash.com/photos/photo-1488426862026-3ee34a7d66df"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "main-article",
+    "kind": "section",
+    "category": "article",
+    "name": "Blog post",
+    "description": "Article page with date, author, body, tags and share links.",
+    "file": "balm-2/sections/article--main-article.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1515377905703-c4788e51af15",
+        "page_url": "https://unsplash.com/photos/photo-1515377905703-c4788e51af15"
+      },
+      {
+        "photo_id": "photo-1556760544-74068565f05c",
+        "page_url": "https://unsplash.com/photos/photo-1556760544-74068565f05c"
+      },
+      {
+        "photo_id": "photo-1580489944761-15a19d654956",
+        "page_url": "https://unsplash.com/photos/photo-1580489944761-15a19d654956"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "main-blog",
+    "kind": "section",
+    "category": "main-blog",
+    "name": "Blog posts",
+    "description": "Blog listing with tag filter and paginated post cards.",
+    "file": "balm-2/sections/main-blog--main-blog.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1499002238440-d264edd596ec",
+        "page_url": "https://unsplash.com/photos/photo-1499002238440-d264edd596ec"
+      },
+      {
+        "photo_id": "photo-1599305090598-fe179d501227",
+        "page_url": "https://unsplash.com/photos/photo-1599305090598-fe179d501227"
+      },
+      {
+        "photo_id": "photo-1614961233913-a5113a4a34ed",
+        "page_url": "https://unsplash.com/photos/photo-1614961233913-a5113a4a34ed"
+      },
+      {
+        "photo_id": "photo-1617897903246-719242758050",
+        "page_url": "https://unsplash.com/photos/photo-1617897903246-719242758050"
+      },
+      {
+        "photo_id": "photo-1781344116880-029945a42b75",
+        "page_url": "https://unsplash.com/photos/photo-1781344116880-029945a42b75"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "main-cart",
+    "kind": "section",
+    "category": "cart",
+    "name": "Cart",
+    "description": "Cart page with line items, free-shipping bar, note and summary.",
+    "file": "balm-2/sections/cart--main-cart.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1556760544-74068565f05c",
+        "page_url": "https://unsplash.com/photos/photo-1556760544-74068565f05c"
+      },
+      {
+        "photo_id": "photo-1576426863848-c21f53c60b19",
+        "page_url": "https://unsplash.com/photos/photo-1576426863848-c21f53c60b19"
+      },
+      {
+        "photo_id": "photo-1596755389378-c31d21fd1273",
+        "page_url": "https://unsplash.com/photos/photo-1596755389378-c31d21fd1273"
+      },
+      {
+        "photo_id": "photo-1599305090598-fe179d501227",
+        "page_url": "https://unsplash.com/photos/photo-1599305090598-fe179d501227"
+      },
+      {
+        "photo_id": "photo-1600428877878-1a0fd85beda8",
+        "page_url": "https://unsplash.com/photos/photo-1600428877878-1a0fd85beda8"
+      },
+      {
+        "photo_id": "photo-1617897903246-719242758050",
+        "page_url": "https://unsplash.com/photos/photo-1617897903246-719242758050"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "main-collection",
+    "kind": "section",
+    "category": "main-collection-product-grid",
+    "name": "Collection grid",
+    "description": "Collection product grid with filters, sort and pagination.",
+    "file": "balm-2/sections/main-collection-product-grid--main-collection.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1550572017-4b7a301b9d81",
+        "page_url": "https://unsplash.com/photos/photo-1550572017-4b7a301b9d81"
+      },
+      {
+        "photo_id": "photo-1576426863848-c21f53c60b19",
+        "page_url": "https://unsplash.com/photos/photo-1576426863848-c21f53c60b19"
+      },
+      {
+        "photo_id": "photo-1599305090598-fe179d501227",
+        "page_url": "https://unsplash.com/photos/photo-1599305090598-fe179d501227"
+      },
+      {
+        "photo_id": "photo-1608571423902-eed4a5ad8108",
+        "page_url": "https://unsplash.com/photos/photo-1608571423902-eed4a5ad8108"
+      },
+      {
+        "photo_id": "photo-1617897903246-719242758050",
+        "page_url": "https://unsplash.com/photos/photo-1617897903246-719242758050"
+      },
+      {
+        "photo_id": "photo-1619451334792-150fd785ee74",
+        "page_url": "https://unsplash.com/photos/photo-1619451334792-150fd785ee74"
+      },
+      {
+        "photo_id": "photo-1631390179406-0bfe17e9f89d",
+        "page_url": "https://unsplash.com/photos/photo-1631390179406-0bfe17e9f89d"
+      },
+      {
+        "photo_id": "photo-1646110929780-b97f94dd7ccf",
+        "page_url": "https://unsplash.com/photos/photo-1646110929780-b97f94dd7ccf"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "main-login",
+    "kind": "section",
+    "category": "customer-account",
+    "name": "Customer login",
+    "description": "Sign-in form with inline password recovery.",
+    "file": "balm-2/sections/customer-account--main-login.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1438761681033-6461ffad8d80",
+        "page_url": "https://unsplash.com/photos/photo-1438761681033-6461ffad8d80"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "main-order",
+    "kind": "section",
+    "category": "customer-account",
+    "name": "Customer order",
+    "description": "Single order detail with line items, totals and addresses.",
+    "file": "balm-2/sections/customer-account--main-order.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1488426862026-3ee34a7d66df",
+        "page_url": "https://unsplash.com/photos/photo-1488426862026-3ee34a7d66df"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "main-page",
+    "kind": "section",
+    "category": "page-header",
+    "name": "Page",
+    "description": "Generic page title and rich content.",
+    "file": "balm-2/sections/page-header--main-page.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1499002238440-d264edd596ec",
+        "page_url": "https://unsplash.com/photos/photo-1499002238440-d264edd596ec"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "main-product",
+    "kind": "section",
+    "category": "main-product",
+    "name": "Product information",
+    "description": "Product page with gallery, variant picker, price, buy buttons and details.",
+    "file": "balm-2/sections/main-product--main-product.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1498843053639-170ff2122f35",
+        "page_url": "https://unsplash.com/photos/photo-1498843053639-170ff2122f35"
+      },
+      {
+        "photo_id": "photo-1515377905703-c4788e51af15",
+        "page_url": "https://unsplash.com/photos/photo-1515377905703-c4788e51af15"
+      },
+      {
+        "photo_id": "photo-1556760544-74068565f05c",
+        "page_url": "https://unsplash.com/photos/photo-1556760544-74068565f05c"
+      },
+      {
+        "photo_id": "photo-1781344116880-029945a42b75",
+        "page_url": "https://unsplash.com/photos/photo-1781344116880-029945a42b75"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "main-register",
+    "kind": "section",
+    "category": "customer-account",
+    "name": "Customer register",
+    "description": "New customer registration form.",
+    "file": "balm-2/sections/customer-account--main-register.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1438761681033-6461ffad8d80",
+        "page_url": "https://unsplash.com/photos/photo-1438761681033-6461ffad8d80"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "main-reset-password",
+    "kind": "section",
+    "category": "customer-account",
+    "name": "Reset password",
+    "description": "Form to set a new account password.",
+    "file": "balm-2/sections/customer-account--main-reset-password.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1438761681033-6461ffad8d80",
+        "page_url": "https://unsplash.com/photos/photo-1438761681033-6461ffad8d80"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "main-search",
+    "kind": "section",
+    "category": "main-search",
+    "name": "Search results",
+    "description": "Search page with form, result tabs and product, article and page results.",
+    "file": "balm-2/sections/main-search--main-search.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1515377905703-c4788e51af15",
+        "page_url": "https://unsplash.com/photos/photo-1515377905703-c4788e51af15"
+      },
+      {
+        "photo_id": "photo-1526045478516-99145907023c",
+        "page_url": "https://unsplash.com/photos/photo-1526045478516-99145907023c"
+      },
+      {
+        "photo_id": "photo-1576426863848-c21f53c60b19",
+        "page_url": "https://unsplash.com/photos/photo-1576426863848-c21f53c60b19"
+      },
+      {
+        "photo_id": "photo-1608571423539-e951b9b3871e",
+        "page_url": "https://unsplash.com/photos/photo-1608571423539-e951b9b3871e"
+      },
+      {
+        "photo_id": "photo-1608571423902-eed4a5ad8108",
+        "page_url": "https://unsplash.com/photos/photo-1608571423902-eed4a5ad8108"
+      },
+      {
+        "photo_id": "photo-1617897903246-719242758050",
+        "page_url": "https://unsplash.com/photos/photo-1617897903246-719242758050"
+      },
+      {
+        "photo_id": "photo-1619451334792-150fd785ee74",
+        "page_url": "https://unsplash.com/photos/photo-1619451334792-150fd785ee74"
+      },
+      {
+        "photo_id": "photo-1631390179406-0bfe17e9f89d",
+        "page_url": "https://unsplash.com/photos/photo-1631390179406-0bfe17e9f89d"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "multicolumn",
+    "kind": "section",
+    "category": "multicolumn",
+    "name": "Multicolumn",
+    "description": "Columns of icon or image, heading and short text.",
+    "file": "balm-2/sections/multicolumn--multicolumn.html",
+    "deps": [],
+    "credits": [],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "newsletter",
+    "kind": "section",
+    "category": "newsletter",
+    "name": "Newsletter",
+    "description": "Email sign-up with optional side image.",
+    "file": "balm-2/sections/newsletter--newsletter.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1552321554-5fefe8c9ef14",
+        "page_url": "https://unsplash.com/photos/photo-1552321554-5fefe8c9ef14"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "pairs-well",
+    "kind": "section",
+    "category": "product-recommendations",
+    "name": "Pairs well with",
+    "description": "Product recommendations that pair with the current product.",
+    "file": "balm-2/sections/product-recommendations--pairs-well.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1550572017-4b7a301b9d81",
+        "page_url": "https://unsplash.com/photos/photo-1550572017-4b7a301b9d81"
+      },
+      {
+        "photo_id": "photo-1624459311872-54933a141308",
+        "page_url": "https://unsplash.com/photos/photo-1624459311872-54933a141308"
+      },
+      {
+        "photo_id": "photo-1646110929780-b97f94dd7ccf",
+        "page_url": "https://unsplash.com/photos/photo-1646110929780-b97f94dd7ccf"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "product-reviews",
+    "kind": "section",
+    "category": "reviews",
+    "name": "Product reviews",
+    "description": "Review summary with score bars beside a list of reviews.",
+    "file": "balm-2/sections/reviews--product-reviews.html",
+    "deps": [],
+    "credits": [],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "rich-text",
+    "kind": "section",
+    "category": "rich-text",
+    "name": "Rich text",
+    "description": "Centered caption, heading, text and button blocks.",
+    "file": "balm-2/sections/rich-text--rich-text.html",
+    "deps": [],
+    "credits": [],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "testimonial",
+    "kind": "section",
+    "category": "testimonials",
+    "name": "Testimonial",
+    "description": "Customer quotes with an overall rating.",
+    "file": "balm-2/sections/testimonials--testimonial.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1488426862026-3ee34a7d66df",
+        "page_url": "https://unsplash.com/photos/photo-1488426862026-3ee34a7d66df"
+      },
+      {
+        "photo_id": "photo-1672763057373-361408b5f110",
+        "page_url": "https://unsplash.com/photos/photo-1672763057373-361408b5f110"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "why",
+    "kind": "section",
+    "category": "multicolumn",
+    "name": "Why it works",
+    "description": "Numbered reasons beside an image with a button.",
+    "file": "balm-2/sections/multicolumn--why.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1438761681033-6461ffad8d80",
+        "page_url": "https://unsplash.com/photos/photo-1438761681033-6461ffad8d80"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  }
+]

@@ -1,0 +1,327 @@
+{%- liquid
+  assign s = section.settings
+  assign columns = s.columns_desktop | default: 4
+  assign columns_tablet = columns
+  if columns_tablet > 3
+    assign columns_tablet = 3
+  endif
+  assign columns_sidebar = columns | minus: 1
+  if columns_sidebar < 2
+    assign columns_sidebar = 2
+  endif
+  assign columns_mobile = s.columns_mobile | default: '2' | plus: 0
+  assign vw_desktop = 100 | divided_by: columns
+  assign vw_tablet = 100 | divided_by: columns_tablet
+  assign vw_mobile = 100 | divided_by: columns_mobile
+  assign card_sizes = '(min-width: 1024px) ' | append: vw_desktop | append: 'vw, (min-width: 750px) ' | append: vw_tablet | append: 'vw, ' | append: vw_mobile | append: 'vw'
+
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+  assign active_filter_count = 0
+  for filter in collection.filters
+    assign active_filter_count = active_filter_count | plus: filter.active_values.size
+    if filter.type == 'price_range'
+      if filter.min_value.value != null or filter.max_value.value != null
+        assign active_filter_count = active_filter_count | plus: 1
+      endif
+    endif
+  endfor
+  assign filter_mode = s.filter_type
+  if collection.filters == empty
+    assign filter_mode = 'off'
+  endif
+  assign form_id = 'BlkoFacets-' | append: section.id
+  assign sort_param = sort_by | url_encode
+  assign clear_url = collection.url | append: '?sort_by=' | append: sort_param
+  assign app_blocks = section.blocks | where: 'type', '@app'
+-%}
+<div
+  class="blko-section blko-scheme color-{{ s.color_scheme }} blko-mcoll"
+  style="--blko-pt: {{ s.padding_top }}px; --blko-pb: {{ s.padding_bottom }}px; --blko-cols: {{ columns }}; --blko-cols-t: {{ columns_tablet }}; --blko-cols-s: {{ columns_sidebar }}; --blko-cols-m: {{ columns_mobile }};{% if s.card_ratio != 'theme' %} --card-ratio: {{ s.card_ratio }};{% endif %}"
+>
+  <div class="blko-container">
+    {%- if s.show_banner -%}
+      <header class="blko-mcoll__banner">
+        <h1 class="blko-{{ s.heading_size }}">{{ collection.title | escape }}</h1>
+        {%- if s.show_description and collection.description != blank -%}
+          <div class="blko-rte blko-body-lg blko-muted blko-mcoll__description">{{ collection.description }}</div>
+        {%- endif -%}
+      </header>
+    {%- endif -%}
+
+    {%- paginate collection.products by s.per_page -%}
+      <blko-sort class="blko-mcoll__wrap">
+        <form id="{{ form_id }}" class="blko-mcoll__toolbar" action="{{ collection.url }}" method="get">
+          {%- if collection.terms != blank -%}<input type="hidden" name="q" value="{{ collection.terms | escape }}">{%- endif -%}
+          <p class="blko-small blko-muted" aria-live="polite">
+            {%- if s.show_count -%}{{- 'blko.collection.product_count' | t: count: collection.products_count -}}{%- endif -%}
+          </p>
+          <div class="blko-mcoll__controls">
+            {%- if s.show_sort -%}
+              <label class="blko-mcoll__sort blko-small" for="BlkoSort-{{ section.id }}">
+                <span class="blko-muted">{{ 'blko.collection.sort_by' | t }}</span>
+                <span class="blko-select-wrap"><select class="blko-select blko-mcoll__select" id="BlkoSort-{{ section.id }}" name="sort_by" data-blko-autosubmit>
+                  {%- for option in collection.sort_options -%}
+                    <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>
+                      {{- option.name | escape -}}
+                    </option>
+                  {%- endfor -%}
+                </select>{%- render 'blko-icon', name: 'chevron-down', size: 16 -%}</span>
+              </label>
+            {%- else -%}
+              <input type="hidden" name="sort_by" value="{{ sort_by | escape }}">
+            {%- endif -%}
+            <noscript>
+              <button type="submit" class="blko-btn blko-btn--outline blko-btn--sm">{{ 'blko.collection.apply' | t }}</button>
+            </noscript>
+          </div>
+        </form>
+
+        {%- if filter_mode == 'top' -%}
+          {%- render 'blko-facets',
+            filters: collection.filters,
+            form_id: form_id,
+            mode: 'top',
+            clear_url: clear_url,
+            active_count: active_filter_count
+          -%}
+        {%- endif -%}
+
+        <div class="blko-mcoll__body{% if filter_mode == 'sidebar' %} blko-mcoll__body--sidebar{% endif %}">
+          {%- if filter_mode == 'sidebar' -%}
+            <details class="blko-mcoll__sidebar" data-blko-sidebar open>
+              <summary class="blko-btn blko-btn--outline blko-btn--sm blko-mcoll__sidebar-toggle">
+                {{- 'blko.collection.filters' | t -}}
+                {%- if active_filter_count > 0 %} ({{ active_filter_count }}){% endif -%}
+              </summary>
+              {%- render 'blko-facets',
+                filters: collection.filters,
+                form_id: form_id,
+                mode: 'sidebar',
+                clear_url: clear_url,
+                active_count: active_filter_count,
+                open_count: s.sidebar_open_count
+              -%}
+            </details>
+          {%- endif -%}
+
+          <div class="blko-mcoll__main">
+            {%- if collection.products.size > 0 -%}
+              <ul class="blko-product-grid blko-mcoll__grid" role="list">
+                {%- for product in collection.products -%}
+                  <li>
+                    {%- render 'blko-product-card',
+                      product: product,
+                      quick_add: s.quick_add,
+                      show_rating: s.show_rating,
+                      show_vendor: s.show_vendor,
+                      sizes: card_sizes
+                    -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+
+              {%- if paginate.pages > 1 -%}
+                <div class="blko-mcoll__footer">
+                  <p class="blko-small blko-muted">
+                    {%- assign shown_to = paginate.current_offset | plus: collection.products.size -%}
+                    {{- 'blko.collection.showing' | t: shown: shown_to, total: paginate.items -}}
+                  </p>
+                  {%- render 'blko-pagination', paginate: paginate, class: 'blko-mcoll__pagination' -%}
+                </div>
+              {%- endif -%}
+            {%- elsif collection.products_count == 0 and active_filter_count > 0 -%}
+              <div class="blko-mcoll__empty">
+                <p class="blko-body">{{ 'blko.collection.empty_filtered' | t }}</p>
+                <a class="blko-btn blko-btn--outline" href="{{ collection.url }}">{{ 'blko.collection.clear_all' | t }}</a>
+              </div>
+            {%- elsif collection == blank or collection.all_products_count == 0 -%}
+              {%- if request.design_mode -%}
+                <ul class="blko-product-grid blko-mcoll__grid" role="list">
+                  {%- for i in (1..columns) -%}
+                    <li>{%- render 'blko-product-card', product: blank, placeholder_index: i -%}</li>
+                  {%- endfor -%}
+                </ul>
+              {%- else -%}
+                <div class="blko-mcoll__empty">
+                  <p class="blko-body">{{ 'blko.collection.empty' | t }}</p>
+                  <a class="blko-btn blko-btn--outline" href="{{ routes.all_products_collection_url }}">{{ 'blko.collection.browse_all' | t }}</a>
+                </div>
+              {%- endif -%}
+            {%- else -%}
+              <div class="blko-mcoll__empty">
+                <p class="blko-body">{{ 'blko.collection.empty' | t }}</p>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </blko-sort>
+    {%- endpaginate -%}
+
+    {%- if app_blocks.size > 0 -%}
+      <div class="blko-mcoll__apps">
+        {%- for block in app_blocks -%}
+          {% render block %}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script src="{{ 'blko-sort.js' | asset_url }}" defer></script>
+
+{% stylesheet %}
+  .blko-mcoll__banner { display: grid; gap: 1rem; max-width: 46rem; margin-bottom: 2.5rem; }
+  .blko-mcoll__wrap { display: grid; gap: 1rem; }
+  .blko-mcoll__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border, #d6d1c0);
+  }
+  .blko-mcoll__controls { display: flex; align-items: center; gap: .75rem; }
+  .blko-mcoll__sort { display: inline-flex; align-items: center; gap: .5rem; }
+  .blko-mcoll__select {
+    width: auto;
+    min-height: 40px;
+    border-radius: var(--radius-input, 0);
+    background-color: var(--color-bg, #f6f2ea);
+    font-size: var(--blko-text-small);
+  }
+  .blko-mcoll__body { display: grid; gap: 2rem; margin-top: 1rem; }
+  .blko-mcoll__grid { grid-template-columns: repeat(var(--blko-cols-m, 2), minmax(0, 1fr)); }
+  @media (min-width: 750px) { .blko-mcoll__grid { grid-template-columns: repeat(var(--blko-cols-t, 3), minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .blko-mcoll__grid { grid-template-columns: repeat(var(--blko-cols, 4), minmax(0, 1fr)); } }
+  .blko-mcoll__sidebar > summary { list-style: none; }
+  .blko-mcoll__sidebar > summary::-webkit-details-marker { display: none; }
+  .blko-mcoll__sidebar[open] > summary { margin-bottom: 1rem; }
+  @media (min-width: 990px) {
+    .blko-mcoll__body--sidebar { grid-template-columns: 15rem minmax(0, 1fr); gap: 3rem; align-items: start; }
+    .blko-mcoll__sidebar { position: sticky; top: 7rem; }
+    .blko-mcoll__sidebar > summary { display: none; }
+    .blko-mcoll__body--sidebar .blko-mcoll__grid { grid-template-columns: repeat(var(--blko-cols-s, 3), minmax(0, 1fr)); }
+  }
+  .blko-facets--top { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+  .blko-facets--sidebar { display: grid; }
+  .blko-facets__group { position: relative; }
+  .blko-facets__toggle { display: flex; align-items: center; justify-content: space-between; gap: .375rem; list-style: none; cursor: pointer; }
+  .blko-facets__toggle::-webkit-details-marker { display: none; }
+  .blko-facets__toggle svg { width: 1rem; height: 1rem; transition: transform .2s; }
+  .blko-facets__group[open] .blko-facets__toggle svg { transform: rotate(180deg); }
+  .blko-facets--top .blko-facets__group[data-active] .blko-facets__toggle { border-color: var(--color-text, #262f29); }
+  .blko-facets__panel { display: grid; gap: .5rem; margin: 0; padding: 0; border: 0; }
+  .blko-facets--top .blko-facets__panel {
+    position: absolute;
+    z-index: 5;
+    top: calc(100% + .375rem);
+    left: 0;
+    min-width: 14rem;
+    max-height: 20rem;
+    overflow: auto;
+    padding: 1rem;
+    border: 1px solid var(--color-border, #d6d1c0);
+    border-radius: var(--radius-card, 0);
+    background: var(--color-bg, #f6f2ea);
+  }
+  .blko-facets--sidebar .blko-facets__group { padding-block: 1rem; border-bottom: 1px solid var(--color-border, #d6d1c0); }
+  .blko-facets--sidebar .blko-facets__group:first-child { padding-top: 0; }
+  .blko-facets--sidebar .blko-facets__toggle { font-weight: 500; }
+  .blko-facets--sidebar .blko-facets__panel { padding-top: .75rem; max-height: 18rem; overflow: auto; }
+  .blko-facets__check { display: flex; align-items: center; gap: .5rem; cursor: pointer; }
+  .blko-facets__check { position: relative; }
+  .blko-facets__check input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; }
+  .blko-facets__check--empty { opacity: .45; cursor: default; }
+  .blko-facets__price { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+  .blko-facets__price label { display: grid; gap: .25rem; }
+  .blko-facets__clear { text-decoration: underline; }
+  .blko-facets--top .blko-facets__clear { margin-left: .5rem; }
+  .blko-facets--sidebar .blko-facets__clear { margin-top: 1rem; }
+  .blko-mcoll__footer { display: grid; justify-items: center; gap: .75rem; margin-top: 2.5rem; }
+  .blko-mcoll__pagination { margin-top: 0; }
+  .blko-mcoll__empty { display: grid; justify-items: center; gap: 1.25rem; padding: 4rem 0; text-align: center; }
+  .blko-mcoll__apps { margin-top: 3rem; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Collection grid",
+  "tag": "section",
+  "class": "blko-section-main-collection",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Heading" },
+    {
+      "type": "checkbox",
+      "id": "show_banner",
+      "label": "Show collection title",
+      "info": "Turn on when the template has no collection banner section.",
+      "default": false
+    },
+    { "type": "checkbox", "id": "show_description", "label": "Show collection description", "default": true },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Title size",
+      "options": [
+        { "value": "h1", "label": "Large" },
+        { "value": "h2", "label": "Medium" },
+        { "value": "display", "label": "Extra large" }
+      ],
+      "default": "h1"
+    },
+    { "type": "header", "content": "Grid" },
+    { "type": "range", "id": "per_page", "label": "Products per page", "min": 4, "max": 48, "step": 4, "default": 12 },
+    { "type": "range", "id": "columns_desktop", "label": "Columns on desktop", "min": 2, "max": 5, "step": 1, "default": 4 },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    { "type": "header", "content": "Filtering and sorting" },
+    {
+      "type": "select",
+      "id": "filter_type",
+      "label": "Filters",
+      "info": "Filters come from the Search & Discovery app.",
+      "options": [
+        { "value": "top", "label": "Top row" },
+        { "value": "sidebar", "label": "Sidebar" },
+        { "value": "off", "label": "Off" }
+      ],
+      "default": "top"
+    },
+    { "type": "range", "id": "sidebar_open_count", "label": "Sidebar groups open by default", "min": 0, "max": 6, "step": 1, "default": 3 },
+    { "type": "checkbox", "id": "show_sort", "label": "Show sorting", "default": true },
+    { "type": "checkbox", "id": "show_count", "label": "Show product count", "default": true },
+    { "type": "header", "content": "Product cards" },
+    {
+      "type": "select",
+      "id": "card_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "theme", "label": "Theme default" },
+        { "value": "1/1", "label": "Square" },
+        { "value": "4/5", "label": "Portrait" },
+        { "value": "3/4", "label": "Tall" },
+        { "value": "2/3", "label": "Extra tall" }
+      ],
+      "default": "theme"
+    },
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating", "default": true },
+    { "type": "checkbox", "id": "show_vendor", "label": "Show vendor", "default": false },
+    { "type": "checkbox", "id": "quick_add", "label": "Show add to bag on cards", "default": false }
+  ],
+  "blocks": [
+    { "type": "@app" }
+  ]
+}
+{% endschema %}

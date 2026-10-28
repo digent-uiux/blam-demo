@@ -1,0 +1,13 @@
+{
+  "blko": {
+    "customer": {
+      "accepts_marketing": "Email me new formulas and routines",
+      "create": "Create account",
+      "email": "Email",
+      "first_name": "First name",
+      "have_account": "Already have an account? Log in",
+      "last_name": "Last name",
+      "password": "Password"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement": {
+      "type": "blko-announcement",
+      "settings": {
+        "text": "It’s <em>glow</em> season, 15% off your first order",
+        "code": "GLOW15",
+        "link": "",
+        "dismissible": true,
+        "home_only": true
+      }
+    },
+    "header": {
+      "type": "blko-header",
+      "settings": {
+        "menu": "main-menu",
+        "tagline": "Skincare for slow mornings",
+        "sticky": true
+      }
+    }
+  },
+  "order": ["announcement", "header"]
+}

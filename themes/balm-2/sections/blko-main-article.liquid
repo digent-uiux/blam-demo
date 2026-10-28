@@ -1,0 +1,205 @@
+{%- assign s = section.settings -%}
+<article class="blko-section blko-scheme color-{{ s.color_scheme }} blko-article blko-article--{{ s.width }} blko-article--{{ s.alignment }}" style="--blko-pt: {{ s.padding_top }}px; --blko-pb: {{ s.padding_bottom }}px;">
+  <div class="blko-container blko-article__inner">
+    <header class="blko-article__head">
+      {%- if s.show_blog_link -%}
+        <a href="{{ blog.url }}" class="blko-text-link blko-muted">{{ blog.title | escape }}</a>
+      {%- endif -%}
+      <h1 class="blko-{{ s.heading_size }}">{{ article.title | escape }}</h1>
+      {%- if s.show_date or s.show_author -%}
+        <p class="blko-small blko-muted">
+          {%- if s.show_date -%}{{ article.published_at | time_tag: format: 'date' }}{%- endif -%}
+          {%- if s.show_date and s.show_author %} &middot; {% endif -%}
+          {%- if s.show_author -%}{{ article.author | escape }}{%- endif -%}
+        </p>
+      {%- endif -%}
+    </header>
+    {%- if s.show_image and article.image -%}
+      {%- assign img_alt = article.image.alt | default: article.title | escape -%}
+      <div class="blko-media{% if s.image_ratio != 'original' %} blko-media--{{ s.image_ratio }}{% endif %} blko-article__image blko-article__image--{{ s.image_width }}"{% if s.image_ratio == 'original' %} style="aspect-ratio: {{ article.image.aspect_ratio }};"{% endif %}>
+        {{ article.image | image_url: width: 2000 | image_tag: widths: '600, 900, 1200, 1600, 2000', sizes: '(min-width: 1024px) 1200px, 100vw', alt: img_alt, fetchpriority: 'high' }}
+      </div>
+    {%- endif -%}
+    <div class="blko-rte blko-{{ s.text_size }} blko-article__body">{{ article.content }}</div>
+    {%- if s.show_tags and article.tags.size > 0 -%}
+      <ul class="blko-list-reset blko-article__tags" aria-label="{{ 'blko.blog.tags' | t }}">
+        {%- for tag in article.tags -%}
+          <li><a href="{{ blog.url }}/tagged/{{ tag | handleize }}" class="blko-chip">{{ tag | escape }}</a></li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+    {%- if s.show_share -%}
+      <div class="blko-article__share">
+        {%- assign share_url = request.origin | append: article.url -%}
+        {%- render 'blko-share', url: share_url, title: article.title, image: article.image -%}
+      </div>
+    {%- endif -%}
+
+    {%- if s.show_comments and blog.comments_enabled? -%}
+      <section class="blko-article__comments" aria-labelledby="BlkoCommentsTitle-{{ section.id }}">
+        <h2 id="BlkoCommentsTitle-{{ section.id }}" class="blko-h3">{{ 'blko.blog.comments_count' | t: count: article.comments_count }}</h2>
+        {%- paginate article.comments by s.comments_per_page -%}
+          {%- if article.comments.size > 0 -%}
+            <ul class="blko-list-reset blko-divided blko-divided--edges blko-article__comment-list">
+              {%- for comment in article.comments -%}
+                <li class="blko-article__comment">
+                  <div class="blko-rte blko-body">{{ comment.content }}</div>
+                  <p class="blko-small blko-muted">{{ comment.author | escape }} &middot; {{ comment.created_at | time_tag: format: 'date' }}</p>
+                </li>
+              {%- endfor -%}
+            </ul>
+            {%- render 'blko-pagination', paginate: paginate -%}
+          {%- endif -%}
+        {%- endpaginate -%}
+        {%- form 'new_comment', article, class: 'blko-article__form' -%}
+          <h3 class="blko-h4">{{ 'blko.blog.leave_comment' | t }}</h3>
+          {%- if form.posted_successfully? -%}
+            <p class="blko-form-message" role="status">
+              {%- if blog.moderated? -%}{{ 'blko.blog.moderated' | t }}{%- else -%}{{ 'blko.blog.posted' | t }}{%- endif -%}
+            </p>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <p class="blko-form-message blko-form-message--error" role="alert">{{ form.errors | default_errors }}</p>
+          {%- endif -%}
+          <div class="blko-article__fields">
+            <div class="blko-article__field">
+              <label for="BlkoCommentName" class="blko-small">{{ 'blko.blog.name' | t }}</label>
+              <input id="BlkoCommentName" class="blko-input" type="text" name="comment[author]" value="{{ form.author }}" autocomplete="name" required>
+            </div>
+            <div class="blko-article__field">
+              <label for="BlkoCommentEmail" class="blko-small">{{ 'blko.customer.email' | t }}</label>
+              <input id="BlkoCommentEmail" class="blko-input" type="email" name="comment[email]" value="{{ form.email }}" autocomplete="email" required>
+            </div>
+          </div>
+          <div class="blko-article__field">
+            <label for="BlkoCommentBody" class="blko-small">{{ 'blko.blog.message' | t }}</label>
+            <textarea id="BlkoCommentBody" class="blko-input blko-article__textarea" name="comment[body]" rows="5" required>{{ form.body }}</textarea>
+          </div>
+          {%- if blog.moderated? -%}<p class="blko-small blko-muted">{{ 'blko.blog.moderated_note' | t }}</p>{%- endif -%}
+          <button type="submit" class="blko-btn blko-btn--primary">{{ 'blko.blog.post' | t }}</button>
+        {%- endform -%}
+      </section>
+    {%- endif -%}
+  </div>
+</article>
+
+{% stylesheet %}
+  .blko-article__inner { display: grid; gap: 2.5rem; max-width: 60rem; }
+  .blko-article--medium .blko-article__inner { max-width: 72rem; }
+  .blko-article__head { display: grid; gap: 1rem; max-width: 46rem; }
+  .blko-article__body, .blko-article__tags, .blko-article__share, .blko-article__comments { max-width: 46rem; width: 100%; }
+  .blko-article--medium .blko-article__head, .blko-article--medium .blko-article__body,
+  .blko-article--medium .blko-article__tags, .blko-article--medium .blko-article__share,
+  .blko-article--medium .blko-article__comments { max-width: 56rem; }
+  .blko-article--center .blko-article__head { justify-items: center; margin-inline: auto; text-align: center; }
+  .blko-article--center .blko-article__body, .blko-article--center .blko-article__tags,
+  .blko-article--center .blko-article__share, .blko-article--center .blko-article__comments { margin-inline: auto; }
+  .blko-article--center .blko-article__tags { justify-content: center; }
+  .blko-article .blko-media--wide { aspect-ratio: 16/9; }
+  .blko-article__image--content { max-width: 46rem; width: 100%; }
+  .blko-article--center .blko-article__image--content { margin-inline: auto; }
+  .blko-article__tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .blko-article__tags .blko-chip { text-decoration: none; }
+  .blko-article .blko-share { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
+  .blko-article .blko-share__label { display: inline-flex; align-items: center; gap: .375rem; }
+  .blko-article .blko-share__label svg { width: 1rem; height: 1rem; }
+  .blko-article .blko-share__list { display: flex; gap: .5rem; }
+  .blko-article .blko-share svg { width: 1rem; height: 1rem; }
+  .blko-article--center .blko-share { justify-content: center; }
+  .blko-article__comments { display: grid; gap: 1.5rem; padding-top: 2.5rem; border-top: 1px solid var(--color-border, #d6d1c0); }
+  .blko-article__comment { display: grid; gap: .5rem; padding-block: 1.25rem; }
+  .blko-article__form { display: grid; gap: 1rem; }
+  .blko-article__fields { display: grid; gap: 1rem; }
+  .blko-article__field { display: grid; gap: .375rem; }
+  .blko-article__textarea { min-height: 140px; padding-block: .75rem; resize: vertical; }
+  .blko-article__form .blko-btn { justify-self: start; }
+  @media (min-width: 750px) { .blko-article__fields { grid-template-columns: 1fr 1fr; } }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Blog post",
+  "tag": "section",
+  "class": "blko-main-article",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Heading" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Title size",
+      "options": [
+        { "value": "h1", "label": "Large" },
+        { "value": "h2", "label": "Medium" },
+        { "value": "display", "label": "Extra large" }
+      ],
+      "default": "h1"
+    },
+    { "type": "checkbox", "id": "show_blog_link", "label": "Show blog link", "default": true },
+    { "type": "checkbox", "id": "show_date", "label": "Show date", "default": true },
+    { "type": "checkbox", "id": "show_author", "label": "Show author", "default": true },
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Content width",
+      "options": [
+        { "value": "narrow", "label": "Narrow" },
+        { "value": "medium", "label": "Medium" }
+      ],
+      "default": "narrow"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "start", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "start"
+    },
+    {
+      "type": "select",
+      "id": "text_size",
+      "label": "Text size",
+      "options": [
+        { "value": "body", "label": "Regular" },
+        { "value": "body-lg", "label": "Large" }
+      ],
+      "default": "body-lg"
+    },
+    { "type": "header", "content": "Featured image" },
+    { "type": "checkbox", "id": "show_image", "label": "Show featured image", "default": true },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "landscape", "label": "Landscape" },
+        { "value": "wide", "label": "Wide" },
+        { "value": "square", "label": "Square" },
+        { "value": "original", "label": "Original" }
+      ],
+      "default": "landscape"
+    },
+    {
+      "type": "select",
+      "id": "image_width",
+      "label": "Image width",
+      "options": [
+        { "value": "full", "label": "Full content width" },
+        { "value": "content", "label": "Text width" }
+      ],
+      "default": "full"
+    },
+    { "type": "header", "content": "After the post" },
+    { "type": "checkbox", "id": "show_tags", "label": "Show tags", "default": true },
+    { "type": "checkbox", "id": "show_share", "label": "Show share links", "default": false },
+    { "type": "checkbox", "id": "show_comments", "label": "Show comments", "info": "Comments must be turned on for the blog.", "default": true },
+    { "type": "range", "id": "comments_per_page", "label": "Comments per page", "min": 5, "max": 50, "step": 5, "default": 20 }
+  ]
+}
+{% endschema %}

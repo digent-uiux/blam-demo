@@ -1,0 +1,26 @@
+{%- comment -%}
+  Numbered pagination used by the main collection, search, blog, collections list, account and comments.
+
+  Accepts:
+  - paginate: {Object} the paginate object (required)
+  - class: {String} optional extra class
+{%- endcomment -%}
+{%- if paginate.pages > 1 -%}
+  <nav class="blko-pagination{% if class != blank %} {{ class }}{% endif %}" aria-label="{{ 'blko.general.pagination' | t }}">
+    {%- if paginate.previous -%}
+      <a href="{{ paginate.previous.url }}" aria-label="{{ 'blko.general.previous' | t }}" rel="prev">{%- render 'blko-icon', name: 'arrow-left', size: 16 -%}</a>
+    {%- endif -%}
+    {%- for part in paginate.parts -%}
+      {%- if part.is_link -%}
+        <a href="{{ part.url }}" aria-label="{{ 'blko.general.page' | t: page: part.title }}">{{ part.title }}</a>
+      {%- elsif part.title == paginate.current_page -%}
+        <span aria-current="page">{{ part.title }}</span>
+      {%- else -%}
+        <span aria-hidden="true">{{ part.title }}</span>
+      {%- endif -%}
+    {%- endfor -%}
+    {%- if paginate.next -%}
+      <a href="{{ paginate.next.url }}" aria-label="{{ 'blko.general.next' | t }}" rel="next">{%- render 'blko-icon', name: 'arrow-right', size: 16 -%}</a>
+    {%- endif -%}
+  </nav>
+{%- endif -%}

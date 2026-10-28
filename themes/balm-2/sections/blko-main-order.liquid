@@ -1,0 +1,244 @@
+{%- liquid
+  assign s = section.settings
+  assign heading = s.heading | escape | replace: '[order]', order.name
+-%}
+{{ 'blko-customer.css' | asset_url | stylesheet_tag }}
+<div class="blko-section blko-scheme color-{{ s.color_scheme }} blko-account blko-account--panel-{{ s.panel_style }}" style="--blko-pt: {{ s.padding_top }}px; --blko-pb: {{ s.padding_bottom }}px;">
+  <div class="blko-container">
+    {%- capture body -%}
+      <div class="blko-account__head">
+        <div class="blko-heading-row__text">
+          {%- if s.show_back_link -%}
+            <a href="{{ routes.account_url }}" class="blko-text-link blko-muted">{{ 'blko.customer.back_to_account' | t }}</a>
+          {%- endif -%}
+          {%- if s.heading != blank -%}
+            <h1 class="blko-{{ s.heading_size }}">{{ heading }}</h1>
+          {%- else -%}
+            <h1 class="blko-{{ s.heading_size }}">{{ 'blko.customer.order_title' | t: name: order.name }}</h1>
+          {%- endif -%}
+          {%- assign placed = order.created_at | time_tag: format: 'date' -%}
+          <p class="blko-muted">{{ 'blko.customer.placed_on' | t: date: placed }}</p>
+          {%- if order.cancelled -%}
+            {%- assign cancelled_on = order.cancelled_at | time_tag: format: 'date' -%}
+            <p class="blko-form-message blko-form-message--error">{{ 'blko.customer.cancelled' | t: date: cancelled_on }} {{ order.cancel_reason_label }}</p>
+          {%- endif -%}
+          {%- if s.text != blank -%}<div class="blko-rte blko-account__intro">{{ s.text }}</div>{%- endif -%}
+        </div>
+      </div>
+    {%- endcapture -%}
+    {%- render 'blko-account-shell', section: section, body: body, fallback: 'account' -%}
+    <div class="blko-account__layout">
+      <div class="blko-account__table-wrap">
+        <table class="blko-account__table">
+          <caption class="blko-visually-hidden">{{ 'blko.customer.order_title' | t: name: order.name }}</caption>
+          <thead>
+            <tr>
+              <th scope="col">{{ 'blko.cart.product' | t }}</th>
+              <th scope="col" class="blko-account__num">{{ 'blko.customer.price' | t }}</th>
+              <th scope="col" class="blko-account__num">{{ 'blko.cart.quantity' | t }}</th>
+              <th scope="col" class="blko-account__num">{{ 'blko.cart.total' | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- for line_item in order.line_items -%}
+              <tr>
+                <td>
+                  {%- if line_item.url != blank -%}<a href="{{ line_item.url }}">{{ line_item.title | escape }}</a>{%- else -%}{{ line_item.title | escape }}{%- endif -%}
+                  {%- if s.show_sku and line_item.sku != blank -%}<br><span class="blko-muted">{{ line_item.sku }}</span>{%- endif -%}
+                  {%- if line_item.fulfillment -%}
+                    {%- assign fulfilled_on = line_item.fulfillment.created_at | time_tag: format: 'date' -%}
+                    <br><span class="blko-muted">{{ 'blko.customer.fulfilled_on' | t: date: fulfilled_on }}</span>
+                    {%- if line_item.fulfillment.tracking_url -%} <a href="{{ line_item.fulfillment.tracking_url }}">{{ 'blko.customer.track' | t }}</a>{%- endif -%}
+                  {%- endif -%}
+                </td>
+                <td class="blko-account__num">{{ line_item.final_price | money }}</td>
+                <td class="blko-account__num">{{ line_item.quantity }}</td>
+                <td class="blko-account__num">{{ line_item.final_line_price | money }}</td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+          <tfoot>
+            <tr><th scope="row" colspan="3">{{ 'blko.cart.subtotal' | t }}</th><td class="blko-account__num">{{ order.line_items_subtotal_price | money }}</td></tr>
+            {%- for discount in order.cart_level_discount_applications -%}
+              <tr><th scope="row" colspan="3">{{ discount.title | escape }}</th><td class="blko-account__num">-{{ discount.total_allocated_amount | money }}</td></tr>
+            {%- endfor -%}
+            {%- for shipping_method in order.shipping_methods -%}
+              <tr><th scope="row" colspan="3">{{ 'blko.customer.shipping' | t }} ({{ shipping_method.title | escape }})</th><td class="blko-account__num">{{ shipping_method.price | money }}</td></tr>
+            {%- endfor -%}
+            {%- for tax_line in order.tax_lines -%}
+              <tr><th scope="row" colspan="3">{{ 'blko.customer.tax' | t }} ({{ tax_line.title | escape }} {{ tax_line.rate_percentage }}%)</th><td class="blko-account__num">{{ tax_line.price | money }}</td></tr>
+            {%- endfor -%}
+            <tr><th scope="row" colspan="3">{{ 'blko.cart.total' | t }}</th><td class="blko-account__num blko-medium">{{ order.total_net_amount | money_with_currency }}</td></tr>
+          </tfoot>
+        </table>
+      </div>
+      {%- if s.show_addresses -%}
+        <aside class="blko-account__panel">
+          <h2 class="blko-h4">{{ 'blko.customer.billing' | t }}</h2>
+          <p class="blko-small">{{ 'blko.customer.payment' | t }}: {{ order.financial_status_label }}</p>
+          <address class="blko-account__address blko-small">{{ order.billing_address | format_address }}</address>
+          {%- if order.shipping_address -%}
+            <h2 class="blko-h4">{{ 'blko.customer.shipping_address' | t }}</h2>
+            <p class="blko-small">{{ 'blko.customer.fulfillment' | t }}: {{ order.fulfillment_status_label }}</p>
+            <address class="blko-account__address blko-small">{{ order.shipping_address | format_address }}</address>
+          {%- endif -%}
+        </aside>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer order",
+  "tag": "section",
+  "class": "blko-main-order",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "[order] shows the order number.",
+      "default": "Order [order]"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "value": "h1",
+          "label": "Large"
+        },
+        {
+          "value": "h2",
+          "label": "Medium"
+        },
+        {
+          "value": "h3",
+          "label": "Small"
+        }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Intro text"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "center",
+          "label": "Centered"
+        },
+        {
+          "value": "split",
+          "label": "Side by side with image"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Side image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_back_link",
+      "label": "Show back to account link",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sku",
+      "label": "Show SKU",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_addresses",
+      "label": "Show addresses panel",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "panel_style",
+      "label": "Side panel style",
+      "options": [
+        {
+          "value": "tint",
+          "label": "Tinted panel"
+        },
+        {
+          "value": "outline",
+          "label": "Outlined"
+        },
+        {
+          "value": "plain",
+          "label": "Plain"
+        }
+      ],
+      "default": "tint"
+    }
+  ]
+}
+{% endschema %}

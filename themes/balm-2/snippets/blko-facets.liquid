@@ -1,0 +1,86 @@
+{%- comment -%}
+  Storefront filters (Search & Discovery) for the main collection. Inputs belong to the toolbar form through the
+  form attribute, so the filters can sit in a top row or in a sidebar beside the grid.
+
+  Accepts:
+  - filters: {Array} collection.filters
+  - form_id: {String} id of the GET form in the toolbar
+  - mode: {String} 'top' (chips with drop-down panels) or 'sidebar' (stacked open groups)
+  - clear_url: {String} link that removes every filter
+  - active_count: {Number} number of active filter values
+  - open_count: {Number} sidebar only: groups open by default
+{%- endcomment -%}
+{%- assign open_count = open_count | default: 3 -%}
+<div class="blko-facets blko-facets--{{ mode }}">
+  {%- for filter in filters -%}
+    {%- liquid
+      assign is_active = false
+      if filter.type == 'price_range'
+        if filter.min_value.value != null or filter.max_value.value != null
+          assign is_active = true
+        endif
+      elsif filter.active_values.size > 0
+        assign is_active = true
+      endif
+      assign is_open = false
+      if mode == 'sidebar'
+        if is_active or forloop.index <= open_count
+          assign is_open = true
+        endif
+      endif
+    -%}
+    <details class="blko-facets__group"{% if is_active %} data-active{% endif %}{% if is_open %} open{% endif %}>
+      <summary class="{% if mode == 'top' %}blko-chip {% endif %}blko-facets__toggle">
+        <span>
+          {{- filter.label | escape -}}
+          {%- if filter.type != 'price_range' and filter.active_values.size > 0 %} ({{ filter.active_values.size }}){% endif -%}
+        </span>
+        {%- render 'blko-icon', name: 'chevron-down', size: 16 -%}
+      </summary>
+      {%- if filter.type == 'price_range' -%}
+        <div class="blko-facets__panel">
+          <div class="blko-facets__price">
+            <label class="blko-small">
+              <span class="blko-muted">{{ 'blko.collection.price_from' | t }}</span>
+              <input class="blko-input" type="number" inputmode="decimal" min="0" form="{{ form_id }}"
+                name="{{ filter.min_value.param_name }}"
+                value="{% if filter.min_value.value %}{{ filter.min_value.value | money_without_currency | remove: ',' }}{% endif %}"
+                placeholder="0">
+            </label>
+            <label class="blko-small">
+              <span class="blko-muted">{{ 'blko.collection.price_to' | t }}</span>
+              <input class="blko-input" type="number" inputmode="decimal" min="0" form="{{ form_id }}"
+                name="{{ filter.max_value.param_name }}"
+                value="{% if filter.max_value.value %}{{ filter.max_value.value | money_without_currency | remove: ',' }}{% endif %}"
+                placeholder="{{ filter.range_max | money_without_currency | remove: ',' }}">
+            </label>
+          </div>
+          <button type="submit" form="{{ form_id }}" class="blko-btn blko-btn--primary blko-btn--sm">{{ 'blko.collection.apply' | t }}</button>
+        </div>
+      {%- else -%}
+        <fieldset class="blko-facets__panel">
+          <legend class="blko-visually-hidden">{{ filter.label | escape }}</legend>
+          {%- for value in filter.values -%}
+            {%- assign is_empty = false -%}
+            {%- if value.count == 0 and value.active == false -%}{%- assign is_empty = true -%}{%- endif -%}
+            <label class="blko-facets__check blko-small{% if is_empty %} blko-facets__check--empty{% endif %}">
+              <input type="checkbox" form="{{ form_id }}" name="{{ value.param_name }}" value="{{ value.value | escape }}"
+                {% if value.active %}checked{% endif %}
+                {% if is_empty %}disabled{% endif %}
+                data-blko-autosubmit>
+              <span class="blko-check" aria-hidden="true">{%- render 'blko-icon', name: 'check', size: 14, stroke: 3 -%}</span>
+              <span>{{ value.label | escape }}</span>
+              <span class="blko-muted">({{ value.count }})</span>
+            </label>
+          {%- endfor -%}
+          <noscript>
+            <button type="submit" form="{{ form_id }}" class="blko-btn blko-btn--primary blko-btn--sm">{{ 'blko.collection.apply' | t }}</button>
+          </noscript>
+        </fieldset>
+      {%- endif -%}
+    </details>
+  {%- endfor -%}
+  {%- if active_count > 0 -%}
+    <a class="blko-text-link blko-facets__clear" href="{{ clear_url }}">{{ 'blko.collection.clear_all' | t }}</a>
+  {%- endif -%}
+</div>

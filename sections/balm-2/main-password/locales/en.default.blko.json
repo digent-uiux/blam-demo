@@ -1,0 +1,22 @@
+{
+  "blko": {
+    "newsletter": {
+      "email": "Email address",
+      "success": "Thanks for subscribing. Your first letter arrives on Sunday."
+    },
+    "password": {
+      "enter": "Enter",
+      "label": "Store password",
+      "notify": "Notify me",
+      "owner": "Enter using password"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "pinterest": "Pinterest",
+      "tiktok": "TikTok",
+      "x": "X",
+      "youtube": "YouTube"
+    }
+  }
+}

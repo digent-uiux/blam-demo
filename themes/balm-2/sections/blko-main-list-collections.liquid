@@ -1,0 +1,130 @@
+{%- liquid
+  assign s = section.settings
+  assign columns = s.columns_desktop | default: 3
+  assign columns_tablet = columns
+  if columns_tablet > 3
+    assign columns_tablet = 3
+  endif
+  assign columns_mobile = s.columns_mobile | default: '2' | plus: 0
+  assign vw_desktop = 100 | divided_by: columns
+  assign vw_mobile = 100 | divided_by: columns_mobile
+  assign card_sizes = '(min-width: 1024px) ' | append: vw_desktop | append: 'vw, ' | append: vw_mobile | append: 'vw'
+-%}
+{%- paginate collections by s.per_page -%}
+  <div
+    class="blko-section blko-scheme color-{{ s.color_scheme }} blko-collections"
+    style="--blko-pt: {{ s.padding_top }}px; --blko-pb: {{ s.padding_bottom }}px; --blko-cols: {{ columns }}; --blko-cols-t: {{ columns_tablet }}; --blko-cols-m: {{ columns_mobile }};"
+  >
+    <div class="blko-container">
+      {%- if s.heading != blank or s.text != blank -%}
+        <div class="blko-heading-row blko-collections__head blko-collections__head--{{ s.heading_alignment }}">
+          <div class="blko-heading-row__text">
+            {%- if s.heading != blank -%}<h1 class="blko-{{ s.heading_size }}">{{ s.heading | escape }}</h1>{%- endif -%}
+            {%- if s.text != blank -%}<div class="blko-rte blko-body blko-muted">{{ s.text }}</div>{%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+      <ul class="blko-list-reset blko-collections__grid" role="list">
+        {%- for collection in collections -%}
+          <li class="blko-card">
+            <div class="blko-media blko-media--{{ s.image_ratio }} blko-card__media">
+              {%- assign img = collection.featured_image -%}
+              {%- if img -%}
+                {%- assign img_alt = img.alt | default: collection.title | escape -%}
+                {{ img | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: card_sizes, alt: img_alt }}
+              {%- else -%}
+                {%- assign demo_index = forloop.index -%}{%- render 'blko-demo-tile', index: demo_index, part: 'image', sizes: card_sizes -%}
+              {%- endif -%}
+            </div>
+            <div class="blko-card__info">
+              <h2 class="blko-card__title"><a href="{{ collection.url }}">{{ collection.title | escape }}</a></h2>
+              {%- if s.show_description and collection.description != blank -%}
+                <p class="blko-small blko-muted">{{ collection.description | strip_html | truncatewords: 16 }}</p>
+              {%- endif -%}
+              {%- if s.show_count -%}
+                <p class="blko-small blko-muted">{{ 'blko.collections.count' | t: count: collection.products_count }}</p>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- else -%}
+          <li class="blko-collections__empty"><p class="blko-muted">{{ 'blko.collections.empty' | t }}</p></li>
+        {%- endfor -%}
+      </ul>
+      {%- render 'blko-pagination', paginate: paginate -%}
+    </div>
+  </div>
+{%- endpaginate -%}
+
+{% stylesheet %}
+  .blko-collections__head--center { justify-content: center; text-align: center; }
+  .blko-collections__head--center .blko-heading-row__text { margin-inline: auto; }
+  .blko-collections__grid { display: grid; grid-template-columns: repeat(var(--blko-cols-m, 2), minmax(0, 1fr)); gap: 2.5rem 1rem; }
+  .blko-collections .blko-media--wide { aspect-ratio: 16/9; }
+  .blko-collections__empty { grid-column: 1 / -1; }
+  @media (min-width: 750px) { .blko-collections__grid { grid-template-columns: repeat(var(--blko-cols-t, 3), minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .blko-collections__grid { grid-template-columns: repeat(var(--blko-cols, 3), minmax(0, 1fr)); gap: 3rem 1.5rem; } }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Collections list",
+  "tag": "section",
+  "class": "blko-main-list-collections",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Shop by collection" },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h1", "label": "Large" },
+        { "value": "h2", "label": "Medium" },
+        { "value": "display", "label": "Extra large" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "start", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "start"
+    },
+    { "type": "header", "content": "Grid" },
+    { "type": "range", "id": "per_page", "label": "Collections per page", "min": 6, "max": 48, "step": 3, "default": 24 },
+    { "type": "range", "id": "columns_desktop", "label": "Columns on desktop", "min": 2, "max": 5, "step": 1, "default": 3 },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "square", "label": "Square" },
+        { "value": "landscape", "label": "Landscape" },
+        { "value": "wide", "label": "Wide" }
+      ],
+      "default": "portrait"
+    },
+    { "type": "checkbox", "id": "show_description", "label": "Show description", "default": false },
+    { "type": "checkbox", "id": "show_count", "label": "Show product count", "default": true }
+  ]
+}
+{% endschema %}

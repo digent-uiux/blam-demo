@@ -1,0 +1,211 @@
+{%- assign s = section.settings -%}
+{{ 'blko-customer.css' | asset_url | stylesheet_tag }}
+<div class="blko-section blko-scheme color-{{ s.color_scheme }} blko-account" style="--blko-pt: {{ s.padding_top }}px; --blko-pb: {{ s.padding_bottom }}px; --blko-form-w: {{ s.form_width }}px;">
+  <div class="blko-container">
+    {%- capture body -%}
+      <div class="blko-account__narrow">
+        <div class="blko-account__login blko-account__narrow">
+          {%- if s.heading != blank -%}<h1 class="blko-{{ s.heading_size }}">{{ s.heading | escape }}</h1>{%- endif -%}
+          {%- if s.text != blank -%}<div class="blko-rte blko-account__intro">{{ s.text }}</div>{%- endif -%}
+          {%- form 'customer_login', novalidate: 'novalidate', class: 'blko-account__form' -%}
+            {%- if form.errors -%}
+              <div class="blko-account__errors" role="alert">{{ form.errors | default_errors }}</div>
+            {%- endif -%}
+            <div class="blko-account__field">
+              <label for="BlkoLoginEmail">{{ 'blko.customer.email' | t }}</label>
+              <input id="BlkoLoginEmail" class="blko-input" type="email" name="customer[email]" autocomplete="email" autocapitalize="off" required{% if form.errors contains 'form' %} aria-invalid="true"{% endif %}>
+            </div>
+            {%- if form.password_needed -%}
+              <div class="blko-account__field">
+                <label for="BlkoLoginPassword">{{ 'blko.customer.password' | t }}</label>
+                <input id="BlkoLoginPassword" class="blko-input" type="password" name="customer[password]" autocomplete="current-password" required{% if form.errors contains 'form' %} aria-invalid="true"{% endif %}>
+              </div>
+              <a href="#recover" class="blko-small">{{ 'blko.customer.forgot' | t }}</a>
+            {%- endif -%}
+            <button type="submit" class="blko-btn blko-btn--primary blko-btn--full">{{ 'blko.customer.sign_in' | t }}</button>
+          {%- endform -%}
+          {%- if s.show_register_link -%}
+            <div class="blko-account__links">
+              <a href="{{ routes.account_register_url }}">{{ 'blko.customer.create_account' | t }}</a>
+            </div>
+          {%- endif -%}
+          {%- if s.show_guest and shop.checkout.guest_login -%}
+            {%- form 'guest_login', class: 'blko-account__form' -%}
+              <button type="submit" class="blko-btn blko-btn--outline blko-btn--full">{{ 'blko.customer.guest' | t }}</button>
+            {%- endform -%}
+          {%- endif -%}
+        </div>
+
+        <div id="recover" class="blko-account__recover blko-account__narrow" tabindex="-1">
+          {%- if s.recover_heading != blank -%}<h2 class="blko-{{ s.heading_size }}">{{ s.recover_heading | escape }}</h2>{%- endif -%}
+          {%- if s.recover_text != blank -%}<div class="blko-rte blko-account__intro">{{ s.recover_text }}</div>{%- endif -%}
+          {%- form 'recover_customer_password', class: 'blko-account__form' -%}
+            {%- if form.posted_successfully? -%}
+              <p class="blko-account__success" role="status">{{ 'blko.customer.recover_success' | t }}</p>
+            {%- endif -%}
+            {%- if form.errors -%}
+              <div class="blko-account__errors" role="alert">{{ form.errors | default_errors }}</div>
+            {%- endif -%}
+            <div class="blko-account__field">
+              <label for="BlkoRecoverEmail">{{ 'blko.customer.email' | t }}</label>
+              <input id="BlkoRecoverEmail" class="blko-input" type="email" name="email" autocomplete="email" autocapitalize="off" required>
+            </div>
+            <button type="submit" class="blko-btn blko-btn--primary blko-btn--full">{{ 'blko.customer.recover_submit' | t }}</button>
+          {%- endform -%}
+          <div class="blko-account__links"><a href="{{ routes.account_login_url }}">{{ 'blko.customer.cancel' | t }}</a></div>
+        </div>
+      </div>
+    {%- endcapture -%}
+    {%- render 'blko-account-shell', section: section, body: body, fallback: 'account' -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer login",
+  "tag": "section",
+  "class": "blko-main-login",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Log in"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "value": "h1",
+          "label": "Large"
+        },
+        {
+          "value": "h2",
+          "label": "Medium"
+        },
+        {
+          "value": "h3",
+          "label": "Small"
+        }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Intro text"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "center",
+          "label": "Centered"
+        },
+        {
+          "value": "split",
+          "label": "Side by side with image"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Side image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "range",
+      "id": "form_width",
+      "label": "Form width",
+      "min": 360,
+      "max": 640,
+      "step": 20,
+      "unit": "px",
+      "default": 440
+    },
+    {
+      "type": "header",
+      "content": "Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_register_link",
+      "label": "Show create account link",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_guest",
+      "label": "Show continue as guest",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "recover_heading",
+      "label": "Password reset heading",
+      "default": "Reset your password"
+    },
+    {
+      "type": "richtext",
+      "id": "recover_text",
+      "label": "Password reset text",
+      "default": "<p>We’ll email you a link to reset it.</p>"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,56 @@
+/* Customer account pages: shared layout for login, register, account, order, addresses. */
+.blko-account__narrow { display: grid; gap: 1.5rem; max-width: 28rem; margin-inline: auto; }
+.blko-account__form { display: grid; gap: 1rem; }
+.blko-account__field { display: grid; gap: .375rem; }
+.blko-account__field label { font-size: var(--blko-text-small, 14px); font-weight: 500; }
+.blko-account__fields { display: grid; gap: 1rem; }
+@media (min-width: 750px) { .blko-account__fields--2 { grid-template-columns: 1fr 1fr; } }
+.blko-account__check { display: flex; align-items: center; gap: .5rem; font-size: var(--blko-text-small, 14px); }
+.blko-account__links { display: grid; gap: .5rem; justify-items: center; font-size: var(--blko-text-small, 14px); }
+.blko-account__links a { text-underline-offset: 3px; }
+.blko-account__errors { padding: .75rem 1rem; border: 1px solid var(--color-sale, #9b0d33); color: var(--color-sale, #9b0d33); font-size: var(--blko-text-small, 14px); }
+.blko-account__errors ul { margin: .25rem 0 0; padding-left: 1.25rem; }
+.blko-account__success { padding: .75rem 1rem; background: var(--color-bg-alt, #e4e0cc); font-size: var(--blko-text-small, 14px); }
+.blko-account__recover { display: none; }
+.blko-account__recover:target, .blko-account__recover:has(.blko-account__success, .blko-account__errors) { display: grid; }
+.blko-account:has(.blko-account__recover:target) .blko-account__login,
+.blko-account:has(.blko-account__recover .blko-account__success, .blko-account__recover .blko-account__errors) .blko-account__login { display: none; }
+.blko-account__head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 2.5rem; }
+.blko-account__layout { display: grid; gap: 3rem; }
+@media (min-width: 1024px) { .blko-account__layout { grid-template-columns: minmax(0, 1fr) 20rem; gap: 4rem; align-items: start; } }
+.blko-account__panel { display: grid; gap: 1rem; align-content: start; padding: 1.5rem; background: var(--color-bg-alt, #e4e0cc); border-radius: var(--radius-card, 0); }
+.blko-account__table-wrap { overflow-x: auto; }
+.blko-account__table { width: 100%; border-collapse: collapse; font-size: var(--blko-text-small, 14px); font-variant-numeric: tabular-nums; }
+.blko-account__table th { padding: .75rem 1rem .75rem 0; text-align: left; font-weight: 500; color: var(--color-text-muted, #59625b); border-bottom: 1px solid var(--color-border, #d6d1c0); }
+.blko-account__table td { padding: 1rem 1rem 1rem 0; border-bottom: 1px solid var(--color-border, #d6d1c0); vertical-align: top; }
+.blko-account__table .blko-account__num { text-align: right; padding-right: 0; }
+.blko-account__address { font-style: normal; line-height: 1.6; }
+.blko-account__address-list { display: grid; gap: 1.5rem; }
+@media (min-width: 750px) { .blko-account__address-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.blko-account__card { display: grid; gap: 1rem; align-content: start; padding: 1.5rem; border: 1px solid var(--color-border, #d6d1c0); border-radius: var(--radius-card, 0); }
+.blko-account__actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+.blko-account__actions form { display: contents; }
+.blko-account__address-form { padding-top: 1rem; }
+.blko-account__address-form > summary { list-style: none; }
+.blko-account__address-form > summary::-webkit-details-marker { display: none; }
+.blko-account__address-form[open] > summary { margin-bottom: 1rem; }
+.blko-account__address-list { margin-top: 2.5rem; }
+/* Section settings: form width, optional side image (layout: centered / side by side). */
+.blko-account .blko-account__narrow { max-width: var(--blko-form-w, 28rem); }
+.blko-account__intro { color: var(--color-text-muted, #59625b); }
+.blko-account__intro > * + * { margin-top: .5em; }
+.blko-account__shell { display: grid; gap: 2.5rem; }
+.blko-account__media { aspect-ratio: 16/10; border-radius: var(--radius-image, 0); }
+.blko-account__media img { width: 100%; height: 100%; object-fit: cover; }
+@media (min-width: 990px) {
+  .blko-account__shell--split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4rem; align-items: center; }
+  .blko-account__shell--split .blko-account__media { aspect-ratio: 4/5; }
+  .blko-account__shell--media-left .blko-account__media { order: -1; }
+  .blko-account__shell--split .blko-account__head { margin-bottom: 0; }
+}
+.blko-account__shell--split + .blko-account__layout,
+.blko-account__shell--split + .blko-account__address-form { margin-top: 3rem; }
+.blko-account__cols-1 .blko-account__address-list { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1024px) { .blko-account__cols-3 .blko-account__address-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.blko-account--panel-plain .blko-account__panel { background: transparent; padding: 0; }
+.blko-account--panel-outline .blko-account__panel { background: transparent; border: 1px solid var(--color-border, #d6d1c0); }

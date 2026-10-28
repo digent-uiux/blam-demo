@@ -1,0 +1,27 @@
+{
+  "blko": {
+    "cart": {
+      "total": "Total"
+    },
+    "customer": {
+      "date": "Date",
+      "default_address": "Default address",
+      "fulfillment": "Fulfillment",
+      "log_out": "Log out",
+      "manage_addresses": "Manage addresses ({{ count }})",
+      "no_address": "No address saved yet.",
+      "no_orders": "You haven’t placed any orders yet.",
+      "order": "Order",
+      "orders": "Order history",
+      "payment": "Payment",
+      "view_order": "View order {{ name }}",
+      "welcome": "Welcome back, {{ name }}."
+    },
+    "general": {
+      "next": "Next",
+      "page": "Page {{ page }}",
+      "pagination": "Pagination",
+      "previous": "Previous"
+    }
+  }
+}

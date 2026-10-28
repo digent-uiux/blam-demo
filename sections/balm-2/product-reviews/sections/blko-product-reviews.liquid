@@ -1,0 +1,232 @@
+{%- liquid
+  assign review_blocks = section.blocks | where: 'type', 'review'
+  assign app_blocks = section.blocks | where: 'type', '@app'
+
+  assign average = blank
+  assign count = blank
+  if product.metafields.reviews.rating.value != blank
+    assign average = product.metafields.reviews.rating.value.rating | times: 1.0
+    assign count = product.metafields.reviews.rating_count
+  elsif section.settings.average != blank
+    assign average = section.settings.average | times: 1.0
+    assign count = section.settings.count
+  elsif review_blocks.size > 0
+    assign star_sum = 0
+    for block in review_blocks
+      assign star_sum = star_sum | plus: block.settings.rating
+    endfor
+    assign average = star_sum | times: 1.0 | divided_by: review_blocks.size | round: 1
+    assign count = review_blocks.size
+  endif
+
+  assign bar_total = section.settings.bar_5 | plus: section.settings.bar_4 | plus: section.settings.bar_3 | plus: section.settings.bar_2 | plus: section.settings.bar_1
+  assign visible = section.settings.visible_count
+-%}
+<div
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-reviews{% if section.settings.sticky_summary %} blko-reviews--sticky{% endif %}"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px;"
+>
+  <div class="blko-container blko-reviews__grid">
+    <div class="blko-reviews__summary" id="reviews">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="blko-h3">{{ section.settings.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if average != blank -%}
+        <div class="blko-reviews__average">
+          {%- if section.settings.show_score -%}
+            <p class="blko-h2 blko-reviews__score" aria-hidden="true">{{ average | round: 1 }}</p>
+          {%- endif -%}
+          {%- render 'blko-rating', value: average, count: count -%}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.show_bars and bar_total > 0 -%}
+        <ul class="blko-list-reset blko-reviews__bars" role="list" aria-label="{{ 'blko.reviews.breakdown' | t }}">
+          {%- for stars in (1..5) reversed -%}
+            {%- liquid
+              case stars
+                when 5
+                  assign n = section.settings.bar_5
+                when 4
+                  assign n = section.settings.bar_4
+                when 3
+                  assign n = section.settings.bar_3
+                when 2
+                  assign n = section.settings.bar_2
+                else
+                  assign n = section.settings.bar_1
+              endcase
+              assign pct = n | times: 100.0 | divided_by: bar_total | round: 1
+            -%}
+            <li class="blko-small blko-reviews__bar">
+              <span class="blko-muted">{{ 'blko.reviews.star_label' | t: count: stars }}</span>
+              <span class="blko-reviews__track" aria-hidden="true"><span style="width: {{ pct }}%"></span></span>
+              <span class="blko-muted blko-reviews__n">{{ n }}</span>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      {%- if section.settings.button_label != blank and section.settings.button_url != blank -%}
+        <a class="blko-btn blko-btn--outline blko-reviews__write" href="{{ section.settings.button_url }}">
+          {{- section.settings.button_label | escape -}}
+        </a>
+      {%- endif -%}
+    </div>
+
+    <div class="blko-reviews__list-wrap">
+      {%- for block in app_blocks -%}
+        <div class="blko-reviews__app">{% render block %}</div>
+      {%- endfor -%}
+
+      {%- if section.settings.show_builtin and review_blocks.size > 0 -%}
+        {%- liquid
+          assign first_html = ''
+          assign rest_html = ''
+        -%}
+        {%- for block in review_blocks -%}
+          {%- capture item_html -%}
+            <li class="blko-reviews__item" {{ block.shopify_attributes }}>
+              <div class="blko-reviews__meta">
+                <p class="blko-body blko-medium">{{ block.settings.author | escape }}</p>
+                {%- if block.settings.date != blank -%}
+                  <p class="blko-small blko-muted"><time>{{ block.settings.date | escape }}</time></p>
+                {%- endif -%}
+              </div>
+              {%- render 'blko-rating', value: block.settings.rating, size: 'xs' -%}
+              {%- if block.settings.title != blank -%}
+                <p class="blko-body blko-medium">{{ block.settings.title | escape }}</p>
+              {%- endif -%}
+              {%- if block.settings.body != blank -%}
+                <p class="blko-body blko-muted blko-pretty blko-reviews__body">{{ block.settings.body | escape }}</p>
+              {%- endif -%}
+            </li>
+          {%- endcapture -%}
+          {%- liquid
+            if forloop.index0 < visible
+              assign first_html = first_html | append: item_html
+            else
+              assign rest_html = rest_html | append: item_html
+            endif
+          -%}
+        {%- endfor -%}
+        <ul class="blko-list-reset blko-divided blko-divided--edges" role="list">{{ first_html }}</ul>
+        {%- if rest_html != blank -%}
+          <details class="blko-reviews__more">
+            <summary class="blko-btn blko-btn--outline">
+              {%- if section.settings.more_label != blank -%}
+                {{- section.settings.more_label | escape -}}
+              {%- else -%}
+                {{- 'blko.reviews.show_more' | t -}}
+              {%- endif -%}
+            </summary>
+            <ul class="blko-list-reset blko-divided blko-reviews__rest" role="list">{{ rest_html }}</ul>
+          </details>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-reviews__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+  .blko-reviews__summary { display: grid; align-content: start; gap: 1.5rem; }
+  .blko-reviews__average { display: grid; gap: .5rem; }
+  .blko-reviews__score { font-family: var(--font-body, Karla, sans-serif); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .blko-reviews__bars { display: grid; gap: .5rem; }
+  .blko-reviews__bar { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr) 2.5rem; align-items: center; gap: .75rem; }
+  .blko-reviews__track { height: 6px; overflow: hidden; border-radius: 999px; background: var(--color-border, #d6d1c0); }
+  .blko-reviews__track span { display: block; height: 100%; border-radius: 999px; background: var(--color-text, #262f29); }
+  .blko-reviews__n { text-align: right; font-variant-numeric: tabular-nums; }
+  .blko-reviews__write { justify-self: start; }
+  .blko-reviews__list-wrap { display: grid; align-content: start; min-width: 0; }
+  .blko-reviews__app + .blko-reviews__app { margin-top: 1.5rem; }
+  .blko-reviews__item { display: grid; gap: .5rem; padding-block: 1.5rem; }
+  .blko-reviews__meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .25rem 1rem; }
+  .blko-reviews__body { max-width: 60ch; }
+  .blko-reviews__more > summary { justify-self: start; width: fit-content; margin-top: 1.5rem; list-style: none; }
+  .blko-reviews__more > summary::-webkit-details-marker { display: none; }
+  .blko-reviews__more[open] > summary { display: none; }
+  .blko-reviews__rest { border-bottom: 1px solid var(--color-border, #d6d1c0); }
+  @media (min-width: 750px) {
+    .blko-reviews__grid { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 4rem; }
+    .blko-reviews--sticky .blko-reviews__summary { position: sticky; top: 1.5rem; align-self: start; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product reviews",
+  "tag": "section",
+  "class": "blko-section-product-reviews",
+  "max_blocks": 20,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "checkbox", "id": "sticky_summary", "label": "Keep the summary in view while scrolling", "default": true },
+    { "type": "header", "content": "Summary" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Customer reviews" },
+    { "type": "checkbox", "id": "show_score", "label": "Show large average number", "default": true },
+    {
+      "type": "paragraph",
+      "content": "The average and count come from the product reviews metafields when a review app fills them. Otherwise the values below are used, then the review blocks."
+    },
+    { "type": "text", "id": "average", "label": "Average rating", "info": "For example 4.8. Leave blank to work it out from the review blocks." },
+    { "type": "number", "id": "count", "label": "Review count" },
+    { "type": "header", "content": "Rating breakdown" },
+    { "type": "checkbox", "id": "show_bars", "label": "Show breakdown", "default": true },
+    { "type": "number", "id": "bar_5", "label": "5 star reviews", "default": 0 },
+    { "type": "number", "id": "bar_4", "label": "4 star reviews", "default": 0 },
+    { "type": "number", "id": "bar_3", "label": "3 star reviews", "default": 0 },
+    { "type": "number", "id": "bar_2", "label": "2 star reviews", "default": 0 },
+    { "type": "number", "id": "bar_1", "label": "1 star reviews", "default": 0 },
+    { "type": "header", "content": "Button" },
+    { "type": "text", "id": "button_label", "label": "Label", "default": "Write a review" },
+    { "type": "url", "id": "button_url", "label": "Link" },
+    { "type": "header", "content": "List" },
+    { "type": "checkbox", "id": "show_builtin", "label": "Show review blocks", "info": "Turn off when a review app block replaces the list.", "default": true },
+    { "type": "range", "id": "visible_count", "label": "Reviews shown before \"Show more\"", "min": 1, "max": 10, "step": 1, "default": 3 },
+    { "type": "text", "id": "more_label", "label": "\"Show more\" button label", "info": "Leave blank for the default text." }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        { "type": "text", "id": "author", "label": "Name", "default": "Hannah L." },
+        { "type": "range", "id": "rating", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "date", "label": "Date", "default": "Oct 18, 2026" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Finally no tight skin" },
+        { "type": "textarea", "id": "body", "label": "Review", "default": "Three drops at night and my cheeks stay soft until morning. It sinks in fast and smells of nothing." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product reviews",
+      "blocks": [
+        { "type": "review" },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Priya S.",
+            "date": "Oct 2, 2026",
+            "title": "Calmed my redness",
+            "body": "I have reactive skin and this is the first oil that hasn’t made me break out."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Marta K.",
+            "rating": 4,
+            "date": "Sep 21, 2026",
+            "title": "Lovely, a little rich for summer",
+            "body": "Perfect in the evening. In the heat I use one drop mixed into my cream."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

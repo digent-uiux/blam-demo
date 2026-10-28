@@ -1,0 +1,256 @@
+{
+  "sections": {
+    "main": {
+      "type": "blko-main-product",
+      "blocks": {
+        "vendor": {
+          "type": "vendor",
+          "settings": {
+            "link": false
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "show_crumb": false,
+            "size": "large"
+          }
+        },
+        "rating": {
+          "type": "rating",
+          "settings": {
+            "show_count": true,
+            "link_reviews": true
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_sale_badge": true,
+            "show_tax_note": true
+          }
+        },
+        "inventory": {
+          "type": "inventory",
+          "settings": {
+            "low_stock_threshold": 5,
+            "show_in_stock": true
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "swatch"
+          }
+        },
+        "size_guide": {
+          "type": "popup",
+          "settings": {
+            "label": "Size guide",
+            "icon": "ruler",
+            "content": "<p>15 ml lasts about six weeks at three drops a day. 30 ml lasts about three months.</p>"
+          }
+        },
+        "quantity": {
+          "type": "quantity",
+          "settings": {
+            "show_label": true
+          }
+        },
+        "sku": {
+          "type": "sku",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "button_style": "primary",
+            "show_dynamic_checkout": false,
+            "show_note": false,
+            "note": ""
+          }
+        },
+        "perks": {
+          "type": "icon_with_text",
+          "settings": {
+            "layout": "horizontal",
+            "icon_1": "truck",
+            "text_1": "Free shipping over $60",
+            "icon_2": "return",
+            "text_2": "Returns within 30 days",
+            "icon_3": "leaf",
+            "text_3": "100% from plants"
+          }
+        },
+        "details": {
+          "type": "description",
+          "settings": {
+            "heading": "Details",
+            "display": "plain",
+            "open": true
+          }
+        },
+        "how_to_use": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "How to use",
+            "icon": "droplet",
+            "content": "<p>Warm three drops in your palms and press into clean skin, morning or night. Follow with cream if you like.</p>",
+            "open": false
+          }
+        },
+        "ingredients": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Ingredients",
+            "icon": "leaf",
+            "content": "<p>Rosa canina seed oil, Hippophae rhamnoides fruit oil, tocopherol. 100% from plants, 92% organic.</p>",
+            "open": false
+          }
+        },
+        "complementary": {
+          "type": "complementary",
+          "settings": {
+            "heading": "Goes well with",
+            "limit": 3
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "rating",
+        "price",
+        "inventory",
+        "variant_picker",
+        "size_guide",
+        "quantity",
+        "buy_buttons",
+        "sku",
+        "perks",
+        "details",
+        "how_to_use",
+        "ingredients",
+        "complementary",
+        "share"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 80,
+        "media_width": "55",
+        "sticky_info": true,
+        "gallery_layout": "stack",
+        "media_ratio": "adapt",
+        "image_zoom": "hover"
+      }
+    },
+    "pairs": {
+      "type": "blko-pairs-well",
+      "settings": {
+        "color_scheme": "scheme-3",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "heading": "You may also like",
+        "show_note": true,
+        "source": "auto",
+        "intent": "related",
+        "limit": 3,
+        "layout": "grid",
+        "columns": "4"
+      }
+    },
+    "reviews": {
+      "type": "blko-product-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "author": "Hannah L.",
+            "rating": 5,
+            "date": "Oct 18, 2026",
+            "title": "Finally no tight skin",
+            "body": "Three drops at night and my cheeks stay soft until morning. It sinks in fast and smells of nothing."
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "author": "Priya S.",
+            "rating": 5,
+            "date": "Oct 2, 2026",
+            "title": "Calmed my redness",
+            "body": "I have reactive skin and this is the first oil that hasn’t made me break out."
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "author": "Marta K.",
+            "rating": 4,
+            "date": "Sep 21, 2026",
+            "title": "Lovely, a little rich for summer",
+            "body": "Perfect in the evening. In the heat I use one drop mixed into my cream."
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "author": "Joel A.",
+            "rating": 5,
+            "date": "Sep 9, 2026",
+            "title": "Worth the 30 ml",
+            "body": "Lasted me almost three months. The dropper gives exactly the amount you need."
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "author": "Inès R.",
+            "rating": 4,
+            "date": "Aug 30, 2026",
+            "title": "Good under make-up",
+            "body": "Wait five minutes after pressing it in and foundation sits smoothly on top."
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5"
+      ],
+      "settings": {
+        "heading": "Customer reviews",
+        "average": "4.8",
+        "count": 214,
+        "show_bars": true,
+        "bar_5": 176,
+        "bar_4": 28,
+        "bar_3": 6,
+        "bar_2": 3,
+        "bar_1": 1,
+        "button_label": "Write a review",
+        "show_builtin": true,
+        "visible_count": 3,
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "sticky_summary": true,
+        "show_score": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "pairs",
+    "reviews"
+  ]
+}

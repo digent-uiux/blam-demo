@@ -1,0 +1,10 @@
+{
+  "blko": {
+    "collection": {
+      "product_count": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} products"
+      }
+    }
+  }
+}

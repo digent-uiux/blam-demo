@@ -1,0 +1,311 @@
+{
+  "blko": {
+    "general": {
+      "skip_to_content": "Skip to content",
+      "tagged": "Tagged \"{{ tags }}\"",
+      "page": "Page {{ page }}",
+      "view_all": "View all",
+      "previous": "Previous",
+      "next": "Next",
+      "pagination": "Pagination",
+      "close": "Close"
+    },
+    "products": {
+      "add_to_cart": "Add to bag",
+      "adding": "Adding…",
+      "added": "Added to bag",
+      "choose_options": "Choose options",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable",
+      "sale": "Sale",
+      "sale_price": "Sale price",
+      "regular_price": "Regular price",
+      "from": "From {{ price }}",
+      "rating": "{{ value }} out of {{ max }} stars",
+      "placeholder_title": "Product title"
+    },
+    "testimonial": {
+      "heading": "What customers say"
+    },
+    "blog": {
+      "placeholder_title": "Article title",
+      "tags": "Filter by topic",
+      "all": "All",
+      "empty": "No posts yet.",
+      "comments_count": {
+        "zero": "No comments yet",
+        "one": "{{ count }} comment",
+        "other": "{{ count }} comments"
+      },
+      "leave_comment": "Leave a comment",
+      "name": "Name",
+      "message": "Comment",
+      "post": "Post comment",
+      "posted": "Your comment was posted.",
+      "moderated": "Thanks. Your comment will appear once it has been approved.",
+      "moderated_note": "Comments are approved before they appear."
+    },
+    "newsletter": {
+      "email_label": "Email address",
+      "success": "Thanks for subscribing. Your first letter arrives on Sunday.",
+      "error": "Please enter a valid email address.",
+      "email": "Email address",
+      "subscribe": "Subscribe"
+    },
+    "collection": {
+      "product_count": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} products"
+      },
+      "sort_by": "Sort by",
+      "apply": "Apply",
+      "clear_all": "Clear all",
+      "price_from": "From",
+      "price_to": "To",
+      "showing": "Showing {{ shown }} of {{ total }}",
+      "empty": "There are no products in this collection yet.",
+      "empty_filtered": "No products match these filters.",
+      "browse_all": "Browse all products",
+      "filters": "Filters"
+    },
+    "product": {
+      "breadcrumb": "Breadcrumb",
+      "show_media": "Show image {{ index }}",
+      "variant": "Option",
+      "quantity": "Quantity",
+      "decrease": "Decrease quantity",
+      "increase": "Increase quantity",
+      "sku": "SKU: {{ sku }}",
+      "sale_badge": "Save {{ percent }}%",
+      "in_stock": "In stock",
+      "low_stock": "Only {{ count }} left",
+      "out_of_stock": "Out of stock",
+      "backorder": "Available to order, ships soon",
+      "zoom": "Open image {{ index }} in full screen",
+      "media_gallery": "Product images",
+      "view_in_space": "View in your space",
+      "share_copied": "Link copied"
+    },
+    "recommendations": {
+      "add": "Add",
+      "view": "View"
+    },
+    "reviews": {
+      "breakdown": "Rating breakdown",
+      "star_label": {
+        "one": "{{ count }} star",
+        "other": "{{ count }} star"
+      },
+      "show_more": "Show more reviews"
+    },
+    "announcement": {
+      "label": "Announcement",
+      "dismiss": "Dismiss announcement"
+    },
+    "header": {
+      "main": "Main",
+      "menu": "Menu",
+      "open_menu": "Open menu",
+      "search": "Search",
+      "account": "Account",
+      "log_in": "Log in",
+      "cart_count": {
+        "one": "Bag, {{ count }} item",
+        "other": "Bag, {{ count }} items"
+      }
+    },
+    "footer": {
+      "payment_methods": "Payment methods",
+      "pay_1": "Card",
+      "pay_2": "Wallet",
+      "pay_3": "Pay later",
+      "pay_4": "Bank",
+      "pay_5": "Gift card"
+    },
+    "cart": {
+      "items": "Items in your bag",
+      "product": "Product",
+      "quantity": "Quantity",
+      "quantity_for": "Quantity for {{ title }}",
+      "increase": "Increase quantity for {{ title }}",
+      "decrease": "Decrease quantity for {{ title }}",
+      "total": "Total",
+      "remove": "Remove",
+      "update": "Update bag",
+      "note": "Order note",
+      "subtotal": "Subtotal",
+      "taxes_included": "Taxes included. Shipping calculated at checkout.",
+      "taxes_excluded": "Taxes and shipping calculated at checkout.",
+      "checkout": "Check out",
+      "continue": "Continue shopping",
+      "empty": "Your bag is empty.",
+      "have_account_html": "Have an account? <a href=\"{{ url }}\">Log in</a> to check out faster.",
+      "shipping_progress": "Progress towards free shipping"
+    },
+    "search": {
+      "label": "Search the store",
+      "placeholder": "Search products, articles and pages",
+      "submit": "Search",
+      "results_count": {
+        "one": "{{ count }} result for “{{ terms }}”",
+        "other": "{{ count }} results for “{{ terms }}”"
+      },
+      "no_results": "No results for “{{ terms }}”. Check the spelling or try a different word.",
+      "browse": "Browse all products",
+      "article": "Article",
+      "page": "Page"
+    },
+    "not_found": {
+      "label": "404"
+    },
+    "collections": {
+      "count": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} products"
+      },
+      "empty": "There are no collections yet."
+    },
+    "customer": {
+      "email": "Email",
+      "password": "Password",
+      "password_confirm": "Confirm password",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "login_title": "Log in",
+      "sign_in": "Sign in",
+      "forgot": "Forgot your password?",
+      "create_account": "Create an account",
+      "guest": "Continue as guest",
+      "recover_title": "Reset your password",
+      "recover_text": "We’ll email you a link to reset it.",
+      "recover_submit": "Send reset link",
+      "recover_success": "We’ve sent you an email with a link to reset your password.",
+      "cancel": "Back to log in",
+      "register_title": "Create an account",
+      "accepts_marketing": "Email me new formulas and routines",
+      "create": "Create account",
+      "have_account": "Already have an account? Log in",
+      "activate_title": "Activate your account",
+      "activate_text": "Choose a password to finish setting up your account.",
+      "activate_submit": "Activate account",
+      "decline": "Decline invitation",
+      "reset_title": "Choose a new password",
+      "reset_text": "Enter a new password for your account.",
+      "reset_submit": "Reset password",
+      "account_title": "Your account",
+      "welcome": "Welcome back, {{ name }}.",
+      "log_out": "Log out",
+      "orders": "Order history",
+      "order": "Order",
+      "date": "Date",
+      "payment": "Payment",
+      "fulfillment": "Fulfillment",
+      "view_order": "View order {{ name }}",
+      "no_orders": "You haven’t placed any orders yet.",
+      "default_address": "Default address",
+      "no_address": "No address saved yet.",
+      "manage_addresses": "Manage addresses ({{ count }})",
+      "back_to_account": "Back to account",
+      "order_title": "Order {{ name }}",
+      "placed_on": "Placed on {{ date }}",
+      "cancelled": "Cancelled on {{ date }}.",
+      "price": "Price",
+      "fulfilled_on": "Fulfilled on {{ date }}",
+      "track": "Track shipment",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "billing": "Billing address",
+      "shipping_address": "Shipping address",
+      "addresses_title": "Your addresses",
+      "add_address": "Add a new address",
+      "save_address": "Save address",
+      "edit": "Edit",
+      "delete": "Delete",
+      "delete_confirm": "Delete this address?",
+      "default": "Default",
+      "set_default": "Set as default address",
+      "company": "Company",
+      "address1": "Address",
+      "address2": "Apartment, suite, etc.",
+      "city": "City",
+      "zip": "Postal code",
+      "country": "Country/region",
+      "province": "Province",
+      "phone": "Phone"
+    },
+    "password": {
+      "notify": "Notify me",
+      "owner": "Enter using password",
+      "label": "Store password",
+      "enter": "Enter"
+    },
+    "social": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "tiktok": "TikTok",
+      "pinterest": "Pinterest",
+      "youtube": "YouTube",
+      "x": "X"
+    },
+    "gift_card": {
+      "title": "Your {{ value }} gift card",
+      "heading": "Here is your gift card",
+      "code": "Use this code at checkout",
+      "expired": "Expired",
+      "disabled": "Disabled",
+      "shop": "Start shopping",
+      "wallet": "Add to Apple Wallet"
+    },
+    "order_detail": {
+      "quantity": "Quantity {{ quantity }}",
+      "cancelled": "Cancelled",
+      "sample_note": "Sample order. Customers see their real order on the order page."
+    },
+    "contact": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "company": "Company",
+      "message": "Message",
+      "error": "Please check the form and try again."
+    },
+    "video": {
+      "label": "Video",
+      "play": "Play video: {{ title }}"
+    },
+    "collection_list": {
+      "placeholder_title": "Collection title"
+    },
+    "share": {
+      "label": "Share",
+      "facebook": "Share on Facebook",
+      "x": "Share on X",
+      "pinterest": "Pin on Pinterest",
+      "email": "Share by email"
+    },
+    "demo": {
+      "product_1": "Niacinamide daily serum",
+      "product_2": "Lip balm duo",
+      "product_3": "Barrier repair cream",
+      "product_4": "Hyaluronic hydrating serum",
+      "product_5": "Rose water face mist",
+      "product_6": "Gel cleanser",
+      "product_7": "Rich night cream",
+      "product_8": "Squalane face oil",
+      "product_9": "Cleansing bar pair",
+      "product_10": "Daily routine set",
+      "product_11": "Body butter set",
+      "product_12": "Evening serum set",
+      "collection_1": "Serums",
+      "collection_2": "Cleansers",
+      "collection_3": "Moisturisers",
+      "collection_4": "Body care",
+      "article_1_title": "How to layer a cream over an oil",
+      "article_1_excerpt": "",
+      "article_2_title": "A slower evening routine in four steps",
+      "article_2_excerpt": "",
+      "article_3_title": "What cold-pressed really means",
+      "article_3_excerpt": ""
+    }
+  }
+}

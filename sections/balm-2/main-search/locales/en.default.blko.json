@@ -1,0 +1,49 @@
+{
+  "blko": {
+    "demo": {
+      "product_1": "Niacinamide daily serum",
+      "product_10": "Daily routine set",
+      "product_11": "Body butter set",
+      "product_12": "Evening serum set",
+      "product_2": "Lip balm duo",
+      "product_3": "Barrier repair cream",
+      "product_4": "Hyaluronic hydrating serum",
+      "product_5": "Rose water face mist",
+      "product_6": "Gel cleanser",
+      "product_7": "Rich night cream",
+      "product_8": "Squalane face oil",
+      "product_9": "Cleansing bar pair"
+    },
+    "general": {
+      "next": "Next",
+      "page": "Page {{ page }}",
+      "pagination": "Pagination",
+      "previous": "Previous"
+    },
+    "products": {
+      "add_to_cart": "Add to bag",
+      "choose_options": "Choose options",
+      "from": "From {{ price }}",
+      "rating": "{{ value }} out of {{ max }} stars",
+      "regular_price": "Regular price",
+      "sale": "Sale",
+      "sale_price": "Sale price",
+      "sold_out": "Sold out"
+    },
+    "recommendations": {
+      "add": "Add"
+    },
+    "search": {
+      "article": "Article",
+      "label": "Search the store",
+      "no_results": "No results for “{{ terms }}”. Check the spelling or try a different word.",
+      "page": "Page",
+      "placeholder": "Search products, articles and pages",
+      "results_count": {
+        "one": "{{ count }} result for “{{ terms }}”",
+        "other": "{{ count }} results for “{{ terms }}”"
+      },
+      "submit": "Search"
+    }
+  }
+}

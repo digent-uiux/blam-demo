@@ -1,0 +1,155 @@
+{%- comment -%} Journal row: title + one link, equal article cards (photo, date, title, optional author and excerpt). {%- endcomment -%}
+{%- liquid
+  assign source_blog = section.settings.blog
+  assign cols_d = section.settings.columns_desktop
+  assign cols_m = section.settings.columns_mobile | plus: 0
+  if cols_d > 2
+    assign cols_t = 3
+  else
+    assign cols_t = cols_d
+  endif
+  assign card_vw = 100 | divided_by: cols_d
+  assign card_sizes = '(min-width: 768px) ' | append: card_vw | append: 'vw, 100vw'
+  case section.settings.image_ratio
+    when 'square'
+      assign media_class = 'blko-media--square'
+    when 'portrait'
+      assign media_class = 'blko-media--portrait'
+    else
+      assign media_class = 'blko-media--landscape'
+  endcase
+  assign link_url = section.settings.link_url | default: source_blog.url
+-%}
+<div
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-posts"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px; --blko-cols-d: {{ cols_d }}; --blko-cols-t: {{ cols_t }}; --blko-cols-m: {{ cols_m }};"
+>
+  <div class="blko-container">
+    {%- if section.settings.heading != blank or section.settings.link_label != blank -%}
+      <div class="blko-heading-row">
+        <div class="blko-heading-row__text">
+          {%- if section.settings.heading != blank -%}
+            <h2 class="{{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.link_label != blank and link_url != blank -%}
+          <a class="blko-text-link" href="{{ link_url }}">
+            {{- section.settings.link_label | escape }}
+            {% render 'blko-icon', name: 'arrow-right' -%}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <ul class="blko-posts__grid" role="list">
+      {%- if source_blog != blank and source_blog.articles_count > 0 -%}
+        {%- for article in source_blog.articles limit: section.settings.posts_to_show -%}
+          <li>
+            <article class="blko-posts__card">
+              {%- if section.settings.show_image -%}
+                <div class="blko-media {{ media_class }} blko-posts__media">
+                  {%- if article.image -%}
+                    {{ article.image | image_url: width: 1000 | image_tag: loading: 'lazy', sizes: card_sizes, widths: '450, 700, 1000', alt: article.image.alt | default: article.title }}
+                  {%- else -%}
+                    {%- assign demo_index = forloop.index -%}
+                    {%- render 'blko-demo-article', index: demo_index, part: 'image', sizes: card_sizes -%}
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+              <div class="blko-posts__info">
+                {%- if section.settings.show_date or section.settings.show_author -%}
+                  <p class="blko-small blko-muted blko-posts__meta">
+                    {%- if section.settings.show_date -%}{{ article.published_at | time_tag: '%b %-d, %Y' }}{%- endif -%}
+                    {%- if section.settings.show_date and section.settings.show_author -%}<span aria-hidden="true"> · </span>{%- endif -%}
+                    {%- if section.settings.show_author -%}<span>{{ article.author | escape }}</span>{%- endif -%}
+                  </p>
+                {%- endif -%}
+                <h3 class="blko-posts__title"><a href="{{ article.url }}">{{ article.title | escape }}</a></h3>
+                {%- if section.settings.show_excerpt -%}
+                  <p class="blko-small blko-muted blko-pretty">{{ article.excerpt_or_content | strip_html | truncatewords: 22 }}</p>
+                {%- endif -%}
+              </div>
+            </article>
+          </li>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..section.settings.posts_to_show) -%}
+          <li>
+            {%- render 'blko-demo-article',
+              index: i,
+              show_image: section.settings.show_image,
+              show_date: section.settings.show_date,
+              show_excerpt: section.settings.show_excerpt,
+              media_class: media_class,
+              sizes: card_sizes
+            -%}
+          </li>
+        {%- endfor -%}
+      {%- endif -%}
+    </ul>
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-posts__grid { display: grid; grid-template-columns: repeat(var(--blko-cols-m, 1), minmax(0, 1fr)); gap: 2.5rem 1.5rem; margin: 0; padding: 0; list-style: none; }
+  .blko-posts__card { position: relative; display: grid; align-content: start; gap: 1rem; }
+  .blko-posts__media img { transition: transform .5s cubic-bezier(.16, 1, .3, 1); }
+  .blko-posts__card:hover .blko-posts__media img { transform: scale(1.03); }
+  .blko-posts__info { display: grid; gap: .375rem; }
+  .blko-posts__title { font-family: var(--font-body, Karla, sans-serif); font-size: var(--blko-text-body-lg); line-height: 1.4; font-weight: 500; text-wrap: balance; }
+  .blko-posts__title a { text-decoration: none; }
+  .blko-posts__title a::after { content: ""; position: absolute; inset: 0; }
+  .blko-posts__card:hover .blko-posts__title a { text-decoration: underline; text-underline-offset: 4px; }
+  @media (min-width: 672px) { .blko-posts__grid { grid-template-columns: repeat(var(--blko-cols-t, 3), minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .blko-posts__grid { grid-template-columns: repeat(var(--blko-cols-d, 3), minmax(0, 1fr)); } }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Blog posts",
+  "tag": "section",
+  "class": "blko-posts-section",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Heading" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "From the journal" },
+    {
+      "type": "select", "id": "heading_size", "label": "Heading size", "default": "blko-h2",
+      "options": [
+        { "value": "blko-h3", "label": "Small" },
+        { "value": "blko-h2", "label": "Medium" },
+        { "value": "blko-h1", "label": "Large" }
+      ]
+    },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "All stories", "info": "Leave blank to hide the link." },
+    { "type": "url", "id": "link_url", "label": "Link", "info": "Leave blank to link to the blog." },
+    { "type": "header", "content": "Posts" },
+    { "type": "blog", "id": "blog", "label": "Blog" },
+    { "type": "range", "id": "posts_to_show", "label": "Posts to show", "min": 1, "max": 12, "step": 1, "default": 3 },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "columns_desktop", "label": "Columns on desktop", "min": 1, "max": 4, "step": 1, "default": 3 },
+    {
+      "type": "select", "id": "columns_mobile", "label": "Columns on mobile", "default": "1",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ]
+    },
+    { "type": "header", "content": "Post card" },
+    { "type": "checkbox", "id": "show_image", "label": "Show image", "default": true },
+    {
+      "type": "select", "id": "image_ratio", "label": "Image ratio", "default": "landscape",
+      "options": [
+        { "value": "landscape", "label": "Landscape" },
+        { "value": "square", "label": "Square" },
+        { "value": "portrait", "label": "Portrait" }
+      ]
+    },
+    { "type": "checkbox", "id": "show_date", "label": "Show date", "default": true },
+    { "type": "checkbox", "id": "show_author", "label": "Show author", "default": false },
+    { "type": "checkbox", "id": "show_excerpt", "label": "Show excerpt", "default": false }
+  ],
+  "presets": [{ "name": "Blog posts" }]
+}
+{% endschema %}

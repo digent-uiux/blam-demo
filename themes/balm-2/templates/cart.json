@@ -1,0 +1,49 @@
+{
+  "sections": {
+    "main": {
+      "type": "blko-main-cart",
+      "blocks": {
+        "shipping_bar": {
+          "type": "shipping_bar",
+          "disabled": true,
+          "settings": {
+            "threshold": 60,
+            "message": "You’re [amount] away from free shipping.",
+            "success": "Your order ships free."
+          }
+        },
+        "note": {
+          "type": "note",
+          "settings": { "label": "Order note", "placeholder": "" }
+        },
+        "subtotal": {
+          "type": "subtotal",
+          "settings": {
+            "show_tax_note": true,
+            "shipping_note": "Free shipping over $60. Returns within 30 days."
+          }
+        },
+        "buttons": {
+          "type": "buttons",
+          "settings": {
+            "checkout_label": "Check out",
+            "show_dynamic": true,
+            "continue_label": "Continue shopping"
+          }
+        }
+      },
+      "block_order": ["shipping_bar", "note", "subtotal", "buttons"],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "heading": "Your bag",
+        "heading_size": "h2",
+        "show_upsell": true,
+        "upsell_heading": "Pairs well with",
+        "upsell_limit": 4
+      }
+    }
+  },
+  "order": ["main"]
+}

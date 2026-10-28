@@ -1,0 +1,15 @@
+{
+  "blko": {
+    "products": {
+      "rating": "{{ value }} out of {{ max }} stars"
+    },
+    "reviews": {
+      "breakdown": "Rating breakdown",
+      "show_more": "Show more reviews",
+      "star_label": {
+        "one": "{{ count }} star",
+        "other": "{{ count }} star"
+      }
+    }
+  }
+}

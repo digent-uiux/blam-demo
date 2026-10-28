@@ -1,0 +1,483 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Balm 2",
+    "theme_version": "2.0.0",
+    "theme_author": "Blocko",
+    "theme_documentation_url": "https://shopify.dev/docs/storefronts/themes",
+    "theme_support_url": "https://shopify.dev/docs/storefronts/themes"
+  },
+  {
+    "name": "Logo",
+    "settings": [
+      {
+        "type": "text",
+        "id": "logo_text",
+        "label": "Wordmark",
+        "default": "Balm & Co",
+        "info": "Shown in the header and footer when no logo image is set. Empty uses the store name."
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image",
+        "info": "Leave empty to show the wordmark in the heading font."
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "Logo width",
+        "min": 60,
+        "max": 320,
+        "step": 4,
+        "unit": "px",
+        "default": 140
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color_scheme_group",
+        "id": "color_schemes",
+        "definition": [
+          {
+            "type": "color",
+            "id": "background",
+            "label": "Background",
+            "default": "#f6f2ea"
+          },
+          {
+            "type": "color",
+            "id": "background_alt",
+            "label": "Alternate background",
+            "default": "#e4e0cc"
+          },
+          {
+            "type": "color_background",
+            "id": "background_gradient",
+            "label": "Background gradient",
+            "info": "Replaces the solid background when set."
+          },
+          {
+            "type": "color",
+            "id": "text",
+            "label": "Text",
+            "default": "#262f29"
+          },
+          {
+            "type": "color",
+            "id": "text_muted",
+            "label": "Muted text",
+            "default": "#59625b"
+          },
+          {
+            "type": "color",
+            "id": "border",
+            "label": "Borders",
+            "default": "#d6d1c0"
+          },
+          {
+            "type": "color",
+            "id": "accent",
+            "label": "Accent",
+            "default": "#666237"
+          },
+          {
+            "type": "color",
+            "id": "button",
+            "label": "Button",
+            "default": "#262f29"
+          },
+          {
+            "type": "color",
+            "id": "button_label",
+            "label": "Button label",
+            "default": "#f6f2ea"
+          },
+          {
+            "type": "color",
+            "id": "button_hover",
+            "label": "Button hover",
+            "default": "#3d4a41"
+          }
+        ],
+        "role": {
+          "text": "text",
+          "background": {
+            "solid": "background",
+            "gradient": "background_gradient"
+          },
+          "links": "text",
+          "icons": "text",
+          "primary_button": "button",
+          "on_primary_button": "button_label",
+          "primary_button_border": "button",
+          "secondary_button": "background",
+          "on_secondary_button": "text",
+          "secondary_button_border": "text"
+        }
+      },
+      {
+        "type": "paragraph",
+        "content": "Balm ships six schemes: 1 Cream (page), 2 Soft (header, footer), 3 Oat, 4 Olive (announcement), 5 Dark, 6 White. Every section has its own scheme picker."
+      },
+      {
+        "type": "color_scheme",
+        "id": "page_color_scheme",
+        "label": "Page color scheme",
+        "default": "scheme-1"
+      },
+      {
+        "type": "header",
+        "content": "Shared"
+      },
+      {
+        "type": "color",
+        "id": "color_sale",
+        "label": "Sale price",
+        "default": "#9b0d33"
+      },
+      {
+        "type": "color",
+        "id": "color_input_bg",
+        "label": "Input background",
+        "default": "#fffdf8"
+      },
+      {
+        "type": "color",
+        "id": "color_input_text",
+        "label": "Input text",
+        "default": "#262f29"
+      }
+    ]
+  },
+  {
+    "name": "Layout",
+    "settings": [
+      {
+        "type": "range",
+        "id": "page_width",
+        "label": "Page width",
+        "min": 1000,
+        "max": 1600,
+        "step": 20,
+        "unit": "px",
+        "default": 1280
+      },
+      {
+        "type": "range",
+        "id": "section_spacing",
+        "label": "Space between sections",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "default": 0,
+        "info": "Added on top of each section's own padding."
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "select",
+        "id": "font_source",
+        "label": "Font source",
+        "options": [
+          {
+            "value": "theme",
+            "label": "Theme fonts"
+          },
+          {
+            "value": "shopify",
+            "label": "Shopify library"
+          }
+        ],
+        "default": "theme",
+        "info": "Theme fonts match the design exactly. Shopify library uses the two font pickers below."
+      },
+      {
+        "type": "select",
+        "id": "theme_font_pair",
+        "label": "Theme font pair",
+        "options": [
+          {
+            "value": "default",
+            "label": "Default (Bodoni Moda + Karla)"
+          },
+          {
+            "value": "linen",
+            "label": "Linen (Cormorant Garamond + Hanken Grotesk)"
+          },
+          {
+            "value": "noir",
+            "label": "Noir (Bodoni Moda + Karla)"
+          },
+          {
+            "value": "rose",
+            "label": "Rose (Fraunces + DM Sans)"
+          }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Headings",
+        "default": "bodoni_moda_n5"
+      },
+      {
+        "type": "checkbox",
+        "id": "heading_italic",
+        "label": "Italic accent words in headings",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "heading_case",
+        "label": "Heading text",
+        "options": [
+          {
+            "value": "none",
+            "label": "As typed"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          }
+        ],
+        "default": "none"
+      },
+      {
+        "type": "range",
+        "id": "heading_tracking",
+        "label": "Heading letter spacing",
+        "min": -6,
+        "max": 10,
+        "step": 1,
+        "unit": "%",
+        "default": -2,
+        "info": "Hundredths of an em."
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body",
+        "default": "karla_n4"
+      },
+      {
+        "type": "range",
+        "id": "type_scale",
+        "label": "Type scale",
+        "min": 90,
+        "max": 115,
+        "step": 5,
+        "unit": "%",
+        "default": 100
+      }
+    ]
+  },
+  {
+    "name": "Buttons and shapes",
+    "settings": [
+      {
+        "type": "select",
+        "id": "button_case",
+        "label": "Button text",
+        "options": [
+          {
+            "value": "none",
+            "label": "Sentence case"
+          },
+          {
+            "value": "uppercase",
+            "label": "Capitals"
+          }
+        ],
+        "default": "none"
+      },
+      {
+        "type": "range",
+        "id": "button_tracking",
+        "label": "Button letter spacing",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "unit": "%",
+        "default": 0,
+        "info": "Hundredths of an em."
+      },
+      {
+        "type": "select",
+        "id": "button_weight",
+        "label": "Button weight",
+        "options": [
+          {
+            "value": "400",
+            "label": "Regular"
+          },
+          {
+            "value": "500",
+            "label": "Medium"
+          },
+          {
+            "value": "600",
+            "label": "Semibold"
+          },
+          {
+            "value": "700",
+            "label": "Bold"
+          },
+          {
+            "value": "800",
+            "label": "Extra bold"
+          }
+        ],
+        "default": "500"
+      },
+      {
+        "type": "range",
+        "id": "radius_button",
+        "label": "Button corner radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "default": 40,
+        "info": "40 makes pill buttons."
+      },
+      {
+        "type": "range",
+        "id": "radius_card",
+        "label": "Card corner radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "radius_image",
+        "label": "Image corner radius",
+        "min": 0,
+        "max": 40,
+        "step": 2,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "radius_input",
+        "label": "Input corner radius",
+        "min": 0,
+        "max": 24,
+        "step": 2,
+        "unit": "px",
+        "default": 0
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Accounts"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram",
+        "info": "https://instagram.com/your-shop"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook",
+        "info": "https://facebook.com/your-shop"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "TikTok",
+        "info": "https://tiktok.com/@your-shop"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "Pinterest",
+        "info": "https://pinterest.com/your-shop"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube",
+        "info": "https://youtube.com/@your-shop"
+      },
+      {
+        "type": "text",
+        "id": "social_x_link",
+        "label": "X",
+        "info": "https://x.com/your-shop"
+      }
+    ]
+  },
+  {
+    "name": "Products",
+    "settings": [
+      {
+        "type": "select",
+        "id": "card_ratio",
+        "label": "Product image ratio",
+        "options": [
+          {
+            "value": "4/5",
+            "label": "Portrait 4:5"
+          },
+          {
+            "value": "1/1",
+            "label": "Square"
+          },
+          {
+            "value": "3/4",
+            "label": "Tall 3:4"
+          }
+        ],
+        "default": "4/5"
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_rating",
+        "label": "Show rating on cards",
+        "default": true,
+        "info": "Reads the reviews.rating metafield."
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_vendor",
+        "label": "Show vendor on cards",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "text",
+        "id": "free_shipping_note",
+        "label": "Shipping note under buy buttons",
+        "default": "Free shipping over $60. Returns within 30 days."
+      }
+    ]
+  }
+]

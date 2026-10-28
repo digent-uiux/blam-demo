@@ -50,6 +50,36 @@
     "logo": "balm/assets/brand-mark.svg"
   },
   {
+    "id": "balm-2",
+    "name": "Balm 2",
+    "industry": "beauty",
+    "subIndustry": "Skincare (luxury organic)",
+    "status": "active",
+    "manifest": "balm-2/manifest.json",
+    "layouts": "balm-2/templates/layouts.json",
+    "templateJsBytes": {
+      "home": 0,
+      "collection": 0,
+      "product": 0,
+      "product-alternate": 0,
+      "cart": 0,
+      "search": 0,
+      "blog": 0,
+      "article": 0,
+      "404": 0,
+      "about": 0,
+      "contact": 0,
+      "faq": 0,
+      "account-login": 0,
+      "account-register": 0,
+      "account-reset-password": 0,
+      "account-activate": 0,
+      "account": 0,
+      "account-order": 0,
+      "account-addresses": 0
+    }
+  },
+  {
     "id": "bare",
     "name": "Bare",
     "industry": "beauty",

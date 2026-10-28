@@ -1,0 +1,215 @@
+{%- comment -%}
+  Hero: photo (optional mobile photo) with a scrim, display heading (italic word allowed), one line, two buttons.
+  Height, content position, scrim, full width and both buttons come from settings.
+{%- endcomment -%}
+{%- liquid
+  assign pos = section.settings.content_position | split: '-'
+  assign image = section.settings.image
+  assign mobile_image = section.settings.mobile_image
+-%}
+<div
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-hero blko-hero--h-{{ section.settings.height }} blko-hero--v-{{ pos[0] }} blko-hero--x-{{ pos[1] }} blko-hero--text-{{ section.settings.text_color }} blko-hero--size-{{ section.settings.heading_size }}{% unless section.settings.full_width %} blko-hero--boxed{% endunless %}"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px; --blko-hero-scrim: {{ section.settings.overlay_opacity }}%;"
+>
+  <div class="blko-hero__frame">
+    <div class="blko-hero__media">
+      <picture class="blko-hero__picture">
+        {%- if mobile_image != blank -%}
+          <source
+            media="(max-width: 749px)"
+            srcset="{{ mobile_image | image_url: width: 750 }} 750w, {{ mobile_image | image_url: width: 1100 }} 1100w, {{ mobile_image | image_url: width: 1500 }} 1500w"
+            sizes="100vw"
+            width="{{ mobile_image.width }}"
+            height="{{ mobile_image.height }}"
+          >
+        {%- endif -%}
+        {%- if image != blank -%}
+          {{ image | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', widths: '750, 1100, 1500, 2000, 2400', class: 'blko-hero__img' }}
+        {%- else -%}
+          {%- render 'blko-fallback-image', name: 'hero', class: 'blko-hero__img', eager: true -%}
+        {%- endif -%}
+      </picture>
+    </div>
+    <div class="blko-hero__scrim" aria-hidden="true"></div>
+    <div class="blko-container blko-hero__inner">
+      <div class="blko-hero__content">
+        {%- if section.settings.heading != blank -%}
+          <h1 class="blko-hero__title">{{ section.settings.heading }}</h1>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <p class="blko-hero__text blko-body">{{ section.settings.text }}</p>
+        {%- endif -%}
+        {%- if section.settings.button_label != blank or section.settings.button_label_2 != blank -%}
+          <div class="blko-hero__actions">
+            {%- for i in (1..2) -%}
+              {%- liquid
+                if i == 1
+                  assign b_label = section.settings.button_label
+                  assign b_link = section.settings.button_link
+                  assign b_style = section.settings.button_style
+                else
+                  assign b_label = section.settings.button_label_2
+                  assign b_link = section.settings.button_link_2
+                  assign b_style = section.settings.button_style_2
+                endif
+              -%}
+              {%- if b_label == blank -%}{%- continue -%}{%- endif -%}
+              {%- if b_style == 'arrow' -%}
+                <a href="{{ b_link | default: routes.all_products_collection_url }}" class="blko-hero__arrow">
+                  {{- b_label | escape -}}
+                  <span class="blko-hero__arrow-icon">{% render 'blko-icon', name: 'arrow-up-right' %}</span>
+                </a>
+              {%- else -%}
+                <a href="{{ b_link | default: routes.all_products_collection_url }}" class="blko-btn blko-btn--{{ b_style }} blko-btn--lg">
+                  {{- b_label | escape -}}
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-hero { --blko-hero-min: 640px; --blko-hero-min-lg: 720px; }
+  .blko-hero--h-small { --blko-hero-min: 480px; --blko-hero-min-lg: 560px; }
+  .blko-hero--h-medium { --blko-hero-min: 560px; --blko-hero-min-lg: 640px; }
+  .blko-hero--h-full { --blko-hero-min: 100svh; --blko-hero-min-lg: 100svh; }
+  .blko-hero--boxed { padding-inline: var(--blko-gutter, 16px); }
+  .blko-hero__frame { position: relative; isolation: isolate; display: grid; min-height: var(--blko-hero-min); overflow: hidden; background: var(--color-bg-alt, #e4e0cc); color: var(--blko-on-image, #fff); --blko-hero-tint: var(--blko-overlay, #1c1712); }
+  .blko-hero--boxed .blko-hero__frame { max-width: calc(var(--blko-page, 1280px) - 2 * var(--blko-gutter, 16px)); margin-inline: auto; border-radius: var(--radius-image, 0); }
+  .blko-hero--text-scheme .blko-hero__frame { color: var(--color-text, #262f29); --blko-hero-tint: var(--color-bg, #f6f2ea); }
+  .blko-hero__media, .blko-hero__scrim { position: absolute; inset: 0; z-index: -1; }
+  .blko-hero__picture { display: block; width: 100%; height: 100%; }
+  .blko-hero__img { width: 100%; height: 100%; object-fit: cover; }
+  .blko-hero__scrim { background: linear-gradient(to top right, color-mix(in srgb, var(--blko-hero-tint) var(--blko-hero-scrim, 60%), transparent), color-mix(in srgb, var(--blko-hero-tint) calc(var(--blko-hero-scrim, 60%) * .3), transparent), transparent); }
+  .blko-hero--v-top .blko-hero__scrim, .blko-hero--v-middle .blko-hero__scrim { background: color-mix(in srgb, var(--blko-hero-tint) calc(var(--blko-hero-scrim, 60%) * .6), transparent); }
+  .blko-hero__inner { display: grid; align-content: end; padding-block: 2.5rem; }
+  .blko-hero--v-top .blko-hero__inner { align-content: start; }
+  .blko-hero--v-middle .blko-hero__inner { align-content: center; }
+  .blko-hero__content { display: grid; justify-items: start; gap: 1.5rem; }
+  .blko-hero--x-center .blko-hero__content { justify-items: center; justify-self: center; text-align: center; }
+  .blko-hero--x-right .blko-hero__content { justify-items: end; justify-self: end; text-align: right; }
+  .blko-hero__title { max-width: 11ch; font-family: var(--font-heading, "Bodoni Moda", Georgia, serif); font-weight: 400; font-size: 15vw; line-height: .9; letter-spacing: -0.025em; }
+  .blko-hero--size-medium .blko-hero__title { max-width: 14ch; font-size: var(--blko-text-display, 40px); line-height: 1; }
+  .blko-hero__title em { font-style: var(--heading-italic, italic); }
+  .blko-hero__text { max-width: 28rem; opacity: .85; text-wrap: pretty; }
+  .blko-hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
+  .blko-hero--x-center .blko-hero__actions { justify-content: center; }
+  .blko-hero--x-right .blko-hero__actions { justify-content: flex-end; }
+  .blko-hero__arrow { display: inline-flex; align-items: center; gap: .75rem; height: 48px; padding: .25rem .25rem .25rem 1.5rem; border-radius: 999px; background: var(--color-bg, #f6f2ea); color: var(--color-text, #262f29); font-size: var(--blko-text-button); font-weight: var(--button-weight, 500); text-transform: var(--button-case, none); letter-spacing: var(--button-tracking, 0); text-decoration: none; transition: background-color .2s; }
+  .blko-hero__arrow:hover { background: var(--color-bg-alt, #e4e0cc); }
+  .blko-hero__arrow-icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; background: var(--color-text, #262f29); color: var(--color-bg, #f6f2ea); transition: transform .2s; }
+  .blko-hero__arrow-icon svg { width: 1rem; height: 1rem; }
+  .blko-hero__arrow:hover .blko-hero__arrow-icon { transform: rotate(45deg); }
+  @media (min-width: 1024px) {
+    .blko-hero__frame { min-height: var(--blko-hero-min-lg); }
+    .blko-hero__inner { padding-block: 4rem; }
+    .blko-hero__title { font-size: min(8.5vw, 8.5rem); }
+    .blko-hero--size-medium .blko-hero__title { font-size: var(--blko-text-display, 64px); }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "class": "blko-hero-section",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1", "info": "Colours the buttons and the space around a boxed hero." },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0 },
+    { "type": "header", "content": "Image" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "image_picker", "id": "mobile_image", "label": "Mobile image", "info": "Optional. Shown on screens under 750px." },
+    { "type": "range", "id": "overlay_opacity", "label": "Scrim opacity", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 60 },
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "full", "label": "Full screen" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Content position",
+      "options": [
+        { "value": "top-left", "label": "Top left" },
+        { "value": "top-center", "label": "Top center" },
+        { "value": "top-right", "label": "Top right" },
+        { "value": "middle-left", "label": "Middle left" },
+        { "value": "middle-center", "label": "Middle center" },
+        { "value": "middle-right", "label": "Middle right" },
+        { "value": "bottom-left", "label": "Bottom left" },
+        { "value": "bottom-center", "label": "Bottom center" },
+        { "value": "bottom-right", "label": "Bottom right" }
+      ],
+      "default": "bottom-left"
+    },
+    { "type": "checkbox", "id": "full_width", "label": "Full width", "default": true },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Text on image",
+      "options": [
+        { "value": "light", "label": "Light" },
+        { "value": "scheme", "label": "Color scheme text" }
+      ],
+      "default": "light"
+    },
+    { "type": "header", "content": "Content" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "info": "Use italic for the accent word.", "default": "One drop, <em>all day</em> glow." },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "large", "label": "Extra large" },
+        { "value": "medium", "label": "Large" }
+      ],
+      "default": "large"
+    },
+    { "type": "text", "id": "text", "label": "Text", "default": "Rosehip and squalane, cold-pressed in small batches. Sinks in within a minute and never feels greasy." },
+    { "type": "header", "content": "First button" },
+    { "type": "text", "id": "button_label", "label": "Label", "default": "Shop face oils", "info": "Leave empty to hide." },
+    { "type": "url", "id": "button_link", "label": "Link" },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Style",
+      "options": [
+        { "value": "arrow", "label": "Pill with arrow" },
+        { "value": "inverse", "label": "Solid light" },
+        { "value": "primary", "label": "Solid (scheme button)" },
+        { "value": "on-image", "label": "Outline" }
+      ],
+      "default": "arrow"
+    },
+    { "type": "header", "content": "Second button" },
+    { "type": "text", "id": "button_label_2", "label": "Label", "default": "See the ingredients", "info": "Leave empty to hide." },
+    { "type": "url", "id": "button_link_2", "label": "Link" },
+    {
+      "type": "select",
+      "id": "button_style_2",
+      "label": "Style",
+      "options": [
+        { "value": "arrow", "label": "Pill with arrow" },
+        { "value": "inverse", "label": "Solid light" },
+        { "value": "primary", "label": "Solid (scheme button)" },
+        { "value": "on-image", "label": "Outline" }
+      ],
+      "default": "on-image"
+    }
+  ],
+  "presets": [{ "name": "Hero" }]
+}
+{% endschema %}

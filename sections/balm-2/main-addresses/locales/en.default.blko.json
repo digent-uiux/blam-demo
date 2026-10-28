@@ -1,0 +1,30 @@
+{
+  "blko": {
+    "customer": {
+      "add_address": "Add a new address",
+      "address1": "Address",
+      "address2": "Apartment, suite, etc.",
+      "back_to_account": "Back to account",
+      "city": "City",
+      "company": "Company",
+      "country": "Country/region",
+      "default": "Default",
+      "delete": "Delete",
+      "delete_confirm": "Delete this address?",
+      "edit": "Edit",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "phone": "Phone",
+      "province": "Province",
+      "save_address": "Save address",
+      "set_default": "Set as default address",
+      "zip": "Postal code"
+    },
+    "general": {
+      "next": "Next",
+      "page": "Page {{ page }}",
+      "pagination": "Pagination",
+      "previous": "Previous"
+    }
+  }
+}

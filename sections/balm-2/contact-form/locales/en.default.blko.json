@@ -1,0 +1,12 @@
+{
+  "blko": {
+    "contact": {
+      "company": "Company",
+      "email": "Email",
+      "error": "Please check the form and try again.",
+      "message": "Message",
+      "name": "Name",
+      "phone": "Phone"
+    }
+  }
+}

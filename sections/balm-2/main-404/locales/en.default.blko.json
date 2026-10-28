@@ -1,0 +1,9 @@
+{
+  "blko": {
+    "search": {
+      "label": "Search the store",
+      "placeholder": "Search products, articles and pages",
+      "submit": "Search"
+    }
+  }
+}

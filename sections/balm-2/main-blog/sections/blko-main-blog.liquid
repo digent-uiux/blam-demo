@@ -1,0 +1,174 @@
+{%- liquid
+  assign s = section.settings
+  assign columns = s.columns_desktop | default: 3
+  assign columns_tablet = columns
+  if columns_tablet > 2
+    assign columns_tablet = 2
+  endif
+  assign columns_mobile = s.columns_mobile | default: '1' | plus: 0
+  assign vw_desktop = 100 | divided_by: columns
+  assign vw_mobile = 100 | divided_by: columns_mobile
+  assign card_sizes = '(min-width: 1024px) ' | append: vw_desktop | append: 'vw, (min-width: 750px) 50vw, ' | append: vw_mobile | append: 'vw'
+  if s.layout == 'list'
+    assign card_sizes = '(min-width: 750px) 33vw, 100vw'
+  endif
+  assign heading = s.heading
+  if heading == blank
+    assign heading = blog.title
+  endif
+-%}
+{%- paginate blog.articles by s.per_page -%}
+  <div
+    class="blko-section blko-scheme color-{{ s.color_scheme }} blko-blog blko-blog--{{ s.layout }}"
+    style="--blko-pt: {{ s.padding_top }}px; --blko-pb: {{ s.padding_bottom }}px; --blko-cols: {{ columns }}; --blko-cols-t: {{ columns_tablet }}; --blko-cols-m: {{ columns_mobile }};"
+  >
+    <div class="blko-container">
+      {%- assign show_tag_filter = false -%}
+      {%- if s.show_tag_filter and blog.all_tags.size > 0 -%}{%- assign show_tag_filter = true -%}{%- endif -%}
+      {%- if s.show_title or show_tag_filter -%}
+        <div class="blko-heading-row">
+          {%- if s.show_title -%}
+            <div class="blko-heading-row__text">
+              <h1 class="blko-{{ s.heading_size }}">{{ heading | escape }}</h1>
+              {%- if s.text != blank -%}<div class="blko-rte blko-body blko-muted">{{ s.text }}</div>{%- endif -%}
+            </div>
+          {%- endif -%}
+          {%- if show_tag_filter -%}
+            <ul class="blko-list-reset blko-blog__tags" aria-label="{{ 'blko.blog.tags' | t }}">
+              <li><a href="{{ blog.url }}" class="blko-chip"{% if current_tags == blank %} aria-current="page"{% endif %}>{{ 'blko.blog.all' | t }}</a></li>
+              {%- for tag in blog.all_tags -%}
+                <li><a href="{{ blog.url }}/tagged/{{ tag | handleize }}" class="blko-chip"{% if current_tags contains tag %} aria-current="page"{% endif %}>{{ tag | escape }}</a></li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if blog.articles.size > 0 -%}
+        <ul class="blko-list-reset blko-blog__grid" role="list">
+          {%- for article in blog.articles -%}
+            <li class="blko-card blko-blog__card">
+              {%- if s.show_image -%}
+                <div class="blko-media blko-media--{{ s.image_ratio }} blko-card__media">
+                  {%- if article.image -%}
+                    {%- assign img_alt = article.image.alt | default: article.title | escape -%}
+                    {{ article.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '400, 600, 800, 1000', sizes: card_sizes, alt: img_alt }}
+                  {%- else -%}
+                    {%- assign demo_index = forloop.index -%}{%- render 'blko-demo-article', index: demo_index, part: 'image', sizes: card_sizes -%}
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+              <div class="blko-card__info">
+                {%- if s.show_date or s.show_author -%}
+                  <p class="blko-small blko-muted">
+                    {%- if s.show_date -%}{{ article.published_at | time_tag: format: 'date' }}{%- endif -%}
+                    {%- if s.show_date and s.show_author %} &middot; {% endif -%}
+                    {%- if s.show_author -%}{{ article.author | escape }}{%- endif -%}
+                  </p>
+                {%- endif -%}
+                <h2 class="blko-h4"><a href="{{ article.url }}" class="blko-blog__link">{{ article.title | escape }}</a></h2>
+                {%- if s.show_excerpt -%}
+                  <p class="blko-small blko-muted">{%- if article.excerpt != blank -%}{{ article.excerpt | strip_html | truncatewords: 26 }}{%- else -%}{{ article.content | strip_html | truncatewords: 26 }}{%- endif -%}</p>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- elsif s.empty_text != blank -%}
+        <div class="blko-rte blko-muted">{{ s.empty_text }}</div>
+      {%- else -%}
+        <p class="blko-muted">{{ 'blko.blog.empty' | t }}</p>
+      {%- endif -%}
+      {%- render 'blko-pagination', paginate: paginate -%}
+    </div>
+  </div>
+{%- endpaginate -%}
+
+{% stylesheet %}
+  .blko-blog__tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .blko-blog__tags .blko-chip { text-decoration: none; }
+  .blko-blog__tags [aria-current="page"] { background: var(--color-text, #262f29); border-color: var(--color-text, #262f29); color: var(--color-bg, #f6f2ea); }
+  .blko-blog .blko-media--wide { aspect-ratio: 16/9; }
+  .blko-blog__grid { display: grid; grid-template-columns: repeat(var(--blko-cols-m, 1), minmax(0, 1fr)); gap: 2.5rem 1.5rem; }
+  .blko-blog__link { text-decoration: none; }
+  .blko-blog__link::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+  .blko-blog__card .blko-card__info { gap: .5rem; }
+  @media (min-width: 750px) { .blko-blog--grid .blko-blog__grid { grid-template-columns: repeat(var(--blko-cols-t, 2), minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .blko-blog--grid .blko-blog__grid { grid-template-columns: repeat(var(--blko-cols, 3), minmax(0, 1fr)); } }
+  .blko-blog--list .blko-blog__grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .blko-blog--list .blko-blog__card { padding-block: 1.5rem; border-bottom: 1px solid var(--color-border, #d6d1c0); }
+  .blko-blog--list .blko-blog__card:first-child { border-top: 1px solid var(--color-border, #d6d1c0); }
+  @media (min-width: 750px) {
+    .blko-blog--list .blko-blog__card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 2rem; align-items: center; }
+    .blko-blog--list .blko-blog__card .blko-card__info { max-width: 40rem; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Blog posts",
+  "tag": "section",
+  "class": "blko-main-blog",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Heading" },
+    { "type": "checkbox", "id": "show_title", "label": "Show heading", "default": true },
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Leave empty to use the blog title." },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h1", "label": "Large" },
+        { "value": "h2", "label": "Medium" },
+        { "value": "display", "label": "Extra large" }
+      ],
+      "default": "h1"
+    },
+    { "type": "checkbox", "id": "show_tag_filter", "label": "Show tag filter", "default": true },
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "grid", "label": "Grid" },
+        { "value": "list", "label": "List" }
+      ],
+      "default": "grid"
+    },
+    { "type": "range", "id": "per_page", "label": "Posts per page", "min": 3, "max": 24, "step": 3, "default": 9 },
+    { "type": "range", "id": "columns_desktop", "label": "Columns on desktop", "min": 2, "max": 5, "step": 1, "default": 3, "info": "Grid layout only." },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "1"
+    },
+    { "type": "header", "content": "Posts" },
+    { "type": "checkbox", "id": "show_image", "label": "Show image", "default": true },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "landscape", "label": "Landscape" },
+        { "value": "wide", "label": "Wide" },
+        { "value": "square", "label": "Square" },
+        { "value": "portrait", "label": "Portrait" }
+      ],
+      "default": "landscape"
+    },
+    { "type": "checkbox", "id": "show_date", "label": "Show date", "default": true },
+    { "type": "checkbox", "id": "show_author", "label": "Show author", "default": false },
+    { "type": "checkbox", "id": "show_excerpt", "label": "Show excerpt", "default": true },
+    { "type": "richtext", "id": "empty_text", "label": "Text when there are no posts", "default": "<p>No posts yet.</p>" }
+  ]
+}
+{% endschema %}

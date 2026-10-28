@@ -1,0 +1,15 @@
+{
+  "blko": {
+    "customer": {
+      "cancel": "Back to log in",
+      "create_account": "Create an account",
+      "email": "Email",
+      "forgot": "Forgot your password?",
+      "guest": "Continue as guest",
+      "password": "Password",
+      "recover_submit": "Send reset link",
+      "recover_success": "We’ve sent you an email with a link to reset your password.",
+      "sign_in": "Sign in"
+    }
+  }
+}

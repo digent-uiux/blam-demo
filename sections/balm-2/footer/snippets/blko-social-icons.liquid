@@ -1,0 +1,46 @@
+{%- comment -%}
+  Links to the accounts set in Theme settings › Social media. Renders nothing when none is set.
+
+  Accepts:
+  - class: {String} optional extra class on the list
+{%- endcomment -%}
+{%- liquid
+  assign networks = 'instagram,facebook,tiktok,pinterest,youtube,x' | split: ','
+  assign any = false
+  for n in networks
+    assign key = 'social_' | append: n | append: '_link'
+    if settings[key] != blank
+      assign any = true
+    endif
+  endfor
+-%}
+{%- if any -%}
+  <ul class="blko-list-reset blko-social {{ class }}" role="list">
+    {%- for n in networks -%}
+      {%- assign key = 'social_' | append: n | append: '_link' -%}
+      {%- if settings[key] != blank -%}
+        <li>
+          {%- liquid
+            case n
+              when 'instagram'
+                assign label = 'blko.social.instagram' | t
+              when 'facebook'
+                assign label = 'blko.social.facebook' | t
+              when 'tiktok'
+                assign label = 'blko.social.tiktok' | t
+              when 'pinterest'
+                assign label = 'blko.social.pinterest' | t
+              when 'youtube'
+                assign label = 'blko.social.youtube' | t
+              else
+                assign label = 'blko.social.x' | t
+            endcase
+          -%}
+          <a href="{{ settings[key] }}" class="blko-social__link" target="_blank" rel="noopener" aria-label="{{ label }}">
+            {%- render 'blko-icon', name: n -%}
+          </a>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+{%- endif -%}

@@ -1,0 +1,1076 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign form_id = 'BlkoProductForm-' | append: section.id
+  assign featured_media_id = current_variant.featured_media.id | default: product.featured_media.id
+
+  assign media_width = section.settings.media_width | plus: 0
+  assign info_width = 100 | minus: media_width
+
+  assign inventory_blocks = section.blocks | where: 'type', 'inventory'
+  assign low_stock = 5
+  if inventory_blocks.size > 0
+    assign low_stock = inventory_blocks.first.settings.low_stock_threshold
+  endif
+-%}
+<blko-product
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-pdp{% if section.settings.sticky_info %} blko-pdp--sticky{% endif %}"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px; --blko-pdp-cols: minmax(0, {{ media_width }}fr) minmax(0, {{ info_width }}fr);"
+  data-section="{{ section.id }}"
+  data-url="{{ product.url }}"
+>
+  <div class="blko-container blko-pdp__grid">
+    {%- render 'blko-product-gallery',
+      product: product,
+      layout: section.settings.gallery_layout,
+      ratio: section.settings.media_ratio,
+      zoom: section.settings.image_zoom,
+      featured_media_id: featured_media_id,
+      media_width: media_width
+    -%}
+
+    <div class="blko-pdp__info">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign next_block = section.blocks[forloop.index]
+          assign prev_block = nil
+          unless forloop.first
+            assign prev_index = forloop.index0 | minus: 1
+            assign prev_block = section.blocks[prev_index]
+          endunless
+        -%}
+        {%- case block.type -%}
+          {%- when '@app' -%}
+            <div class="blko-pdp__block" {{ block.shopify_attributes }}>{% render block %}</div>
+
+          {%- when 'vendor' -%}
+            {%- if product.vendor != blank -%}
+              <p class="blko-pdp__block blko-pdp__block--tight blko-pdp__block--vendor blko-label blko-muted" {{ block.shopify_attributes }}>
+                {%- if block.settings.link -%}
+                  <a href="{{ product.vendor | url_for_vendor }}">{{ product.vendor | escape }}</a>
+                {%- else -%}
+                  {{- product.vendor | escape -}}
+                {%- endif -%}
+              </p>
+            {%- endif -%}
+
+          {%- when 'title' -%}
+            {%- liquid
+              case block.settings.size
+                when 'small'
+                  assign title_class = 'blko-h3'
+                when 'large'
+                  assign title_class = 'blko-h1'
+                else
+                  assign title_class = 'blko-h2'
+              endcase
+            -%}
+            <div class="blko-pdp__block blko-pdp__block--title" {{ block.shopify_attributes }}>
+              {%- if block.settings.show_crumb -%}
+                {%- liquid
+                  assign crumb_collection = collection
+                  if crumb_collection == blank
+                    assign crumb_collection = product.collections.first
+                  endif
+                -%}
+                {%- if crumb_collection != blank or product.type != blank -%}
+                  <nav class="blko-small blko-muted blko-pdp__crumb" aria-label="{{ 'blko.product.breadcrumb' | t }}">
+                    {%- if crumb_collection != blank -%}
+                      <a href="{{ crumb_collection.url }}">{{ crumb_collection.title | escape }}</a>
+                    {%- endif -%}
+                    {%- if crumb_collection != blank and product.type != blank -%}
+                      <span aria-hidden="true"> / </span>
+                    {%- endif -%}
+                    {%- if product.type != blank -%}
+                      <a href="{{ product.type | url_for_type }}">{{ product.type | escape }}</a>
+                    {%- endif -%}
+                  </nav>
+                {%- endif -%}
+              {%- endif -%}
+              <h1 class="{{ title_class }} blko-pdp__title">{{ product.title | escape }}</h1>
+            </div>
+
+          {%- when 'sku' -%}
+            <p
+              class="blko-pdp__block blko-pdp__block--tight blko-small blko-muted"
+              data-blko-sku
+              {% if current_variant.sku == blank %}
+                hidden
+              {% endif %}
+              {{ block.shopify_attributes }}
+            >
+              {{- 'blko.product.sku' | t: sku: current_variant.sku -}}
+            </p>
+
+          {%- when 'rating' -%}
+            {%- liquid
+              assign r_value = product.metafields.reviews.rating.value.rating
+              assign r_count = product.metafields.reviews.rating_count
+              if r_value == blank and block.settings.fallback_rating != blank
+                assign r_value = block.settings.fallback_rating | times: 1.0
+                assign r_count = block.settings.fallback_count
+              endif
+              unless block.settings.show_count
+                assign r_count = blank
+              endunless
+            -%}
+            {%- if r_value != blank -%}
+              <div class="blko-pdp__block blko-pdp__block--tight" {{ block.shopify_attributes }}>
+                {%- if block.settings.link_reviews -%}
+                  <a class="blko-pdp__rating" href="#reviews">{% render 'blko-rating', value: r_value, count: r_count %}</a>
+                {%- else -%}
+                  {%- render 'blko-rating', value: r_value, count: r_count -%}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+          {%- when 'price' -%}
+            {%- liquid
+              assign on_sale = false
+              assign sale_pct = 0
+              if current_variant.compare_at_price > current_variant.price
+                assign on_sale = true
+                assign sale_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round
+              endif
+            -%}
+            <div class="blko-pdp__block blko-pdp__block--tight blko-pdp__price" {{ block.shopify_attributes }}>
+              <div class="blko-pdp__price-row">
+                <span data-blko-price>{% render 'blko-price', product: product, variant: current_variant, size: 'lg' %}</span>
+                {%- if block.settings.show_sale_badge -%}
+                  <span class="blko-badge blko-badge--sale" data-blko-sale-badge {% unless on_sale %}hidden{% endunless %}>
+                    {%- if on_sale -%}{{ 'blko.product.sale_badge' | t: percent: sale_pct }}{%- endif -%}
+                  </span>
+                {%- endif -%}
+              </div>
+              {%- if block.settings.show_tax_note -%}
+                <p class="blko-small blko-muted">
+                  {%- if cart.taxes_included -%}
+                    {{- 'blko.cart.taxes_included' | t -}}
+                  {%- else -%}
+                    {{- 'blko.cart.taxes_excluded' | t -}}
+                  {%- endif -%}
+                </p>
+              {%- endif -%}
+            </div>
+
+          {%- when 'inventory' -%}
+            {%- liquid
+              assign inv_state = 'in'
+              assign inv_managed = false
+              if current_variant.inventory_management == 'shopify'
+                assign inv_managed = true
+              endif
+              if current_variant.available == false
+                assign inv_state = 'out'
+              elsif inv_managed and current_variant.inventory_quantity <= 0
+                assign inv_state = 'backorder'
+              elsif inv_managed and current_variant.inventory_quantity <= block.settings.low_stock_threshold
+                assign inv_state = 'low'
+              endif
+              case inv_state
+                when 'out'
+                  assign inv_text = 'blko.product.out_of_stock' | t
+                when 'backorder'
+                  assign inv_text = 'blko.product.backorder' | t
+                when 'low'
+                  assign inv_text = 'blko.product.low_stock' | t: count: current_variant.inventory_quantity
+                else
+                  assign inv_text = 'blko.product.in_stock' | t
+              endcase
+            -%}
+            <p
+              class="blko-pdp__block blko-pdp__block--tight blko-small blko-pdp__stock"
+              data-blko-inventory
+              data-state="{{ inv_state }}"
+              data-show-in-stock="{{ block.settings.show_in_stock }}"
+              {% if inv_state == 'in' and block.settings.show_in_stock == false %}
+                hidden
+              {% endif %}
+              {{ block.shopify_attributes }}
+            >
+              <span class="blko-pdp__stock-dot" aria-hidden="true"></span>
+              <span data-blko-inventory-text>{{ inv_text }}</span>
+            </p>
+
+          {%- when 'text' -%}
+            {%- liquid
+              assign text = block.settings.text
+              if text == blank and block.settings.use_excerpt
+                assign text = product.description | strip_html | truncatewords: 18
+              endif
+              case block.settings.text_style
+                when 'body'
+                  assign text_class = 'blko-body'
+                when 'small'
+                  assign text_class = 'blko-small blko-muted'
+                else
+                  assign text_class = 'blko-body blko-muted'
+              endcase
+            -%}
+            {%- if text != blank -%}
+              <div class="blko-pdp__block blko-pdp__block--tight {{ text_class }} blko-pretty blko-pdp__text" {{ block.shopify_attributes }}>
+                {%- if block.settings.text != blank -%}{{ text }}{%- else -%}<p>{{ text }}</p>{%- endif -%}
+              </div>
+            {%- endif -%}
+
+          {%- when 'variant_picker' -%}
+            {%- render 'blko-product-variant-picker', product: product, block: block, section_id: section.id -%}
+
+          {%- when 'quantity' -%}
+            {%- unless next_block.type == 'buy_buttons' -%}
+              {%- assign qty_input_id = 'BlkoQty-' | append: block.id -%}
+              {%- render 'blko-product-quantity',
+                block: block,
+                variant: current_variant,
+                form_id: form_id,
+                input_id: qty_input_id,
+                show_label: block.settings.show_label,
+                standalone: true
+              -%}
+            {%- endunless -%}
+
+          {%- when 'buy_buttons' -%}
+            {%- liquid
+              assign button_class = 'blko-btn--outline'
+              if block.settings.button_style == 'primary'
+                assign button_class = 'blko-btn--primary'
+              endif
+            -%}
+            <div class="blko-pdp__block blko-pdp__buy" {{ block.shopify_attributes }}>
+              {%- form 'product', product, id: form_id, class: 'blko-pdp__form', novalidate: 'novalidate' -%}
+                {%- if product.has_only_default_variant -%}
+                  <input type="hidden" name="id" value="{{ current_variant.id }}" data-blko-variant-id>
+                {%- else -%}
+                  <label class="blko-pdp__variant-select">
+                    <span class="blko-small blko-medium">{{ 'blko.product.variant' | t }}</span>
+                    <span class="blko-select-wrap"><select class="blko-select" name="id" data-blko-variant-id>
+                      {%- for variant in product.variants -%}
+                        <option
+                          value="{{ variant.id }}"
+                          {% if variant.id == current_variant.id %}
+                            selected
+                          {% endif %}
+                          {% unless variant.available %}
+                            disabled
+                          {% endunless %}
+                        >
+                          {{- variant.title | escape }} - {{ variant.price | money -}}
+                        </option>
+                      {%- endfor -%}
+                    </select>{%- render 'blko-icon', name: 'chevron-down', size: 16 -%}</span>
+                  </label>
+                {%- endif -%}
+                <div class="blko-pdp__buy-row">
+                  {%- if prev_block.type == 'quantity' -%}
+                    {%- assign qty_input_id = 'BlkoQty-' | append: prev_block.id -%}
+                    {%- render 'blko-product-quantity',
+                      block: prev_block,
+                      variant: current_variant,
+                      form_id: form_id,
+                      input_id: qty_input_id,
+                      show_label: false,
+                      standalone: false
+                    -%}
+                  {%- endif -%}
+                  <button
+                    type="submit"
+                    name="add"
+                    class="blko-btn {{ button_class }} blko-pdp__add"
+                    data-blko-add
+                    {% unless current_variant.available %}
+                      disabled
+                    {% endunless %}
+                  >
+                    <span data-blko-add-label>
+                      {%- if current_variant.available -%}
+                        {{- 'blko.products.add_to_cart' | t -}}
+                      {%- else -%}
+                        {{- 'blko.products.sold_out' | t -}}
+                      {%- endif -%}
+                    </span>
+                  </button>
+                </div>
+                {%- if block.settings.show_dynamic_checkout -%}
+                  <div class="blko-pdp__checkout">{{ form | payment_button }}</div>
+                {%- endif -%}
+              {%- endform -%}
+              {%- liquid
+                assign buy_note = block.settings.note | default: settings.free_shipping_note
+              -%}
+              {%- if block.settings.show_note and buy_note != blank -%}
+                <p class="blko-small blko-muted">{{ buy_note | escape }}</p>
+              {%- endif -%}
+            </div>
+
+          {%- when 'description' -%}
+            {%- if product.description != blank -%}
+              {%- if block.settings.display == 'plain' -%}
+                <div class="blko-pdp__block blko-pdp__plain" {{ block.shopify_attributes }}>
+                  {%- if block.settings.heading != blank -%}
+                    <h2 class="blko-body blko-medium">{{ block.settings.heading | escape }}</h2>
+                  {%- endif -%}
+                  <div class="blko-rte blko-small blko-muted blko-pretty">{{ product.description }}</div>
+                </div>
+              {%- else -%}
+                <details
+                  class="blko-details blko-pdp__details"
+                  {% if block.settings.open %}
+                    open
+                  {% endif %}
+                  {{ block.shopify_attributes }}
+                >
+                  <summary>{{ block.settings.heading | escape }}{%- render 'blko-icon', name: 'plus', size: 16 -%}</summary>
+                  <div class="blko-details__body blko-rte blko-pretty">{{ product.description }}</div>
+                </details>
+              {%- endif -%}
+            {%- endif -%}
+
+          {%- when 'collapsible_tab' -%}
+            {%- liquid
+              assign tab_content = block.settings.content
+              if block.settings.page != blank
+                assign tab_content = block.settings.page.content
+              endif
+            -%}
+            <details
+              class="blko-details blko-pdp__details"
+              {% if block.settings.open %}
+                open
+              {% endif %}
+              {{ block.shopify_attributes }}
+            >
+              <summary>
+                <span class="blko-pdp__summary">
+                  {%- if block.settings.icon != 'none' -%}
+                    <span class="blko-pdp__icon" aria-hidden="true">{% render 'blko-icon', name: block.settings.icon %}</span>
+                  {%- endif -%}
+                  {{- block.settings.heading | escape -}}
+                </span>{%- render 'blko-icon', name: 'plus', size: 16 -%}</summary>
+              <div class="blko-details__body blko-rte blko-pretty">{{ tab_content }}</div>
+            </details>
+
+          {%- when 'icon_with_text' -%}
+            <ul
+              class="blko-list-reset blko-pdp__block blko-pdp__perks blko-pdp__perks--{{ block.settings.layout }}"
+              role="list"
+              {{ block.shopify_attributes }}
+            >
+              {%- for i in (1..3) -%}
+                {%- liquid
+                  assign icon_key = 'icon_' | append: i
+                  assign text_key = 'text_' | append: i
+                  assign perk_icon = block.settings[icon_key]
+                  assign perk_text = block.settings[text_key]
+                -%}
+                {%- if perk_text != blank -%}
+                  <li class="blko-small blko-pdp__perk">
+                    {%- if perk_icon != 'none' -%}
+                      <span class="blko-pdp__icon" aria-hidden="true">{% render 'blko-icon', name: perk_icon %}</span>
+                    {%- endif -%}
+                    <span>{{ perk_text | escape }}</span>
+                  </li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+
+          {%- when 'share' -%}
+            <blko-share
+              class="blko-pdp__block blko-pdp__share"
+              data-url="{{ request.origin }}{{ product.url }}"
+              data-title="{{ product.title | escape }}"
+              {{ block.shopify_attributes }}
+            >
+              <button type="button" class="blko-small blko-medium blko-pdp__link-btn" data-blko-share>
+                <span class="blko-pdp__icon" aria-hidden="true">{% render 'blko-icon', name: 'share' %}</span>
+                {{- block.settings.label | escape -}}
+              </button>
+              <span class="blko-small blko-muted" role="status" data-blko-share-status data-copied="{{ 'blko.product.share_copied' | t }}"></span>
+            </blko-share>
+
+          {%- when 'popup' -%}
+            {%- liquid
+              assign popup_id = 'BlkoPopup-' | append: block.id
+              assign popup_title = block.settings.label
+              assign popup_body = block.settings.content
+              if block.settings.page != blank
+                assign popup_title = block.settings.page.title
+                assign popup_body = block.settings.page.content
+              endif
+            -%}
+            <blko-product-popup class="blko-pdp__block blko-pdp__popup" {{ block.shopify_attributes }}>
+              <button type="button" class="blko-small blko-medium blko-pdp__link-btn" data-blko-open aria-haspopup="dialog">
+                {%- if block.settings.icon != 'none' -%}
+                  <span class="blko-pdp__icon" aria-hidden="true">{% render 'blko-icon', name: block.settings.icon %}</span>
+                {%- endif -%}
+                {{- block.settings.label | escape -}}
+              </button>
+              <dialog class="blko-pdp__dialog" aria-labelledby="{{ popup_id }}-title">
+                <div class="blko-pdp__dialog-head">
+                  <h2 class="blko-h4" id="{{ popup_id }}-title">{{ popup_title | escape }}</h2>
+                  <button
+                    type="button"
+                    class="blko-btn blko-btn--outline blko-btn--icon"
+                    data-blko-close
+                    aria-label="{{ 'blko.general.close' | t }}"
+                  >
+                    {%- render 'blko-icon', name: 'close' -%}
+                  </button>
+                </div>
+                <div class="blko-rte blko-body blko-pretty">{{ popup_body }}</div>
+              </dialog>
+            </blko-product-popup>
+
+          {%- when 'complementary' -%}
+            {%- render 'blko-product-complementary', product: product, block: block, section_id: section.id -%}
+
+          {%- when 'custom_liquid' -%}
+            {%- if block.settings.custom_liquid != blank -%}
+              <div class="blko-pdp__block" {{ block.shopify_attributes }}>{{ block.settings.custom_liquid }}</div>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <script type="application/json" data-blko-variants>
+    [
+      {%- for variant in product.variants -%}
+        {%- capture price_html -%}{%- render 'blko-price', product: product, variant: variant, size: 'lg' -%}{%- endcapture -%}
+        {
+          "id": {{ variant.id }},
+          "options": {{ variant.options | json }},
+          "available": {{ variant.available | json }},
+          "media": {{ variant.featured_media.id | default: 0 | json }},
+          "price": {{ variant.price | json }},
+          "compare": {{ variant.compare_at_price | default: 0 | json }},
+          "priceHtml": {{ price_html | strip_newlines | json }},
+          "sku": {{ variant.sku | json }},
+          "qmin": {{ variant.quantity_rule.min | default: 1 | json }},
+          "qstep": {{ variant.quantity_rule.increment | default: 1 | json }},
+          "qmax": {{ variant.quantity_rule.max | json }}
+          {%- if inventory_blocks.size > 0 -%}
+            {%- liquid
+              assign v_managed = false
+              if variant.inventory_management == 'shopify'
+                assign v_managed = true
+              endif
+              assign v_low = false
+              if v_managed and variant.inventory_quantity > 0 and variant.inventory_quantity <= low_stock
+                assign v_low = true
+              endif
+            -%}
+            ,
+            "managed": {{ v_managed | json }},
+            "stock": {% if v_low %}{{ variant.inventory_quantity }}{% elsif v_managed and variant.inventory_quantity <= 0 %}0{% else %}null{% endif %}
+          {%- endif -%}
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  </script>
+  <script type="application/json" data-blko-strings>
+    {
+      "add": {{ 'blko.products.add_to_cart' | t | json }},
+      "soldOut": {{ 'blko.products.sold_out' | t | json }},
+      "unavailable": {{ 'blko.products.unavailable' | t | json }},
+      "sku": {{ 'blko.product.sku' | t: sku: '[sku]' | json }},
+      "sale": {{ 'blko.product.sale_badge' | t: percent: '[percent]' | json }},
+      "inStock": {{ 'blko.product.in_stock' | t | json }},
+      "lowStock": {{ 'blko.product.low_stock' | t: count: '[count]' | json }},
+      "outOfStock": {{ 'blko.product.out_of_stock' | t | json }},
+      "backorder": {{ 'blko.product.backorder' | t | json }}
+    }
+  </script>
+</blko-product>
+
+<script src="{{ 'blko-product.js' | asset_url }}" defer></script>
+{%- assign comp_blocks = section.blocks | where: 'type', 'complementary' -%}
+{%- if comp_blocks.size > 0 -%}
+  <script src="{{ 'blko-recommendations.js' | asset_url }}" defer></script>
+{%- endif -%}
+
+{% stylesheet %}
+  .blko-pdp { display: block; }
+  .blko-pdp__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+
+  /* Gallery */
+  .blko-pdp__gallery { display: grid; gap: .75rem; min-width: 0; align-content: start; }
+  .blko-pdp__stage { display: grid; gap: .75rem; min-width: 0; }
+  .blko-pdp__slide { aspect-ratio: var(--blko-ratio, 4 / 5); }
+  .blko-pdp__slide > :is(video, iframe, model-viewer, img),
+  .blko-pdp__slide .blko-pdp__img { display: block; width: 100%; height: 100%; object-fit: cover; border: 0; }
+  .blko-pdp__zoom { display: block; width: 100%; height: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+  .blko-pdp__gallery[data-zoom="hover"] .blko-pdp__img { transition: transform .25s ease; }
+  .blko-pdp__slide.is-zoomed { cursor: zoom-out; }
+  .blko-pdp__slide.is-zoomed .blko-pdp__img { transform: scale(2); }
+  .blko-pdp__xr { justify-self: start; }
+  .blko-pdp__xr[data-shopify-xr-hidden] { display: none; }
+
+  blko-product-gallery:not([data-ready]) .blko-pdp__thumbs { display: none; }
+  blko-product-gallery[data-ready] .blko-pdp__slide:not(.is-active) { display: none; }
+  .blko-pdp__thumbs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .5rem; align-content: start; }
+  .blko-pdp__thumb {
+    position: relative;
+    aspect-ratio: var(--blko-ratio, 4 / 5);
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: var(--radius-image, 0);
+    background: var(--color-bg-alt, #e4e0cc);
+    opacity: .6;
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .blko-pdp__thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .blko-pdp__thumb:hover, .blko-pdp__thumb[aria-pressed="true"] { opacity: 1; }
+  .blko-pdp__thumb[aria-pressed="true"] { box-shadow: 0 0 0 1px var(--color-text, #262f29); }
+  .blko-pdp__thumb-badge {
+    position: absolute;
+    inset: auto .25rem .25rem auto;
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 999px;
+    background: var(--color-bg, #f6f2ea);
+    color: var(--color-text, #262f29);
+  }
+  .blko-pdp__thumb-badge svg { width: 10px; height: 10px; }
+
+  /* Stack and grid: every media item shown; the selected variant's media moves first. Phones get a swipe row. */
+  .blko-pdp__gallery--stack .blko-pdp__slide.is-active,
+  .blko-pdp__gallery--grid .blko-pdp__slide.is-active { order: -1; }
+  @media (max-width: 749px) {
+    .blko-pdp__gallery--stack .blko-pdp__stage,
+    .blko-pdp__gallery--grid .blko-pdp__stage {
+      grid-auto-flow: column;
+      grid-auto-columns: 88%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+    .blko-pdp__gallery--stack .blko-pdp__slide,
+    .blko-pdp__gallery--grid .blko-pdp__slide { scroll-snap-align: start; }
+  }
+
+  /* Lightbox and popups */
+  .blko-pdp__lightbox, .blko-pdp__dialog {
+    border: 0;
+    padding: 0;
+    background: var(--color-bg, #f6f2ea);
+    color: var(--color-text, #262f29);
+  }
+  .blko-pdp__lightbox { width: 100vw; max-width: none; height: 100vh; max-height: none; margin: 0; overflow-y: auto; }
+  .blko-pdp__lightbox::backdrop, .blko-pdp__dialog::backdrop { background: rgb(0 0 0 / .45); }
+  .blko-pdp__dialog-close { position: sticky; top: 1rem; float: right; margin: 1rem; z-index: 1; background: var(--color-bg, #f6f2ea); }
+  .blko-pdp__lightbox-list { display: grid; gap: 1rem; max-width: 1100px; margin: 0 auto; padding: 4.5rem 1rem 2rem; }
+  .blko-pdp__lightbox-item { margin: 0; }
+  .blko-pdp__lightbox-item img { width: 100%; height: auto; }
+  .blko-pdp__dialog {
+    width: min(40rem, calc(100vw - 2rem));
+    max-height: calc(100vh - 4rem);
+    padding: 1.5rem;
+    border-radius: var(--radius-card, 0);
+    overflow-y: auto;
+  }
+  .blko-pdp__dialog-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+
+  /* Info column */
+  .blko-pdp__info { display: flex; flex-direction: column; min-width: 0; }
+  .blko-pdp__info > * + * { margin-top: 1.5rem; }
+  .blko-pdp__info > * + .blko-pdp__block--tight { margin-top: .75rem; }
+  .blko-pdp__info > .blko-pdp__block--vendor + * { margin-top: .5rem; }
+  .blko-pdp__info > .blko-pdp__details + .blko-pdp__details { margin-top: 0; }
+  .blko-pdp__info > :not(.blko-pdp__details) + .blko-pdp__details,
+  .blko-pdp__info > .blko-pdp__details:first-child { border-top: 1px solid var(--color-border, #d6d1c0); }
+  .blko-pdp__info [hidden] { display: none; }
+  .blko-pdp__block--vendor a, .blko-pdp__crumb a { text-decoration: none; }
+  .blko-pdp__block--vendor a:hover, .blko-pdp__crumb a:hover { color: var(--color-text, #262f29); }
+  .blko-pdp__block--title { display: grid; gap: 1.5rem; }
+  .blko-pdp__rating { display: inline-block; width: fit-content; color: inherit; text-decoration: none; text-underline-offset: 4px; }
+  .blko-pdp__rating:hover { text-decoration: underline; }
+  .blko-pdp__text { max-width: 46ch; }
+  .blko-pdp__price { display: grid; gap: .25rem; }
+  .blko-pdp__price-row { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
+  .blko-pdp__stock { display: flex; align-items: center; gap: .5rem; }
+  .blko-pdp__stock-dot { width: .5rem; height: .5rem; border-radius: 999px; background: var(--color-accent, #666237); }
+  .blko-pdp__stock[data-state="low"] .blko-pdp__stock-dot,
+  .blko-pdp__stock[data-state="backorder"] .blko-pdp__stock-dot { background: var(--color-sale, #9b0d33); }
+  .blko-pdp__stock[data-state="out"] .blko-pdp__stock-dot { background: var(--color-text-muted, #59625b); }
+  .blko-pdp__icon { display: inline-grid; place-items: center; flex-shrink: 0; width: 1.125rem; height: 1.125rem; }
+  .blko-pdp__icon svg { width: 100%; height: 100%; }
+  .blko-pdp__summary { display: inline-flex; align-items: center; gap: .625rem; }
+  .blko-pdp__plain { display: grid; gap: .5rem; }
+
+  /* Variant picker */
+  .blko-pdp__options { display: grid; gap: 1.5rem; }
+  blko-product:not([data-ready]) .blko-pdp__options { display: none; }
+  .blko-pdp__variant-select { display: grid; gap: .5rem; }
+  blko-product[data-ready] .blko-pdp__variant-select { display: none; }
+  .blko-pdp__option { display: grid; margin: 0; padding: 0; border: 0; min-width: 0; }
+  .blko-pdp__legend { margin-bottom: .75rem; padding: 0; }
+  .blko-pdp__chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .blko-pdp__radio:focus-visible + :is(.blko-chip, .blko-pdp__swatch) { outline: 2px solid var(--color-text, #262f29); outline-offset: 2px; }
+  .blko-pdp__options .is-unavailable { color: var(--color-text-muted, #59625b); text-decoration: line-through; }
+  .blko-pdp__swatch {
+    position: relative;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    background: var(--blko-swatch, var(--color-bg-alt, #e4e0cc));
+    background-size: cover;
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / .12);
+    cursor: pointer;
+  }
+  .blko-pdp__radio:checked + .blko-pdp__swatch { outline: 1px solid var(--color-text, #262f29); outline-offset: 3px; }
+  .blko-pdp__swatch.is-unavailable::after {
+    content: "";
+    position: absolute;
+    inset: 50% -2px auto;
+    height: 1px;
+    background: var(--color-text, #262f29);
+    transform: rotate(-45deg);
+  }
+
+  /* Quantity and buy buttons */
+  .blko-pdp__buy, .blko-pdp__form { display: grid; gap: .75rem; }
+  .blko-pdp__buy-row { display: flex; gap: .75rem; }
+  .blko-pdp__qty-wrap { display: grid; justify-items: start; gap: .5rem; flex-shrink: 0; }
+  .blko-pdp__qty {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    height: 44px;
+    border: 1px solid var(--color-border, #d6d1c0);
+    border-radius: var(--radius-input, 0);
+  }
+  .blko-pdp__qty-btn {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+  .blko-pdp__qty-btn:hover { background: var(--color-bg-alt, #e4e0cc); }
+  .blko-pdp__qty-btn svg { width: 14px; height: 14px; }
+  .blko-pdp__qty-input {
+    width: 2.5rem;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: center;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+  .blko-pdp__qty-input::-webkit-outer-spin-button,
+  .blko-pdp__qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .blko-pdp__add { flex: 1; min-width: 0; }
+  .blko-pdp__checkout .shopify-payment-button__button {
+    min-height: 44px;
+    border-radius: var(--radius-button, 40px);
+    overflow: hidden;
+  }
+  .blko-pdp__checkout .shopify-payment-button__button--unbranded {
+    background: var(--color-button, #262f29);
+    color: var(--color-button-text, #f6f2ea);
+    font-family: inherit;
+    font-size: var(--blko-text-button, 15px);
+    font-weight: var(--button-weight, 500);
+    text-transform: var(--button-case, none);
+    letter-spacing: var(--button-tracking, 0);
+  }
+  .blko-pdp__checkout .shopify-payment-button__button--unbranded:hover:not([disabled]) {
+    background: var(--color-button-hover, #3d4a41);
+  }
+  .blko-pdp__checkout .shopify-payment-button__more-options { margin-top: .5rem; font-size: var(--blko-text-small); color: inherit; }
+
+  /* Icon with text, share, popup, complementary */
+  .blko-pdp__perks { display: grid; gap: .75rem; }
+  .blko-pdp__perks--horizontal { grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); }
+  .blko-pdp__perk { display: flex; align-items: center; gap: .625rem; }
+  .blko-pdp__perks--horizontal .blko-pdp__perk { flex-direction: column; align-items: flex-start; }
+  .blko-pdp__share { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
+  .blko-pdp__link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    cursor: pointer;
+  }
+  .blko-pdp__popup { display: block; }
+  .blko-pdp__comp { display: grid; gap: .75rem; }
+  .blko-pdp__comp[hidden] { display: none; }
+  .blko-pdp__comp-item { display: grid; grid-template-columns: 4rem minmax(0, 1fr) auto; align-items: center; gap: 1rem; padding-block: .75rem; }
+  .blko-pdp__comp-info { display: grid; gap: .125rem; min-width: 0; }
+  .blko-pdp__comp-info a { text-decoration: none; }
+  .blko-pdp__comp-form { margin: 0; }
+
+  @media (min-width: 750px) {
+    .blko-pdp__grid { grid-template-columns: var(--blko-pdp-cols, minmax(0, 7fr) minmax(0, 5fr)); gap: 3rem; }
+    .blko-pdp__gallery--thumbs_left { grid-template-columns: 4.5rem minmax(0, 1fr); gap: 1rem; }
+    .blko-pdp__gallery--thumbs_left .blko-pdp__stage { grid-column: 2; grid-row: 1; }
+    .blko-pdp__gallery--thumbs_left:not([data-ready]) .blko-pdp__stage { grid-column: 1 / -1; }
+    .blko-pdp__gallery--thumbs_left .blko-pdp__thumbs { grid-column: 1; grid-row: 1; grid-template-columns: minmax(0, 1fr); gap: .75rem; }
+    .blko-pdp__gallery--thumbs_left > :not(.blko-pdp__stage, .blko-pdp__thumbs) { grid-column: 2; }
+    .blko-pdp__gallery--thumbs_below .blko-pdp__thumbs { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    .blko-pdp__gallery--grid .blko-pdp__stage { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .blko-pdp--sticky .blko-pdp__info { position: sticky; top: 1.5rem; align-self: start; }
+    .blko-pdp__lightbox-list { padding-inline: 2rem; }
+  }
+  @media (min-width: 1024px) {
+    .blko-pdp__grid { gap: 4rem; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Product information",
+  "tag": "section",
+  "class": "blko-section-main-product",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "media_width",
+      "label": "Media width on desktop",
+      "options": [
+        { "value": "50", "label": "50%" },
+        { "value": "55", "label": "55%" },
+        { "value": "60", "label": "60%" }
+      ],
+      "default": "60"
+    },
+    { "type": "checkbox", "id": "sticky_info", "label": "Keep product info in view while scrolling", "default": true },
+    { "type": "header", "content": "Media" },
+    {
+      "type": "select",
+      "id": "gallery_layout",
+      "label": "Gallery layout",
+      "options": [
+        { "value": "thumbs_left", "label": "Thumbnails left" },
+        { "value": "thumbs_below", "label": "Thumbnails below" },
+        { "value": "stack", "label": "Stack, 1 column" },
+        { "value": "grid", "label": "Grid, 2 columns" }
+      ],
+      "default": "thumbs_left"
+    },
+    {
+      "type": "select",
+      "id": "media_ratio",
+      "label": "Media ratio",
+      "options": [
+        { "value": "adapt", "label": "Adapt to image" },
+        { "value": "portrait", "label": "Portrait (4:5)" },
+        { "value": "tall", "label": "Tall (3:4)" },
+        { "value": "square", "label": "Square (1:1)" }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "select",
+      "id": "image_zoom",
+      "label": "Image zoom",
+      "options": [
+        { "value": "lightbox", "label": "Open in lightbox" },
+        { "value": "hover", "label": "Zoom on hover" },
+        { "value": "off", "label": "Off" }
+      ],
+      "default": "lightbox"
+    },
+    { "type": "paragraph", "content": "Videos and 3D models added to the product show in the gallery with their own controls." }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "vendor",
+      "name": "Vendor",
+      "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "link", "label": "Link to vendor page", "default": false }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "show_crumb", "label": "Show collection and product type", "default": true },
+        {
+          "type": "select",
+          "id": "size",
+          "label": "Title size",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" }
+          ],
+          "default": "medium"
+        }
+      ]
+    },
+    {
+      "type": "sku",
+      "name": "SKU",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Shows the selected variant's SKU when it has one." }
+      ]
+    },
+    {
+      "type": "rating",
+      "name": "Rating",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Uses the product reviews metafields that review apps fill." },
+        { "type": "checkbox", "id": "show_count", "label": "Show review count", "default": true },
+        { "type": "checkbox", "id": "link_reviews", "label": "Link to the reviews section", "default": true },
+        { "type": "text", "id": "fallback_rating", "label": "Rating when the product has none", "info": "For example 4.8. Leave blank to hide the stars on products without reviews." },
+        { "type": "number", "id": "fallback_count", "label": "Review count when the product has none" }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "show_sale_badge", "label": "Show sale badge with % off", "default": true },
+        { "type": "checkbox", "id": "show_tax_note", "label": "Show tax and shipping note", "default": false }
+      ]
+    },
+    {
+      "type": "inventory",
+      "name": "Inventory status",
+      "limit": 1,
+      "settings": [
+        { "type": "range", "id": "low_stock_threshold", "label": "Low stock below", "min": 1, "max": 20, "step": 1, "default": 5, "info": "Needs inventory tracking on the variant." },
+        { "type": "checkbox", "id": "show_in_stock", "label": "Show \"In stock\" when stock is fine", "default": true }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        { "type": "richtext", "id": "text", "label": "Text" },
+        { "type": "checkbox", "id": "use_excerpt", "label": "Use a short excerpt of the description when text is blank", "default": true },
+        {
+          "type": "select",
+          "id": "text_style",
+          "label": "Text style",
+          "options": [
+            { "value": "muted", "label": "Body, muted" },
+            { "value": "body", "label": "Body" },
+            { "value": "small", "label": "Small" }
+          ],
+          "default": "muted"
+        }
+      ]
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "picker_type",
+          "label": "Style",
+          "options": [
+            { "value": "buttons", "label": "Buttons" },
+            { "value": "dropdown", "label": "Dropdown" },
+            { "value": "swatch", "label": "Swatches" }
+          ],
+          "default": "buttons",
+          "info": "Swatches use the colors and images set on the option values; other values show as buttons."
+        }
+      ]
+    },
+    {
+      "type": "quantity",
+      "name": "Quantity",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Placed right above the buy buttons, the stepper sits in the same row as the add button." },
+        { "type": "checkbox", "id": "show_label", "label": "Show label", "default": false }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Add button style",
+          "options": [
+            { "value": "outline", "label": "Outline" },
+            { "value": "primary", "label": "Solid" }
+          ],
+          "default": "outline"
+        },
+        { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show dynamic checkout button", "default": true },
+        { "type": "checkbox", "id": "show_note", "label": "Show note under the buttons", "default": true },
+        { "type": "text", "id": "note", "label": "Note", "info": "Leave blank to use the shipping note from Theme settings." }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Details" },
+        {
+          "type": "select",
+          "id": "display",
+          "label": "Display",
+          "options": [
+            { "value": "collapsible", "label": "Collapsible tab" },
+            { "value": "plain", "label": "Plain text" }
+          ],
+          "default": "collapsible"
+        },
+        { "type": "checkbox", "id": "open", "label": "Open by default", "default": true }
+      ]
+    },
+    {
+      "type": "collapsible_tab",
+      "name": "Collapsible tab",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "How to use" },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "droplet", "label": "Droplet" },
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "return", "label": "Return" },
+            { "value": "ruler", "label": "Ruler" },
+            { "value": "check", "label": "Check" }
+          ],
+          "default": "none"
+        },
+        { "type": "richtext", "id": "content", "label": "Content", "default": "<p>Warm three drops in your palms and press into clean skin, morning or night.</p>" },
+        { "type": "page", "id": "page", "label": "Page content", "info": "Replaces the content above." },
+        { "type": "checkbox", "id": "open", "label": "Open by default", "default": false }
+      ]
+    },
+    {
+      "type": "icon_with_text",
+      "name": "Icons with text",
+      "settings": [
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "Layout",
+          "options": [
+            { "value": "horizontal", "label": "In a row" },
+            { "value": "vertical", "label": "Stacked" }
+          ],
+          "default": "vertical"
+        },
+        { "type": "header", "content": "Item 1" },
+        {
+          "type": "select", "id": "icon_1", "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" }, { "value": "truck", "label": "Truck" }, { "value": "return", "label": "Return" },
+            { "value": "leaf", "label": "Leaf" }, { "value": "droplet", "label": "Droplet" }, { "value": "sparkle", "label": "Sparkle" },
+            { "value": "shield", "label": "Shield" }, { "value": "check", "label": "Check" }
+          ],
+          "default": "truck"
+        },
+        { "type": "text", "id": "text_1", "label": "Text", "default": "Free shipping over $60" },
+        { "type": "header", "content": "Item 2" },
+        {
+          "type": "select", "id": "icon_2", "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" }, { "value": "truck", "label": "Truck" }, { "value": "return", "label": "Return" },
+            { "value": "leaf", "label": "Leaf" }, { "value": "droplet", "label": "Droplet" }, { "value": "sparkle", "label": "Sparkle" },
+            { "value": "shield", "label": "Shield" }, { "value": "check", "label": "Check" }
+          ],
+          "default": "return"
+        },
+        { "type": "text", "id": "text_2", "label": "Text", "default": "Returns within 30 days" },
+        { "type": "header", "content": "Item 3" },
+        {
+          "type": "select", "id": "icon_3", "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" }, { "value": "truck", "label": "Truck" }, { "value": "return", "label": "Return" },
+            { "value": "leaf", "label": "Leaf" }, { "value": "droplet", "label": "Droplet" }, { "value": "sparkle", "label": "Sparkle" },
+            { "value": "shield", "label": "Shield" }, { "value": "check", "label": "Check" }
+          ],
+          "default": "leaf"
+        },
+        { "type": "text", "id": "text_3", "label": "Text", "default": "100% from plants" }
+      ]
+    },
+    {
+      "type": "share",
+      "name": "Share",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Share" },
+        { "type": "paragraph", "content": "Opens the device share sheet, or copies the product link." }
+      ]
+    },
+    {
+      "type": "popup",
+      "name": "Pop-up",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Link label", "default": "Size guide" },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "ruler", "label": "Ruler" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "droplet", "label": "Droplet" },
+            { "value": "truck", "label": "Truck" }
+          ],
+          "default": "ruler"
+        },
+        { "type": "page", "id": "page", "label": "Page", "info": "Its title and content fill the pop-up." },
+        { "type": "richtext", "id": "content", "label": "Content when no page is picked", "default": "<p>15 ml lasts about six weeks at three drops a day. 30 ml lasts about three months.</p>" }
+      ]
+    },
+    {
+      "type": "complementary",
+      "name": "Complementary products",
+      "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Set complementary products in the Search & Discovery app." },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Goes well with" },
+        { "type": "range", "id": "limit", "label": "Number of products", "min": 1, "max": 6, "step": 1, "default": 3 }
+      ]
+    },
+    {
+      "type": "custom_liquid",
+      "name": "Custom Liquid",
+      "settings": [
+        { "type": "liquid", "id": "custom_liquid", "label": "Custom Liquid" }
+      ]
+    }
+  ]
+}
+{% endschema %}

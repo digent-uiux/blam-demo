@@ -1,0 +1,94 @@
+{%- comment -%} Logo row: a quiet caption over a row of press or partner logos. Without an image a logo shows its name as a wordmark. {%- endcomment -%}
+<div
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-logos{% if section.settings.grayscale %} blko-logos--mono{% endif %}{% if section.settings.dividers %} blko-logos--divided{% endif %}"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px; --blko-logo-h: {{ section.settings.logo_height }}px;"
+>
+  <div class="blko-container blko-logos__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="blko-logos__heading{% if section.settings.heading_style == 'label' %} blko-label blko-muted{% else %} blko-h4{% endif %}">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    <ul class="blko-logos__list blko-list-reset" role="list">
+      {%- for block in section.blocks -%}
+        <li class="blko-logos__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.link != blank -%}<a class="blko-logos__link" href="{{ block.settings.link }}">{%- endif -%}
+          {%- if block.settings.image != blank -%}
+            {%- assign alt = block.settings.image.alt | default: block.settings.name | escape -%}
+            {%- assign logo_w = block.settings.image.aspect_ratio | times: section.settings.logo_height | ceil | append: 'px' -%}
+            {{ block.settings.image | image_url: height: 200 | image_tag: loading: 'lazy', alt: alt, class: 'blko-logos__img', sizes: logo_w }}
+          {%- else -%}
+            <span class="blko-logos__word">{{ block.settings.name | escape }}</span>
+          {%- endif -%}
+          {%- if block.settings.link != blank -%}</a>{%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-logos__inner { display: grid; gap: 1.75rem; justify-items: center; text-align: center; }
+  .blko-logos__heading.blko-label { text-transform: uppercase; }
+  .blko-logos__list { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1.5rem 3rem; margin: 0; }
+  .blko-logos--divided .blko-logos__list { gap: 1.5rem 0; }
+  .blko-logos--divided .blko-logos__item { padding-inline: 2rem; }
+  .blko-logos--divided .blko-logos__item + .blko-logos__item { border-left: 1px solid var(--color-border, #d6d1c0); }
+  .blko-logos__item { display: flex; align-items: center; min-height: var(--blko-logo-h, 32px); }
+  .blko-logos__link { display: inline-flex; text-decoration: none; }
+  .blko-logos__img { width: auto; height: var(--blko-logo-h, 32px); max-width: 10rem; object-fit: contain; transition: filter .2s, opacity .2s; }
+  .blko-logos__word { font-family: var(--font-heading, "Bodoni Moda", Georgia, serif); font-size: calc(var(--blko-logo-h, 32px) * .7); font-style: italic; line-height: 1; letter-spacing: -.01em; white-space: nowrap; transition: opacity .2s; }
+  .blko-logos--mono .blko-logos__img { filter: grayscale(1); opacity: .7; }
+  .blko-logos--mono .blko-logos__word { opacity: .7; }
+  .blko-logos--mono .blko-logos__item:hover .blko-logos__img { filter: none; opacity: 1; }
+  .blko-logos--mono .blko-logos__item:hover .blko-logos__word { opacity: 1; }
+  @media (min-width: 1024px) { .blko-logos__list { gap: 2rem 4rem; } }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Logo row",
+  "tag": "section",
+  "class": "blko-logos-section",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 56 },
+    { "type": "header", "content": "Content" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "As featured in" },
+    {
+      "type": "select", "id": "heading_style", "label": "Heading style", "default": "label",
+      "options": [
+        { "value": "label", "label": "Small caption" },
+        { "value": "heading", "label": "Heading" }
+      ]
+    },
+    { "type": "header", "content": "Logos" },
+    { "type": "range", "id": "logo_height", "label": "Logo height", "min": 20, "max": 80, "step": 4, "unit": "px", "default": 32 },
+    { "type": "checkbox", "id": "grayscale", "label": "Show logos in grey", "default": true, "info": "Logos regain their colour on hover." },
+    { "type": "checkbox", "id": "dividers", "label": "Show dividers between logos", "default": false }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Logo image", "info": "Transparent PNG or SVG works best." },
+        { "type": "text", "id": "name", "label": "Name", "default": "The Daily Edit", "info": "Used as the image description, and shown as a wordmark when there is no image." },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo row",
+      "blocks": [
+        { "type": "logo", "settings": { "name": "The Daily Edit" } },
+        { "type": "logo", "settings": { "name": "Skin Notes" } },
+        { "type": "logo", "settings": { "name": "Slow Living" } },
+        { "type": "logo", "settings": { "name": "Field & Form" } },
+        { "type": "logo", "settings": { "name": "Morning Paper" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

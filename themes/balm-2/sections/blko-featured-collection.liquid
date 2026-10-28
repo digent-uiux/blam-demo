@@ -1,0 +1,174 @@
+{%- comment -%} Bestsellers row: title + one link, then identical product cards from a collection. Everything is a setting. {%- endcomment -%}
+{%- liquid
+  assign source_collection = section.settings.collection
+  assign cols_d = section.settings.columns_desktop
+  case cols_d
+    when 1 or 2 or 3
+      assign cols_t = cols_d
+    when 4
+      assign cols_t = 2
+    else
+      assign cols_t = 3
+  endcase
+  assign view_url = section.settings.link_url
+  if view_url == blank
+    if source_collection != blank
+      assign view_url = source_collection.url
+    else
+      assign view_url = routes.all_products_collection_url
+    endif
+  endif
+  assign card_vw = 100 | divided_by: cols_d
+  assign cols_m = section.settings.columns_mobile | plus: 0
+  assign card_vw_m = 100 | divided_by: cols_m
+  assign card_sizes = '(min-width: 1024px) ' | append: card_vw | append: 'vw, ' | append: card_vw_m | append: 'vw'
+-%}
+<div
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-fcoll"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px; --blko-cols-d: {{ cols_d }}; --blko-cols-t: {{ cols_t }}; --blko-cols-m: {{ section.settings.columns_mobile }};{% if section.settings.card_ratio != 'theme' %} --card-ratio: {{ section.settings.card_ratio }};{% endif %}"
+>
+  <div class="blko-container">
+    {%- if section.settings.heading != blank or section.settings.text != blank or section.settings.link_label != blank -%}
+      <div class="blko-heading-row{% if section.settings.heading_alignment == 'center' %} blko-fcoll__head--center{% endif %}">
+        <div class="blko-heading-row__text">
+          {%- if section.settings.heading != blank -%}
+            <h2 class="{{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.text != blank -%}
+            <div class="blko-body blko-muted blko-pretty blko-rte">{{ section.settings.text }}</div>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.link_label != blank -%}
+          <a class="blko-text-link" href="{{ view_url }}">
+            {{- section.settings.link_label | escape }}
+            {% render 'blko-icon', name: 'arrow-right' -%}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <ul class="blko-product-grid blko-fcoll__grid" role="list">
+      {%- if section.settings.source == 'products' and section.settings.products != blank -%}
+        {%- for product in section.settings.products limit: section.settings.products_to_show -%}
+          <li>
+            {%- render 'blko-product-card',
+              product: product,
+              show_rating: section.settings.show_rating,
+              quick_add: section.settings.quick_add,
+              sizes: card_sizes
+            -%}
+          </li>
+        {%- endfor -%}
+      {%- elsif section.settings.source != 'products' and source_collection != blank and source_collection.products_count > 0 -%}
+        {%- for product in source_collection.products limit: section.settings.products_to_show -%}
+          <li>
+            {%- render 'blko-product-card',
+              product: product,
+              show_rating: section.settings.show_rating,
+              quick_add: section.settings.quick_add,
+              sizes: card_sizes
+            -%}
+          </li>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..section.settings.products_to_show) -%}
+          <li>{% render 'blko-demo-card', index: i, show_rating: section.settings.show_rating, quick_add: section.settings.quick_add, action_style: section.settings.action_style, sizes: card_sizes %}</li>
+        {%- endfor -%}
+      {%- endif -%}
+    </ul>
+    {%- if section.settings.button_label != blank -%}
+      <div class="blko-fcoll__footer">
+        <a class="blko-btn blko-btn--{{ section.settings.button_style }}" href="{{ view_url }}">{{ section.settings.button_label | escape }}</a>
+      </div>
+    {%- endif -%}
+    {%- for block in section.blocks -%}
+      <div class="blko-fcoll__app" {{ block.shopify_attributes }}>{% render block %}</div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-fcoll__grid { grid-template-columns: repeat(var(--blko-cols-m, 2), minmax(0, 1fr)); }
+  .blko-fcoll__head--center { flex-direction: column; align-items: center; text-align: center; }
+  .blko-fcoll__head--center .blko-heading-row__text { justify-items: center; }
+  .blko-fcoll__footer { display: flex; justify-content: center; margin-top: 2.5rem; }
+  .blko-fcoll__app { margin-top: 2rem; }
+  @media (min-width: 750px) { .blko-fcoll__grid { grid-template-columns: repeat(var(--blko-cols-t, 2), minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .blko-fcoll__grid { grid-template-columns: repeat(var(--blko-cols-d, 4), minmax(0, 1fr)); } }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "tag": "section",
+  "class": "blko-fcoll-section",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Heading" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Bestsellers" },
+    {
+      "type": "select", "id": "heading_size", "label": "Heading size", "default": "blko-h2",
+      "options": [
+        { "value": "blko-h3", "label": "Small" },
+        { "value": "blko-h2", "label": "Medium" },
+        { "value": "blko-h1", "label": "Large" }
+      ]
+    },
+    {
+      "type": "select", "id": "heading_alignment", "label": "Heading alignment", "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ]
+    },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Shop all", "info": "Leave blank to hide the link." },
+    { "type": "url", "id": "link_url", "label": "Link", "info": "Leave blank to link to the collection." },
+    { "type": "header", "content": "Products" },
+    {
+      "type": "select", "id": "source", "label": "Products from", "default": "collection",
+      "options": [
+        { "value": "collection", "label": "Collection" },
+        { "value": "products", "label": "Pick products" }
+      ]
+    },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "product_list", "id": "products", "label": "Products", "limit": 12, "info": "Used when Products from is Pick products." },
+    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 2, "max": 24, "step": 1, "default": 4 },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "columns_desktop", "label": "Columns on desktop", "min": 1, "max": 6, "step": 1, "default": 4 },
+    {
+      "type": "select", "id": "columns_mobile", "label": "Columns on mobile", "default": "2",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ]
+    },
+    { "type": "header", "content": "Product card" },
+    {
+      "type": "select", "id": "card_ratio", "label": "Image ratio", "default": "theme",
+      "options": [
+        { "value": "theme", "label": "Theme default" },
+        { "value": "1/1", "label": "Square" },
+        { "value": "4/5", "label": "Portrait" },
+        { "value": "3/4", "label": "Tall" },
+        { "value": "4/3", "label": "Landscape" }
+      ]
+    },
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating", "default": true },
+    { "type": "checkbox", "id": "quick_add", "label": "Show add to bag button", "default": false },
+    { "type": "header", "content": "Button below grid" },
+    { "type": "text", "id": "button_label", "label": "Button label", "info": "Leave blank to hide the button." },
+    {
+      "type": "select", "id": "button_style", "label": "Button style", "default": "outline",
+      "options": [
+        { "value": "primary", "label": "Solid" },
+        { "value": "outline", "label": "Outline" }
+      ]
+    }
+  ],
+  "blocks": [{ "type": "@app" }],
+  "presets": [{ "name": "Featured collection" }]
+}
+{% endschema %}

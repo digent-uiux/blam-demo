@@ -1,0 +1,167 @@
+{%- comment -%} Collection list: heading + link, then square collection tiles with the title (and count) below. {%- endcomment -%}
+{%- liquid
+  assign cols_d = section.settings.columns_desktop
+  assign cols_m = section.settings.columns_mobile | plus: 0
+  if cols_d > 3
+    assign cols_t = 3
+  else
+    assign cols_t = cols_d
+  endif
+  assign media_vw = 100 | divided_by: cols_d
+  assign media_vw_m = 100 | divided_by: cols_m
+  assign sizes = '(min-width: 1024px) ' | append: media_vw | append: 'vw, ' | append: media_vw_m | append: 'vw'
+  case section.settings.image_ratio
+    when 'portrait'
+      assign media_class = 'blko-media--portrait'
+    when 'landscape'
+      assign media_class = 'blko-media--landscape'
+    else
+      assign media_class = 'blko-media--square'
+  endcase
+-%}
+<div
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-clist{% if section.settings.title_position == 'overlay' %} blko-clist--overlay{% endif %}"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px; --blko-cols-d: {{ cols_d }}; --blko-cols-t: {{ cols_t }}; --blko-cols-m: {{ cols_m }};"
+>
+  <div class="blko-container">
+    {%- if section.settings.heading != blank or section.settings.link_label != blank -%}
+      <div class="blko-heading-row">
+        <div class="blko-heading-row__text">
+          {%- if section.settings.heading != blank -%}
+            <h2 class="{{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+          {%- if section.settings.text != blank -%}
+            <div class="blko-body blko-muted blko-pretty blko-rte">{{ section.settings.text }}</div>
+          {%- endif -%}
+        </div>
+        {%- if section.settings.link_label != blank -%}
+          <a class="blko-text-link" href="{{ section.settings.link_url | default: routes.collections_url }}">
+            {{- section.settings.link_label | escape }}
+            {% render 'blko-icon', name: 'arrow-right' -%}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <ul class="blko-clist__grid blko-list-reset" role="list">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign c = block.settings.collection
+          assign title = block.settings.title | default: c.title
+          assign image = block.settings.image | default: c.featured_image
+          assign url = c.url | default: routes.collections_url
+          assign demo_index = forloop.index
+        -%}
+        {%- if title == blank -%}
+          {%- capture title -%}{%- render 'blko-demo-tile', index: demo_index, part: 'title' -%}{%- endcapture -%}
+        {%- endif -%}
+        <li class="blko-clist__item" {{ block.shopify_attributes }}>
+          <a class="blko-clist__card" href="{{ url }}">
+            <div class="blko-media {{ media_class }} blko-clist__media">
+              {%- if image != blank -%}
+                {%- assign alt = image.alt | default: title | escape -%}
+                {{ image | image_url: width: 1000 | image_tag: loading: 'lazy', sizes: sizes, widths: '360, 540, 720, 1000', alt: alt }}
+              {%- else -%}
+                {%- render 'blko-demo-tile', index: demo_index, part: 'image', sizes: sizes -%}
+              {%- endif -%}
+            </div>
+            <span class="blko-clist__info">
+              <span class="blko-clist__title">{{ title | escape }}</span>
+              {%- if section.settings.show_count and c != blank -%}
+                <span class="blko-small blko-clist__count">{{ 'blko.collections.count' | t: count: c.products_count }}</span>
+              {%- endif -%}
+            </span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-clist__grid { display: grid; grid-template-columns: repeat(var(--blko-cols-m, 2), minmax(0, 1fr)); gap: 2rem 1rem; margin: 0; }
+  .blko-clist__card { position: relative; display: grid; gap: .875rem; text-decoration: none; color: inherit; }
+  .blko-clist__media img { transition: transform .5s cubic-bezier(.16, 1, .3, 1); }
+  .blko-clist__card:hover .blko-clist__media img { transform: scale(1.03); }
+  .blko-clist__info { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .25rem .75rem; }
+  .blko-clist__title { font-family: var(--font-heading, "Bodoni Moda", Georgia, serif); font-weight: var(--font-heading-weight, 500); font-size: var(--blko-text-h4); line-height: 1.25; }
+  .blko-clist__card:hover .blko-clist__title { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  .blko-clist__count { color: var(--color-text-muted, #59625b); }
+  .blko-clist--overlay .blko-clist__info { position: absolute; inset: auto 0 0 0; padding: 1.25rem; color: var(--blko-overlay-text, #ffffff); background: linear-gradient(to top, var(--blko-overlay-shade, rgb(0 0 0 / .45)), transparent); }
+  .blko-clist--overlay .blko-clist__count { color: inherit; opacity: .85; }
+  @media (min-width: 750px) { .blko-clist__grid { grid-template-columns: repeat(var(--blko-cols-t, 3), minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .blko-clist__grid { grid-template-columns: repeat(var(--blko-cols-d, 4), minmax(0, 1fr)); column-gap: 1.5rem; } }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Collection list",
+  "tag": "section",
+  "class": "blko-clist-section",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Heading" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Shop by ritual" },
+    {
+      "type": "select", "id": "heading_size", "label": "Heading size", "default": "blko-h2",
+      "options": [
+        { "value": "blko-h3", "label": "Small" },
+        { "value": "blko-h2", "label": "Medium" },
+        { "value": "blko-h1", "label": "Large" }
+      ]
+    },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "All collections", "info": "Leave blank to hide the link." },
+    { "type": "url", "id": "link_url", "label": "Link", "info": "Leave blank to link to all collections." },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "columns_desktop", "label": "Columns on desktop", "min": 1, "max": 6, "step": 1, "default": 4 },
+    {
+      "type": "select", "id": "columns_mobile", "label": "Columns on mobile", "default": "2",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ]
+    },
+    {
+      "type": "select", "id": "image_ratio", "label": "Image ratio", "default": "square",
+      "options": [
+        { "value": "square", "label": "Square" },
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "landscape", "label": "Landscape" }
+      ]
+    },
+    {
+      "type": "select", "id": "title_position", "label": "Title position", "default": "below",
+      "options": [
+        { "value": "below", "label": "Below image" },
+        { "value": "overlay", "label": "On image" }
+      ]
+    },
+    { "type": "checkbox", "id": "show_count", "label": "Show product count", "default": false }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "text", "id": "title", "label": "Title", "info": "Leave blank to use the collection title." },
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Leave blank to use the collection image." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection list",
+      "blocks": [
+        { "type": "collection" },
+        { "type": "collection" },
+        { "type": "collection" },
+        { "type": "collection" }
+      ]
+    }
+  ]
+}
+{% endschema %}

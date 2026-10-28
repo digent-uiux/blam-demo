@@ -1,0 +1,236 @@
+{%- comment -%} Image with text: square photo beside a heading, text and buttons. Image side, width and panel are settings. {%- endcomment -%}
+{%- liquid
+  case section.settings.image_ratio
+    when 'portrait'
+      assign ratio = '4 / 5'
+    when 'landscape'
+      assign ratio = '4 / 3'
+    when 'adapt'
+      if section.settings.image != blank
+        assign ratio = section.settings.image.aspect_ratio
+      else
+        assign ratio = '3 / 2'
+      endif
+    else
+      assign ratio = '1 / 1'
+  endcase
+  assign media_vw = section.settings.image_width
+-%}
+<div
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-iwt blko-iwt--image-{{ section.settings.image_position }} blko-iwt--align-{{ section.settings.vertical_alignment }}{% if section.settings.content_panel %} blko-iwt--panel{% endif %}{% if section.settings.mobile_text_first %} blko-iwt--mobile-text-first{% endif %}"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px; --blko-iwt-media: {{ media_vw }}%; --blko-iwt-ratio: {{ ratio }};"
+>
+  <div class="blko-container">
+    <div class="blko-iwt__grid">
+      <div class="blko-media blko-iwt__media">
+        {%- if section.settings.image != blank -%}
+          {%- assign alt = section.settings.image.alt | escape -%}
+          {%- assign sizes = '(min-width: 1024px) ' | append: media_vw | append: 'vw, 100vw' -%}
+          {{ section.settings.image | image_url: width: 1600 | image_tag: loading: 'lazy', sizes: sizes, widths: '480, 720, 960, 1200, 1600', alt: alt }}
+        {%- else -%}
+          {%- render 'blko-fallback-image', name: section.settings.fallback_image, sizes: '(min-width: 1024px) 50vw, 100vw' -%}
+        {%- endif -%}
+      </div>
+      <div class="blko-iwt__content blko-iwt__content--{{ section.settings.text_alignment }}">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'caption' -%}
+              <p class="blko-label blko-muted blko-iwt__caption" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</p>
+            {%- when 'heading' -%}
+              <h2 class="{{ block.settings.size }}" {{ block.shopify_attributes }}>{{ block.settings.heading }}</h2>
+            {%- when 'text' -%}
+              <div class="{{ block.settings.size }} blko-rte blko-pretty{% if block.settings.muted %} blko-muted{% endif %}" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+            {%- when 'button' -%}
+              {%- if block.settings.label != blank or block.settings.label_2 != blank -%}
+                <div class="blko-iwt__buttons" {{ block.shopify_attributes }}>
+                  {%- if block.settings.label != blank -%}
+                    <a class="blko-btn blko-btn--{{ block.settings.style }}"{% if block.settings.link != blank %} href="{{ block.settings.link }}"{% else %} role="link" aria-disabled="true"{% endif %}>{{ block.settings.label | escape }}</a>
+                  {%- endif -%}
+                  {%- if block.settings.label_2 != blank -%}
+                    <a class="blko-btn blko-btn--{{ block.settings.style_2 }}"{% if block.settings.link_2 != blank %} href="{{ block.settings.link_2 }}"{% else %} role="link" aria-disabled="true"{% endif %}>{{ block.settings.label_2 | escape }}</a>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-iwt__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  .blko-iwt__media { aspect-ratio: var(--blko-iwt-ratio, 1 / 1); }
+  .blko-iwt__content { display: grid; align-content: center; gap: 1.25rem; }
+  .blko-iwt__content--center { justify-items: center; text-align: center; }
+  .blko-iwt__caption { text-transform: uppercase; }
+  .blko-iwt__buttons { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: .5rem; }
+  .blko-iwt__content--center .blko-iwt__buttons { justify-content: center; }
+  .blko-iwt--panel .blko-iwt__grid { gap: 0; }
+  .blko-iwt--panel .blko-iwt__content { padding: 2.5rem 1.5rem; background: var(--color-bg-alt, #e4e0cc); }
+  .blko-iwt--mobile-text-first .blko-iwt__content { order: -1; }
+  @media (min-width: 1024px) {
+    .blko-iwt__grid { grid-template-columns: minmax(0, var(--blko-iwt-media, 50%)) minmax(0, 1fr); gap: 4.5rem; }
+    .blko-iwt--image-right .blko-iwt__grid { grid-template-columns: minmax(0, 1fr) minmax(0, var(--blko-iwt-media, 50%)); }
+    .blko-iwt--image-right .blko-iwt__media { order: 2; }
+    .blko-iwt--mobile-text-first .blko-iwt__content { order: 0; }
+    .blko-iwt--image-left .blko-iwt__content { padding-right: 2rem; }
+    .blko-iwt--image-right .blko-iwt__content { padding-left: 2rem; }
+    .blko-iwt--align-top .blko-iwt__content { align-content: start; }
+    .blko-iwt--align-bottom .blko-iwt__content { align-content: end; }
+    .blko-iwt--panel .blko-iwt__grid { gap: 0; }
+    .blko-iwt--panel .blko-iwt__content { padding: 4rem 3.5rem; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Image with text",
+  "tag": "section",
+  "class": "blko-iwt-section",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Image" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    {
+      "type": "select", "id": "fallback_image", "label": "Placeholder", "default": "lifestyle-2", "info": "Shown until you pick an image.",
+      "options": [
+        { "value": "lifestyle-1", "label": "Lifestyle 1" },
+        { "value": "lifestyle-2", "label": "Lifestyle 2" },
+        { "value": "image", "label": "Image" },
+        { "value": "product-1", "label": "Product 1" },
+        { "value": "product-2", "label": "Product 2" },
+        { "value": "product-3", "label": "Product 3" },
+        { "value": "product-4", "label": "Product 4" },
+        { "value": "product-5", "label": "Product 5" },
+        { "value": "product-6", "label": "Product 6" },
+        { "value": "collection-1", "label": "Collection 1" },
+        { "value": "collection-2", "label": "Collection 2" },
+        { "value": "collection-3", "label": "Collection 3" },
+        { "value": "collection-4", "label": "Collection 4" },
+        { "value": "collection-5", "label": "Collection 5" },
+        { "value": "collection-6", "label": "Collection 6" }
+      ]
+    },
+    {
+      "type": "select", "id": "image_ratio", "label": "Image ratio", "default": "square",
+      "options": [
+        { "value": "square", "label": "Square" },
+        { "value": "portrait", "label": "Portrait" },
+        { "value": "landscape", "label": "Landscape" },
+        { "value": "adapt", "label": "Adapt to image" }
+      ]
+    },
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select", "id": "image_position", "label": "Image position on desktop", "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "select", "id": "image_width", "label": "Image width on desktop", "default": "50",
+      "options": [
+        { "value": "40", "label": "Small" },
+        { "value": "50", "label": "Half" },
+        { "value": "60", "label": "Large" }
+      ]
+    },
+    {
+      "type": "select", "id": "vertical_alignment", "label": "Text vertical position", "default": "center",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Middle" },
+        { "value": "bottom", "label": "Bottom" }
+      ]
+    },
+    {
+      "type": "select", "id": "text_alignment", "label": "Text alignment", "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ]
+    },
+    { "type": "checkbox", "id": "content_panel", "label": "Put text on a panel", "default": false, "info": "Uses the color scheme's alternate background." },
+    { "type": "checkbox", "id": "mobile_text_first", "label": "Show text first on mobile", "default": false }
+  ],
+  "blocks": [
+    {
+      "type": "caption",
+      "name": "Caption",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Our story" }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Made slowly, <em>in small batches</em>" },
+        {
+          "type": "select", "id": "size", "label": "Size", "default": "blko-h2",
+          "options": [
+            { "value": "blko-h3", "label": "Small" },
+            { "value": "blko-h2", "label": "Medium" },
+            { "value": "blko-h1", "label": "Large" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Every oil is cold-pressed and bottled within the week, so what reaches your skin is as fresh as the day it was made.</p>" },
+        {
+          "type": "select", "id": "size", "label": "Size", "default": "blko-body-lg",
+          "options": [
+            { "value": "blko-small", "label": "Small" },
+            { "value": "blko-body", "label": "Medium" },
+            { "value": "blko-body-lg", "label": "Large" }
+          ]
+        },
+        { "type": "checkbox", "id": "muted", "label": "Muted colour", "default": true }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Buttons",
+      "settings": [
+        { "type": "text", "id": "label", "label": "First button label", "default": "Read our story", "info": "Leave blank to hide." },
+        { "type": "url", "id": "link", "label": "First button link" },
+        {
+          "type": "select", "id": "style", "label": "First button style", "default": "primary",
+          "options": [
+            { "value": "primary", "label": "Solid" },
+            { "value": "outline", "label": "Outline" }
+          ]
+        },
+        { "type": "text", "id": "label_2", "label": "Second button label", "info": "Leave blank to hide." },
+        { "type": "url", "id": "link_2", "label": "Second button link" },
+        {
+          "type": "select", "id": "style_2", "label": "Second button style", "default": "outline",
+          "options": [
+            { "value": "primary", "label": "Solid" },
+            { "value": "outline", "label": "Outline" }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image with text",
+      "blocks": [
+        { "type": "heading" },
+        { "type": "text" },
+        { "type": "button" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "blko-main-addresses",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "heading": "Your addresses",
+        "layout": "center"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

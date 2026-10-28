@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "main": { "type": "blko-main-page", "settings": {} },
+    "contact": {
+      "type": "blko-contact-form",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 80,
+        "heading": "Write to <em>us</em>",
+        "text": "<p>Questions about a formula, an order or your routine? We answer every message within one working day.</p>",
+        "details": "<p><strong>Email</strong><br>hello@example.com</p><p><strong>Hours</strong><br>Monday to Friday, 9 am to 5 pm</p>",
+        "show_phone": true,
+        "show_company": false,
+        "button_label": "Send message",
+        "note": "We reply within one working day.",
+        "success_message": "Thanks for writing. We’ll get back to you within one working day."
+      }
+    }
+  },
+  "order": ["main", "contact"]
+}

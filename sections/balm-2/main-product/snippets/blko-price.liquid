@@ -1,0 +1,32 @@
+{%- comment -%}
+  Price for a product or a variant.
+  Accepts:
+  - product: {Object} product (uses price_min and "From" when prices vary)
+  - variant: {Object} optional; when given, its price is shown
+  - size: {String} 'lg' for the product page
+{%- endcomment -%}
+{%- liquid
+  if variant != blank
+    assign price = variant.price
+    assign compare = variant.compare_at_price
+    assign varies = false
+  else
+    assign price = product.price
+    assign compare = product.compare_at_price
+    assign varies = product.price_varies
+  endif
+  assign on_sale = false
+  if compare > price
+    assign on_sale = true
+  endif
+-%}
+<span class="blko-price{% if size == 'lg' %} blko-price--lg{% endif %}">
+  {%- if on_sale -%}
+    <span class="blko-visually-hidden">{{ 'blko.products.sale_price' | t }}</span>
+    <span class="blko-price__sale">{% if varies %}{{ 'blko.products.from' | t: price: price | money }}{% else %}{{ price | money }}{% endif %}</span>
+    <span class="blko-visually-hidden">{{ 'blko.products.regular_price' | t }}</span>
+    <s class="blko-price__compare">{{ compare | money }}</s>
+  {%- else -%}
+    <span>{% if varies %}{{ 'blko.products.from' | t: price: price | money }}{% else %}{{ price | money }}{% endif %}</span>
+  {%- endif -%}
+</span>

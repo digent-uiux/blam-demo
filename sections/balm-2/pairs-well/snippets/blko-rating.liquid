@@ -1,0 +1,35 @@
+{%- comment -%}
+  Star rating with Lucide stars (filled, no stroke), as the DS Rating: a muted row of five with the on row clipped to
+  the value on top. No images, no JS.
+  Accepts:
+  - value: {Number} 0–5
+  - count: {Number} optional review count
+  - size: {String} 'xs' (12px, cards), 'md' (16px); default 14px
+  - show_value: {Boolean} print the number next to the stars (default true)
+{%- endcomment -%}
+{%- liquid
+  assign v = value | default: 0 | times: 1.0
+  assign pct = v | divided_by: 5.0 | times: 100 | round: 1
+  assign show_value = show_value | default: true, allow_false: true
+  case size
+    when 'xs'
+      assign star = 12
+    when 'md'
+      assign star = 16
+    else
+      assign star = 14
+  endcase
+-%}
+<span class="blko-rating{% if size == 'xs' %} blko-rating--xs{% endif %}">
+  <span class="blko-rating__stars" style="--pct: {{ pct }}%" aria-hidden="true">
+    <span class="blko-rating__row">
+      {%- for i in (1..5) -%}{%- render 'blko-icon', name: 'star', size: star, stroke: 0 -%}{%- endfor -%}
+    </span>
+    <span class="blko-rating__row blko-rating__row--on">
+      {%- for i in (1..5) -%}{%- render 'blko-icon', name: 'star', size: star, stroke: 0 -%}{%- endfor -%}
+    </span>
+  </span>
+  <span class="blko-visually-hidden">{{ 'blko.products.rating' | t: value: v, max: 5 }}</span>
+  {%- if show_value -%}<span aria-hidden="true">{{ v | round: 1 }}</span>{%- endif -%}
+  {%- if count != blank -%}<span class="blko-rating__count">({{ count }})</span>{%- endif -%}
+</span>

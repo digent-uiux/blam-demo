@@ -1,0 +1,15 @@
+{
+  "sections": {
+    "main": {
+      "type": "blko-main-page",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "show_title": true,
+        "width": "narrow"
+      }
+    }
+  },
+  "order": ["main"]
+}

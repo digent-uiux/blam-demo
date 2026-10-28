@@ -1,0 +1,30 @@
+{
+  "sections": {
+    "banner": {
+      "type": "blko-collection-banner",
+      "settings": {
+        "show_description": true,
+        "link_label": "Shop the range"
+      }
+    },
+    "main": {
+      "type": "blko-main-collection",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "show_banner": false,
+        "per_page": 12,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "filter_type": "top",
+        "show_sort": true,
+        "show_count": true,
+        "card_ratio": "theme",
+        "show_rating": true,
+        "quick_add": false
+      }
+    }
+  },
+  "order": ["banner", "main"]
+}

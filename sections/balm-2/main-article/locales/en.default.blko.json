@@ -1,0 +1,35 @@
+{
+  "blko": {
+    "blog": {
+      "comments_count": {
+        "one": "{{ count }} comment",
+        "other": "{{ count }} comments",
+        "zero": "No comments yet"
+      },
+      "leave_comment": "Leave a comment",
+      "message": "Comment",
+      "moderated": "Thanks. Your comment will appear once it has been approved.",
+      "moderated_note": "Comments are approved before they appear.",
+      "name": "Name",
+      "post": "Post comment",
+      "posted": "Your comment was posted.",
+      "tags": "Filter by topic"
+    },
+    "customer": {
+      "email": "Email"
+    },
+    "general": {
+      "next": "Next",
+      "page": "Page {{ page }}",
+      "pagination": "Pagination",
+      "previous": "Previous"
+    },
+    "share": {
+      "email": "Share by email",
+      "facebook": "Share on Facebook",
+      "label": "Share",
+      "pinterest": "Pin on Pinterest",
+      "x": "Share on X"
+    }
+  }
+}

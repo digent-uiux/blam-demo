@@ -1,0 +1,16 @@
+{
+  "blko": {
+    "collections": {
+      "count": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} products"
+      }
+    },
+    "demo": {
+      "collection_1": "Serums",
+      "collection_2": "Cleansers",
+      "collection_3": "Moisturisers",
+      "collection_4": "Body care"
+    }
+  }
+}

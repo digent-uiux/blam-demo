@@ -1,0 +1,23 @@
+{
+  "blko": {
+    "blog": {
+      "all": "All",
+      "empty": "No posts yet.",
+      "tags": "Filter by topic"
+    },
+    "demo": {
+      "article_1_excerpt": "",
+      "article_1_title": "How to layer a cream over an oil",
+      "article_2_excerpt": "",
+      "article_2_title": "A slower evening routine in four steps",
+      "article_3_excerpt": "",
+      "article_3_title": "What cold-pressed really means"
+    },
+    "general": {
+      "next": "Next",
+      "page": "Page {{ page }}",
+      "pagination": "Pagination",
+      "previous": "Previous"
+    }
+  }
+}

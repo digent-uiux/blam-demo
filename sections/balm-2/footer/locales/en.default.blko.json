@@ -1,0 +1,25 @@
+{
+  "blko": {
+    "footer": {
+      "pay_1": "Card",
+      "pay_2": "Wallet",
+      "pay_3": "Pay later",
+      "pay_4": "Bank",
+      "pay_5": "Gift card",
+      "payment_methods": "Payment methods"
+    },
+    "newsletter": {
+      "email": "Email address",
+      "subscribe": "Subscribe",
+      "success": "Thanks for subscribing. Your first letter arrives on Sunday."
+    },
+    "social": {
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "pinterest": "Pinterest",
+      "tiktok": "TikTok",
+      "x": "X",
+      "youtube": "YouTube"
+    }
+  }
+}

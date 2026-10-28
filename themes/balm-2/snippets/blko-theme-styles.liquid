@@ -1,0 +1,74 @@
+{%- comment -%} Design tokens from theme settings. Every rule in blko-theme.css reads these with a fallback. {%- endcomment -%}
+{%- liquid
+  assign heading_font = settings.font_heading
+  assign body_font = settings.font_body
+  assign body_medium = body_font | font_modify: 'weight', '500'
+  assign body_bold = body_font | font_modify: 'weight', 'bold'
+  assign heading_italic = heading_font | font_modify: 'style', 'italic'
+  assign scale = settings.type_scale | default: 100 | divided_by: 100.0
+-%}
+<style>
+  {%- if settings.font_source == 'shopify' -%}
+  {{ heading_font | font_face: font_display: 'swap' }}
+  {{ heading_italic | font_face: font_display: 'swap' }}
+  {{ body_font | font_face: font_display: 'swap' }}
+  {{ body_medium | font_face: font_display: 'swap' }}
+  {{ body_bold | font_face: font_display: 'swap' }}
+  {%- endif -%}
+  {%- comment -%} One class per color scheme. Sections put color-<scheme id> on their root; .blko-scheme paints it. {%- endcomment -%}
+  {%- for scheme in settings.color_schemes -%}
+    {%- assign c = scheme.settings -%}
+  .color-{{ scheme.id }} {
+    --color-bg: {{ c.background }};
+    {%- if c.background_gradient != blank %}
+    --color-bg-gradient: {{ c.background_gradient }};
+    {%- else %}
+    --color-bg-gradient: initial;
+    {%- endif %}
+    --color-bg-alt: {{ c.background_alt }};
+    --color-text: {{ c.text }};
+    --color-text-muted: {{ c.text_muted }};
+    --color-border: {{ c.border }};
+    --color-accent: {{ c.accent }};
+    --color-button: {{ c.button }};
+    --color-button-text: {{ c.button_label }};
+    --color-button-hover: {{ c.button_hover }};
+  }
+  {%- endfor -%}
+  {%- liquid
+    assign soft = settings.color_schemes['scheme-2'].settings
+    assign olive = settings.color_schemes['scheme-4'].settings
+    assign dark = settings.color_schemes['scheme-5'].settings
+  -%}
+  .blko-theme {
+    --color-sale: {{ settings.color_sale }};
+    --color-input-bg: {{ settings.color_input_bg }};
+    --color-input-text: {{ settings.color_input_text }};
+    {%- comment -%} Band colours kept for older section CSS (fallback chains); new code uses color schemes. {%- endcomment %}
+    --color-soft-bg: {{ soft.background }};
+    --color-announcement-bg: {{ olive.background }};
+    --color-announcement-text: {{ olive.text }};
+    --color-dark-bg: {{ dark.background }};
+    --color-dark-text: {{ dark.text }};
+    --blko-page: {{ settings.page_width | default: 1280 }}px;
+    --blko-section-gap: {{ settings.section_spacing | default: 0 }}px;
+    --font-heading: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+    --font-heading-weight: {{ heading_font.weight }};
+    --font-body: {{ body_font.family }}, {{ body_font.fallback_families }};
+    --font-body-weight: {{ body_font.weight }};
+    --heading-italic: {% if settings.heading_italic %}italic{% else %}normal{% endif %};
+    --heading-case: {{ settings.heading_case | default: 'none' }};
+    --heading-tracking: {{ settings.heading_tracking | default: -2 | divided_by: 100.0 }}em;
+    --type-scale: {{ scale }};
+    --button-case: {{ settings.button_case }};
+    --button-tracking: {{ settings.button_tracking | divided_by: 100.0 }}em;
+    --button-weight: {{ settings.button_weight }};
+    --radius-button: {{ settings.radius_button }}px;
+    --radius-card: {{ settings.radius_card }}px;
+    --radius-image: {{ settings.radius_image }}px;
+    --radius-input: {{ settings.radius_input }}px;
+    --card-ratio: {{ settings.card_ratio }};
+    --logo-width: {{ settings.logo_width }}px;
+  }
+</style>
+{%- unless settings.font_source == 'shopify' -%}{%- render 'blko-theme-fonts' -%}{%- endunless -%}

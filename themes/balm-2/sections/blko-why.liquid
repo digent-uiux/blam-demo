@@ -1,0 +1,157 @@
+{%- comment -%} Band (Oat scheme by default): sticky intro (heading, lead, photo, button) on one side; numbered rows with an icon on the other. {%- endcomment -%}
+<div
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-why blko-why--intro-{{ section.settings.intro_position }}{% if section.settings.sticky_intro %} blko-why--sticky{% endif %}"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px;"
+>
+  <div class="blko-container blko-why__inner">
+    <div class="blko-why__intro">
+      <div class="blko-heading-row__text">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="blko-h2">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.lead != blank -%}
+          <p class="blko-body blko-muted blko-pretty">{{ section.settings.lead | escape }}</p>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.show_image -%}
+        <div class="blko-media blko-media--landscape blko-why__media">
+          {%- if section.settings.image != blank -%}
+            {{ section.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(min-width: 640px) 384px, 100vw', widths: '400, 600, 800' }}
+          {%- else -%}
+            {%- render 'blko-fallback-image', name: 'portrait' -%}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.button_label != blank -%}
+        <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="blko-why__arrow">
+          {{- section.settings.button_label | escape -}}
+          <span class="blko-why__arrow-icon">{% render 'blko-icon', name: 'arrow-up-right' %}</span>
+        </a>
+      {%- endif -%}
+    </div>
+    <ol class="blko-why__rows{% unless section.settings.show_numbers %} blko-why__rows--plain{% endunless %}" role="list">
+      {%- for block in section.blocks -%}
+        <li class="blko-why__row" {{ block.shopify_attributes }}>
+          {%- if section.settings.show_numbers -%}
+            <span class="blko-why__num" aria-hidden="true">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+          {%- endif -%}
+          <span class="blko-why__text">
+            <span class="blko-why__title">{{ block.settings.title | escape }}</span>
+            {%- if block.settings.text != blank -%}
+              <span class="blko-body blko-muted">{{ block.settings.text | escape }}</span>
+            {%- endif -%}
+          </span>
+          {%- if block.settings.icon != 'none' -%}
+            <span class="blko-why__icon">{% render 'blko-icon', name: block.settings.icon %}</span>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-why__inner { display: grid; grid-template-columns: minmax(0, 1fr); gap: 3rem; }
+  .blko-why__intro { display: grid; align-content: start; gap: 2rem; }
+  .blko-why__media { max-width: 24rem; }
+  .blko-why__arrow { justify-self: start; display: inline-flex; align-items: center; gap: .75rem; height: 48px; padding: .25rem .25rem .25rem 1.5rem; border-radius: 999px; background: var(--color-button, #262f29); color: var(--color-button-text, #f6f2ea); font-size: var(--blko-text-button); font-weight: var(--button-weight, 500); text-transform: var(--button-case, none); letter-spacing: var(--button-tracking, 0); text-decoration: none; transition: background-color .2s; }
+  .blko-why__arrow:hover { background: var(--color-button-hover, #3d4a41); }
+  .blko-why__arrow-icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; background: var(--color-button-text, #f6f2ea); color: var(--color-button, #262f29); transition: transform .2s; }
+  .blko-why__arrow-icon svg { width: 1rem; height: 1rem; }
+  .blko-why__arrow:hover .blko-why__arrow-icon { transform: rotate(45deg); }
+  .blko-why__rows { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--color-border, #d6d1c0); }
+  .blko-why__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .75rem 1.5rem; padding-block: 2rem; border-bottom: 1px solid var(--color-border, #d6d1c0); }
+  .blko-why__num { grid-column: 1 / -1; font-size: var(--blko-text-h1); line-height: 1; color: var(--color-text-muted, #59625b); font-variant-numeric: tabular-nums; transition: color .2s; }
+  .blko-why__row:hover .blko-why__num { color: var(--color-text, #262f29); }
+  .blko-why__text { display: grid; gap: .375rem; }
+  .blko-why__title { font-size: var(--blko-text-h3); line-height: 1.2; }
+  .blko-why__intro h2 em { font-style: var(--heading-italic, italic); }
+  .blko-why__icon { display: grid; place-items: center; width: 3rem; height: 3rem; border: 1px solid var(--color-border, #d6d1c0); border-radius: 999px; transition: border-color .2s; }
+  .blko-why__row:hover .blko-why__icon { border-color: var(--color-text, #262f29); }
+  @media (min-width: 576px) {
+    .blko-why__row { grid-template-columns: 6rem minmax(0, 1fr) auto; align-items: center; }
+    .blko-why__num { grid-column: auto; }
+  }
+  .blko-why__rows--plain .blko-why__row { grid-template-columns: minmax(0, 1fr) auto; }
+  @media (min-width: 1024px) {
+    .blko-why__inner { grid-template-columns: 5fr 7fr; gap: 5rem; }
+    .blko-why--intro-right .blko-why__inner { grid-template-columns: 7fr 5fr; }
+    .blko-why--intro-right .blko-why__intro { order: 2; }
+    .blko-why__intro { align-self: start; }
+    .blko-why--sticky .blko-why__intro { position: sticky; top: 2rem; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Why it works",
+  "tag": "section",
+  "class": "blko-why-section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-3" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Intro" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Why it's in every routine" },
+    { "type": "text", "id": "lead", "label": "Lead", "default": "Two years on one serum, so you don't need three." },
+    { "type": "checkbox", "id": "show_image", "label": "Show image", "default": true },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Shop the serum", "info": "Leave empty to hide." },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "intro_position",
+      "label": "Intro position on large screens",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    { "type": "checkbox", "id": "sticky_intro", "label": "Keep the intro in view while scrolling", "default": true },
+    { "type": "checkbox", "id": "show_numbers", "label": "Show row numbers", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "flask-conical", "label": "Flask" },
+            { "value": "droplets", "label": "Droplets" },
+            { "value": "sun", "label": "Sun" },
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "droplet", "label": "Droplet" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "check", "label": "Check" },
+            { "value": "return", "label": "Return" },
+            { "value": "none", "label": "None" }
+          ],
+          "default": "flask-conical"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "10% niacinamide, 1% zinc" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Enough to calm shine and visible pores, gentle enough for every day." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Why it works",
+      "blocks": [
+        { "type": "row", "settings": { "icon": "flask-conical", "title": "10% niacinamide, 1% zinc", "text": "Enough to calm shine and visible pores, gentle enough for every day." } },
+        { "type": "row", "settings": { "icon": "droplets", "title": "Water-light texture", "text": "Sinks in within a minute, no film under moisturiser or makeup." } },
+        { "type": "row", "settings": { "icon": "leaf", "title": "Fragrance free, vegan", "text": "No essential oils, no alcohol, nothing added for scent." } },
+        { "type": "row", "settings": { "icon": "sun", "title": "Morning and night", "text": "Safe with sunscreen, retinol and vitamin C." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

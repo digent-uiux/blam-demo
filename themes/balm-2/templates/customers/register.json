@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "blko-main-register",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "heading": "Create an account",
+        "layout": "center"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

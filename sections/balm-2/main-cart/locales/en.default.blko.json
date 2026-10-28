@@ -1,0 +1,49 @@
+{
+  "blko": {
+    "cart": {
+      "checkout": "Check out",
+      "decrease": "Decrease quantity for {{ title }}",
+      "have_account_html": "Have an account? <a href=\"{{ url }}\">Log in</a> to check out faster.",
+      "increase": "Increase quantity for {{ title }}",
+      "items": "Items in your bag",
+      "note": "Order note",
+      "product": "Product",
+      "quantity": "Quantity",
+      "quantity_for": "Quantity for {{ title }}",
+      "remove": "Remove",
+      "shipping_progress": "Progress towards free shipping",
+      "subtotal": "Subtotal",
+      "taxes_excluded": "Taxes and shipping calculated at checkout.",
+      "taxes_included": "Taxes included. Shipping calculated at checkout.",
+      "total": "Total",
+      "update": "Update bag"
+    },
+    "demo": {
+      "product_1": "Niacinamide daily serum",
+      "product_10": "Daily routine set",
+      "product_11": "Body butter set",
+      "product_12": "Evening serum set",
+      "product_2": "Lip balm duo",
+      "product_3": "Barrier repair cream",
+      "product_4": "Hyaluronic hydrating serum",
+      "product_5": "Rose water face mist",
+      "product_6": "Gel cleanser",
+      "product_7": "Rich night cream",
+      "product_8": "Squalane face oil",
+      "product_9": "Cleansing bar pair"
+    },
+    "products": {
+      "add_to_cart": "Add to bag",
+      "choose_options": "Choose options",
+      "from": "From {{ price }}",
+      "rating": "{{ value }} out of {{ max }} stars",
+      "regular_price": "Regular price",
+      "sale": "Sale",
+      "sale_price": "Sale price",
+      "sold_out": "Sold out"
+    },
+    "recommendations": {
+      "add": "Add"
+    }
+  }
+}

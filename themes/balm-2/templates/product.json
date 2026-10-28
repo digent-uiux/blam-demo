@@ -1,0 +1,207 @@
+{
+  "sections": {
+    "main": {
+      "type": "blko-main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "show_crumb": true,
+            "size": "medium"
+          }
+        },
+        "rating": {
+          "type": "rating",
+          "settings": {
+            "show_count": true,
+            "link_reviews": true
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_sale_badge": true,
+            "show_tax_note": false
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "use_excerpt": true,
+            "text_style": "muted"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "buttons"
+          }
+        },
+        "quantity": {
+          "type": "quantity",
+          "settings": {
+            "show_label": false
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "button_style": "outline",
+            "show_dynamic_checkout": true,
+            "show_note": true,
+            "note": ""
+          }
+        },
+        "details": {
+          "type": "description",
+          "settings": {
+            "heading": "Details",
+            "display": "collapsible",
+            "open": true
+          }
+        },
+        "how_to_use": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "How to use",
+            "icon": "none",
+            "content": "<p>Warm three drops in your palms and press into clean skin, morning or night. Follow with cream if you like.</p>",
+            "open": false
+          }
+        },
+        "ingredients": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Ingredients",
+            "icon": "none",
+            "content": "<p>Rosa canina seed oil, Hippophae rhamnoides fruit oil, tocopherol. 100% from plants, 92% organic.</p>",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "rating",
+        "price",
+        "text",
+        "variant_picker",
+        "quantity",
+        "buy_buttons",
+        "details",
+        "how_to_use",
+        "ingredients"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "media_width": "60",
+        "sticky_info": true,
+        "gallery_layout": "thumbs_left",
+        "media_ratio": "portrait",
+        "image_zoom": "lightbox"
+      }
+    },
+    "pairs": {
+      "type": "blko-pairs-well",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "heading": "Pairs well with",
+        "show_note": true,
+        "source": "auto",
+        "intent": "complementary",
+        "limit": 3,
+        "layout": "list",
+        "columns": "4"
+      }
+    },
+    "reviews": {
+      "type": "blko-product-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "author": "Hannah L.",
+            "rating": 5,
+            "date": "Oct 18, 2026",
+            "title": "Finally no tight skin",
+            "body": "Three drops at night and my cheeks stay soft until morning. It sinks in fast and smells of nothing."
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "author": "Priya S.",
+            "rating": 5,
+            "date": "Oct 2, 2026",
+            "title": "Calmed my redness",
+            "body": "I have reactive skin and this is the first oil that hasn’t made me break out."
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "author": "Marta K.",
+            "rating": 4,
+            "date": "Sep 21, 2026",
+            "title": "Lovely, a little rich for summer",
+            "body": "Perfect in the evening. In the heat I use one drop mixed into my cream."
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "author": "Joel A.",
+            "rating": 5,
+            "date": "Sep 9, 2026",
+            "title": "Worth the 30 ml",
+            "body": "Lasted me almost three months. The dropper gives exactly the amount you need."
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "author": "Inès R.",
+            "rating": 4,
+            "date": "Aug 30, 2026",
+            "title": "Good under make-up",
+            "body": "Wait five minutes after pressing it in and foundation sits smoothly on top."
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5"
+      ],
+      "settings": {
+        "heading": "Customer reviews",
+        "average": "4.8",
+        "count": 214,
+        "show_bars": true,
+        "bar_5": 176,
+        "bar_4": 28,
+        "bar_3": 6,
+        "bar_2": 3,
+        "bar_1": 1,
+        "button_label": "Write a review",
+        "show_builtin": true,
+        "visible_count": 3,
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "sticky_summary": true,
+        "show_score": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "pairs",
+    "reviews"
+  ]
+}

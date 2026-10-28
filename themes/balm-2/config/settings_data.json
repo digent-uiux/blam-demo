@@ -1,0 +1,437 @@
+{
+  "current": "Default",
+  "presets": {
+    "Default": {
+      "logo_width": 140,
+      "color_sale": "#9b0d33",
+      "color_input_bg": "#fffdf8",
+      "color_input_text": "#262f29",
+      "font_heading": "bodoni_moda_n5",
+      "heading_italic": true,
+      "font_body": "karla_n4",
+      "type_scale": 100,
+      "button_case": "none",
+      "button_tracking": 0,
+      "button_weight": "500",
+      "radius_button": 40,
+      "radius_card": 0,
+      "radius_image": 0,
+      "radius_input": 0,
+      "card_ratio": "4/5",
+      "card_show_rating": true,
+      "card_show_vendor": false,
+      "logo_text": "Balm & Co",
+      "color_schemes": {
+        "scheme-1": {
+          "settings": {
+            "background": "#f6f2ea",
+            "background_alt": "#e4e0cc",
+            "text": "#262f29",
+            "text_muted": "#59625b",
+            "border": "#d6d1c0",
+            "accent": "#666237",
+            "button": "#262f29",
+            "button_label": "#f6f2ea",
+            "button_hover": "#3d4a41"
+          }
+        },
+        "scheme-2": {
+          "settings": {
+            "background": "#efe5da",
+            "background_alt": "#e4d6c6",
+            "text": "#262f29",
+            "text_muted": "#59625b",
+            "border": "#dccfbf",
+            "accent": "#666237",
+            "button": "#262f29",
+            "button_label": "#efe5da",
+            "button_hover": "#3d4a41"
+          }
+        },
+        "scheme-3": {
+          "settings": {
+            "background": "#e4e0cc",
+            "background_alt": "#d6d1b8",
+            "text": "#262f29",
+            "text_muted": "#4f574f",
+            "border": "#cbc5ab",
+            "accent": "#666237",
+            "button": "#262f29",
+            "button_label": "#f6f2ea",
+            "button_hover": "#3d4a41"
+          }
+        },
+        "scheme-4": {
+          "settings": {
+            "background": "#666237",
+            "background_alt": "#57532e",
+            "text": "#f6f2ea",
+            "text_muted": "#e6e2cf",
+            "border": "#8a8660",
+            "accent": "#e9d6c4",
+            "button": "#f6f2ea",
+            "button_label": "#262f29",
+            "button_hover": "#e4e0cc"
+          }
+        },
+        "scheme-5": {
+          "settings": {
+            "background": "#43372d",
+            "background_alt": "#4f4236",
+            "text": "#f6f2ea",
+            "text_muted": "#d9cfc2",
+            "border": "#6a5c4f",
+            "accent": "#cfc9a1",
+            "button": "#f6f2ea",
+            "button_label": "#43372d",
+            "button_hover": "#e4e0cc"
+          }
+        },
+        "scheme-6": {
+          "settings": {
+            "background": "#ffffff",
+            "background_alt": "#f6f2ea",
+            "text": "#262f29",
+            "text_muted": "#59625b",
+            "border": "#e4e0d6",
+            "accent": "#666237",
+            "button": "#262f29",
+            "button_label": "#ffffff",
+            "button_hover": "#3d4a41"
+          }
+        }
+      },
+      "page_color_scheme": "scheme-1",
+      "page_width": 1280,
+      "section_spacing": 0,
+      "heading_case": "none",
+      "heading_tracking": -2,
+      "font_source": "theme",
+      "theme_font_pair": "default"
+    },
+    "Linen": {
+      "logo_width": 140,
+      "color_sale": "#a1162b",
+      "color_input_bg": "#ffffff",
+      "color_input_text": "#1f1f1d",
+      "font_heading": "cormorant_n5",
+      "heading_italic": true,
+      "font_body": "work_sans_n4",
+      "type_scale": 100,
+      "button_case": "none",
+      "button_tracking": 0,
+      "button_weight": "500",
+      "radius_button": 0,
+      "radius_card": 0,
+      "radius_image": 0,
+      "radius_input": 0,
+      "card_ratio": "4/5",
+      "card_show_rating": true,
+      "card_show_vendor": false,
+      "logo_text": "Balm & Co",
+      "color_schemes": {
+        "scheme-1": {
+          "settings": {
+            "background": "#fbfaf8",
+            "background_alt": "#efede8",
+            "text": "#1f1f1d",
+            "text_muted": "#5f5d58",
+            "border": "#dfdcd5",
+            "accent": "#6b5d4a",
+            "button": "#1f1f1d",
+            "button_label": "#fbfaf8",
+            "button_hover": "#3a3935"
+          }
+        },
+        "scheme-2": {
+          "settings": {
+            "background": "#f3f1ec",
+            "background_alt": "#e8e5de",
+            "text": "#1f1f1d",
+            "text_muted": "#5a5853",
+            "border": "#dcd8d0",
+            "accent": "#6b5d4a",
+            "button": "#1f1f1d",
+            "button_label": "#f3f1ec",
+            "button_hover": "#3a3935"
+          }
+        },
+        "scheme-3": {
+          "settings": {
+            "background": "#e3ddd2",
+            "background_alt": "#d9d2c5",
+            "text": "#1f1f1d",
+            "text_muted": "#4f4d48",
+            "border": "#cfc8bb",
+            "accent": "#6b5d4a",
+            "button": "#1f1f1d",
+            "button_label": "#fbfaf8",
+            "button_hover": "#3a3935"
+          }
+        },
+        "scheme-4": {
+          "settings": {
+            "background": "#6b5d4a",
+            "background_alt": "#5c4f3e",
+            "text": "#fbfaf8",
+            "text_muted": "#ece7df",
+            "border": "#8c7f6c",
+            "accent": "#e3ddd2",
+            "button": "#fbfaf8",
+            "button_label": "#1f1f1d",
+            "button_hover": "#efede8"
+          }
+        },
+        "scheme-5": {
+          "settings": {
+            "background": "#2b2a27",
+            "background_alt": "#363531",
+            "text": "#f1efea",
+            "text_muted": "#c9c6bf",
+            "border": "#4a4843",
+            "accent": "#d9d4cb",
+            "button": "#f1efea",
+            "button_label": "#2b2a27",
+            "button_hover": "#dfdcd5"
+          }
+        },
+        "scheme-6": {
+          "settings": {
+            "background": "#ffffff",
+            "background_alt": "#f6f5f2",
+            "text": "#1f1f1d",
+            "text_muted": "#5f5d58",
+            "border": "#e6e3dd",
+            "accent": "#6b5d4a",
+            "button": "#1f1f1d",
+            "button_label": "#ffffff",
+            "button_hover": "#3a3935"
+          }
+        }
+      },
+      "page_color_scheme": "scheme-1",
+      "page_width": 1280,
+      "section_spacing": 0,
+      "heading_case": "none",
+      "heading_tracking": -2,
+      "font_source": "theme",
+      "theme_font_pair": "linen"
+    },
+    "Noir": {
+      "logo_width": 140,
+      "color_sale": "#f0a09a",
+      "color_input_bg": "#25231f",
+      "color_input_text": "#efe9de",
+      "font_heading": "bodoni_moda_n5",
+      "heading_italic": true,
+      "font_body": "karla_n4",
+      "type_scale": 100,
+      "button_case": "none",
+      "button_tracking": 0,
+      "button_weight": "500",
+      "radius_button": 40,
+      "radius_card": 0,
+      "radius_image": 0,
+      "radius_input": 0,
+      "card_ratio": "4/5",
+      "card_show_rating": true,
+      "card_show_vendor": false,
+      "logo_text": "Balm & Co",
+      "color_schemes": {
+        "scheme-1": {
+          "settings": {
+            "background": "#1a1916",
+            "background_alt": "#25231f",
+            "text": "#efe9de",
+            "text_muted": "#b3ab9c",
+            "border": "#3b3832",
+            "accent": "#c9b98a",
+            "button": "#efe9de",
+            "button_label": "#1a1916",
+            "button_hover": "#d8cfbf"
+          }
+        },
+        "scheme-2": {
+          "settings": {
+            "background": "#211f1b",
+            "background_alt": "#2b2924",
+            "text": "#efe9de",
+            "text_muted": "#b3ab9c",
+            "border": "#3f3c35",
+            "accent": "#c9b98a",
+            "button": "#efe9de",
+            "button_label": "#211f1b",
+            "button_hover": "#d8cfbf"
+          }
+        },
+        "scheme-3": {
+          "settings": {
+            "background": "#25231f",
+            "background_alt": "#302d28",
+            "text": "#efe9de",
+            "text_muted": "#b8b0a1",
+            "border": "#45413a",
+            "accent": "#c9b98a",
+            "button": "#efe9de",
+            "button_label": "#1a1916",
+            "button_hover": "#d8cfbf"
+          }
+        },
+        "scheme-4": {
+          "settings": {
+            "background": "#c9b98a",
+            "background_alt": "#bba979",
+            "text": "#1a1916",
+            "text_muted": "#3a362c",
+            "border": "#a99a6e",
+            "accent": "#1a1916",
+            "button": "#1a1916",
+            "button_label": "#efe9de",
+            "button_hover": "#33302a"
+          }
+        },
+        "scheme-5": {
+          "settings": {
+            "background": "#100f0d",
+            "background_alt": "#1a1916",
+            "text": "#efe9de",
+            "text_muted": "#aaa293",
+            "border": "#2f2c27",
+            "accent": "#c9b98a",
+            "button": "#efe9de",
+            "button_label": "#100f0d",
+            "button_hover": "#d8cfbf"
+          }
+        },
+        "scheme-6": {
+          "settings": {
+            "background": "#efe9de",
+            "background_alt": "#e4ddcf",
+            "text": "#1a1916",
+            "text_muted": "#4f4a40",
+            "border": "#d6cebe",
+            "accent": "#6e5f36",
+            "button": "#1a1916",
+            "button_label": "#efe9de",
+            "button_hover": "#33302a"
+          }
+        }
+      },
+      "page_color_scheme": "scheme-1",
+      "page_width": 1280,
+      "section_spacing": 0,
+      "heading_case": "none",
+      "heading_tracking": -2,
+      "font_source": "theme",
+      "theme_font_pair": "noir"
+    },
+    "Rose": {
+      "logo_width": 140,
+      "color_sale": "#a3122e",
+      "color_input_bg": "#fffaf7",
+      "color_input_text": "#3a2420",
+      "font_heading": "fraunces_n4",
+      "heading_italic": true,
+      "font_body": "dm_sans_n4",
+      "type_scale": 100,
+      "button_case": "none",
+      "button_tracking": 0,
+      "button_weight": "500",
+      "radius_button": 40,
+      "radius_card": 8,
+      "radius_image": 8,
+      "radius_input": 6,
+      "card_ratio": "4/5",
+      "card_show_rating": true,
+      "card_show_vendor": false,
+      "logo_text": "Balm & Co",
+      "color_schemes": {
+        "scheme-1": {
+          "settings": {
+            "background": "#fbf4f0",
+            "background_alt": "#f2e2da",
+            "text": "#3a2420",
+            "text_muted": "#6e5049",
+            "border": "#e6d2c8",
+            "accent": "#9c4a3a",
+            "button": "#7a3b2e",
+            "button_label": "#ffffff",
+            "button_hover": "#5f2c22"
+          }
+        },
+        "scheme-2": {
+          "settings": {
+            "background": "#f7e9e2",
+            "background_alt": "#efdcd2",
+            "text": "#3a2420",
+            "text_muted": "#6a4c45",
+            "border": "#e3cdc2",
+            "accent": "#9c4a3a",
+            "button": "#7a3b2e",
+            "button_label": "#ffffff",
+            "button_hover": "#5f2c22"
+          }
+        },
+        "scheme-3": {
+          "settings": {
+            "background": "#f2e2da",
+            "background_alt": "#e8d2c7",
+            "text": "#3a2420",
+            "text_muted": "#654841",
+            "border": "#ddc5b9",
+            "accent": "#9c4a3a",
+            "button": "#7a3b2e",
+            "button_label": "#ffffff",
+            "button_hover": "#5f2c22"
+          }
+        },
+        "scheme-4": {
+          "settings": {
+            "background": "#7a3b2e",
+            "background_alt": "#6a3227",
+            "text": "#ffffff",
+            "text_muted": "#f3dcd5",
+            "border": "#9a5a4c",
+            "accent": "#f3d9c9",
+            "button": "#ffffff",
+            "button_label": "#7a3b2e",
+            "button_hover": "#f2e2da"
+          }
+        },
+        "scheme-5": {
+          "settings": {
+            "background": "#3a2420",
+            "background_alt": "#462d28",
+            "text": "#fbf4f0",
+            "text_muted": "#dcc6bf",
+            "border": "#5e433d",
+            "accent": "#e8c4b4",
+            "button": "#fbf4f0",
+            "button_label": "#3a2420",
+            "button_hover": "#f2e2da"
+          }
+        },
+        "scheme-6": {
+          "settings": {
+            "background": "#ffffff",
+            "background_alt": "#fbf4f0",
+            "text": "#3a2420",
+            "text_muted": "#6e5049",
+            "border": "#eadbd3",
+            "accent": "#9c4a3a",
+            "button": "#7a3b2e",
+            "button_label": "#ffffff",
+            "button_hover": "#5f2c22"
+          }
+        }
+      },
+      "page_color_scheme": "scheme-1",
+      "page_width": 1280,
+      "section_spacing": 0,
+      "heading_case": "none",
+      "heading_tracking": -2,
+      "font_source": "theme",
+      "theme_font_pair": "rose"
+    }
+  }
+}

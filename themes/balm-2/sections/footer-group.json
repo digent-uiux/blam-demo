@@ -1,0 +1,58 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "blko-footer",
+      "blocks": {
+        "menu-shop": {
+          "type": "menu",
+          "settings": {
+            "heading": "Shop",
+            "menu": "main-menu"
+          }
+        },
+        "menu-help": {
+          "type": "menu",
+          "settings": {
+            "heading": "Help",
+            "menu": "footer"
+          }
+        },
+        "menu-studio": {
+          "type": "menu",
+          "settings": {
+            "heading": "Studio",
+            "menu": "footer"
+          }
+        },
+        "newsletter": {
+          "type": "newsletter",
+          "settings": {
+            "heading": "Join our newsletter",
+            "text": "New formulas and routines, twice a month."
+          }
+        },
+        "brand": {
+          "type": "brand",
+          "settings": {
+            "text": "<p>Organic skincare, made in small batches.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "brand",
+        "menu-shop",
+        "menu-help",
+        "menu-studio",
+        "newsletter"
+      ],
+      "settings": {
+        "show_payment": true
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

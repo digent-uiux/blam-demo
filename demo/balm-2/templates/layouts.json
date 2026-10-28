@@ -1,0 +1,153 @@
+[
+  {
+    "page": "home",
+    "title": "Balm 2 \u2014 Home",
+    "sectionIds": [
+      "hero",
+      "featured-tabs",
+      "ingredients",
+      "image-banner",
+      "featured-collection",
+      "why",
+      "testimonial",
+      "blog-posts",
+      "newsletter"
+    ]
+  },
+  {
+    "page": "collection",
+    "title": "Shop",
+    "sectionIds": [
+      "collection-banner",
+      "main-collection"
+    ]
+  },
+  {
+    "page": "product",
+    "title": "Product",
+    "sectionIds": [
+      "main-product",
+      "pairs-well",
+      "product-reviews"
+    ]
+  },
+  {
+    "page": "product-alternate",
+    "title": "Product (alternate)",
+    "sectionIds": [
+      "main-product",
+      "pairs-well",
+      "product-reviews"
+    ]
+  },
+  {
+    "page": "cart",
+    "title": "Your bag",
+    "sectionIds": [
+      "main-cart"
+    ]
+  },
+  {
+    "page": "search",
+    "title": "Search",
+    "sectionIds": [
+      "main-search"
+    ]
+  },
+  {
+    "page": "blog",
+    "title": "Journal",
+    "sectionIds": [
+      "main-blog"
+    ]
+  },
+  {
+    "page": "article",
+    "title": "Article",
+    "sectionIds": [
+      "main-article"
+    ]
+  },
+  {
+    "page": "404",
+    "title": "Page not found",
+    "sectionIds": [
+      "main-404"
+    ]
+  },
+  {
+    "page": "about",
+    "title": "About",
+    "sectionIds": [
+      "main-page",
+      "image-with-text",
+      "multicolumn",
+      "rich-text"
+    ]
+  },
+  {
+    "page": "contact",
+    "title": "Contact",
+    "sectionIds": [
+      "main-page",
+      "contact-form"
+    ]
+  },
+  {
+    "page": "faq",
+    "title": "FAQ",
+    "sectionIds": [
+      "main-page",
+      "faq"
+    ]
+  },
+  {
+    "page": "account-login",
+    "title": "Sign in",
+    "sectionIds": [
+      "main-login"
+    ]
+  },
+  {
+    "page": "account-register",
+    "title": "Create account",
+    "sectionIds": [
+      "main-register"
+    ]
+  },
+  {
+    "page": "account-reset-password",
+    "title": "Reset password",
+    "sectionIds": [
+      "main-reset-password"
+    ]
+  },
+  {
+    "page": "account-activate",
+    "title": "Activate account",
+    "sectionIds": [
+      "main-activate-account"
+    ]
+  },
+  {
+    "page": "account",
+    "title": "Your account",
+    "sectionIds": [
+      "main-account"
+    ]
+  },
+  {
+    "page": "account-order",
+    "title": "Order details",
+    "sectionIds": [
+      "main-order"
+    ]
+  },
+  {
+    "page": "account-addresses",
+    "title": "Addresses",
+    "sectionIds": [
+      "main-addresses"
+    ]
+  }
+]

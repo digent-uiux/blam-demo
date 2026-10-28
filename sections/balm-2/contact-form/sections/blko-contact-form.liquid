@@ -1,0 +1,139 @@
+{%- comment -%} Contact form: heading + intro (and an optional details column) beside a real Shopify contact form. {%- endcomment -%}
+<div
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-contact{% if section.settings.details == blank %} blko-contact--single{% endif %}"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px;"
+>
+  <div class="blko-container blko-contact__grid">
+    <div class="blko-contact__intro">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="{{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="blko-body-lg blko-muted blko-pretty blko-rte">{{ section.settings.text }}</div>
+      {%- endif -%}
+      {%- if section.settings.details != blank -%}
+        <div class="blko-small blko-rte blko-contact__details">{{ section.settings.details }}</div>
+      {%- endif -%}
+    </div>
+    <div class="blko-contact__panel">
+      {%- assign form_id = 'BlkoContact-' | append: section.id -%}
+      {%- form 'contact', id: form_id, class: 'blko-contact__form' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="blko-contact__success" role="status" tabindex="-1" autofocus>
+            {%- render 'blko-icon', name: 'check' -%}
+            <span>{{ section.settings.success_message | escape }}</span>
+          </p>
+        {%- elsif form.errors -%}
+          <div class="blko-form-message blko-form-message--error" role="alert">
+            <p>{{ 'blko.contact.error' | t }}</p>
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+        <div class="blko-contact__row">
+          <div class="blko-contact__field">
+            <label class="blko-small blko-medium" for="BlkoContactName-{{ section.id }}">{{ 'blko.contact.name' | t }}</label>
+            <input class="blko-input" type="text" id="BlkoContactName-{{ section.id }}" name="contact[name]" autocomplete="name" value="{{ form.name | escape }}">
+          </div>
+          <div class="blko-contact__field">
+            <label class="blko-small blko-medium" for="BlkoContactEmail-{{ section.id }}">{{ 'blko.contact.email' | t }} <span aria-hidden="true">*</span></label>
+            <input
+              class="blko-input"
+              type="email"
+              id="BlkoContactEmail-{{ section.id }}"
+              name="contact[email]"
+              autocomplete="email"
+              spellcheck="false"
+              autocapitalize="off"
+              value="{{ form.email | escape }}"
+              required
+              {% if form.errors contains 'email' %}aria-invalid="true"{% endif %}
+            >
+          </div>
+        </div>
+        {%- if section.settings.show_phone or section.settings.show_company -%}
+          <div class="blko-contact__row">
+            {%- if section.settings.show_phone -%}
+              <div class="blko-contact__field">
+                <label class="blko-small blko-medium" for="BlkoContactPhone-{{ section.id }}">{{ 'blko.contact.phone' | t }}</label>
+                <input class="blko-input" type="tel" id="BlkoContactPhone-{{ section.id }}" name="contact[phone]" autocomplete="tel" value="{{ form.phone | escape }}">
+              </div>
+            {%- endif -%}
+            {%- if section.settings.show_company -%}
+              <div class="blko-contact__field">
+                <label class="blko-small blko-medium" for="BlkoContactCompany-{{ section.id }}">{{ 'blko.contact.company' | t }}</label>
+                <input class="blko-input" type="text" id="BlkoContactCompany-{{ section.id }}" name="contact[company]" autocomplete="organization" value="{{ form.company | escape }}">
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        <div class="blko-contact__field">
+          <label class="blko-small blko-medium" for="BlkoContactBody-{{ section.id }}">{{ 'blko.contact.message' | t }} <span aria-hidden="true">*</span></label>
+          <textarea class="blko-input blko-contact__textarea" id="BlkoContactBody-{{ section.id }}" name="contact[body]" rows="6" required>{{ form.body }}</textarea>
+        </div>
+        <div class="blko-contact__actions">
+          <button type="submit" class="blko-btn blko-btn--primary blko-btn--lg">{{ section.settings.button_label | escape }}</button>
+          {%- if section.settings.note != blank -%}
+            <p class="blko-small blko-muted">{{ section.settings.note | escape }}</p>
+          {%- endif -%}
+        </div>
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-contact__grid { display: grid; gap: 2.5rem; }
+  .blko-contact__intro { display: grid; align-content: start; gap: 1rem; max-width: 34rem; }
+  .blko-contact__details { margin-top: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border, #d6d1c0); }
+  .blko-contact__panel { padding: 1.75rem 1.25rem; background: var(--color-bg-alt, #e4e0cc); border-radius: var(--radius-card, 0); }
+  .blko-contact__form { display: grid; gap: 1.25rem; }
+  .blko-contact__row { display: grid; gap: 1.25rem; }
+  .blko-contact__field { display: grid; gap: .5rem; }
+  .blko-contact__textarea { min-height: 9rem; padding-block: .75rem; resize: vertical; }
+  .blko-contact__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; }
+  .blko-contact__success { display: flex; align-items: center; gap: .75rem; padding: 1rem 1.25rem; background: var(--color-bg, #f6f2ea); border-radius: var(--radius-card, 0); font-weight: 500; }
+  .blko-contact__success svg { width: 1.25rem; height: 1.25rem; flex-shrink: 0; color: var(--color-accent, #666237); }
+  .blko-contact .blko-form-message ul { margin: .25rem 0 0; padding-left: 1.25rem; }
+  .blko-contact--single .blko-contact__grid { max-width: 48rem; }
+  @media (min-width: 750px) {
+    .blko-contact__row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .blko-contact__panel { padding: 2.5rem; }
+  }
+  @media (min-width: 1024px) {
+    .blko-contact__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 4.5rem; }
+    .blko-contact--single .blko-contact__grid { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; margin-inline: auto; }
+    .blko-contact__panel { padding: 3rem; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Contact form",
+  "tag": "section",
+  "class": "blko-contact-section",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Content" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Write to <em>us</em>" },
+    {
+      "type": "select", "id": "heading_size", "label": "Heading size", "default": "blko-h2",
+      "options": [
+        { "value": "blko-h3", "label": "Small" },
+        { "value": "blko-h2", "label": "Medium" },
+        { "value": "blko-h1", "label": "Large" }
+      ]
+    },
+    { "type": "richtext", "id": "text", "label": "Intro", "default": "<p>Questions about a formula, an order or your routine? We answer every message within one working day.</p>" },
+    { "type": "richtext", "id": "details", "label": "Contact details", "default": "<p><strong>Email</strong><br>hello@example.com</p><p><strong>Hours</strong><br>Monday to Friday, 9 am to 5 pm</p>", "info": "Shown under the intro. Leave blank for a single centred column." },
+    { "type": "header", "content": "Form" },
+    { "type": "checkbox", "id": "show_phone", "label": "Show phone field", "default": true },
+    { "type": "checkbox", "id": "show_company", "label": "Show company field", "default": false },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Send message" },
+    { "type": "text", "id": "note", "label": "Note beside the button", "default": "We reply within one working day." },
+    { "type": "text", "id": "success_message", "label": "Success message", "default": "Thanks for writing. We’ll get back to you within one working day." }
+  ],
+  "presets": [{ "name": "Contact form" }]
+}
+{% endschema %}

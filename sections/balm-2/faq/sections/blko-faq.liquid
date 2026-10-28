@@ -1,0 +1,112 @@
+{%- comment -%} FAQ: heading + intro beside (or above) hairline collapsible rows. Each row is a block; no JS (native details). {%- endcomment -%}
+<div
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-faq blko-faq--{{ section.settings.layout }}"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px;"
+>
+  <div class="blko-container blko-faq__grid">
+    {%- if section.settings.heading != blank or section.settings.text != blank or section.settings.link_label != blank -%}
+      <div class="blko-faq__intro">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="{{ section.settings.heading_size }}">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="blko-body blko-muted blko-pretty blko-rte">{{ section.settings.text }}</div>
+        {%- endif -%}
+        {%- if section.settings.link_label != blank -%}
+          <a class="blko-btn blko-btn--{{ section.settings.button_style }} blko-faq__btn"{% if section.settings.link_url != blank %} href="{{ section.settings.link_url }}"{% else %} role="link" aria-disabled="true"{% endif %}>{{ section.settings.link_label | escape }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="blko-faq__rows blko-divided--edges">
+      {%- for block in section.blocks -%}
+        <details class="blko-details blko-faq__row"{% if section.settings.open_first and forloop.first %} open{% endif %} {{ block.shopify_attributes }}>
+          <summary class="blko-faq__question">{{ block.settings.question | escape }}{%- render 'blko-icon', name: 'plus', size: 16 -%}</summary>
+          <div class="blko-details__body blko-rte blko-faq__answer">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-faq__grid { display: grid; gap: 2rem; }
+  .blko-faq__intro { display: grid; align-content: start; gap: 1rem; max-width: 36rem; }
+  .blko-faq__btn { justify-self: start; margin-top: .5rem; }
+  .blko-faq__rows { border-bottom: 0; }
+  .blko-faq__row:last-child { border-bottom: 1px solid var(--color-border, #d6d1c0); }
+  .blko-faq__question { padding-block: 1.25rem; font-size: var(--blko-text-body-lg); }
+  .blko-faq__answer { max-width: 60ch; padding-bottom: 1.5rem; font-size: var(--blko-text-body); }
+  .blko-faq--stacked .blko-faq__grid { max-width: 52rem; }
+  .blko-faq--centered .blko-faq__grid { max-width: 52rem; }
+  .blko-faq--centered .blko-faq__intro { margin-inline: auto; justify-items: center; text-align: center; }
+  .blko-faq--centered .blko-faq__btn { justify-self: center; }
+  @media (min-width: 1024px) {
+    .blko-faq--split .blko-faq__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 4.5rem; }
+    .blko-faq--split .blko-faq__intro { position: sticky; top: 6rem; }
+    .blko-faq--stacked .blko-faq__grid, .blko-faq--centered .blko-faq__grid { gap: 3rem; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "FAQ",
+  "tag": "section",
+  "class": "blko-faq-section",
+  "max_blocks": 30,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Content" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Questions, <em>answered</em>" },
+    {
+      "type": "select", "id": "heading_size", "label": "Heading size", "default": "blko-h2",
+      "options": [
+        { "value": "blko-h3", "label": "Small" },
+        { "value": "blko-h2", "label": "Medium" },
+        { "value": "blko-h1", "label": "Large" }
+      ]
+    },
+    { "type": "richtext", "id": "text", "label": "Intro", "default": "<p>Short answers about our formulas, shipping and returns.</p>" },
+    { "type": "text", "id": "link_label", "label": "Button label", "info": "Leave blank to hide." },
+    { "type": "url", "id": "link_url", "label": "Button link" },
+    {
+      "type": "select", "id": "button_style", "label": "Button style", "default": "outline",
+      "options": [
+        { "value": "primary", "label": "Solid" },
+        { "value": "outline", "label": "Outline" }
+      ]
+    },
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select", "id": "layout", "label": "Layout", "default": "split",
+      "options": [
+        { "value": "split", "label": "Heading beside questions" },
+        { "value": "stacked", "label": "Heading above questions" },
+        { "value": "centered", "label": "Centered heading above" }
+      ]
+    },
+    { "type": "checkbox", "id": "open_first", "label": "Open the first question", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Is it suitable for sensitive skin?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Yes. Every formula is fragrance free and patch-tested on sensitive skin before it reaches the shop.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        { "type": "question", "settings": { "question": "Is it suitable for sensitive skin?", "answer": "<p>Yes. Every formula is fragrance free and patch-tested on sensitive skin before it reaches the shop.</p>" } },
+        { "type": "question", "settings": { "question": "How long does a bottle last?", "answer": "<p>Used morning and night, a 30 ml bottle lasts about two months.</p>" } },
+        { "type": "question", "settings": { "question": "Can I return an opened product?", "answer": "<p>Yes, within 30 days. If it does not suit your skin, we refund it, opened or not.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

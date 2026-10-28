@@ -6279,6 +6279,2088 @@
       ]
     },
     {
+      "id": "balm-2",
+      "path": "themes/balm-2",
+      "shopify": true,
+      "demo": "demo/balm-2",
+      "sections": [
+        {
+          "id": "announcement",
+          "name": "Announcement bar",
+          "kind": "section",
+          "category": "announcement",
+          "description": "Slim announcement bar with an optional code, link and dismiss button.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/announcement--announcement.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/announcement--announcement.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Announcement bar\" (id `announcement`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/announcement--announcement.html; Shopify bundle: sections/balm-2/announcement/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/announcement",
+          "files": [
+            "sections/balm-2/announcement/sections/blko-announcement.liquid",
+            "sections/balm-2/announcement/snippets/blko-icon.liquid",
+            "sections/balm-2/announcement/assets/blko-announcement.js",
+            "sections/balm-2/announcement/locales/en.default.blko.json"
+          ],
+          "deps": [
+            "blko-announcement.js"
+          ],
+          "localeKeys": [
+            "blko.announcement.dismiss",
+            "blko.announcement.label"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "apps",
+          "name": "Apps",
+          "kind": "section",
+          "category": "content",
+          "description": "Container for app blocks, styled to sit with the theme sections.",
+          "targets": {
+            "html": "gap: no HTML demo for this Liquid section",
+            "shopify": "ok"
+          },
+          "demo": null,
+          "demoUrl": null,
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Apps\" (id `apps`, theme `balm-2`; Shopify bundle: sections/balm-2/apps/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/apps",
+          "files": [
+            "sections/balm-2/apps/sections/blko-apps.liquid"
+          ],
+          "deps": [],
+          "localeKeys": [],
+          "themeSettings": [],
+          "blockTypes": [
+            "@app"
+          ]
+        },
+        {
+          "id": "blog-posts",
+          "name": "Blog posts",
+          "kind": "section",
+          "category": "featured-blog-posts",
+          "description": "Latest journal posts in a card row with a view-all link.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/featured-blog-posts--blog-posts.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/featured-blog-posts--blog-posts.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Blog posts\" (id `blog-posts`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/featured-blog-posts--blog-posts.html; Shopify bundle: sections/balm-2/blog-posts/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/blog-posts",
+          "files": [
+            "sections/balm-2/blog-posts/sections/blko-blog-posts.liquid",
+            "sections/balm-2/blog-posts/snippets/blko-demo-article.liquid",
+            "sections/balm-2/blog-posts/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/blog-posts/snippets/blko-icon.liquid",
+            "sections/balm-2/blog-posts/locales/en.default.blko.json"
+          ],
+          "deps": [],
+          "localeKeys": [
+            "blko.demo.article_1_excerpt",
+            "blko.demo.article_1_title",
+            "blko.demo.article_2_excerpt",
+            "blko.demo.article_2_title",
+            "blko.demo.article_3_excerpt",
+            "blko.demo.article_3_title"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "collection-banner",
+          "name": "Collection banner",
+          "kind": "section",
+          "category": "collection-banner",
+          "description": "Collection title band with description and image.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/collection-banner--collection-banner.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/collection-banner--collection-banner.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Collection banner\" (id `collection-banner`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/collection-banner--collection-banner.html; Shopify bundle: sections/balm-2/collection-banner/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/collection-banner",
+          "files": [
+            "sections/balm-2/collection-banner/sections/blko-collection-banner.liquid",
+            "sections/balm-2/collection-banner/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/collection-banner/snippets/blko-icon.liquid",
+            "sections/balm-2/collection-banner/locales/en.default.blko.json"
+          ],
+          "deps": [],
+          "localeKeys": [
+            "blko.collection.product_count"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "collection-list",
+          "name": "Collection list",
+          "kind": "section",
+          "category": "collection-list",
+          "description": "Grid of collection tiles with a heading and view-all link.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/collection-list--collection-list.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/collection-list--collection-list.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Collection list\" (id `collection-list`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/collection-list--collection-list.html; Shopify bundle: sections/balm-2/collection-list/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/collection-list",
+          "files": [
+            "sections/balm-2/collection-list/sections/blko-collection-list.liquid",
+            "sections/balm-2/collection-list/snippets/blko-demo-tile.liquid",
+            "sections/balm-2/collection-list/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/collection-list/snippets/blko-icon.liquid",
+            "sections/balm-2/collection-list/locales/en.default.blko.json"
+          ],
+          "deps": [],
+          "localeKeys": [
+            "blko.collections.count",
+            "blko.demo.collection_1",
+            "blko.demo.collection_2",
+            "blko.demo.collection_3",
+            "blko.demo.collection_4"
+          ],
+          "themeSettings": [],
+          "blockTypes": [
+            "collection"
+          ]
+        },
+        {
+          "id": "contact-form",
+          "name": "Contact form",
+          "kind": "section",
+          "category": "contact",
+          "description": "Contact form beside store details and an optional phone field.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/contact--contact-form.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/contact--contact-form.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Contact form\" (id `contact-form`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/contact--contact-form.html; Shopify bundle: sections/balm-2/contact-form/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/contact-form",
+          "files": [
+            "sections/balm-2/contact-form/sections/blko-contact-form.liquid",
+            "sections/balm-2/contact-form/snippets/blko-icon.liquid",
+            "sections/balm-2/contact-form/locales/en.default.blko.json"
+          ],
+          "deps": [],
+          "localeKeys": [
+            "blko.contact.company",
+            "blko.contact.email",
+            "blko.contact.error",
+            "blko.contact.message",
+            "blko.contact.name",
+            "blko.contact.phone"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "custom-liquid",
+          "name": "Custom Liquid",
+          "kind": "section",
+          "category": "content",
+          "description": "Free-form Liquid or HTML inside the theme spacing and colour scheme.",
+          "targets": {
+            "html": "gap: no HTML demo for this Liquid section",
+            "shopify": "ok"
+          },
+          "demo": null,
+          "demoUrl": null,
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Custom Liquid\" (id `custom-liquid`, theme `balm-2`; Shopify bundle: sections/balm-2/custom-liquid/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/custom-liquid",
+          "files": [
+            "sections/balm-2/custom-liquid/sections/blko-custom-liquid.liquid"
+          ],
+          "deps": [],
+          "localeKeys": [],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "faq",
+          "name": "FAQ",
+          "kind": "section",
+          "category": "faq",
+          "description": "Question and answer accordion with a heading and help link.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/faq--faq.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/faq--faq.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"FAQ\" (id `faq`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/faq--faq.html; Shopify bundle: sections/balm-2/faq/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/faq",
+          "files": [
+            "sections/balm-2/faq/sections/blko-faq.liquid",
+            "sections/balm-2/faq/snippets/blko-icon.liquid"
+          ],
+          "deps": [],
+          "localeKeys": [],
+          "themeSettings": [],
+          "blockTypes": [
+            "question"
+          ]
+        },
+        {
+          "id": "featured-collection",
+          "name": "Featured collection",
+          "kind": "section",
+          "category": "featured-collection",
+          "description": "Product row from one collection with quick add.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/featured-collection--featured-collection.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/featured-collection--featured-collection.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Featured collection\" (id `featured-collection`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/featured-collection--featured-collection.html; Shopify bundle: sections/balm-2/featured-collection/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/featured-collection",
+          "files": [
+            "sections/balm-2/featured-collection/sections/blko-featured-collection.liquid",
+            "sections/balm-2/featured-collection/snippets/blko-demo-card.liquid",
+            "sections/balm-2/featured-collection/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/featured-collection/snippets/blko-icon.liquid",
+            "sections/balm-2/featured-collection/snippets/blko-price.liquid",
+            "sections/balm-2/featured-collection/snippets/blko-product-card.liquid",
+            "sections/balm-2/featured-collection/snippets/blko-rating.liquid",
+            "sections/balm-2/featured-collection/locales/en.default.blko.json"
+          ],
+          "deps": [],
+          "localeKeys": [
+            "blko.demo.product_1",
+            "blko.demo.product_10",
+            "blko.demo.product_11",
+            "blko.demo.product_12",
+            "blko.demo.product_2",
+            "blko.demo.product_3",
+            "blko.demo.product_4",
+            "blko.demo.product_5",
+            "blko.demo.product_6",
+            "blko.demo.product_7",
+            "blko.demo.product_8",
+            "blko.demo.product_9",
+            "blko.products.add_to_cart",
+            "blko.products.choose_options",
+            "blko.products.from",
+            "blko.products.rating",
+            "blko.products.regular_price",
+            "blko.products.sale",
+            "blko.products.sale_price",
+            "blko.products.sold_out",
+            "blko.recommendations.add"
+          ],
+          "themeSettings": [
+            "card_show_rating",
+            "card_show_vendor"
+          ],
+          "blockTypes": [
+            "@app"
+          ]
+        },
+        {
+          "id": "featured-tabs",
+          "name": "Featured tabs",
+          "kind": "section",
+          "category": "featured-collection",
+          "description": "Product grid with tabs that switch between collections.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/featured-collection--featured-tabs.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/featured-collection--featured-tabs.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Featured tabs\" (id `featured-tabs`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/featured-collection--featured-tabs.html; Shopify bundle: sections/balm-2/featured-tabs/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/featured-tabs",
+          "files": [
+            "sections/balm-2/featured-tabs/sections/blko-featured-tabs.liquid",
+            "sections/balm-2/featured-tabs/snippets/blko-demo-card.liquid",
+            "sections/balm-2/featured-tabs/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/featured-tabs/snippets/blko-icon.liquid",
+            "sections/balm-2/featured-tabs/snippets/blko-price.liquid",
+            "sections/balm-2/featured-tabs/snippets/blko-product-card.liquid",
+            "sections/balm-2/featured-tabs/snippets/blko-rating.liquid",
+            "sections/balm-2/featured-tabs/assets/blko-tabs.js",
+            "sections/balm-2/featured-tabs/locales/en.default.blko.json"
+          ],
+          "deps": [
+            "blko-tabs.js"
+          ],
+          "localeKeys": [
+            "blko.demo.product_1",
+            "blko.demo.product_10",
+            "blko.demo.product_11",
+            "blko.demo.product_12",
+            "blko.demo.product_2",
+            "blko.demo.product_3",
+            "blko.demo.product_4",
+            "blko.demo.product_5",
+            "blko.demo.product_6",
+            "blko.demo.product_7",
+            "blko.demo.product_8",
+            "blko.demo.product_9",
+            "blko.products.add_to_cart",
+            "blko.products.choose_options",
+            "blko.products.from",
+            "blko.products.rating",
+            "blko.products.regular_price",
+            "blko.products.sale",
+            "blko.products.sale_price",
+            "blko.products.sold_out",
+            "blko.recommendations.add"
+          ],
+          "themeSettings": [
+            "card_show_rating",
+            "card_show_vendor"
+          ],
+          "blockTypes": [
+            "tab",
+            "@app"
+          ]
+        },
+        {
+          "id": "footer",
+          "name": "Footer",
+          "kind": "section",
+          "category": "footer",
+          "description": "Footer with brand, menus, newsletter, social links and payment marks.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/footer--footer.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/footer--footer.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Footer\" (id `footer`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/footer--footer.html; Shopify bundle: sections/balm-2/footer/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/footer",
+          "files": [
+            "sections/balm-2/footer/sections/blko-footer.liquid",
+            "sections/balm-2/footer/snippets/blko-icon.liquid",
+            "sections/balm-2/footer/snippets/blko-payment-marks.liquid",
+            "sections/balm-2/footer/snippets/blko-social-icons.liquid",
+            "sections/balm-2/footer/locales/en.default.blko.json"
+          ],
+          "deps": [],
+          "localeKeys": [
+            "blko.footer.pay_1",
+            "blko.footer.pay_2",
+            "blko.footer.pay_3",
+            "blko.footer.pay_4",
+            "blko.footer.pay_5",
+            "blko.footer.payment_methods",
+            "blko.newsletter.email",
+            "blko.newsletter.subscribe",
+            "blko.newsletter.success",
+            "blko.social.facebook",
+            "blko.social.instagram",
+            "blko.social.pinterest",
+            "blko.social.tiktok",
+            "blko.social.x",
+            "blko.social.youtube"
+          ],
+          "themeSettings": [
+            "logo",
+            "logo_text"
+          ],
+          "blockTypes": [
+            "brand",
+            "menu",
+            "text",
+            "newsletter",
+            "social"
+          ]
+        },
+        {
+          "id": "header",
+          "name": "Header",
+          "kind": "section",
+          "category": "header",
+          "description": "Sticky header with menu, logo, search, account and cart.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/header--header.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/header--header.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Header\" (id `header`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/header--header.html; Shopify bundle: sections/balm-2/header/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/header",
+          "files": [
+            "sections/balm-2/header/sections/blko-header.liquid",
+            "sections/balm-2/header/snippets/blko-icon.liquid",
+            "sections/balm-2/header/assets/blko-header.js",
+            "sections/balm-2/header/locales/en.default.blko.json"
+          ],
+          "deps": [
+            "blko-header.js"
+          ],
+          "localeKeys": [
+            "blko.general.close",
+            "blko.header.account",
+            "blko.header.cart_count",
+            "blko.header.log_in",
+            "blko.header.main",
+            "blko.header.menu",
+            "blko.header.open_menu",
+            "blko.header.search"
+          ],
+          "themeSettings": [
+            "logo",
+            "logo_text",
+            "logo_width"
+          ],
+          "blockTypes": []
+        },
+        {
+          "id": "hero",
+          "name": "Hero",
+          "kind": "section",
+          "category": "hero-banner",
+          "description": "Full-bleed image hero with overlay, heading and two buttons.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/hero-banner--hero.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/hero-banner--hero.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Hero\" (id `hero`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/hero-banner--hero.html; Shopify bundle: sections/balm-2/hero/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/hero",
+          "files": [
+            "sections/balm-2/hero/sections/blko-hero.liquid",
+            "sections/balm-2/hero/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/hero/snippets/blko-icon.liquid"
+          ],
+          "deps": [],
+          "localeKeys": [],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "image-banner",
+          "name": "Image banner",
+          "kind": "section",
+          "category": "image-with-text",
+          "description": "Wide image banner with overlay text and a button.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/image-with-text--image-banner.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/image-with-text--image-banner.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Image banner\" (id `image-banner`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/image-with-text--image-banner.html; Shopify bundle: sections/balm-2/image-banner/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/image-banner",
+          "files": [
+            "sections/balm-2/image-banner/sections/blko-image-banner.liquid",
+            "sections/balm-2/image-banner/snippets/blko-fallback-image.liquid"
+          ],
+          "deps": [],
+          "localeKeys": [],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "image-with-text",
+          "name": "Image with text",
+          "kind": "section",
+          "category": "image-with-text",
+          "description": "Image beside caption, heading, text and button blocks.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/image-with-text--image-with-text.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/image-with-text--image-with-text.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Image with text\" (id `image-with-text`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/image-with-text--image-with-text.html; Shopify bundle: sections/balm-2/image-with-text/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/image-with-text",
+          "files": [
+            "sections/balm-2/image-with-text/sections/blko-image-with-text.liquid",
+            "sections/balm-2/image-with-text/snippets/blko-fallback-image.liquid"
+          ],
+          "deps": [],
+          "localeKeys": [],
+          "themeSettings": [],
+          "blockTypes": [
+            "caption",
+            "heading",
+            "text",
+            "button"
+          ]
+        },
+        {
+          "id": "ingredients",
+          "name": "Ingredients",
+          "kind": "section",
+          "category": "ingredients",
+          "description": "Ingredient cards with image, name and benefit.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/ingredients--ingredients.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/ingredients--ingredients.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Ingredients\" (id `ingredients`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/ingredients--ingredients.html; Shopify bundle: sections/balm-2/ingredients/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/ingredients",
+          "files": [
+            "sections/balm-2/ingredients/sections/blko-ingredients.liquid",
+            "sections/balm-2/ingredients/snippets/blko-fallback-image.liquid"
+          ],
+          "deps": [],
+          "localeKeys": [],
+          "themeSettings": [],
+          "blockTypes": [
+            "ingredient"
+          ]
+        },
+        {
+          "id": "logo-row",
+          "name": "Logo row",
+          "kind": "section",
+          "category": "as-seen-in",
+          "description": "Row of press or partner logos with optional dividers.",
+          "targets": {
+            "html": "gap: no HTML demo for this Liquid section",
+            "shopify": "ok"
+          },
+          "demo": null,
+          "demoUrl": null,
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Logo row\" (id `logo-row`, theme `balm-2`; Shopify bundle: sections/balm-2/logo-row/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/logo-row",
+          "files": [
+            "sections/balm-2/logo-row/sections/blko-logo-row.liquid"
+          ],
+          "deps": [],
+          "localeKeys": [],
+          "themeSettings": [],
+          "blockTypes": [
+            "logo"
+          ]
+        },
+        {
+          "id": "main-404",
+          "name": "Page not found",
+          "kind": "section",
+          "category": "404-page",
+          "description": "Not-found page with search and links back into the shop.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/404-page--main-404.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/404-page--main-404.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Page not found\" (id `main-404`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/404-page--main-404.html; Shopify bundle: sections/balm-2/main-404/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-404",
+          "files": [
+            "sections/balm-2/main-404/sections/blko-main-404.liquid",
+            "sections/balm-2/main-404/locales/en.default.blko.json"
+          ],
+          "deps": [],
+          "localeKeys": [
+            "blko.search.label",
+            "blko.search.placeholder",
+            "blko.search.submit"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "main-account",
+          "name": "Customer account",
+          "kind": "section",
+          "category": "customer-account",
+          "description": "Signed-in account overview with order history.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/customer-account--main-account.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/customer-account--main-account.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Customer account\" (id `main-account`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/customer-account--main-account.html; Shopify bundle: sections/balm-2/main-account/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-account",
+          "files": [
+            "sections/balm-2/main-account/sections/blko-main-account.liquid",
+            "sections/balm-2/main-account/snippets/blko-account-shell.liquid",
+            "sections/balm-2/main-account/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/main-account/snippets/blko-icon.liquid",
+            "sections/balm-2/main-account/snippets/blko-pagination.liquid",
+            "sections/balm-2/main-account/assets/blko-customer.css",
+            "sections/balm-2/main-account/locales/en.default.blko.json"
+          ],
+          "deps": [
+            "blko-customer.css"
+          ],
+          "localeKeys": [
+            "blko.cart.total",
+            "blko.customer.date",
+            "blko.customer.default_address",
+            "blko.customer.fulfillment",
+            "blko.customer.log_out",
+            "blko.customer.manage_addresses",
+            "blko.customer.no_address",
+            "blko.customer.no_orders",
+            "blko.customer.order",
+            "blko.customer.orders",
+            "blko.customer.payment",
+            "blko.customer.view_order",
+            "blko.customer.welcome",
+            "blko.general.next",
+            "blko.general.page",
+            "blko.general.pagination",
+            "blko.general.previous"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "main-activate-account",
+          "name": "Activate account",
+          "kind": "section",
+          "category": "customer-account",
+          "description": "Account activation form that sets a first password.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/customer-account--main-activate-account.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/customer-account--main-activate-account.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Activate account\" (id `main-activate-account`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/customer-account--main-activate-account.html; Shopify bundle: sections/balm-2/main-activate-account/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-activate-account",
+          "files": [
+            "sections/balm-2/main-activate-account/sections/blko-main-activate-account.liquid",
+            "sections/balm-2/main-activate-account/snippets/blko-account-shell.liquid",
+            "sections/balm-2/main-activate-account/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/main-activate-account/assets/blko-customer.css",
+            "sections/balm-2/main-activate-account/locales/en.default.blko.json"
+          ],
+          "deps": [
+            "blko-customer.css"
+          ],
+          "localeKeys": [
+            "blko.customer.activate_submit",
+            "blko.customer.decline",
+            "blko.customer.password",
+            "blko.customer.password_confirm"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "main-addresses",
+          "name": "Customer addresses",
+          "kind": "section",
+          "category": "customer-account",
+          "description": "Saved addresses list with add and edit forms.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/customer-account--main-addresses.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/customer-account--main-addresses.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Customer addresses\" (id `main-addresses`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/customer-account--main-addresses.html; Shopify bundle: sections/balm-2/main-addresses/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-addresses",
+          "files": [
+            "sections/balm-2/main-addresses/sections/blko-main-addresses.liquid",
+            "sections/balm-2/main-addresses/snippets/blko-account-shell.liquid",
+            "sections/balm-2/main-addresses/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/main-addresses/snippets/blko-icon.liquid",
+            "sections/balm-2/main-addresses/snippets/blko-pagination.liquid",
+            "sections/balm-2/main-addresses/assets/blko-addresses.js",
+            "sections/balm-2/main-addresses/assets/blko-customer.css",
+            "sections/balm-2/main-addresses/locales/en.default.blko.json"
+          ],
+          "deps": [
+            "blko-addresses.js",
+            "blko-customer.css"
+          ],
+          "localeKeys": [
+            "blko.customer.add_address",
+            "blko.customer.address1",
+            "blko.customer.address2",
+            "blko.customer.back_to_account",
+            "blko.customer.city",
+            "blko.customer.company",
+            "blko.customer.country",
+            "blko.customer.default",
+            "blko.customer.delete",
+            "blko.customer.delete_confirm",
+            "blko.customer.edit",
+            "blko.customer.first_name",
+            "blko.customer.last_name",
+            "blko.customer.phone",
+            "blko.customer.province",
+            "blko.customer.save_address",
+            "blko.customer.set_default",
+            "blko.customer.zip",
+            "blko.general.next",
+            "blko.general.page",
+            "blko.general.pagination",
+            "blko.general.previous"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "main-article",
+          "name": "Blog post",
+          "kind": "section",
+          "category": "article",
+          "description": "Article page with date, author, body, tags and share links.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/article--main-article.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/article--main-article.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Blog post\" (id `main-article`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/article--main-article.html; Shopify bundle: sections/balm-2/main-article/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-article",
+          "files": [
+            "sections/balm-2/main-article/sections/blko-main-article.liquid",
+            "sections/balm-2/main-article/snippets/blko-icon.liquid",
+            "sections/balm-2/main-article/snippets/blko-pagination.liquid",
+            "sections/balm-2/main-article/snippets/blko-share.liquid",
+            "sections/balm-2/main-article/locales/en.default.blko.json"
+          ],
+          "deps": [],
+          "localeKeys": [
+            "blko.blog.comments_count",
+            "blko.blog.leave_comment",
+            "blko.blog.message",
+            "blko.blog.moderated",
+            "blko.blog.moderated_note",
+            "blko.blog.name",
+            "blko.blog.post",
+            "blko.blog.posted",
+            "blko.blog.tags",
+            "blko.customer.email",
+            "blko.general.next",
+            "blko.general.page",
+            "blko.general.pagination",
+            "blko.general.previous",
+            "blko.share.email",
+            "blko.share.facebook",
+            "blko.share.label",
+            "blko.share.pinterest",
+            "blko.share.x"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "main-blog",
+          "name": "Blog posts",
+          "kind": "section",
+          "category": "main-blog",
+          "description": "Blog listing with tag filter and paginated post cards.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/main-blog--main-blog.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/main-blog--main-blog.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Blog posts\" (id `main-blog`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/main-blog--main-blog.html; Shopify bundle: sections/balm-2/main-blog/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-blog",
+          "files": [
+            "sections/balm-2/main-blog/sections/blko-main-blog.liquid",
+            "sections/balm-2/main-blog/snippets/blko-demo-article.liquid",
+            "sections/balm-2/main-blog/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/main-blog/snippets/blko-icon.liquid",
+            "sections/balm-2/main-blog/snippets/blko-pagination.liquid",
+            "sections/balm-2/main-blog/locales/en.default.blko.json"
+          ],
+          "deps": [],
+          "localeKeys": [
+            "blko.blog.all",
+            "blko.blog.empty",
+            "blko.blog.tags",
+            "blko.demo.article_1_excerpt",
+            "blko.demo.article_1_title",
+            "blko.demo.article_2_excerpt",
+            "blko.demo.article_2_title",
+            "blko.demo.article_3_excerpt",
+            "blko.demo.article_3_title",
+            "blko.general.next",
+            "blko.general.page",
+            "blko.general.pagination",
+            "blko.general.previous"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "main-cart",
+          "name": "Cart",
+          "kind": "section",
+          "category": "cart",
+          "description": "Cart page with line items, free-shipping bar, note and summary.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/cart--main-cart.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/cart--main-cart.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Cart\" (id `main-cart`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/cart--main-cart.html; Shopify bundle: sections/balm-2/main-cart/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-cart",
+          "files": [
+            "sections/balm-2/main-cart/sections/blko-main-cart.liquid",
+            "sections/balm-2/main-cart/snippets/blko-demo-card.liquid",
+            "sections/balm-2/main-cart/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/main-cart/snippets/blko-icon.liquid",
+            "sections/balm-2/main-cart/snippets/blko-price.liquid",
+            "sections/balm-2/main-cart/snippets/blko-product-card.liquid",
+            "sections/balm-2/main-cart/snippets/blko-rating.liquid",
+            "sections/balm-2/main-cart/assets/blko-cart.js",
+            "sections/balm-2/main-cart/locales/en.default.blko.json"
+          ],
+          "deps": [
+            "blko-cart.js"
+          ],
+          "localeKeys": [
+            "blko.cart.checkout",
+            "blko.cart.decrease",
+            "blko.cart.have_account_html",
+            "blko.cart.increase",
+            "blko.cart.items",
+            "blko.cart.note",
+            "blko.cart.product",
+            "blko.cart.quantity",
+            "blko.cart.quantity_for",
+            "blko.cart.remove",
+            "blko.cart.shipping_progress",
+            "blko.cart.subtotal",
+            "blko.cart.taxes_excluded",
+            "blko.cart.taxes_included",
+            "blko.cart.total",
+            "blko.cart.update",
+            "blko.demo.product_1",
+            "blko.demo.product_10",
+            "blko.demo.product_11",
+            "blko.demo.product_12",
+            "blko.demo.product_2",
+            "blko.demo.product_3",
+            "blko.demo.product_4",
+            "blko.demo.product_5",
+            "blko.demo.product_6",
+            "blko.demo.product_7",
+            "blko.demo.product_8",
+            "blko.demo.product_9",
+            "blko.products.add_to_cart",
+            "blko.products.choose_options",
+            "blko.products.from",
+            "blko.products.rating",
+            "blko.products.regular_price",
+            "blko.products.sale",
+            "blko.products.sale_price",
+            "blko.products.sold_out",
+            "blko.recommendations.add"
+          ],
+          "themeSettings": [
+            "card_show_rating",
+            "card_show_vendor"
+          ],
+          "blockTypes": [
+            "shipping_bar",
+            "note",
+            "subtotal",
+            "text",
+            "buttons",
+            "@app"
+          ]
+        },
+        {
+          "id": "main-collection",
+          "name": "Collection grid",
+          "kind": "section",
+          "category": "main-collection-product-grid",
+          "description": "Collection product grid with filters, sort and pagination.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/main-collection-product-grid--main-collection.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/main-collection-product-grid--main-collection.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Collection grid\" (id `main-collection`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/main-collection-product-grid--main-collection.html; Shopify bundle: sections/balm-2/main-collection/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-collection",
+          "files": [
+            "sections/balm-2/main-collection/sections/blko-main-collection.liquid",
+            "sections/balm-2/main-collection/snippets/blko-demo-card.liquid",
+            "sections/balm-2/main-collection/snippets/blko-facets.liquid",
+            "sections/balm-2/main-collection/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/main-collection/snippets/blko-icon.liquid",
+            "sections/balm-2/main-collection/snippets/blko-pagination.liquid",
+            "sections/balm-2/main-collection/snippets/blko-price.liquid",
+            "sections/balm-2/main-collection/snippets/blko-product-card.liquid",
+            "sections/balm-2/main-collection/snippets/blko-rating.liquid",
+            "sections/balm-2/main-collection/assets/blko-sort.js",
+            "sections/balm-2/main-collection/locales/en.default.blko.json"
+          ],
+          "deps": [
+            "blko-sort.js"
+          ],
+          "localeKeys": [
+            "blko.collection.apply",
+            "blko.collection.browse_all",
+            "blko.collection.clear_all",
+            "blko.collection.empty",
+            "blko.collection.empty_filtered",
+            "blko.collection.filters",
+            "blko.collection.price_from",
+            "blko.collection.price_to",
+            "blko.collection.product_count",
+            "blko.collection.showing",
+            "blko.collection.sort_by",
+            "blko.demo.product_1",
+            "blko.demo.product_10",
+            "blko.demo.product_11",
+            "blko.demo.product_12",
+            "blko.demo.product_2",
+            "blko.demo.product_3",
+            "blko.demo.product_4",
+            "blko.demo.product_5",
+            "blko.demo.product_6",
+            "blko.demo.product_7",
+            "blko.demo.product_8",
+            "blko.demo.product_9",
+            "blko.general.next",
+            "blko.general.page",
+            "blko.general.pagination",
+            "blko.general.previous",
+            "blko.products.add_to_cart",
+            "blko.products.choose_options",
+            "blko.products.from",
+            "blko.products.rating",
+            "blko.products.regular_price",
+            "blko.products.sale",
+            "blko.products.sale_price",
+            "blko.products.sold_out",
+            "blko.recommendations.add"
+          ],
+          "themeSettings": [
+            "card_show_rating",
+            "card_show_vendor"
+          ],
+          "blockTypes": [
+            "@app"
+          ]
+        },
+        {
+          "id": "main-list-collections",
+          "name": "Collections list",
+          "kind": "section",
+          "category": "collection-list",
+          "description": "Paginated grid of every collection.",
+          "targets": {
+            "html": "gap: no HTML demo for this Liquid section",
+            "shopify": "ok"
+          },
+          "demo": null,
+          "demoUrl": null,
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Collections list\" (id `main-list-collections`, theme `balm-2`; Shopify bundle: sections/balm-2/main-list-collections/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-list-collections",
+          "files": [
+            "sections/balm-2/main-list-collections/sections/blko-main-list-collections.liquid",
+            "sections/balm-2/main-list-collections/snippets/blko-demo-tile.liquid",
+            "sections/balm-2/main-list-collections/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/main-list-collections/snippets/blko-icon.liquid",
+            "sections/balm-2/main-list-collections/snippets/blko-pagination.liquid",
+            "sections/balm-2/main-list-collections/locales/en.default.blko.json"
+          ],
+          "deps": [],
+          "localeKeys": [
+            "blko.collections.count",
+            "blko.collections.empty",
+            "blko.demo.collection_1",
+            "blko.demo.collection_2",
+            "blko.demo.collection_3",
+            "blko.demo.collection_4",
+            "blko.general.next",
+            "blko.general.page",
+            "blko.general.pagination",
+            "blko.general.previous"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "main-login",
+          "name": "Customer login",
+          "kind": "section",
+          "category": "customer-account",
+          "description": "Sign-in form with inline password recovery.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/customer-account--main-login.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/customer-account--main-login.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Customer login\" (id `main-login`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/customer-account--main-login.html; Shopify bundle: sections/balm-2/main-login/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-login",
+          "files": [
+            "sections/balm-2/main-login/sections/blko-main-login.liquid",
+            "sections/balm-2/main-login/snippets/blko-account-shell.liquid",
+            "sections/balm-2/main-login/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/main-login/assets/blko-customer.css",
+            "sections/balm-2/main-login/locales/en.default.blko.json"
+          ],
+          "deps": [
+            "blko-customer.css"
+          ],
+          "localeKeys": [
+            "blko.customer.cancel",
+            "blko.customer.create_account",
+            "blko.customer.email",
+            "blko.customer.forgot",
+            "blko.customer.guest",
+            "blko.customer.password",
+            "blko.customer.recover_submit",
+            "blko.customer.recover_success",
+            "blko.customer.sign_in"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "main-order",
+          "name": "Customer order",
+          "kind": "section",
+          "category": "customer-account",
+          "description": "Single order detail with line items, totals and addresses.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/customer-account--main-order.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/customer-account--main-order.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Customer order\" (id `main-order`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/customer-account--main-order.html; Shopify bundle: sections/balm-2/main-order/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-order",
+          "files": [
+            "sections/balm-2/main-order/sections/blko-main-order.liquid",
+            "sections/balm-2/main-order/snippets/blko-account-shell.liquid",
+            "sections/balm-2/main-order/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/main-order/assets/blko-customer.css",
+            "sections/balm-2/main-order/locales/en.default.blko.json"
+          ],
+          "deps": [
+            "blko-customer.css"
+          ],
+          "localeKeys": [
+            "blko.cart.product",
+            "blko.cart.quantity",
+            "blko.cart.subtotal",
+            "blko.cart.total",
+            "blko.customer.back_to_account",
+            "blko.customer.billing",
+            "blko.customer.cancelled",
+            "blko.customer.fulfilled_on",
+            "blko.customer.fulfillment",
+            "blko.customer.order_title",
+            "blko.customer.payment",
+            "blko.customer.placed_on",
+            "blko.customer.price",
+            "blko.customer.shipping",
+            "blko.customer.shipping_address",
+            "blko.customer.tax",
+            "blko.customer.track"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "main-page",
+          "name": "Page",
+          "kind": "section",
+          "category": "page-header",
+          "description": "Generic page title and rich content.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/page-header--main-page.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/page-header--main-page.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Page\" (id `main-page`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/page-header--main-page.html; Shopify bundle: sections/balm-2/main-page/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-page",
+          "files": [
+            "sections/balm-2/main-page/sections/blko-main-page.liquid"
+          ],
+          "deps": [],
+          "localeKeys": [],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "main-password",
+          "name": "Password page",
+          "kind": "section",
+          "category": "page",
+          "description": "Password page with shop message and email sign-up.",
+          "targets": {
+            "html": "gap: no HTML demo for this Liquid section",
+            "shopify": "ok"
+          },
+          "demo": null,
+          "demoUrl": null,
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Password page\" (id `main-password`, theme `balm-2`; Shopify bundle: sections/balm-2/main-password/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-password",
+          "files": [
+            "sections/balm-2/main-password/sections/blko-main-password.liquid",
+            "sections/balm-2/main-password/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/main-password/snippets/blko-icon.liquid",
+            "sections/balm-2/main-password/snippets/blko-social-icons.liquid",
+            "sections/balm-2/main-password/locales/en.default.blko.json"
+          ],
+          "deps": [],
+          "localeKeys": [
+            "blko.newsletter.email",
+            "blko.newsletter.success",
+            "blko.password.enter",
+            "blko.password.label",
+            "blko.password.notify",
+            "blko.password.owner",
+            "blko.social.facebook",
+            "blko.social.instagram",
+            "blko.social.pinterest",
+            "blko.social.tiktok",
+            "blko.social.x",
+            "blko.social.youtube"
+          ],
+          "themeSettings": [
+            "logo",
+            "logo_text",
+            "logo_width"
+          ],
+          "blockTypes": []
+        },
+        {
+          "id": "main-product",
+          "name": "Product information",
+          "kind": "section",
+          "category": "main-product",
+          "description": "Product page with gallery, variant picker, price, buy buttons and details.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/main-product--main-product.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/main-product--main-product.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Product information\" (id `main-product`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/main-product--main-product.html; Shopify bundle: sections/balm-2/main-product/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-product",
+          "files": [
+            "sections/balm-2/main-product/sections/blko-main-product.liquid",
+            "sections/balm-2/main-product/snippets/blko-demo-card.liquid",
+            "sections/balm-2/main-product/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/main-product/snippets/blko-icon.liquid",
+            "sections/balm-2/main-product/snippets/blko-price.liquid",
+            "sections/balm-2/main-product/snippets/blko-product-complementary.liquid",
+            "sections/balm-2/main-product/snippets/blko-product-gallery.liquid",
+            "sections/balm-2/main-product/snippets/blko-product-quantity.liquid",
+            "sections/balm-2/main-product/snippets/blko-product-variant-picker.liquid",
+            "sections/balm-2/main-product/snippets/blko-rating.liquid",
+            "sections/balm-2/main-product/assets/blko-product.js",
+            "sections/balm-2/main-product/assets/blko-recommendations.js",
+            "sections/balm-2/main-product/locales/en.default.blko.json"
+          ],
+          "deps": [
+            "blko-product.js",
+            "blko-recommendations.js"
+          ],
+          "localeKeys": [
+            "blko.cart.taxes_excluded",
+            "blko.cart.taxes_included",
+            "blko.demo.product_1",
+            "blko.demo.product_10",
+            "blko.demo.product_11",
+            "blko.demo.product_12",
+            "blko.demo.product_2",
+            "blko.demo.product_3",
+            "blko.demo.product_4",
+            "blko.demo.product_5",
+            "blko.demo.product_6",
+            "blko.demo.product_7",
+            "blko.demo.product_8",
+            "blko.demo.product_9",
+            "blko.general.close",
+            "blko.product.backorder",
+            "blko.product.breadcrumb",
+            "blko.product.decrease",
+            "blko.product.in_stock",
+            "blko.product.increase",
+            "blko.product.low_stock",
+            "blko.product.media_gallery",
+            "blko.product.out_of_stock",
+            "blko.product.quantity",
+            "blko.product.sale_badge",
+            "blko.product.share_copied",
+            "blko.product.show_media",
+            "blko.product.sku",
+            "blko.product.variant",
+            "blko.product.view_in_space",
+            "blko.product.zoom",
+            "blko.products.add_to_cart",
+            "blko.products.from",
+            "blko.products.rating",
+            "blko.products.regular_price",
+            "blko.products.sale",
+            "blko.products.sale_price",
+            "blko.products.sold_out",
+            "blko.products.unavailable",
+            "blko.recommendations.add",
+            "blko.recommendations.view"
+          ],
+          "themeSettings": [
+            "card_show_rating",
+            "free_shipping_note"
+          ],
+          "blockTypes": [
+            "@app",
+            "vendor",
+            "title",
+            "sku",
+            "rating",
+            "price",
+            "inventory",
+            "text",
+            "variant_picker",
+            "quantity",
+            "buy_buttons",
+            "description",
+            "collapsible_tab",
+            "icon_with_text",
+            "share",
+            "popup",
+            "complementary",
+            "custom_liquid"
+          ]
+        },
+        {
+          "id": "main-register",
+          "name": "Customer register",
+          "kind": "section",
+          "category": "customer-account",
+          "description": "New customer registration form.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/customer-account--main-register.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/customer-account--main-register.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Customer register\" (id `main-register`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/customer-account--main-register.html; Shopify bundle: sections/balm-2/main-register/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-register",
+          "files": [
+            "sections/balm-2/main-register/sections/blko-main-register.liquid",
+            "sections/balm-2/main-register/snippets/blko-account-shell.liquid",
+            "sections/balm-2/main-register/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/main-register/assets/blko-customer.css",
+            "sections/balm-2/main-register/locales/en.default.blko.json"
+          ],
+          "deps": [
+            "blko-customer.css"
+          ],
+          "localeKeys": [
+            "blko.customer.accepts_marketing",
+            "blko.customer.create",
+            "blko.customer.email",
+            "blko.customer.first_name",
+            "blko.customer.have_account",
+            "blko.customer.last_name",
+            "blko.customer.password"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "main-reset-password",
+          "name": "Reset password",
+          "kind": "section",
+          "category": "customer-account",
+          "description": "Form to set a new account password.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/customer-account--main-reset-password.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/customer-account--main-reset-password.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Reset password\" (id `main-reset-password`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/customer-account--main-reset-password.html; Shopify bundle: sections/balm-2/main-reset-password/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-reset-password",
+          "files": [
+            "sections/balm-2/main-reset-password/sections/blko-main-reset-password.liquid",
+            "sections/balm-2/main-reset-password/snippets/blko-account-shell.liquid",
+            "sections/balm-2/main-reset-password/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/main-reset-password/assets/blko-customer.css",
+            "sections/balm-2/main-reset-password/locales/en.default.blko.json"
+          ],
+          "deps": [
+            "blko-customer.css"
+          ],
+          "localeKeys": [
+            "blko.customer.password",
+            "blko.customer.password_confirm",
+            "blko.customer.reset_submit"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "main-search",
+          "name": "Search results",
+          "kind": "section",
+          "category": "main-search",
+          "description": "Search page with form, result tabs and product, article and page results.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/main-search--main-search.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/main-search--main-search.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Search results\" (id `main-search`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/main-search--main-search.html; Shopify bundle: sections/balm-2/main-search/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/main-search",
+          "files": [
+            "sections/balm-2/main-search/sections/blko-main-search.liquid",
+            "sections/balm-2/main-search/snippets/blko-demo-card.liquid",
+            "sections/balm-2/main-search/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/main-search/snippets/blko-icon.liquid",
+            "sections/balm-2/main-search/snippets/blko-pagination.liquid",
+            "sections/balm-2/main-search/snippets/blko-price.liquid",
+            "sections/balm-2/main-search/snippets/blko-product-card.liquid",
+            "sections/balm-2/main-search/snippets/blko-rating.liquid",
+            "sections/balm-2/main-search/locales/en.default.blko.json"
+          ],
+          "deps": [],
+          "localeKeys": [
+            "blko.demo.product_1",
+            "blko.demo.product_10",
+            "blko.demo.product_11",
+            "blko.demo.product_12",
+            "blko.demo.product_2",
+            "blko.demo.product_3",
+            "blko.demo.product_4",
+            "blko.demo.product_5",
+            "blko.demo.product_6",
+            "blko.demo.product_7",
+            "blko.demo.product_8",
+            "blko.demo.product_9",
+            "blko.general.next",
+            "blko.general.page",
+            "blko.general.pagination",
+            "blko.general.previous",
+            "blko.products.add_to_cart",
+            "blko.products.choose_options",
+            "blko.products.from",
+            "blko.products.rating",
+            "blko.products.regular_price",
+            "blko.products.sale",
+            "blko.products.sale_price",
+            "blko.products.sold_out",
+            "blko.recommendations.add",
+            "blko.search.article",
+            "blko.search.label",
+            "blko.search.no_results",
+            "blko.search.page",
+            "blko.search.placeholder",
+            "blko.search.results_count",
+            "blko.search.submit"
+          ],
+          "themeSettings": [
+            "card_show_rating",
+            "card_show_vendor"
+          ],
+          "blockTypes": []
+        },
+        {
+          "id": "multicolumn",
+          "name": "Multicolumn",
+          "kind": "section",
+          "category": "multicolumn",
+          "description": "Columns of icon or image, heading and short text.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/multicolumn--multicolumn.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/multicolumn--multicolumn.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Multicolumn\" (id `multicolumn`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/multicolumn--multicolumn.html; Shopify bundle: sections/balm-2/multicolumn/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/multicolumn",
+          "files": [
+            "sections/balm-2/multicolumn/sections/blko-multicolumn.liquid",
+            "sections/balm-2/multicolumn/snippets/blko-icon.liquid"
+          ],
+          "deps": [],
+          "localeKeys": [],
+          "themeSettings": [],
+          "blockTypes": [
+            "column"
+          ]
+        },
+        {
+          "id": "newsletter",
+          "name": "Newsletter",
+          "kind": "section",
+          "category": "newsletter",
+          "description": "Email sign-up with optional side image.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/newsletter--newsletter.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/newsletter--newsletter.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Newsletter\" (id `newsletter`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/newsletter--newsletter.html; Shopify bundle: sections/balm-2/newsletter/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/newsletter",
+          "files": [
+            "sections/balm-2/newsletter/sections/blko-newsletter.liquid",
+            "sections/balm-2/newsletter/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/newsletter/locales/en.default.blko.json"
+          ],
+          "deps": [],
+          "localeKeys": [
+            "blko.newsletter.email_label",
+            "blko.newsletter.error",
+            "blko.newsletter.subscribe",
+            "blko.newsletter.success"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "order-detail",
+          "name": "Account order detail",
+          "kind": "section",
+          "category": "order-status",
+          "description": "Account order detail card with line items and a back link.",
+          "targets": {
+            "html": "gap: no HTML demo for this Liquid section",
+            "shopify": "ok"
+          },
+          "demo": null,
+          "demoUrl": null,
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Account order detail\" (id `order-detail`, theme `balm-2`; Shopify bundle: sections/balm-2/order-detail/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/order-detail",
+          "files": [
+            "sections/balm-2/order-detail/sections/blko-order-detail.liquid",
+            "sections/balm-2/order-detail/snippets/blko-demo-card.liquid",
+            "sections/balm-2/order-detail/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/order-detail/snippets/blko-icon.liquid",
+            "sections/balm-2/order-detail/snippets/blko-rating.liquid",
+            "sections/balm-2/order-detail/assets/blko-order-detail.css",
+            "sections/balm-2/order-detail/locales/en.default.blko.json"
+          ],
+          "deps": [
+            "blko-order-detail.css"
+          ],
+          "localeKeys": [
+            "blko.customer.track",
+            "blko.demo.product_1",
+            "blko.demo.product_10",
+            "blko.demo.product_11",
+            "blko.demo.product_12",
+            "blko.demo.product_2",
+            "blko.demo.product_3",
+            "blko.demo.product_4",
+            "blko.demo.product_5",
+            "blko.demo.product_6",
+            "blko.demo.product_7",
+            "blko.demo.product_8",
+            "blko.demo.product_9",
+            "blko.order_detail.cancelled",
+            "blko.order_detail.quantity",
+            "blko.order_detail.sample_note",
+            "blko.products.add_to_cart",
+            "blko.products.rating",
+            "blko.products.regular_price",
+            "blko.products.sale",
+            "blko.products.sale_price",
+            "blko.recommendations.add"
+          ],
+          "themeSettings": [
+            "card_show_rating"
+          ],
+          "blockTypes": [
+            "line_item"
+          ]
+        },
+        {
+          "id": "pairs-well",
+          "name": "Pairs well with",
+          "kind": "section",
+          "category": "product-recommendations",
+          "description": "Product recommendations that pair with the current product.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/product-recommendations--pairs-well.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/product-recommendations--pairs-well.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Pairs well with\" (id `pairs-well`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/product-recommendations--pairs-well.html; Shopify bundle: sections/balm-2/pairs-well/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/pairs-well",
+          "files": [
+            "sections/balm-2/pairs-well/sections/blko-pairs-well.liquid",
+            "sections/balm-2/pairs-well/snippets/blko-demo-card.liquid",
+            "sections/balm-2/pairs-well/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/pairs-well/snippets/blko-icon.liquid",
+            "sections/balm-2/pairs-well/snippets/blko-price.liquid",
+            "sections/balm-2/pairs-well/snippets/blko-product-card.liquid",
+            "sections/balm-2/pairs-well/snippets/blko-rating.liquid",
+            "sections/balm-2/pairs-well/assets/blko-recommendations.js",
+            "sections/balm-2/pairs-well/locales/en.default.blko.json"
+          ],
+          "deps": [
+            "blko-recommendations.js"
+          ],
+          "localeKeys": [
+            "blko.demo.product_1",
+            "blko.demo.product_10",
+            "blko.demo.product_11",
+            "blko.demo.product_12",
+            "blko.demo.product_2",
+            "blko.demo.product_3",
+            "blko.demo.product_4",
+            "blko.demo.product_5",
+            "blko.demo.product_6",
+            "blko.demo.product_7",
+            "blko.demo.product_8",
+            "blko.demo.product_9",
+            "blko.products.add_to_cart",
+            "blko.products.choose_options",
+            "blko.products.from",
+            "blko.products.rating",
+            "blko.products.regular_price",
+            "blko.products.sale",
+            "blko.products.sale_price",
+            "blko.products.sold_out",
+            "blko.recommendations.add",
+            "blko.recommendations.view"
+          ],
+          "themeSettings": [
+            "card_show_rating",
+            "card_show_vendor"
+          ],
+          "blockTypes": []
+        },
+        {
+          "id": "product-reviews",
+          "name": "Product reviews",
+          "kind": "section",
+          "category": "reviews",
+          "description": "Review summary with score bars beside a list of reviews.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/reviews--product-reviews.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/reviews--product-reviews.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Product reviews\" (id `product-reviews`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/reviews--product-reviews.html; Shopify bundle: sections/balm-2/product-reviews/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/product-reviews",
+          "files": [
+            "sections/balm-2/product-reviews/sections/blko-product-reviews.liquid",
+            "sections/balm-2/product-reviews/snippets/blko-icon.liquid",
+            "sections/balm-2/product-reviews/snippets/blko-rating.liquid",
+            "sections/balm-2/product-reviews/locales/en.default.blko.json"
+          ],
+          "deps": [],
+          "localeKeys": [
+            "blko.products.rating",
+            "blko.reviews.breakdown",
+            "blko.reviews.show_more",
+            "blko.reviews.star_label"
+          ],
+          "themeSettings": [],
+          "blockTypes": [
+            "@app",
+            "review"
+          ]
+        },
+        {
+          "id": "rich-text",
+          "name": "Rich text",
+          "kind": "section",
+          "category": "rich-text",
+          "description": "Centered caption, heading, text and button blocks.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/rich-text--rich-text.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/rich-text--rich-text.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Rich text\" (id `rich-text`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/rich-text--rich-text.html; Shopify bundle: sections/balm-2/rich-text/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/rich-text",
+          "files": [
+            "sections/balm-2/rich-text/sections/blko-rich-text.liquid"
+          ],
+          "deps": [],
+          "localeKeys": [],
+          "themeSettings": [],
+          "blockTypes": [
+            "caption",
+            "heading",
+            "text",
+            "button"
+          ]
+        },
+        {
+          "id": "testimonial",
+          "name": "Testimonial",
+          "kind": "section",
+          "category": "testimonials",
+          "description": "Customer quotes with an overall rating.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/testimonials--testimonial.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/testimonials--testimonial.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Testimonial\" (id `testimonial`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/testimonials--testimonial.html; Shopify bundle: sections/balm-2/testimonial/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/testimonial",
+          "files": [
+            "sections/balm-2/testimonial/sections/blko-testimonial.liquid",
+            "sections/balm-2/testimonial/snippets/blko-demo-card.liquid",
+            "sections/balm-2/testimonial/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/testimonial/snippets/blko-icon.liquid",
+            "sections/balm-2/testimonial/snippets/blko-price.liquid",
+            "sections/balm-2/testimonial/snippets/blko-rating.liquid",
+            "sections/balm-2/testimonial/locales/en.default.blko.json"
+          ],
+          "deps": [],
+          "localeKeys": [
+            "blko.demo.product_1",
+            "blko.demo.product_10",
+            "blko.demo.product_11",
+            "blko.demo.product_12",
+            "blko.demo.product_2",
+            "blko.demo.product_3",
+            "blko.demo.product_4",
+            "blko.demo.product_5",
+            "blko.demo.product_6",
+            "blko.demo.product_7",
+            "blko.demo.product_8",
+            "blko.demo.product_9",
+            "blko.products.add_to_cart",
+            "blko.products.from",
+            "blko.products.rating",
+            "blko.products.regular_price",
+            "blko.products.sale",
+            "blko.products.sale_price",
+            "blko.recommendations.add"
+          ],
+          "themeSettings": [
+            "card_show_rating"
+          ],
+          "blockTypes": [
+            "quote"
+          ]
+        },
+        {
+          "id": "video",
+          "name": "Video",
+          "kind": "section",
+          "category": "content",
+          "description": "Video section with heading, text and a poster image.",
+          "targets": {
+            "html": "gap: no HTML demo for this Liquid section",
+            "shopify": "ok"
+          },
+          "demo": null,
+          "demoUrl": null,
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Video\" (id `video`, theme `balm-2`; Shopify bundle: sections/balm-2/video/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/video",
+          "files": [
+            "sections/balm-2/video/sections/blko-video.liquid",
+            "sections/balm-2/video/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/video/snippets/blko-icon.liquid",
+            "sections/balm-2/video/assets/blko-video.js",
+            "sections/balm-2/video/locales/en.default.blko.json"
+          ],
+          "deps": [
+            "blko-video.js"
+          ],
+          "localeKeys": [
+            "blko.video.label",
+            "blko.video.play"
+          ],
+          "themeSettings": [],
+          "blockTypes": []
+        },
+        {
+          "id": "why",
+          "name": "Why it works",
+          "kind": "section",
+          "category": "multicolumn",
+          "description": "Numbered reasons beside an image with a button.",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "demo": "demo/balm-2/sections/multicolumn--why.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/sections/multicolumn--why.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to implement the section \"Why it works\" (id `why`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/sections/multicolumn--why.html; Shopify bundle: sections/balm-2/why/ in the repo) into my project. Before changing any code, ask me where it should go — which project/theme, which page or template, and the position (e.g. after the hero) — and whether the target is a Shopify theme or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify).",
+          "bundle": "sections/balm-2/why",
+          "files": [
+            "sections/balm-2/why/sections/blko-why.liquid",
+            "sections/balm-2/why/snippets/blko-fallback-image.liquid",
+            "sections/balm-2/why/snippets/blko-icon.liquid"
+          ],
+          "deps": [],
+          "localeKeys": [],
+          "themeSettings": [],
+          "blockTypes": [
+            "row"
+          ]
+        }
+      ],
+      "pages": [
+        {
+          "id": "home",
+          "name": "Balm 2 — Home",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "hero",
+            "featured-tabs",
+            "ingredients",
+            "image-banner",
+            "featured-collection",
+            "why",
+            "testimonial",
+            "blog-posts",
+            "order-detail",
+            "newsletter"
+          ],
+          "demo": "demo/balm-2/templates/home.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/home.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Balm 2 — Home\" (template `home`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/home.html) in my project. It is made of these sections in order: hero, featured-tabs, ingredients, image-banner, featured-collection, why, testimonial, blog-posts, order-detail, newsletter (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "collection",
+          "name": "Shop",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "collection-banner",
+            "main-collection"
+          ],
+          "demo": "demo/balm-2/templates/collection.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/collection.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Shop\" (template `collection`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/collection.html) in my project. It is made of these sections in order: collection-banner, main-collection (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "collections",
+          "name": "Collections",
+          "kind": "page",
+          "targets": {
+            "html": "gap: no HTML demo for this Liquid section",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-list-collections"
+          ],
+          "demo": null,
+          "demoUrl": null,
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Collections\" (template `collections`, theme `balm-2`) in my project. It is made of these sections in order: main-list-collections (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "product",
+          "name": "Product",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-product",
+            "pairs-well",
+            "product-reviews"
+          ],
+          "demo": "demo/balm-2/templates/product.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/product.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Product\" (template `product`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/product.html) in my project. It is made of these sections in order: main-product, pairs-well, product-reviews (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "product-alternate",
+          "name": "Product (alternate)",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-product",
+            "pairs-well",
+            "product-reviews"
+          ],
+          "demo": "demo/balm-2/templates/product-alternate.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/product-alternate.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Product (alternate)\" (template `product-alternate`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/product-alternate.html) in my project. It is made of these sections in order: main-product, pairs-well, product-reviews (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "cart",
+          "name": "Your bag",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-cart"
+          ],
+          "demo": "demo/balm-2/templates/cart.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/cart.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Your bag\" (template `cart`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/cart.html) in my project. It is made of these sections in order: main-cart (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "search",
+          "name": "Search",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-search"
+          ],
+          "demo": "demo/balm-2/templates/search.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/search.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Search\" (template `search`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/search.html) in my project. It is made of these sections in order: main-search (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "blog",
+          "name": "Journal",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-blog"
+          ],
+          "demo": "demo/balm-2/templates/blog.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/blog.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Journal\" (template `blog`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/blog.html) in my project. It is made of these sections in order: main-blog (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "article",
+          "name": "Article",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-article"
+          ],
+          "demo": "demo/balm-2/templates/article.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/article.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Article\" (template `article`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/article.html) in my project. It is made of these sections in order: main-article (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "404",
+          "name": "Page not found",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-404"
+          ],
+          "demo": "demo/balm-2/templates/404.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/404.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Page not found\" (template `404`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/404.html) in my project. It is made of these sections in order: main-404 (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "page",
+          "name": "Page",
+          "kind": "page",
+          "targets": {
+            "html": "gap: no HTML demo for this Liquid section",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-page"
+          ],
+          "demo": null,
+          "demoUrl": null,
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Page\" (template `page`, theme `balm-2`) in my project. It is made of these sections in order: main-page (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "about",
+          "name": "About",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-page",
+            "image-with-text",
+            "multicolumn",
+            "rich-text"
+          ],
+          "demo": "demo/balm-2/templates/about.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/about.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"About\" (template `about`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/about.html) in my project. It is made of these sections in order: main-page, image-with-text, multicolumn, rich-text (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "contact",
+          "name": "Contact",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-page",
+            "contact-form"
+          ],
+          "demo": "demo/balm-2/templates/contact.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/contact.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Contact\" (template `contact`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/contact.html) in my project. It is made of these sections in order: main-page, contact-form (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "faq",
+          "name": "FAQ",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-page",
+            "faq"
+          ],
+          "demo": "demo/balm-2/templates/faq.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/faq.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"FAQ\" (template `faq`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/faq.html) in my project. It is made of these sections in order: main-page, faq (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "password",
+          "name": "Coming soon",
+          "kind": "page",
+          "targets": {
+            "html": "gap: no HTML demo for this Liquid section",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-password"
+          ],
+          "demo": null,
+          "demoUrl": null,
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Coming soon\" (template `password`, theme `balm-2`) in my project. It is made of these sections in order: main-password (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "account-login",
+          "name": "Sign in",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-login"
+          ],
+          "demo": "demo/balm-2/templates/account-login.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/account-login.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Sign in\" (template `account-login`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/account-login.html) in my project. It is made of these sections in order: main-login (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "account-register",
+          "name": "Create account",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-register"
+          ],
+          "demo": "demo/balm-2/templates/account-register.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/account-register.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Create account\" (template `account-register`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/account-register.html) in my project. It is made of these sections in order: main-register (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "account-reset-password",
+          "name": "Reset password",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-reset-password"
+          ],
+          "demo": "demo/balm-2/templates/account-reset-password.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/account-reset-password.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Reset password\" (template `account-reset-password`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/account-reset-password.html) in my project. It is made of these sections in order: main-reset-password (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "account-activate",
+          "name": "Activate account",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-activate-account"
+          ],
+          "demo": "demo/balm-2/templates/account-activate.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/account-activate.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Activate account\" (template `account-activate`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/account-activate.html) in my project. It is made of these sections in order: main-activate-account (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "account",
+          "name": "Your account",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-account"
+          ],
+          "demo": "demo/balm-2/templates/account.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/account.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Your account\" (template `account`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/account.html) in my project. It is made of these sections in order: main-account (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "account-order",
+          "name": "Order details",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-order"
+          ],
+          "demo": "demo/balm-2/templates/account-order.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/account-order.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Order details\" (template `account-order`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/account-order.html) in my project. It is made of these sections in order: main-order (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        },
+        {
+          "id": "account-addresses",
+          "name": "Addresses",
+          "kind": "page",
+          "targets": {
+            "html": "ok",
+            "shopify": "ok"
+          },
+          "sections": [
+            "main-addresses"
+          ],
+          "demo": "demo/balm-2/templates/account-addresses.html",
+          "demoUrl": "https://demo.blocko.ai/html/balm-2/templates/account-addresses.html",
+          "prompt": "Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code plugin: claude plugin marketplace add blockoai/blocko && claude plugin install blocko-sections@blocko) to build the page \"Addresses\" (template `account-addresses`, theme `balm-2`; live demo: https://demo.blocko.ai/html/balm-2/templates/account-addresses.html) in my project. It is made of these sections in order: main-addresses (bundles under sections/balm-2/, HTML in demo/balm-2/sections/). Before changing any code, ask me which project/theme it belongs to, whether it should be a new page/template or replace/extend an existing one (and which), which sections to keep or drop, and whether the target is a Shopify theme (JSON template) or a plain HTML site, unless I already said; restate the plan and wait for my OK. Then follow the repo's AGENTS.md: keep the blko- class prefix and CSS tokens (with fallbacks), keep custom elements idempotent, don't touch unrelated code, run `shopify theme check` for Shopify targets, and finish by telling me how to add/arrange it (Theme Editor steps for Shopify)."
+        }
+      ]
+    },
+    {
       "id": "bare",
       "path": "themes/bare",
       "shopify": true,

@@ -1,0 +1,8 @@
+{
+  "blko": {
+    "video": {
+      "label": "Video",
+      "play": "Play video: {{ title }}"
+    }
+  }
+}

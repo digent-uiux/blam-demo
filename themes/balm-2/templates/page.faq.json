@@ -1,0 +1,28 @@
+{
+  "sections": {
+    "main": { "type": "blko-main-page", "settings": {} },
+    "faq": {
+      "type": "blko-faq",
+      "blocks": {
+        "q_sensitive": { "type": "question", "settings": { "question": "Is it suitable for sensitive skin?", "answer": "<p>Yes. Every formula is fragrance free, alcohol free and patch-tested on sensitive skin before it reaches the shop. If you react easily, start with one product and patch-test behind the ear for two days.</p>" } },
+        "q_routine": { "type": "question", "settings": { "question": "In what order should I apply the products?", "answer": "<p>Thinnest to thickest: cleanser, then serum on damp skin, then moisturiser, then three drops of face oil pressed in last. In the morning finish with sunscreen.</p>" } },
+        "q_retinol": { "type": "question", "settings": { "question": "Can I use the serum with retinol or vitamin C?", "answer": "<p>Yes. Our niacinamide serum sits well with both. Use vitamin C in the morning and retinol at night, and keep the serum in both routines.</p>" } },
+        "q_pregnancy": { "type": "question", "settings": { "question": "Are the formulas safe during pregnancy?", "answer": "<p>Most are, and each product page lists any ingredient to avoid. Check with your doctor or midwife if you are unsure.</p>" } },
+        "q_shelf": { "type": "question", "settings": { "question": "How long does a bottle keep once opened?", "answer": "<p>Twelve months after opening. Keep it away from heat and direct sun; every label shows the batch date.</p>" } }
+      },
+      "block_order": ["q_sensitive", "q_routine", "q_retinol", "q_pregnancy", "q_shelf"],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 0,
+        "padding_bottom": 80,
+        "heading": "Skin questions, <em>answered</em>",
+        "text": "<p>Short, honest answers about our formulas and how to use them. Can’t find yours? Write to us.</p>",
+        "link_label": "Contact us",
+        "link_url": "/pages/contact",
+        "layout": "split",
+        "open_first": true
+      }
+    }
+  },
+  "order": ["main", "faq"]
+}

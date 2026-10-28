@@ -1,0 +1,57 @@
+{
+  "blko": {
+    "cart": {
+      "taxes_excluded": "Taxes and shipping calculated at checkout.",
+      "taxes_included": "Taxes included. Shipping calculated at checkout."
+    },
+    "demo": {
+      "product_1": "Niacinamide daily serum",
+      "product_10": "Daily routine set",
+      "product_11": "Body butter set",
+      "product_12": "Evening serum set",
+      "product_2": "Lip balm duo",
+      "product_3": "Barrier repair cream",
+      "product_4": "Hyaluronic hydrating serum",
+      "product_5": "Rose water face mist",
+      "product_6": "Gel cleanser",
+      "product_7": "Rich night cream",
+      "product_8": "Squalane face oil",
+      "product_9": "Cleansing bar pair"
+    },
+    "general": {
+      "close": "Close"
+    },
+    "product": {
+      "backorder": "Available to order, ships soon",
+      "breadcrumb": "Breadcrumb",
+      "decrease": "Decrease quantity",
+      "in_stock": "In stock",
+      "increase": "Increase quantity",
+      "low_stock": "Only {{ count }} left",
+      "media_gallery": "Product images",
+      "out_of_stock": "Out of stock",
+      "quantity": "Quantity",
+      "sale_badge": "Save {{ percent }}%",
+      "share_copied": "Link copied",
+      "show_media": "Show image {{ index }}",
+      "sku": "SKU: {{ sku }}",
+      "variant": "Option",
+      "view_in_space": "View in your space",
+      "zoom": "Open image {{ index }} in full screen"
+    },
+    "products": {
+      "add_to_cart": "Add to bag",
+      "from": "From {{ price }}",
+      "rating": "{{ value }} out of {{ max }} stars",
+      "regular_price": "Regular price",
+      "sale": "Sale",
+      "sale_price": "Sale price",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable"
+    },
+    "recommendations": {
+      "add": "Add",
+      "view": "View"
+    }
+  }
+}

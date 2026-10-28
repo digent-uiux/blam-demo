@@ -1,0 +1,78 @@
+{%- assign s = section.settings -%}
+<div class="blko-section blko-scheme color-{{ s.color_scheme }} blko-404" style="--blko-pt: {{ s.padding_top }}px; --blko-pb: {{ s.padding_bottom }}px;">
+  <div class="blko-container blko-404__inner blko-404__inner--{{ s.alignment }}">
+    {%- if s.label != blank -%}<p class="blko-label blko-muted">{{ s.label | escape }}</p>{%- endif -%}
+    {%- if s.heading != blank -%}<h1 class="blko-{{ s.heading_size }}">{{ s.heading }}</h1>{%- endif -%}
+    {%- if s.text != blank -%}<div class="blko-rte blko-body-lg blko-muted">{{ s.text }}</div>{%- endif -%}
+    {%- if s.show_search -%}
+      <form action="{{ routes.search_url }}" method="get" role="search" class="blko-404__form">
+        <label for="BlkoSearch404-{{ section.id }}" class="blko-visually-hidden">{{ 'blko.search.label' | t }}</label>
+        <div class="blko-field-row">
+          <input id="BlkoSearch404-{{ section.id }}" class="blko-input" type="search" name="q" placeholder="{{ 'blko.search.placeholder' | t }}">
+          <button type="submit" class="blko-btn blko-btn--outline">{{ 'blko.search.submit' | t }}</button>
+        </div>
+      </form>
+    {%- endif -%}
+    {%- if s.button_label != blank -%}
+      <a href="{{ s.button_link | default: routes.all_products_collection_url }}" class="blko-btn blko-btn--{{ s.button_style }}">{{ s.button_label | escape }}</a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-404__inner { display: grid; justify-items: center; gap: 1.25rem; max-width: 36rem; text-align: center; padding-block: 2rem; }
+  .blko-404__inner--start { justify-items: start; text-align: left; margin-inline: 0 auto; }
+  .blko-404__form { width: 100%; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Page not found",
+  "tag": "section",
+  "class": "blko-main-404",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "label", "label": "Label", "default": "404" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "This page has wandered off" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h1", "label": "Large" },
+        { "value": "h2", "label": "Medium" },
+        { "value": "display", "label": "Extra large" }
+      ],
+      "default": "h1"
+    },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Try a search, or head back to the shop.</p>" },
+    { "type": "checkbox", "id": "show_search", "label": "Show search form", "default": true },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Continue shopping" },
+    { "type": "url", "id": "button_link", "label": "Button link", "info": "Defaults to all products." },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button style",
+      "options": [
+        { "value": "primary", "label": "Solid" },
+        { "value": "outline", "label": "Outline" }
+      ],
+      "default": "primary"
+    },
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "start", "label": "Left" }
+      ],
+      "default": "center"
+    }
+  ]
+}
+{% endschema %}

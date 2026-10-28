@@ -1,0 +1,111 @@
+{%- comment -%} Split band (Dark scheme by default): photo on one side, heading + lead + customer signup form on the other. {%- endcomment -%}
+<div
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-news blko-news--image-{{ section.settings.image_position }}{% unless section.settings.show_image %} blko-news--no-image{% endunless %}"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px;"
+>
+  <div class="blko-container blko-news__inner">
+    {%- if section.settings.show_image -%}
+      <div class="blko-media blko-news__media">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', sizes: '(min-width: 1024px) 58vw, 100vw', widths: '600, 900, 1200, 1400' }}
+        {%- else -%}
+          {%- render 'blko-fallback-image', name: 'newsletter' -%}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="blko-news__body">
+      <div class="blko-heading-row__text">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="blko-h2">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.lead != blank -%}
+          <p class="blko-body blko-muted blko-pretty">{{ section.settings.lead | escape }}</p>
+        {%- endif -%}
+      </div>
+      {%- assign form_id = 'BlkoNewsletter-' | append: section.id -%}
+      {%- form 'customer', id: form_id, class: 'blko-news__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <div class="blko-news__row">
+          <label class="blko-visually-hidden" for="BlkoNewsletterEmail-{{ section.id }}">{{ 'blko.newsletter.email_label' | t }}</label>
+          <input
+            id="BlkoNewsletterEmail-{{ section.id }}"
+            class="blko-input blko-news__input"
+            type="email"
+            name="contact[email]"
+            required
+            autocomplete="email"
+            autocorrect="off"
+            autocapitalize="off"
+            placeholder="{{ 'blko.newsletter.email_label' | t }}"
+            {% if form.errors %}
+              aria-invalid="true" aria-describedby="BlkoNewsletterMsg-{{ section.id }}"
+            {% endif %}
+          >
+          <button type="submit" class="blko-btn blko-btn--primary">
+            {%- if section.settings.button_label != blank -%}{{ section.settings.button_label | escape }}{%- else -%}{{ 'blko.newsletter.subscribe' | t }}{%- endif -%}
+          </button>
+        </div>
+        {%- if form.posted_successfully? -%}
+          <p class="blko-form-message" id="BlkoNewsletterMsg-{{ section.id }}" role="status">{%- if section.settings.success != blank -%}{{ section.settings.success | escape }}{%- else -%}{{ 'blko.newsletter.success' | t }}{%- endif -%}</p>
+        {%- elsif form.errors -%}
+          <p class="blko-form-message blko-form-message--error" id="BlkoNewsletterMsg-{{ section.id }}" role="alert">{{ 'blko.newsletter.error' | t }}</p>
+        {%- elsif section.settings.note != blank -%}
+          <p class="blko-small blko-muted">{{ section.settings.note | escape }}</p>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-news__inner { display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; gap: 2.5rem; }
+  .blko-news__media { aspect-ratio: 4/3; }
+  .blko-news__body { display: grid; gap: 2rem; }
+  .blko-news__body h2 em { font-style: var(--heading-italic, italic); }
+  .blko-news--no-image .blko-news__body { max-width: 40rem; }
+  .blko-news__form { display: grid; gap: .75rem; }
+  .blko-news__row { display: flex; flex-direction: column; gap: .5rem; }
+  .blko-news__input { flex: 1; min-width: 0; background: transparent; color: inherit; border-color: var(--color-border, #d6d1c0); }
+  .blko-news__input::placeholder { color: var(--color-text-muted, #59625b); }
+  @media (min-width: 384px) { .blko-news__row { flex-direction: row; } }
+  @media (min-width: 1024px) {
+    .blko-news__inner { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 4rem; }
+    .blko-news--image-right .blko-news__inner { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+    .blko-news--image-right .blko-news__media { order: 2; }
+    .blko-news--no-image .blko-news__inner { grid-template-columns: minmax(0, 1fr); }
+    .blko-news__media { aspect-ratio: 5/4; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "section",
+  "class": "blko-news-section",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-5" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Image" },
+    { "type": "checkbox", "id": "show_image", "label": "Show image", "default": true },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position on large screens",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    { "type": "header", "content": "Content" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Calm skin, delivered" },
+    { "type": "text", "id": "lead", "label": "Lead", "default": "One letter every other Sunday: new formulas and routines that work." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Subscribe" },
+    { "type": "text", "id": "note", "label": "Note under the form", "default": "Unsubscribe any time." },
+    { "type": "text", "id": "success", "label": "Success message", "info": "Leave empty to use the default message." }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

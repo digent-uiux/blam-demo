@@ -1,0 +1,59 @@
+{
+  "sections": {
+    "main": { "type": "blko-main-page", "settings": {} },
+    "story": {
+      "type": "blko-image-with-text",
+      "blocks": {
+        "caption": { "type": "caption", "settings": { "text": "Our story" } },
+        "heading": { "type": "heading", "settings": { "heading": "Made slowly, <em>in small batches</em>", "size": "blko-h2" } },
+        "text": { "type": "text", "settings": { "text": "<p>We started with one face oil, pressed in a kitchen and given to friends. Today the range is still small, and every bottle is filled within a week of pressing, so what reaches your skin is as fresh as the day it was made.</p>", "size": "blko-body-lg", "muted": true } },
+        "buttons": { "type": "button", "settings": { "label": "Shop the range", "link": "shopify://collections/all", "style": "primary" } }
+      },
+      "block_order": ["caption", "heading", "text", "buttons"],
+      "settings": {
+        "color_scheme": "scheme-3",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "fallback_image": "product-1",
+        "image_ratio": "square",
+        "image_position": "left",
+        "image_width": "50",
+        "vertical_alignment": "center"
+      }
+    },
+    "values": {
+      "type": "blko-multicolumn",
+      "blocks": {
+        "plant": { "type": "column", "settings": { "icon": "leaf", "title": "Plant-first formulas", "text": "<p>Botanical oils and extracts do the work. Nothing added for scent or colour.</p>" } },
+        "fresh": { "type": "column", "settings": { "icon": "droplet", "title": "Small, fresh batches", "text": "<p>Pressed and bottled within the week, with the batch date on every label.</p>" } },
+        "gentle": { "type": "column", "settings": { "icon": "shield", "title": "Gentle by default", "text": "<p>Patch-tested on sensitive skin and free from alcohol and essential oils.</p>" } }
+      },
+      "block_order": ["plant", "fresh", "gentle"],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "heading": "What goes into <em>every</em> bottle",
+        "columns_desktop": 3,
+        "column_style": "plain"
+      }
+    },
+    "promise": {
+      "type": "blko-rich-text",
+      "blocks": {
+        "heading": { "type": "heading", "settings": { "heading": "Fewer steps, <em>better</em> skin", "size": "blko-h2" } },
+        "text": { "type": "text", "settings": { "text": "<p>We would rather make five formulas that work than fifty that sit on a shelf. If something does not suit your skin, send it back within 30 days, opened or not.</p>", "size": "blko-body-lg", "muted": true } },
+        "buttons": { "type": "button", "settings": { "label": "Read the journal", "link": "shopify://blogs/news", "style": "outline" } }
+      },
+      "block_order": ["heading", "text", "buttons"],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "alignment": "center",
+        "content_width": "medium"
+      }
+    }
+  },
+  "order": ["main", "story", "values", "promise"]
+}

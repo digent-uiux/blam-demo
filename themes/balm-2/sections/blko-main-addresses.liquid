@@ -1,0 +1,313 @@
+{%- assign s = section.settings -%}
+{{ 'blko-customer.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-addresses.js' | asset_url }}" defer="defer"></script>
+<div class="blko-section blko-scheme color-{{ s.color_scheme }} blko-account blko-account__cols-{{ s.columns }}" style="--blko-pt: {{ s.padding_top }}px; --blko-pb: {{ s.padding_bottom }}px;">
+  <div class="blko-container">
+    {%- capture body -%}
+      <div class="blko-account__head">
+        <div class="blko-heading-row__text">
+          {%- if s.show_back_link -%}
+            <a href="{{ routes.account_url }}" class="blko-text-link blko-muted">{{ 'blko.customer.back_to_account' | t }}</a>
+          {%- endif -%}
+          {%- if s.heading != blank -%}<h1 class="blko-{{ s.heading_size }}">{{ s.heading | escape }}</h1>{%- endif -%}
+          {%- if s.text != blank -%}<div class="blko-rte blko-account__intro">{{ s.text }}</div>{%- endif -%}
+        </div>
+      </div>
+    {%- endcapture -%}
+    {%- render 'blko-account-shell', section: section, body: body, fallback: 'account' -%}
+
+    <details class="blko-account__address-form blko-account__card"{% if customer.addresses_count == 0 %} open{% endif %}>
+      <summary class="blko-btn blko-btn--primary">{{ 'blko.customer.add_address' | t }}</summary>
+      <blko-address-form>
+        {%- form 'customer_address', customer.new_address, class: 'blko-account__form' -%}
+            {%- if form.errors -%}
+              <div class="blko-account__errors" role="alert">{{ form.errors | default_errors }}</div>
+            {%- endif -%}
+            <div class="blko-account__fields blko-account__fields--2">
+              <div class="blko-account__field">
+                <label for="AddrFirst-new">{{ 'blko.customer.first_name' | t }}</label>
+                <input id="AddrFirst-new" class="blko-input" type="text" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name">
+              </div>
+              <div class="blko-account__field">
+                <label for="AddrLast-new">{{ 'blko.customer.last_name' | t }}</label>
+                <input id="AddrLast-new" class="blko-input" type="text" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name">
+              </div>
+            </div>
+            <div class="blko-account__field">
+              <label for="AddrCompany-new">{{ 'blko.customer.company' | t }}</label>
+              <input id="AddrCompany-new" class="blko-input" type="text" name="address[company]" value="{{ form.company }}" autocomplete="organization">
+            </div>
+            <div class="blko-account__field">
+              <label for="AddrA1-new">{{ 'blko.customer.address1' | t }}</label>
+              <input id="AddrA1-new" class="blko-input" type="text" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1">
+            </div>
+            <div class="blko-account__field">
+              <label for="AddrA2-new">{{ 'blko.customer.address2' | t }}</label>
+              <input id="AddrA2-new" class="blko-input" type="text" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2">
+            </div>
+            <div class="blko-account__fields blko-account__fields--2">
+              <div class="blko-account__field">
+                <label for="AddrCity-new">{{ 'blko.customer.city' | t }}</label>
+                <input id="AddrCity-new" class="blko-input" type="text" name="address[city]" value="{{ form.city }}" autocomplete="address-level2">
+              </div>
+              <div class="blko-account__field">
+                <label for="AddrZip-new">{{ 'blko.customer.zip' | t }}</label>
+                <input id="AddrZip-new" class="blko-input" type="text" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters" autocomplete="postal-code">
+              </div>
+            </div>
+            <div class="blko-account__fields blko-account__fields--2">
+              <div class="blko-account__field">
+                <label for="AddrCountry-new">{{ 'blko.customer.country' | t }}</label>
+                <span class="blko-select-wrap"><select id="AddrCountry-new" class="blko-select" name="address[country]" data-country data-default="{{ form.country }}" autocomplete="country">{{ all_country_option_tags }}</select>{%- render 'blko-icon', name: 'chevron-down', size: 16 -%}</span>
+              </div>
+              <div class="blko-account__field" data-province-wrap>
+                <label for="AddrProvince-new">{{ 'blko.customer.province' | t }}</label>
+                <span class="blko-select-wrap"><select id="AddrProvince-new" class="blko-select" name="address[province]" data-province data-default="{{ form.province }}" autocomplete="address-level1"></select>{%- render 'blko-icon', name: 'chevron-down', size: 16 -%}</span>
+              </div>
+            </div>
+            <div class="blko-account__field">
+              <label for="AddrPhone-new">{{ 'blko.customer.phone' | t }}</label>
+              <input id="AddrPhone-new" class="blko-input" type="tel" name="address[phone]" value="{{ form.phone }}" autocomplete="tel">
+            </div>
+            <label class="blko-account__check">
+              {{ form.set_as_default_checkbox }}
+              {{ 'blko.customer.set_default' | t }}
+            </label>
+          <div class="blko-account__actions">
+            <button type="submit" class="blko-btn blko-btn--primary">{{ 'blko.customer.save_address' | t }}</button>
+          </div>
+        {%- endform -%}
+      </blko-address-form>
+    </details>
+
+    {%- paginate customer.addresses by s.per_page -%}
+      <ul class="blko-list-reset blko-account__address-list" role="list">
+        {%- for address in customer.addresses -%}
+          <li class="blko-account__card">
+            {%- if address == customer.default_address -%}<span class="blko-badge">{{ 'blko.customer.default' | t }}</span>{%- endif -%}
+            <address class="blko-account__address blko-small">{{ address | format_address }}</address>
+            <details class="blko-account__address-form">
+              <summary class="blko-btn blko-btn--outline blko-btn--sm">{{ 'blko.customer.edit' | t }}<span class="blko-visually-hidden"> {{ address.address1 | escape }}</span></summary>
+              <blko-address-form>
+                {%- form 'customer_address', address, class: 'blko-account__form' -%}
+                    {%- if form.errors -%}
+                      <div class="blko-account__errors" role="alert">{{ form.errors | default_errors }}</div>
+                    {%- endif -%}
+                    <div class="blko-account__fields blko-account__fields--2">
+                      <div class="blko-account__field">
+                        <label for="AddrFirst-{{ form.id }}">{{ 'blko.customer.first_name' | t }}</label>
+                        <input id="AddrFirst-{{ form.id }}" class="blko-input" type="text" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name">
+                      </div>
+                      <div class="blko-account__field">
+                        <label for="AddrLast-{{ form.id }}">{{ 'blko.customer.last_name' | t }}</label>
+                        <input id="AddrLast-{{ form.id }}" class="blko-input" type="text" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name">
+                      </div>
+                    </div>
+                    <div class="blko-account__field">
+                      <label for="AddrCompany-{{ form.id }}">{{ 'blko.customer.company' | t }}</label>
+                      <input id="AddrCompany-{{ form.id }}" class="blko-input" type="text" name="address[company]" value="{{ form.company }}" autocomplete="organization">
+                    </div>
+                    <div class="blko-account__field">
+                      <label for="AddrA1-{{ form.id }}">{{ 'blko.customer.address1' | t }}</label>
+                      <input id="AddrA1-{{ form.id }}" class="blko-input" type="text" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1">
+                    </div>
+                    <div class="blko-account__field">
+                      <label for="AddrA2-{{ form.id }}">{{ 'blko.customer.address2' | t }}</label>
+                      <input id="AddrA2-{{ form.id }}" class="blko-input" type="text" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2">
+                    </div>
+                    <div class="blko-account__fields blko-account__fields--2">
+                      <div class="blko-account__field">
+                        <label for="AddrCity-{{ form.id }}">{{ 'blko.customer.city' | t }}</label>
+                        <input id="AddrCity-{{ form.id }}" class="blko-input" type="text" name="address[city]" value="{{ form.city }}" autocomplete="address-level2">
+                      </div>
+                      <div class="blko-account__field">
+                        <label for="AddrZip-{{ form.id }}">{{ 'blko.customer.zip' | t }}</label>
+                        <input id="AddrZip-{{ form.id }}" class="blko-input" type="text" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters" autocomplete="postal-code">
+                      </div>
+                    </div>
+                    <div class="blko-account__fields blko-account__fields--2">
+                      <div class="blko-account__field">
+                        <label for="AddrCountry-{{ form.id }}">{{ 'blko.customer.country' | t }}</label>
+                        <span class="blko-select-wrap"><select id="AddrCountry-{{ form.id }}" class="blko-select" name="address[country]" data-country data-default="{{ form.country }}" autocomplete="country">{{ all_country_option_tags }}</select>{%- render 'blko-icon', name: 'chevron-down', size: 16 -%}</span>
+                      </div>
+                      <div class="blko-account__field" data-province-wrap>
+                        <label for="AddrProvince-{{ form.id }}">{{ 'blko.customer.province' | t }}</label>
+                        <span class="blko-select-wrap"><select id="AddrProvince-{{ form.id }}" class="blko-select" name="address[province]" data-province data-default="{{ form.province }}" autocomplete="address-level1"></select>{%- render 'blko-icon', name: 'chevron-down', size: 16 -%}</span>
+                      </div>
+                    </div>
+                    <div class="blko-account__field">
+                      <label for="AddrPhone-{{ form.id }}">{{ 'blko.customer.phone' | t }}</label>
+                      <input id="AddrPhone-{{ form.id }}" class="blko-input" type="tel" name="address[phone]" value="{{ form.phone }}" autocomplete="tel">
+                    </div>
+                    <label class="blko-account__check">
+                      {{ form.set_as_default_checkbox }}
+                      {{ 'blko.customer.set_default' | t }}
+                    </label>
+                  <div class="blko-account__actions">
+                    <button type="submit" class="blko-btn blko-btn--primary">{{ 'blko.customer.save_address' | t }}</button>
+                  </div>
+                {%- endform -%}
+              </blko-address-form>
+            </details>
+            <form method="post" action="{{ routes.account_addresses_url }}/{{ address.id }}" class="blko-account__delete" data-confirm="{{ 'blko.customer.delete_confirm' | t }}">
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit" class="blko-btn blko-btn--ghost blko-btn--sm">{{ 'blko.customer.delete' | t }}<span class="blko-visually-hidden"> {{ address.address1 | escape }}</span></button>
+            </form>
+          </li>
+        {%- endfor -%}
+      </ul>
+      {%- render 'blko-pagination', paginate: paginate -%}
+    {%- endpaginate -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer addresses",
+  "tag": "section",
+  "class": "blko-main-addresses",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your addresses"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "value": "h1",
+          "label": "Large"
+        },
+        {
+          "value": "h2",
+          "label": "Medium"
+        },
+        {
+          "value": "h3",
+          "label": "Small"
+        }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Intro text"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "center",
+          "label": "Centered"
+        },
+        {
+          "value": "split",
+          "label": "Side by side with image"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Side image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_back_link",
+      "label": "Show back to account link",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "per_page",
+      "label": "Addresses per page",
+      "min": 4,
+      "max": 48,
+      "step": 4,
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Columns on desktop",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        },
+        {
+          "value": "3",
+          "label": "3"
+        }
+      ],
+      "default": "2"
+    }
+  ]
+}
+{% endschema %}

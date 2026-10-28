@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "main": {
+      "type": "blko-main-404",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_top": 80,
+        "padding_bottom": 80,
+        "label": "404",
+        "heading": "This page has wandered off",
+        "text": "<p>Try a search, or head back to the shop.</p>",
+        "button_label": "Continue shopping"
+      }
+    }
+  },
+  "order": ["main"]
+}
