@@ -1,0 +1,322 @@
+{%- comment -%}
+  Bundle 01, "Room photo, glass panel": a room photo fills the band, numbered hotspots mark each piece, and a glass panel
+  lists the pieces as a checklist with a live total and one "Add to cart" button for everything ticked.
+  Each piece is a block with a product picker; a block without a product shows its demo title, variant and price.
+  Works in any Online Store 2.0 theme: every class is blko-b01-, every colour and size is a section setting.
+{%- endcomment -%}
+{{ 'blko-bundle-01.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-bundle-01.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign s = section.settings
+  assign subtotal = 0
+  assign chosen = 0
+  assign min = s.min_pieces
+  case s.heading_font
+    when 'theme_heading'
+      assign heading_family = 'var(--font-heading-family, inherit)'
+    when 'theme_body'
+      assign heading_family = 'inherit'
+    else
+      assign heading_family = "'Instrument Serif', 'Iowan Old Style', Georgia, serif"
+  endcase
+  assign label = s.heading | strip_html | escape
+-%}
+
+<blko-bundle-01
+  class="blko-b01{% if s.full_width %} blko-b01--full{% endif %} blko-b01--panel-{{ s.panel_position }}"
+  style="
+    --blko-b01-pt: {{ s.padding_top }}px; --blko-b01-pb: {{ s.padding_bottom }}px;
+    --blko-b01-band: {{ s.color_band }}; --blko-b01-panel: {{ s.color_panel }}; --blko-b01-panel-alpha: {{ s.panel_opacity }}%;
+    --blko-b01-text: {{ s.color_text }}; --blko-b01-muted: {{ s.color_muted }}; --blko-b01-border: {{ s.color_border }};
+    --blko-b01-row: {{ s.color_row }}; --blko-b01-button: {{ s.color_button }}; --blko-b01-button-label: {{ s.color_button_label }};
+    --blko-b01-button-hover: {{ s.color_button_hover }}; --blko-b01-sale: {{ s.color_sale }}; --blko-b01-on-image: {{ s.color_on_image }};
+    --blko-b01-overlay: {{ s.overlay }}%; --blko-b01-h: {{ s.min_height }}px; --blko-b01-h-mobile: {{ s.min_height_mobile }}px;
+    --blko-b01-panel-w: {{ s.panel_width }}px; --blko-b01-radius-panel: {{ s.radius_panel }}px; --blko-b01-radius-row: {{ s.radius_row }}px;
+    --blko-b01-radius-button: {{ s.radius_button }}px; --blko-b01-heading-font: {{ heading_family }};
+    --blko-b01-heading: {{ s.heading_size }}px;
+  "
+  data-money-format="{{ shop.money_format | strip_html | escape }}"
+  data-percent="{{ s.discount_percent }}"
+  data-min="{{ min }}"
+  data-code="{{ s.discount_code | escape }}"
+  data-after="{{ s.after_add }}"
+  data-note-save="{{ s.note_save | escape }}"
+  data-note-more-one="{{ s.note_more_one | escape }}"
+  data-note-more-other="{{ s.note_more_other | escape }}"
+  data-button-empty="{{ s.button_empty | escape }}"
+  data-button-one="{{ s.button_one | escape }}"
+  data-button-other="{{ s.button_other | escape }}"
+  data-adding="{{ 'blko.bundle_01.adding' | t | escape }}"
+  data-added="{{ 'blko.bundle_01.added' | t | escape }}"
+  data-error="{{ 'blko.bundle_01.error' | t | escape }}"
+  data-demo="{{ 'blko.bundle_01.demo' | t | escape }}"
+>
+  <section class="blko-b01__band" aria-label="{{ label }}">
+    <div class="blko-b01__stage">
+      {%- if s.image != blank -%}
+        {%- capture focal -%}object-position: {{ s.image.presentation.focal_point }};{%- endcapture -%}
+        {{ s.image | image_url: width: 2400 | image_tag: class: 'blko-b01__img', widths: '750, 1100, 1500, 1800, 2400', sizes: '100vw', alt: s.image.alt, style: focal, loading: 'lazy' }}
+      {%- else -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'blko-b01__img blko-b01__img--placeholder' }}
+      {%- endif -%}
+      <div class="blko-b01__shade" aria-hidden="true"></div>
+
+      {%- if s.show_hotspots -%}
+        {%- for block in section.blocks -%}
+          <span
+            class="blko-b01__dot{% if block.settings.checked %} is-on{% endif %}"
+            data-dot="{{ block.id }}"
+            style="left: {{ block.settings.x }}%; top: {{ block.settings.y }}%;"
+            aria-hidden="true"
+          >
+            {{- forloop.index | prepend: '0' | slice: -2, 2 -}}
+          </span>
+        {%- endfor -%}
+      {%- endif -%}
+
+      <div class="blko-b01__grid">
+        <header class="blko-b01__head">
+          {%- if s.eyebrow != blank -%}
+            <p class="blko-b01__eyebrow">{{ s.eyebrow | escape }}</p>
+          {%- endif -%}
+          {%- if s.heading != blank -%}
+            <h2 class="blko-b01__title">{{ s.heading }}</h2>
+          {%- endif -%}
+        </header>
+
+        <div class="blko-b01__panel">
+          {%- if s.deal_text != blank -%}
+            <p class="blko-b01__deal">
+              {%- render 'blko-bundle-01-icon', name: 'tag', class: 'blko-b01__deal-icon' -%}
+              {{ s.deal_text | escape }}
+            </p>
+          {%- endif -%}
+
+          <ul class="blko-b01__list" role="list">
+            {%- for block in section.blocks -%}
+              {%- liquid
+                assign p = block.settings.product
+                assign variant_id = ''
+                assign available = true
+                if p != blank
+                  assign v = p.selected_or_first_available_variant
+                  assign title = p.title
+                  assign price = v.price
+                  assign variant_id = v.id
+                  assign available = v.available
+                  assign hint = block.settings.variant_label
+                  if hint == blank and p.has_only_default_variant == false
+                    assign hint = v.title
+                  endif
+                else
+                  assign title = block.settings.demo_title
+                  assign price = block.settings.demo_price | times: 100
+                  assign hint = block.settings.variant_label | default: block.settings.demo_variant
+                endif
+                assign on = false
+                if block.settings.checked and available
+                  assign on = true
+                  assign subtotal = subtotal | plus: price
+                  assign chosen = chosen | plus: 1
+                endif
+              -%}
+              <li class="blko-b01__row{% if on %} is-on{% endif %}" {{ block.shopify_attributes }}>
+                <label class="blko-b01__check">
+                  <input
+                    type="checkbox"
+                    class="blko-b01__input"
+                    data-piece="{{ block.id }}"
+                    data-price="{{ price }}"
+                    data-variant="{{ variant_id }}"
+                    {% if on %}checked{% endif %}
+                    {% unless available %}disabled{% endunless %}
+                  >
+                  <span class="blko-b01__box" aria-hidden="true">
+                    {%- render 'blko-bundle-01-icon', name: 'check', stroke: 3 -%}
+                  </span>
+                  <span class="blko-b01__text">
+                    <span class="blko-b01__name">
+                      <span class="blko-b01__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                      {%- if p != blank -%}
+                        <a href="{{ p.url }}" class="blko-b01__link">{{ title | escape }}</a>
+                      {%- else -%}
+                        <span class="blko-b01__strong">{{ title | escape }}</span>
+                      {%- endif -%}
+                    </span>
+                    {%- if available == false -%}
+                      <span class="blko-b01__hint">{{ 'blko.bundle_01.sold_out' | t }}</span>
+                    {%- elsif hint != blank -%}
+                      <span class="blko-b01__hint">{{ hint | escape }}</span>
+                    {%- endif -%}
+                  </span>
+                </label>
+                <span class="blko-b01__price">{{ price | money_without_trailing_zeros }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+
+          {%- liquid
+            assign save = 0
+            assign qualifies = false
+            if chosen >= min and s.discount_percent > 0
+              assign qualifies = true
+              assign save = subtotal | times: s.discount_percent | divided_by: 10000.0 | round | times: 100
+            endif
+            assign total = subtotal | minus: save
+            assign left = min | minus: chosen
+            assign save_money = save | money_without_trailing_zeros
+            if qualifies
+              assign note = s.note_save | replace: '[amount]', save_money
+            elsif left == 1
+              assign note = s.note_more_one | replace: '[count]', left | replace: '[percent]', s.discount_percent
+            else
+              assign note = s.note_more_other | replace: '[count]', left | replace: '[percent]', s.discount_percent
+            endif
+            if s.discount_percent == 0
+              assign note = ''
+            endif
+            case chosen
+              when 0
+                assign button = s.button_empty
+              when 1
+                assign button = s.button_one | replace: '[count]', chosen
+              else
+                assign button = s.button_other | replace: '[count]', chosen
+            endcase
+          -%}
+          <div class="blko-b01__sum">
+            <div class="blko-b01__sum-text">
+              <span class="blko-b01__note" data-note>{{ note | escape }}</span>
+              <span class="blko-b01__total" aria-live="polite">
+                <span class="blko-b01__amount{% if qualifies %} is-sale{% endif %}" data-total>{{ total | money_without_trailing_zeros }}</span>
+                <s class="blko-b01__compare" data-compare{% unless qualifies %} hidden{% endunless %}>
+                  <span class="blko-b01__sr">{{ 'blko.bundle_01.was' | t }} </span>
+                  <span data-compare-amount>{{ subtotal | money_without_trailing_zeros }}</span>
+                </s>
+              </span>
+            </div>
+          </div>
+
+          <button type="button" class="blko-b01__button" data-add{% if chosen == 0 %} disabled{% endif %}>
+            {{- button | escape -}}
+          </button>
+          <p class="blko-b01__msg" data-msg role="status" hidden></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</blko-bundle-01>
+
+{% schema %}
+{
+  "name": "Bundle, room photo",
+  "tag": "div",
+  "class": "blko-b01-section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "header", "content": "Photo" },
+    { "type": "image_picker", "id": "image", "label": "Room photo", "info": "Wide photo, at least 1800px. Set the focal point so the pieces stay in view." },
+    { "type": "range", "id": "overlay", "label": "Photo shade", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 50 },
+    { "type": "checkbox", "id": "show_hotspots", "label": "Show numbered hotspots", "default": true, "info": "Desktop only. Place each one from its piece block." },
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Shop the room" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Complete the <em>room</em>", "info": "Use italic for the accent word." },
+    {
+      "type": "select",
+      "id": "heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "serif", "label": "Serif" },
+        { "value": "theme_heading", "label": "Theme heading font" },
+        { "value": "theme_body", "label": "Theme body font" }
+      ],
+      "default": "serif"
+    },
+    { "type": "range", "id": "heading_size", "label": "Heading size", "info": "Mobile uses 62.5% of it", "min": 32, "max": 96, "step": 2, "unit": "px", "default": 64 },
+    { "type": "header", "content": "Bundle" },
+    { "type": "text", "id": "deal_text", "label": "Deal line", "default": "2+ pieces = −10%", "info": "Leave empty to hide." },
+    { "type": "range", "id": "discount_percent", "label": "Discount shown", "min": 0, "max": 50, "step": 1, "unit": "%", "default": 10, "info": "Display only. Create a matching automatic discount, or fill in a discount code below." },
+    { "type": "range", "id": "min_pieces", "label": "Pieces needed for the discount", "min": 1, "max": 4, "step": 1, "default": 2 },
+    { "type": "text", "id": "discount_code", "label": "Discount code to apply", "info": "Optional. Applied on the way to the cart when the bundle qualifies." },
+    {
+      "type": "select",
+      "id": "after_add",
+      "label": "After adding",
+      "options": [
+        { "value": "cart", "label": "Go to the cart" },
+        { "value": "stay", "label": "Stay and show a message" }
+      ],
+      "default": "cart"
+    },
+    { "type": "text", "id": "note_save", "label": "Saving note", "default": "You save [amount]", "info": "[amount] is the saving." },
+    { "type": "text", "id": "note_more_one", "label": "Nudge, one piece left", "default": "Add [count] more piece to save [percent]%" },
+    { "type": "text", "id": "note_more_other", "label": "Nudge, several left", "default": "Add [count] more pieces to save [percent]%" },
+    { "type": "text", "id": "button_empty", "label": "Button, nothing ticked", "default": "Select a piece" },
+    { "type": "text", "id": "button_one", "label": "Button, one piece", "default": "Add [count] piece to cart" },
+    { "type": "text", "id": "button_other", "label": "Button, several pieces", "default": "Add [count] pieces to cart" },
+    { "type": "header", "content": "Layout" },
+    { "type": "checkbox", "id": "full_width", "label": "Full width", "default": false },
+    {
+      "type": "select",
+      "id": "panel_position",
+      "label": "Panel position",
+      "options": [
+        { "value": "right", "label": "Right" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "right"
+    },
+    { "type": "range", "id": "panel_width", "label": "Panel width", "min": 320, "max": 480, "step": 8, "unit": "px", "default": 416 },
+    { "type": "range", "id": "min_height", "label": "Height, desktop", "min": 480, "max": 960, "step": 20, "unit": "px", "default": 720 },
+    { "type": "range", "id": "min_height_mobile", "label": "Height, mobile", "min": 400, "max": 800, "step": 20, "unit": "px", "default": 640 },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0 },
+    { "type": "header", "content": "Corners" },
+    { "type": "range", "id": "radius_panel", "label": "Panel", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 24 },
+    { "type": "range", "id": "radius_row", "label": "Rows", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 12 },
+    { "type": "range", "id": "radius_button", "label": "Button", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 8 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_band", "label": "Band background", "default": "#f4f4f5" },
+    { "type": "color", "id": "color_on_image", "label": "Text on photo", "default": "#ffffff" },
+    { "type": "color", "id": "color_panel", "label": "Panel background", "default": "#ffffff" },
+    { "type": "range", "id": "panel_opacity", "label": "Panel opacity", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 90 },
+    { "type": "color", "id": "color_text", "label": "Panel text", "default": "#09090b" },
+    { "type": "color", "id": "color_muted", "label": "Panel muted text", "default": "#65656e" },
+    { "type": "color", "id": "color_border", "label": "Lines and checkboxes", "default": "#e4e4e7" },
+    { "type": "color", "id": "color_row", "label": "Ticked row", "default": "#f4f4f5" },
+    { "type": "color", "id": "color_sale", "label": "Sale price and deal icon", "default": "#dc2626" },
+    { "type": "color", "id": "color_button", "label": "Button", "default": "#18181b" },
+    { "type": "color", "id": "color_button_label", "label": "Button label", "default": "#ffffff" },
+    { "type": "color", "id": "color_button_hover", "label": "Button hover", "default": "#3f3f46" }
+  ],
+  "blocks": [
+    {
+      "type": "piece",
+      "name": "Piece",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product", "info": "Its first available variant goes in the cart." },
+        { "type": "text", "id": "variant_label", "label": "Line under the name", "info": "Leave empty to show the variant name." },
+        { "type": "checkbox", "id": "checked", "label": "Ticked by default", "default": true },
+        { "type": "range", "id": "x", "label": "Hotspot, left", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 },
+        { "type": "range", "id": "y", "label": "Hotspot, top", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 },
+        { "type": "header", "content": "Demo, shown until a product is picked" },
+        { "type": "text", "id": "demo_title", "label": "Title", "default": "Harbor 3-Seat Sofa" },
+        { "type": "text", "id": "demo_variant", "label": "Variant", "default": "Cognac leather" },
+        { "type": "number", "id": "demo_price", "label": "Price", "default": 1499 }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle, room photo",
+      "blocks": [
+        { "type": "piece", "settings": { "x": 22, "y": 64, "demo_title": "Harbor 3-Seat Sofa", "demo_variant": "Cognac leather", "demo_price": 1499 } },
+        { "type": "piece", "settings": { "x": 72, "y": 58, "demo_title": "Tufted Lounge Chair", "demo_variant": "Ivory bouclé", "demo_price": 890 } },
+        { "type": "piece", "settings": { "x": 52, "y": 78, "demo_title": "Three-Leg Side Stool", "demo_variant": "Natural oak", "demo_price": 160 } },
+        { "type": "piece", "settings": { "x": 60, "y": 44, "checked": false, "demo_title": "Fig Leaf Candle", "demo_variant": "Large, 60 h", "demo_price": 42 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

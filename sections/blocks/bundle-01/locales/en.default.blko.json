@@ -1,0 +1,12 @@
+{
+  "blko": {
+    "bundle_01": {
+      "adding": "Adding…",
+      "added": "Added to your cart.",
+      "error": "Couldn’t add the bundle. Please try again.",
+      "demo": "Pick a product for each piece in the theme editor to sell this bundle.",
+      "sold_out": "Sold out",
+      "was": "Was"
+    }
+  }
+}
