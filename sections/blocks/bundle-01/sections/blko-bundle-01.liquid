@@ -5,6 +5,19 @@
   Works in any Online Store 2.0 theme: every class is blko-b01-, every colour and size is a section setting.
 {%- endcomment -%}
 {{ 'blko-bundle-01.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.font_source == 'bundled' -%}
+  {%- comment -%} Bagel Fat One and Plus Jakarta Sans, latin subsets (SIL Open Font License 1.1). {%- endcomment -%}
+  <style>
+    @font-face { font-family: 'blko-b01 Bagel Fat One'; src: url('{{ 'blko-b01-bagel-fat-one.woff2' | asset_url }}') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+    @font-face { font-family: 'blko-b01 Plus Jakarta Sans'; src: url('{{ 'blko-b01-plus-jakarta-sans.woff2' | asset_url }}') format('woff2'); font-weight: 400 700; font-style: normal; font-display: swap; }
+  </style>
+{%- elsif section.settings.font_source == 'picker' -%}
+  <style>
+    {{ section.settings.heading_font | font_face: font_display: 'swap' }}
+    {{ section.settings.body_font | font_face: font_display: 'swap' }}
+    {{ section.settings.body_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  </style>
+{%- endif -%}
 <script src="{{ 'blko-bundle-01.js' | asset_url }}" defer="defer"></script>
 
 {%- liquid
@@ -12,13 +25,16 @@
   assign subtotal = 0
   assign chosen = 0
   assign min = s.min_pieces
-  case s.heading_font
-    when 'theme_heading'
+  case s.font_source
+    when 'theme'
       assign heading_family = 'var(--font-heading-family, inherit)'
-    when 'theme_body'
-      assign heading_family = 'inherit'
+      assign body_family = 'var(--font-body-family, inherit)'
+    when 'picker'
+      assign heading_family = s.heading_font.family | append: ', ' | append: s.heading_font.fallback_families
+      assign body_family = s.body_font.family | append: ', ' | append: s.body_font.fallback_families
     else
-      assign heading_family = "'Instrument Serif', 'Iowan Old Style', Georgia, serif"
+      assign heading_family = "'blko-b01 Bagel Fat One', system-ui, sans-serif"
+      assign body_family = "'blko-b01 Plus Jakarta Sans', system-ui, sans-serif"
   endcase
   assign label = s.heading | strip_html | escape
 -%}
@@ -27,13 +43,13 @@
   class="blko-b01{% if s.full_width %} blko-b01--full{% endif %} blko-b01--panel-{{ s.panel_position }}"
   style="
     --blko-b01-pt: {{ s.padding_top }}px; --blko-b01-pb: {{ s.padding_bottom }}px;
-    --blko-b01-band: {{ s.color_band }}; --blko-b01-panel: {{ s.color_panel }}; --blko-b01-panel-alpha: {{ s.panel_opacity }}%;
+    --blko-b01-band: {{ s.color_band }}; --blko-b01-panel: {{ s.color_panel }};
     --blko-b01-text: {{ s.color_text }}; --blko-b01-muted: {{ s.color_muted }}; --blko-b01-border: {{ s.color_border }};
     --blko-b01-row: {{ s.color_row }}; --blko-b01-button: {{ s.color_button }}; --blko-b01-button-label: {{ s.color_button_label }};
     --blko-b01-button-hover: {{ s.color_button_hover }}; --blko-b01-sale: {{ s.color_sale }}; --blko-b01-on-image: {{ s.color_on_image }};
     --blko-b01-overlay: {{ s.overlay }}%; --blko-b01-h: {{ s.min_height }}px; --blko-b01-h-mobile: {{ s.min_height_mobile }}px;
-    --blko-b01-panel-w: {{ s.panel_width }}px; --blko-b01-radius-panel: {{ s.radius_panel }}px; --blko-b01-radius-row: {{ s.radius_row }}px;
-    --blko-b01-radius-button: {{ s.radius_button }}px; --blko-b01-heading-font: {{ heading_family }};
+    --blko-b01-radius-row: {{ s.radius_row }}px; --blko-b01-radius-check: {{ s.radius_check }}px;
+    --blko-b01-radius-button: {{ s.radius_button }}px; --blko-b01-heading-font: {{ heading_family }}; --blko-b01-body-font: {{ body_family }};
     --blko-b01-heading: {{ s.heading_size }}px;
   "
   data-money-format="{{ shop.money_format | strip_html | escape }}"
@@ -224,15 +240,17 @@
     { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Complete the <em>room</em>", "info": "Use italic for the accent word." },
     {
       "type": "select",
-      "id": "heading_font",
-      "label": "Heading font",
+      "id": "font_source",
+      "label": "Fonts",
       "options": [
-        { "value": "serif", "label": "Serif" },
-        { "value": "theme_heading", "label": "Theme heading font" },
-        { "value": "theme_body", "label": "Theme body font" }
+        { "value": "bundled", "label": "Bundled (Bagel Fat One + Plus Jakarta Sans)" },
+        { "value": "picker", "label": "Pick from the font library" },
+        { "value": "theme", "label": "Use the theme's fonts" }
       ],
-      "default": "serif"
+      "default": "bundled"
     },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "assistant_n4", "info": "Used when Fonts is set to the font library." },
+    { "type": "font_picker", "id": "body_font", "label": "Body font", "default": "assistant_n4", "info": "Used when Fonts is set to the font library." },
     { "type": "range", "id": "heading_size", "label": "Heading size", "info": "Mobile uses 62.5% of it", "min": 32, "max": 96, "step": 2, "unit": "px", "default": 64 },
     { "type": "header", "content": "Bundle" },
     { "type": "text", "id": "deal_text", "label": "Deal line", "default": "2+ pieces = −10%", "info": "Leave empty to hide." },
@@ -267,28 +285,26 @@
       ],
       "default": "right"
     },
-    { "type": "range", "id": "panel_width", "label": "Panel width", "min": 320, "max": 480, "step": 8, "unit": "px", "default": 416 },
     { "type": "range", "id": "min_height", "label": "Height, desktop", "min": 480, "max": 960, "step": 20, "unit": "px", "default": 720 },
     { "type": "range", "id": "min_height_mobile", "label": "Height, mobile", "min": 400, "max": 800, "step": 20, "unit": "px", "default": 640 },
     { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0 },
     { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 0 },
     { "type": "header", "content": "Corners" },
-    { "type": "range", "id": "radius_panel", "label": "Panel", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 24 },
-    { "type": "range", "id": "radius_row", "label": "Rows", "min": 0, "max": 24, "step": 2, "unit": "px", "default": 12 },
-    { "type": "range", "id": "radius_button", "label": "Button", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 8 },
+    { "type": "range", "id": "radius_row", "label": "Rows", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 28, "info": "The panel uses twice this." },
+    { "type": "range", "id": "radius_check", "label": "Checkboxes", "min": 0, "max": 10, "step": 1, "unit": "px", "default": 10 },
+    { "type": "range", "id": "radius_button", "label": "Button", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 40 },
     { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "color_band", "label": "Band background", "default": "#f4f4f5" },
+    { "type": "color", "id": "color_band", "label": "Band background", "default": "#fdeadb" },
     { "type": "color", "id": "color_on_image", "label": "Text on photo", "default": "#ffffff" },
-    { "type": "color", "id": "color_panel", "label": "Panel background", "default": "#ffffff" },
-    { "type": "range", "id": "panel_opacity", "label": "Panel opacity", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 90 },
-    { "type": "color", "id": "color_text", "label": "Panel text", "default": "#09090b" },
-    { "type": "color", "id": "color_muted", "label": "Panel muted text", "default": "#65656e" },
-    { "type": "color", "id": "color_border", "label": "Lines and checkboxes", "default": "#e4e4e7" },
-    { "type": "color", "id": "color_row", "label": "Ticked row", "default": "#f4f4f5" },
-    { "type": "color", "id": "color_sale", "label": "Sale price and deal icon", "default": "#dc2626" },
-    { "type": "color", "id": "color_button", "label": "Button", "default": "#18181b" },
+    { "type": "color", "id": "color_panel", "label": "Panel background", "default": "#fff8f0" },
+    { "type": "color", "id": "color_text", "label": "Panel text", "default": "#2b1640" },
+    { "type": "color", "id": "color_muted", "label": "Panel muted text", "default": "#5f4b70" },
+    { "type": "color", "id": "color_border", "label": "Lines and checkboxes", "default": "#ead7c6" },
+    { "type": "color", "id": "color_row", "label": "Ticked row", "default": "#fdeadb" },
+    { "type": "color", "id": "color_sale", "label": "Sale price and deal icon", "default": "#b4235a" },
+    { "type": "color", "id": "color_button", "label": "Button", "default": "#c2410c" },
     { "type": "color", "id": "color_button_label", "label": "Button label", "default": "#ffffff" },
-    { "type": "color", "id": "color_button_hover", "label": "Button hover", "default": "#3f3f46" }
+    { "type": "color", "id": "color_button_hover", "label": "Button hover", "default": "#a3360a" }
   ],
   "blocks": [
     {

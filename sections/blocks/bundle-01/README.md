@@ -17,7 +17,7 @@ Use the Blocko library (https://github.com/blockoai/blocko) to install the stand
 
 ## Install
 
-Copy the files into the same folders of your theme, merge the locale keys, then add **Bundle, room photo** from the Theme Editor (Add section) and pick a product for each piece.
+Copy the files (including the two .woff2 fonts) into the same folders of your theme, merge the locale keys, then add **Bundle, room photo** from the Theme Editor (Add section) and pick a product for each piece.
 Never overwrite an existing file with the same name without comparing it first.
 
 ## Install by editing theme code (Shopify Sidekick)
@@ -30,6 +30,8 @@ Do not use a zip.
    - `snippets/blko-bundle-01-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/blocks/bundle-01/snippets/blko-bundle-01-icon.liquid
    - `assets/blko-bundle-01.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/blocks/bundle-01/assets/blko-bundle-01.css
    - `assets/blko-bundle-01.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/blocks/bundle-01/assets/blko-bundle-01.js
+   - `assets/blko-b01-bagel-fat-one.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/blocks/bundle-01/assets/blko-b01-bagel-fat-one.woff2 (binary font: upload the downloaded file in Assets > Add a new asset)
+   - `assets/blko-b01-plus-jakarta-sans.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/blocks/bundle-01/assets/blko-b01-plus-jakarta-sans.woff2 (binary font: upload the downloaded file in Assets > Add a new asset)
 3. Merge the keys from `locales/en.default.blko.json` (https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/blocks/bundle-01/locales/en.default.blko.json) into your `locales/en.default.json`. Keep your existing keys.
 4. Open the page in the Theme Editor, add **Bundle, room photo** at the chosen position, then pick a product in each **Piece** block and drag its hotspot into place.
 5. If the bundle should really be cheaper, create an automatic discount (or a code, set in the section) that matches **Discount shown** and **Pieces needed for the discount**.
@@ -40,6 +42,8 @@ Do not use a zip.
 - `snippets/blko-bundle-01-icon.liquid`
 - `assets/blko-bundle-01.css`
 - `assets/blko-bundle-01.js`
+- `assets/blko-b01-bagel-fat-one.woff2`
+- `assets/blko-b01-plus-jakarta-sans.woff2`
 - `locales/en.default.blko.json`
 
 ## Section settings
@@ -51,7 +55,9 @@ Do not use a zip.
 | `show_hotspots` | checkbox | Show numbered hotspots | true |
 | `eyebrow` | text | Eyebrow | Shop the room |
 | `heading` | inline_richtext | Heading | Complete the <em>room</em> |
-| `heading_font` | select | Heading font | serif |
+| `font_source` | select | Fonts | bundled |
+| `heading_font` | font_picker | Heading font | assistant_n4 |
+| `body_font` | font_picker | Body font | assistant_n4 |
 | `heading_size` | range | Heading size | 64 |
 | `deal_text` | text | Deal line | 2+ pieces = −10% |
 | `discount_percent` | range | Discount shown | 10 |
@@ -66,26 +72,24 @@ Do not use a zip.
 | `button_other` | text | Button, several pieces | Add [count] pieces to cart |
 | `full_width` | checkbox | Full width | false |
 | `panel_position` | select | Panel position | right |
-| `panel_width` | range | Panel width | 416 |
 | `min_height` | range | Height, desktop | 720 |
 | `min_height_mobile` | range | Height, mobile | 640 |
 | `padding_top` | range | Top padding | 0 |
 | `padding_bottom` | range | Bottom padding | 0 |
-| `radius_panel` | range | Panel | 24 |
-| `radius_row` | range | Rows | 12 |
-| `radius_button` | range | Button | 8 |
-| `color_band` | color | Band background | #f4f4f5 |
+| `radius_row` | range | Rows | 28 |
+| `radius_check` | range | Checkboxes | 10 |
+| `radius_button` | range | Button | 40 |
+| `color_band` | color | Band background | #fdeadb |
 | `color_on_image` | color | Text on photo | #ffffff |
-| `color_panel` | color | Panel background | #ffffff |
-| `panel_opacity` | range | Panel opacity | 90 |
-| `color_text` | color | Panel text | #09090b |
-| `color_muted` | color | Panel muted text | #65656e |
-| `color_border` | color | Lines and checkboxes | #e4e4e7 |
-| `color_row` | color | Ticked row | #f4f4f5 |
-| `color_sale` | color | Sale price and deal icon | #dc2626 |
-| `color_button` | color | Button | #18181b |
+| `color_panel` | color | Panel background | #fff8f0 |
+| `color_text` | color | Panel text | #2b1640 |
+| `color_muted` | color | Panel muted text | #5f4b70 |
+| `color_border` | color | Lines and checkboxes | #ead7c6 |
+| `color_row` | color | Ticked row | #fdeadb |
+| `color_sale` | color | Sale price and deal icon | #b4235a |
+| `color_button` | color | Button | #c2410c |
 | `color_button_label` | color | Button label | #ffffff |
-| `color_button_hover` | color | Button hover | #3f3f46 |
+| `color_button_hover` | color | Button hover | #a3360a |
 
 ## Blocks
 
@@ -104,7 +108,9 @@ Do not use a zip.
 
 ## Dependencies
 
-- Assets: `blko-bundle-01.css`, `blko-bundle-01.js`
+- Assets: `blko-bundle-01.css`, `blko-bundle-01.js`, `blko-b01-bagel-fat-one.woff2`, `blko-b01-plus-jakarta-sans.woff2`
 - Snippets: `blko-bundle-01-icon.liquid` (Lucide `tag` and `check`)
 - Locale keys: `blko.bundle_01.adding`, `.added`, `.error`, `.demo`, `.sold_out`, `.was` (merge `locales/en.default.blko.json` into your `locales/en.default.json`)
-- Theme settings read: none. Every colour, size and text is a section setting; the heading can use the theme's heading font (`--font-heading-family`, with a fallback).
+- Theme settings read: none. Every colour, size, corner and text is a section setting.
+- Fonts: the section brings its own. Default **Bundled** loads Bagel Fat One (headings) and Plus Jakarta Sans (body), latin subsets, from the two woff2 assets (SIL Open Font License 1.1, fonts.google.com). **Pick from the font library** uses the two font pickers (Shopify font library, `font_face`). **Use the theme's fonts** reads `--font-heading-family` / `--font-body-family` with fallbacks.
+- Defaults match the block page on blocko.ai (Plush look): cream panel, plum round checks, magenta sale price, tangerine pill button. All sizes are in px, so themes that shrink `rem` (Dawn sets `html` to 62.5%) don't change it.
