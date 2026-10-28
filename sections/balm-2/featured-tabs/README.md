@@ -19,6 +19,23 @@ Use the Blocko library (https://github.com/blockoai/blocko, or the Claude Code p
 Copy the files into the same folders of your theme, then add the section from the Theme Editor (Add section).
 Never overwrite an existing file with the same name without comparing it first.
 
+## Install by editing theme code (Shopify Sidekick)
+
+Do not use a zip.
+
+1. Ask which theme, which page and where on the page the section goes. Wait for the answer.
+2. In that theme's code editor, create each file below at the same path, with the exact content from its link. If a file with the same name already exists, compare first and never overwrite it blindly.
+   - `sections/blko-featured-tabs.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/balm-2/featured-tabs/sections/blko-featured-tabs.liquid
+   - `snippets/blko-demo-card.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/balm-2/featured-tabs/snippets/blko-demo-card.liquid
+   - `snippets/blko-fallback-image.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/balm-2/featured-tabs/snippets/blko-fallback-image.liquid
+   - `snippets/blko-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/balm-2/featured-tabs/snippets/blko-icon.liquid
+   - `snippets/blko-price.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/balm-2/featured-tabs/snippets/blko-price.liquid
+   - `snippets/blko-product-card.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/balm-2/featured-tabs/snippets/blko-product-card.liquid
+   - `snippets/blko-rating.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/balm-2/featured-tabs/snippets/blko-rating.liquid
+   - `assets/blko-tabs.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/balm-2/featured-tabs/assets/blko-tabs.js
+3. Merge the keys from `locales/en.default.blko.json` (https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/balm-2/featured-tabs/locales/en.default.blko.json) into your `locales/en.default.json`. Keep your existing keys.
+4. Open the page in the Theme Editor and add the section at the chosen position.
+
 ## Files
 
 - `sections/blko-featured-tabs.liquid`
