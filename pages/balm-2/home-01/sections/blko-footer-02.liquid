@@ -1,0 +1,213 @@
+{%- comment -%}
+  Footer 02, "Serif newsletter, soft": a large sign-up on the left (Shopify customer form, tagged newsletter), compact
+  link columns on the right, then a copyright line with legal links. Each column is a block with a menu picker; without
+  a menu it shows its demo links. Works in any Online Store 2.0 theme: every class is blko-ft02-, every colour, size and
+  text is a setting.
+{%- endcomment -%}
+{{ 'blko-footer-02.css' | asset_url | stylesheet_tag }}
+{%- render 'blko-h01-fonts', source: section.settings.font_source, heading_font: section.settings.heading_font, body_font: section.settings.body_font -%}
+
+{%- liquid
+  assign s = section.settings
+  case s.font_source
+    when 'theme'
+      assign heading_family = 'var(--font-heading-family, inherit)'
+      assign body_family = 'var(--font-body-family, inherit)'
+    when 'picker'
+      assign heading_family = s.heading_font.family | append: ', ' | append: s.heading_font.fallback_families
+      assign body_family = s.body_font.family | append: ', ' | append: s.body_font.fallback_families
+    else
+      assign heading_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+      assign body_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+  endcase
+  assign brand = s.brand | default: shop.name
+  assign email_id = 'BlkoFt02Email-' | append: section.id
+  assign form_id = 'BlkoFt02Form-' | append: section.id
+  assign demo_legal = 'Privacy,Terms,Cookies,Accessibility' | split: ','
+-%}
+
+<footer
+  class="blko-ft02"
+  style="
+    --blko-ft02-heading-font: {{ heading_family }}; --blko-ft02-body-font: {{ body_family }};
+    --blko-ft02-bg: {{ s.color_bg }}; --blko-ft02-text: {{ s.color_text }}; --blko-ft02-muted: {{ s.color_muted }};
+    --blko-ft02-input: {{ s.color_input }}; --blko-ft02-input-border: {{ s.color_input_border }};
+    --blko-ft02-button: {{ s.color_button }}; --blko-ft02-button-label: {{ s.color_button_label }}; --blko-ft02-button-hover: {{ s.color_button_hover }};
+    --blko-ft02-max: {{ s.max_width }}px; --blko-ft02-h-m: {{ s.heading_size_mobile }}px; --blko-ft02-h-d: {{ s.heading_size }}px;
+    --blko-ft02-radius-input: {{ s.radius_input }}px; --blko-ft02-radius-button: {{ s.radius_button }}px;
+  "
+>
+  <div class="blko-ft02__main">
+    {%- form 'customer', id: form_id, class: 'blko-ft02__form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      {%- if s.heading != blank -%}
+        <h2 class="blko-ft02__heading">{{ s.heading }}</h2>
+      {%- endif -%}
+      {%- if s.text != blank -%}
+        <p class="blko-ft02__text">{{ s.text | escape }}</p>
+      {%- endif -%}
+      <div class="blko-ft02__field">
+        <label for="{{ email_id }}" class="blko-ft02__sr">{{ 'blko.footer_02.email_label' | t }}</label>
+        <input
+          id="{{ email_id }}"
+          class="blko-ft02__input"
+          type="email"
+          name="contact[email]"
+          autocomplete="email"
+          autocorrect="off"
+          autocapitalize="off"
+          required
+          placeholder="{{ s.placeholder | escape }}"
+          {% if form.errors %}
+            aria-invalid="true"
+          {% endif %}
+        >
+        <button type="submit" class="blko-ft02__button">{{ s.button_label | escape }}</button>
+      </div>
+      {%- if form.posted_successfully? -%}
+        <p class="blko-ft02__msg" role="status">{{ 'blko.footer_02.success' | t }}</p>
+      {%- elsif form.errors -%}
+        <p class="blko-ft02__msg" role="alert">{{ form.errors | default_errors }}</p>
+      {%- endif -%}
+      {%- if s.consent != blank -%}
+        <p class="blko-ft02__consent">{{ s.consent }}</p>
+      {%- endif -%}
+    {%- endform -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="blko-ft02__cols">
+        {%- for block in section.blocks -%}
+          {%- assign b = block.settings -%}
+          <nav class="blko-ft02__col" aria-label="{{ b.title | escape }}" {{ block.shopify_attributes }}>
+            {%- if b.title != blank -%}
+              <p class="blko-ft02__col-title">{{ b.title | escape }}</p>
+            {%- endif -%}
+            <ul class="blko-ft02__list" role="list">
+              {%- if b.menu != blank and b.menu.links.size > 0 -%}
+                {%- for link in b.menu.links -%}
+                  <li class="blko-ft02__item">
+                    <a href="{{ link.url }}" class="blko-ft02__link">
+                      {{- link.title | escape -}}
+                      {%- render 'blko-ft02-icon', name: 'arrow-up-right', class: 'blko-ft02__arrow' -%}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              {%- else -%}
+                {%- assign demo = b.demo_links | split: ',' -%}
+                {%- for title in demo -%}
+                  <li class="blko-ft02__item">
+                    <a href="{{ routes.root_url }}" class="blko-ft02__link">
+                      {{- title | strip | escape -}}
+                      {%- render 'blko-ft02-icon', name: 'arrow-up-right', class: 'blko-ft02__arrow' -%}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              {%- endif -%}
+            </ul>
+          </nav>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="blko-ft02__bottom">
+    <div class="blko-ft02__bottom-inner">
+      <span class="blko-ft02__copy">&copy; {{ 'now' | date: '%Y' }} {{ brand | escape }}</span>
+      <nav class="blko-ft02__legal" aria-label="{{ 'blko.footer_02.legal' | t | escape }}">
+        {%- if s.legal_menu != blank and s.legal_menu.links.size > 0 -%}
+          {%- for link in s.legal_menu.links -%}
+            <a href="{{ link.url }}" class="blko-ft02__legal-link">{{ link.title | escape }}</a>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for title in demo_legal -%}
+            {%- liquid
+              case forloop.index
+                when 1
+                  assign href = shop.privacy_policy.url
+                when 2
+                  assign href = shop.terms_of_service.url
+                else
+                  assign href = blank
+              endcase
+              if href == blank
+                assign href = routes.root_url
+              endif
+            -%}
+            <a href="{{ href }}" class="blko-ft02__legal-link">{{ title }}</a>
+          {%- endfor -%}
+        {%- endif -%}
+      </nav>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer, newsletter",
+  "tag": "div",
+  "class": "blko-ft02-section",
+  "enabled_on": { "groups": ["footer"] },
+  "max_blocks": 4,
+  "settings": [
+    { "type": "header", "content": "Newsletter" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Get 10% off your <em>first</em> order.", "info": "Use italic for the accent word." },
+    { "type": "text", "id": "text", "label": "Text", "default": "New launches, restocks and skin notes. One email a week, never more." },
+    { "type": "text", "id": "placeholder", "label": "Email placeholder", "default": "Email address" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Subscribe" },
+    { "type": "inline_richtext", "id": "consent", "label": "Small print", "default": "By subscribing you agree to our <a href=\"/policies/privacy-policy\">Privacy Policy</a>." },
+    { "type": "header", "content": "Bottom line" },
+    { "type": "text", "id": "brand", "label": "Copyright name", "default": "Lumen Goods", "info": "Leave empty to use the store name. The year updates itself." },
+    { "type": "link_list", "id": "legal_menu", "label": "Legal menu", "info": "Without a menu the demo links show." },
+    { "type": "header", "content": "Typography" },
+    {
+      "type": "select",
+      "id": "font_source",
+      "label": "Fonts",
+      "options": [
+        { "value": "bundled", "label": "Bundled (Schibsted Grotesk)" },
+        { "value": "picker", "label": "Pick from the font library" },
+        { "value": "theme", "label": "Use the theme's fonts" }
+      ],
+      "default": "bundled"
+    },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "assistant_n4", "info": "Used when Fonts is set to the font library." },
+    { "type": "font_picker", "id": "body_font", "label": "Body font", "default": "assistant_n4", "info": "Used when Fonts is set to the font library." },
+    { "type": "range", "id": "heading_size", "label": "Heading size, desktop", "min": 32, "max": 96, "step": 2, "unit": "px", "default": 64 },
+    { "type": "range", "id": "heading_size_mobile", "label": "Heading size, mobile", "min": 24, "max": 56, "step": 1, "unit": "px", "default": 32 },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "max_width", "label": "Content width", "min": 960, "max": 1920, "step": 20, "unit": "px", "default": 1280 },
+    { "type": "range", "id": "radius_input", "label": "Field corners", "min": 0, "max": 22, "step": 1, "unit": "px", "default": 6 },
+    { "type": "range", "id": "radius_button", "label": "Button corners", "min": 0, "max": 22, "step": 1, "unit": "px", "default": 6 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_bg", "label": "Background", "default": "#f5f2ec" },
+    { "type": "color", "id": "color_text", "label": "Text and lines", "default": "#1d2421" },
+    { "type": "color", "id": "color_muted", "label": "Placeholder", "default": "#545c57" },
+    { "type": "color", "id": "color_input", "label": "Field background", "default": "#ffffff" },
+    { "type": "color", "id": "color_input_border", "label": "Field border", "default": "#d8d1c4" },
+    { "type": "color", "id": "color_button", "label": "Button", "default": "#3f5a45" },
+    { "type": "color", "id": "color_button_label", "label": "Button label", "default": "#ffffff" },
+    { "type": "color", "id": "color_button_hover", "label": "Button hover", "default": "#324a38" }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Link column",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Heading", "default": "Shop" },
+        { "type": "link_list", "id": "menu", "label": "Menu", "info": "Top-level links only." },
+        { "type": "text", "id": "demo_links", "label": "Demo links", "default": "New in, Skincare, Makeup, Body & hair", "info": "Shown until a menu is picked. Separate with commas." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer, newsletter",
+      "blocks": [
+        { "type": "column", "settings": { "title": "Shop", "demo_links": "New in, Skincare, Makeup, Body & hair" } },
+        { "type": "column", "settings": { "title": "Help", "demo_links": "Contact us, Shipping, Returns, Track order" } },
+        { "type": "column", "settings": { "title": "About", "demo_links": "Our story, Ingredients, Journal" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

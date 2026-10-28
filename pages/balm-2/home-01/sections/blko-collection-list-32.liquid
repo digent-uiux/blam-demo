@@ -1,0 +1,280 @@
+{%- comment -%}
+  Collection list 32, "Face map": a line-drawn face on a round card with tappable zones. Beside it the zones are a
+  ruled list (a radio group, arrow keys move it); picking a zone fills it on the drawing and swaps the card under the
+  list: the concern (linked to the zone's collection) and one hero product with an Add button (POST /cart/add.js).
+  Each zone is a block with a collection and a product picker; a block without a product shows its demo product, or
+  the collection's first product. Works in any Online Store 2.0 theme: every class is blko-cl32-.
+{%- endcomment -%}
+{{ 'blko-collection-list-32.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-collection-list-32.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-h01-fonts', source: section.settings.font_source, heading_font: section.settings.heading_font, body_font: section.settings.body_font -%}
+
+{%- liquid
+  assign s = section.settings
+  case s.font_source
+    when 'theme'
+      assign heading_family = 'var(--font-heading-family, inherit)'
+      assign body_family = 'var(--font-body-family, inherit)'
+    when 'picker'
+      assign heading_family = s.heading_font.family | append: ', ' | append: s.heading_font.fallback_families
+      assign body_family = s.body_font.family | append: ', ' | append: s.body_font.fallback_families
+    else
+      assign heading_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+      assign body_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+  endcase
+  assign label = s.heading | strip_html | escape
+  assign pt_mobile = s.padding_top | times: 0.7 | round
+  assign pb_mobile = s.padding_bottom | times: 0.7 | round
+  if s.pill_button
+    assign radius_button = 9999
+  else
+    assign radius_button = s.radius_card | divided_by: 2
+  endif
+  assign first = section.blocks.first
+-%}
+
+<blko-collection-list-32
+  class="blko-cl32"
+  style="
+    --blko-cl32-heading-font: {{ heading_family }}; --blko-cl32-body-font: {{ body_family }};
+    --blko-cl32-bg: {{ s.color_bg }}; --blko-cl32-card: {{ s.color_card }}; --blko-cl32-text: {{ s.color_text }};
+    --blko-cl32-muted: {{ s.color_muted }}; --blko-cl32-border: {{ s.color_border }}; --blko-cl32-accent: {{ s.color_accent }};
+    --blko-cl32-button: {{ s.color_button }}; --blko-cl32-button-label: {{ s.color_button_label }};
+    --blko-cl32-h2: {{ s.heading_size }}px; --blko-cl32-h2-mobile: {{ s.heading_size_mobile }}px;
+    --blko-cl32-pt: {{ s.padding_top }}px; --blko-cl32-pb: {{ s.padding_bottom }}px; --blko-cl32-pt-mobile: {{ pt_mobile }}px; --blko-cl32-pb-mobile: {{ pb_mobile }}px;
+    --blko-cl32-radius-card: {{ s.radius_card }}px; --blko-cl32-radius-image: {{ s.radius_image }}px; --blko-cl32-radius-button: {{ radius_button }}px;
+  "
+  data-adding="{{ 'blko.collection_list_32.adding' | t | escape }}"
+  data-added="{{ 'blko.collection_list_32.added' | t | escape }}"
+  data-error="{{ 'blko.collection_list_32.error' | t | escape }}"
+  data-demo="{{ 'blko.collection_list_32.demo' | t | escape }}"
+  data-map-label="{{ 'blko.collection_list_32.map' | t | escape }}"
+>
+  <section class="blko-cl32__band" aria-label="{{ label }}">
+    <div class="blko-cl32__inner">
+      <header class="blko-cl32__head">
+        <h2 class="blko-cl32__title">{{ s.heading }}</h2>
+        {%- if s.text != blank -%}
+          <p class="blko-cl32__lead">{{ s.text | escape }}</p>
+        {%- endif -%}
+      </header>
+
+      <div class="blko-cl32__drawing">
+        <div class="blko-cl32__disc">
+          <svg class="blko-cl32__map" viewBox="0 0 300 360" role="img" aria-label="{{ 'blko.collection_list_32.map' | t | replace: '[zone]', first.settings.name | escape }}" data-map>
+            <g class="blko-cl32__face" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="150" cy="185" rx="112" ry="142" />
+              <path d="M112 304 L112 360 M188 304 L188 360" />
+              <path d="M88 156 Q110 144 134 154 M166 154 Q190 144 212 156" />
+              <path d="M92 172 Q110 162 130 172 Q110 180 92 172 Z M170 172 Q190 162 208 172 Q190 180 170 172 Z" />
+              <path d="M150 168 L146 220 Q144 228 152 228 M140 226 Q150 234 160 226" />
+              <path d="M120 278 Q135 268 150 274 Q165 268 180 278 Q150 296 120 278 Z M120 278 L180 278" />
+            </g>
+            {%- for block in section.blocks -%}
+              {%- liquid
+                case block.settings.area
+                  when 'undereye'
+                    assign mx = 242
+                    assign my = 182
+                  when 'cheeks'
+                    assign mx = 256
+                    assign my = 246
+                  when 'lips'
+                    assign mx = 150
+                    assign my = 318
+                  else
+                    assign mx = 150
+                    assign my = 98
+                endcase
+              -%}
+              <g class="blko-cl32__zone{% if forloop.first %} is-on{% endif %}" data-zone-shape="{{ block.id }}" aria-hidden="true">
+                {%- case block.settings.area -%}
+                  {%- when 'undereye' -%}
+                    <path d="M86 184 Q110 202 134 184 Q110 194 86 184 Z" /><path d="M166 184 Q190 202 214 184 Q190 194 166 184 Z" />
+                  {%- when 'cheeks' -%}
+                    <path d="M62 236 a30 26 0 1 0 60 0 a30 26 0 1 0 -60 0 Z" /><path d="M178 236 a30 26 0 1 0 60 0 a30 26 0 1 0 -60 0 Z" />
+                  {%- when 'lips' -%}
+                    <path d="M114 278 Q150 252 186 278 Q150 304 114 278 Z" />
+                  {%- else -%}
+                    <path d="M84 124 Q86 74 150 66 Q214 74 216 124 L216 132 L168 132 L168 232 Q150 242 132 232 L132 132 L84 132 Z" />
+                {%- endcase -%}
+                <circle cx="{{ mx }}" cy="{{ my }}" r="11" />
+                <text x="{{ mx }}" y="{{ my | plus: 3.5 }}" text-anchor="middle" font-size="10">{{ forloop.index }}</text>
+              </g>
+            {%- endfor -%}
+          </svg>
+        </div>
+      </div>
+
+      <div class="blko-cl32__side">
+        <div class="blko-cl32__list" role="radiogroup" aria-label="{{ s.list_label | escape }}" data-list>
+          {%- for block in section.blocks -%}
+            <button
+              type="button"
+              class="blko-cl32__zone-btn{% if forloop.first %} is-on{% endif %}"
+              role="radio"
+              aria-checked="{% if forloop.first %}true{% else %}false{% endif %}"
+              tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+              data-zone="{{ block.id }}"
+              data-name="{{ block.settings.name | escape }}"
+              {{ block.shopify_attributes }}
+            >
+              <span class="blko-cl32__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+              <span class="blko-cl32__zone-name">{{ block.settings.name | escape }}</span>
+            </button>
+          {%- endfor -%}
+        </div>
+
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign b = block.settings
+            assign p = b.product
+            if p == blank and b.collection != blank
+              assign p = b.collection.products.first
+            endif
+            assign variant_id = ''
+            assign available = true
+            if p != blank
+              assign title = p.title
+              assign price = p.selected_or_first_available_variant.price
+              assign variant_id = p.selected_or_first_available_variant.id
+              assign available = p.available
+            else
+              assign title = b.demo_title
+              assign price = b.demo_price | times: 100
+            endif
+            assign ph = forloop.index | modulo: 6 | plus: 1
+            assign ph = 'product-' | append: ph
+          -%}
+          <article class="blko-cl32__card" data-card="{{ block.id }}" aria-live="polite"{% unless forloop.first %} hidden{% endunless %}>
+            {%- if p != blank and p.featured_media -%}
+              {{ p.featured_media | image_url: width: 480 | image_tag: class: 'blko-cl32__img', widths: '240, 360, 480', sizes: '(min-width: 448px) 120px, 100vw', alt: p.featured_media.alt, loading: 'lazy' }}
+            {%- else -%}
+              {{ ph | placeholder_svg_tag: 'blko-cl32__img blko-cl32__img--ph' }}
+            {%- endif -%}
+            <div class="blko-cl32__body">
+              <div class="blko-cl32__text">
+                <h3 class="blko-cl32__name">
+                  {%- if p != blank -%}<a href="{{ p.url }}" class="blko-cl32__link">{{ title | escape }}</a>{%- else -%}{{ title | escape }}{%- endif -%}
+                </h3>
+                <p class="blko-cl32__concern">
+                  {%- comment -%} The empty comment keeps the two words as separate text runs, as the design system renders them. {%- endcomment -%}
+                  {%- capture concern -%}{{ s.concern_prefix | escape }} <!-- -->{{ b.concern | downcase | escape }}{%- endcapture -%}
+                  {%- if b.collection != blank -%}<a href="{{ b.collection.url }}" class="blko-cl32__link">{{ concern }}</a>{%- else -%}{{ concern }}{%- endif -%}
+                </p>
+              </div>
+              <div class="blko-cl32__buy">
+                <p class="blko-cl32__price"><span>{{ price | money_without_trailing_zeros }}</span></p>
+                <div class="blko-cl32__actions">
+                  <button
+                    type="button"
+                    class="blko-cl32__btn"
+                    data-add
+                    data-variant="{{ variant_id }}"
+                    aria-label="{{ s.add_label | escape }} {{ title | escape }}"
+                    {% unless available %}disabled{% endunless %}
+                  >
+                    {%- render 'blko-cl32-icon', name: 'plus', class: 'blko-cl32__icon--add' -%}
+                    {%- render 'blko-cl32-icon', name: 'check', class: 'blko-cl32__icon--in' -%}
+                    <span class="blko-cl32__btn-add">{% if available %}{{ s.add_label | escape }}{% else %}{{ s.sold_out_label | escape }}{% endif %}</span>
+                    <span class="blko-cl32__btn-in">{{ s.added_label | escape }}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+        {%- endfor -%}
+        <p class="blko-cl32__sr" role="status" data-msg>&nbsp;</p>
+      </div>
+    </div>
+  </section>
+</blko-collection-list-32>
+
+{% schema %}
+{
+  "name": "Face map, shop by concern",
+  "tag": "div",
+  "class": "blko-cl32-section",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Shop by <em>concern</em>", "info": "Use italic for the accent word." },
+    { "type": "text", "id": "text", "label": "Text", "default": "Tap a part of the face to see where to start." },
+    { "type": "text", "id": "list_label", "label": "Zone list label", "default": "Choose a part of the face", "info": "Read by screen readers." },
+    { "type": "header", "content": "Card" },
+    { "type": "text", "id": "concern_prefix", "label": "Concern prefix", "default": "For" },
+    { "type": "text", "id": "add_label", "label": "Add label", "default": "Add" },
+    { "type": "text", "id": "added_label", "label": "Added label", "default": "In bag" },
+    { "type": "text", "id": "sold_out_label", "label": "Sold out label", "default": "Sold out" },
+    { "type": "header", "content": "Typography" },
+    {
+      "type": "select",
+      "id": "font_source",
+      "label": "Fonts",
+      "options": [
+        { "value": "bundled", "label": "Bundled (Schibsted Grotesk)" },
+        { "value": "picker", "label": "Pick from the font library" },
+        { "value": "theme", "label": "Use the theme's fonts" }
+      ],
+      "default": "bundled"
+    },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "assistant_n4", "info": "Used when Fonts is set to the font library." },
+    { "type": "font_picker", "id": "body_font", "label": "Body font", "default": "assistant_n4", "info": "Used when Fonts is set to the font library." },
+    { "type": "range", "id": "heading_size", "label": "Heading size, desktop", "min": 20, "max": 64, "step": 2, "unit": "px", "default": 36 },
+    { "type": "range", "id": "heading_size_mobile", "label": "Heading size, mobile", "min": 18, "max": 48, "step": 2, "unit": "px", "default": 28 },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "info": "Mobile uses 70% of it.", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "info": "Mobile uses 70% of it.", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "radius_card", "label": "Card corners", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 10 },
+    { "type": "range", "id": "radius_image", "label": "Photo corners", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 10 },
+    { "type": "checkbox", "id": "pill_button", "label": "Pill button", "default": true, "info": "Off uses half the card corners." },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_bg", "label": "Background", "default": "#ebe5da" },
+    { "type": "color", "id": "color_card", "label": "Face and card", "default": "#f7f4ef" },
+    { "type": "color", "id": "color_text", "label": "Text and lines", "default": "#1d2421" },
+    { "type": "color", "id": "color_muted", "label": "Muted text", "default": "#545c57" },
+    { "type": "color", "id": "color_border", "label": "Rules", "default": "#d8d1c4" },
+    { "type": "color", "id": "color_accent", "label": "Zone fill", "default": "#3f5a45" },
+    { "type": "color", "id": "color_button", "label": "Button, in bag", "default": "#3f5a45" },
+    { "type": "color", "id": "color_button_label", "label": "Button label, in bag", "default": "#ffffff" }
+  ],
+  "blocks": [
+    {
+      "type": "zone",
+      "name": "Zone",
+      "settings": [
+        {
+          "type": "select",
+          "id": "area",
+          "label": "Part of the face",
+          "options": [
+            { "value": "tzone", "label": "T-zone" },
+            { "value": "undereye", "label": "Under-eye" },
+            { "value": "cheeks", "label": "Cheeks" },
+            { "value": "lips", "label": "Lips" }
+          ],
+          "default": "tzone"
+        },
+        { "type": "text", "id": "name", "label": "Name", "default": "T-zone" },
+        { "type": "text", "id": "concern", "label": "Concern", "default": "Shine and open pores" },
+        { "type": "collection", "id": "collection", "label": "Collection", "info": "The concern line links to it." },
+        { "type": "product", "id": "product", "label": "Hero product", "info": "Leave empty to use the collection's first product." },
+        { "type": "header", "content": "Demo, shown until a product is picked" },
+        { "type": "text", "id": "demo_title", "label": "Name", "default": "Clay and willow bark bar" },
+        { "type": "number", "id": "demo_price", "label": "Price", "default": 18 }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Face map, shop by concern",
+      "blocks": [
+        { "type": "zone", "settings": { "area": "tzone", "name": "T-zone", "concern": "Shine and open pores", "demo_title": "Clay and willow bark bar", "demo_price": 18 } },
+        { "type": "zone", "settings": { "area": "undereye", "name": "Under-eye", "concern": "Puffiness and shadows", "demo_title": "Cooling eye set", "demo_price": 44 } },
+        { "type": "zone", "settings": { "area": "cheeks", "name": "Cheeks", "concern": "Redness and dry patches", "demo_title": "Centella calm serum", "demo_price": 36 } },
+        { "type": "zone", "settings": { "area": "lips", "name": "Lips", "concern": "Dry, flaky lips", "demo_title": "Overnight lip balm", "demo_price": 16 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

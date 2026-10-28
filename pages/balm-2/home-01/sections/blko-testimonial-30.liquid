@@ -1,0 +1,317 @@
+{%- comment -%}
+  Testimonial 30, "Skin diaries": one row per customer. A small portrait with her name, skin type and the product she
+  used, then her week 1 note and week 4 note side by side, with the change between them in a pill on the fold.
+  Chips at the top pick the measure (up to three); every note shows her own 1 to 5 score for it.
+  Each customer is a "diary" block (portrait, product picker with demo fallback, two notes, six scores).
+  Works in any Online Store 2.0 theme: every class is blko-tm30-, every colour and size is a setting.
+{%- endcomment -%}
+{{ 'blko-testimonial-30.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-testimonial-30.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-h01-fonts',
+  source: section.settings.font_source,
+  heading_font: section.settings.heading_font,
+  body_font: section.settings.body_font
+-%}
+
+{%- liquid
+  assign s = section.settings
+  case s.font_source
+    when 'theme'
+      assign heading_family = 'var(--font-heading-family, inherit)'
+      assign body_family = 'var(--font-body-family, inherit)'
+    when 'picker'
+      assign heading_family = s.heading_font.family | append: ', ' | append: s.heading_font.fallback_families
+      assign body_family = s.body_font.family | append: ', ' | append: s.body_font.fallback_families
+    else
+      assign heading_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+      assign body_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+  endcase
+  assign uid = 'blko-tm30-' | append: section.id
+  assign label = s.heading | strip_html | escape
+  assign m1 = s.measure_1 | escape
+  assign first_measure = m1
+  assign first_index = 0
+  if m1 == blank
+    assign first_measure = s.measure_2 | escape
+    assign first_index = 1
+    if first_measure == blank
+      assign first_measure = s.measure_3 | escape
+      assign first_index = 2
+    endif
+  endif
+  assign first_label = s.first_label | escape
+  assign last_label = s.last_label | escape
+  assign sr_suffix = 'blko.testimonial_30.change_suffix' | t: first: first_label, last: last_label
+  assign score_tpl = 'blko.testimonial_30.score' | t: measure: '[measure]', score: '[score]'
+-%}
+
+<blko-testimonial-30
+  class="blko-tm30"
+  style="
+    --blko-tm30-pt: {{ s.padding_top }}px; --blko-tm30-pb: {{ s.padding_bottom }}px;
+    --blko-tm30-bg: {{ s.color_bg }}; --blko-tm30-text: {{ s.color_text }}; --blko-tm30-muted: {{ s.color_muted }};
+    --blko-tm30-border: {{ s.color_border }}; --blko-tm30-card: {{ s.color_card }};
+    --blko-tm30-chip: {{ s.color_chip }}; --blko-tm30-chip-label: {{ s.color_chip_label }};
+    --blko-tm30-dot: {{ s.color_dot }}; --blko-tm30-dot-off: {{ s.color_dot_off }};
+    --blko-tm30-radius-chip: {{ s.radius_chip }}px; --blko-tm30-radius-card: {{ s.radius_card }}px; --blko-tm30-radius-image: {{ s.radius_image }}px;
+    --blko-tm30-heading-font: {{ heading_family }}; --blko-tm30-body-font: {{ body_family }};
+  "
+  data-measure="{{ first_index }}"
+  data-same="{{ s.same_label | escape }}"
+  data-sr-suffix="{{ sr_suffix | escape }}"
+  data-score="{{ score_tpl | escape }}"
+>
+  <section class="blko-tm30__inner" aria-label="{{ label }}">
+    <header class="blko-tm30__head">
+      {%- if s.heading != blank -%}
+        <h2 class="blko-tm30__title">{{ s.heading }}</h2>
+      {%- endif -%}
+      <div class="blko-tm30__compare">
+        {%- if s.compare_label != blank -%}
+          <p class="blko-tm30__compare-label" id="{{ uid }}-compare">{{ s.compare_label | escape }}</p>
+        {%- endif -%}
+        <div class="blko-tm30__chips" role="group" aria-labelledby="{{ uid }}-compare">
+          {%- for i in (1..3) -%}
+            {%- liquid
+              case i
+                when 1
+                  assign m = s.measure_1
+                when 2
+                  assign m = s.measure_2
+                else
+                  assign m = s.measure_3
+              endcase
+            -%}
+            {%- if m != blank -%}
+              {%- assign idx = i | minus: 1 -%}
+              <button
+                type="button"
+                class="blko-tm30__chip"
+                data-chip="{{ idx }}"
+                data-label="{{ m | escape }}"
+                aria-pressed="{% if idx == first_index %}true{% else %}false{% endif %}"
+              >
+                {{- m | escape -}}
+              </button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </header>
+
+    <ul class="blko-tm30__list" role="list">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign b = block.settings
+          case first_index
+            when 1
+              assign a = b.week1_score_2
+              assign z = b.week4_score_2
+            when 2
+              assign a = b.week1_score_3
+              assign z = b.week4_score_3
+            else
+              assign a = b.week1_score_1
+              assign z = b.week4_score_1
+          endcase
+          assign change = z | minus: a
+          if change > 0
+            assign change_text = '+' | append: change
+          elsif change == 0
+            assign change_text = s.same_label | escape
+          else
+            assign change_text = change
+          endif
+          assign p = b.product
+          if p != blank
+            assign product_title = p.title | escape
+            assign product_price = p.price | money_without_trailing_zeros
+            assign product_url = p.url
+          else
+            assign product_title = b.demo_product | escape
+            assign product_price = b.demo_price | times: 100 | money_without_trailing_zeros
+            assign product_url = b.link | default: '#'
+          endif
+        -%}
+        <li
+          class="blko-tm30__row"
+          data-a="{{ b.week1_score_1 }},{{ b.week1_score_2 }},{{ b.week1_score_3 }}"
+          data-b="{{ b.week4_score_1 }},{{ b.week4_score_2 }},{{ b.week4_score_3 }}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="blko-tm30__who">
+            <div class="blko-tm30__media">
+              {%- if b.image != blank -%}
+                {{ b.image | image_url: width: 500 | image_tag: class: 'blko-tm30__img', widths: '200, 350, 500', sizes: '(min-width: 1024px) 176px, 88px', alt: b.image.alt, loading: 'lazy' }}
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag: 'blko-tm30__img blko-tm30__img--placeholder' }}
+              {%- endif -%}
+            </div>
+            <div class="blko-tm30__info">
+              {%- if b.name != blank -%}
+                <p class="blko-tm30__name">{{ b.name | escape }}</p>
+              {%- endif -%}
+              {%- if b.meta != blank -%}
+                <p class="blko-tm30__meta">{{ b.meta | escape }}</p>
+              {%- endif -%}
+              {%- if product_title != blank -%}
+                <a href="{{ product_url }}" class="blko-tm30__product">
+                  {{- product_title }} · {{ product_price -}}
+                  {%- render 'blko-tm30-icon', name: 'arrow-right', class: 'blko-tm30__arrow' -%}
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+
+          <div class="blko-tm30__pages">
+            {%- for w in (1..2) -%}
+              {%- liquid
+                if w == 1
+                  assign week = first_label
+                  assign note = b.week1_note
+                  assign v = a
+                else
+                  assign week = last_label
+                  assign note = b.week4_note
+                  assign v = z
+                endif
+                assign aria = score_tpl | replace: '[measure]', first_measure | replace: '[score]', v
+              -%}
+              <article class="blko-tm30__page" data-page="{{ w }}">
+                <div class="blko-tm30__note">
+                  <p class="blko-tm30__week">{{ week }}</p>
+                  <p class="blko-tm30__quote">&ldquo;{{ note | escape }}&rdquo;</p>
+                </div>
+                <div class="blko-tm30__score">
+                  <span class="blko-tm30__score-label" data-measure-label>{{ first_measure }}</span>
+                  <span class="blko-tm30__dots" role="img" aria-label="{{ aria | escape }}" data-dots>
+                    {%- for n in (1..5) -%}
+                      <span class="blko-tm30__dot{% if n <= v %} is-on{% endif %}"></span>
+                    {%- endfor -%}
+                  </span>
+                </div>
+              </article>
+              {%- if w == 1 -%}
+                <span class="blko-tm30__pill">
+                  <span data-change>{{ change_text }}</span>
+                  <span class="blko-tm30__sr" data-change-sr>{{ first_measure | downcase }} {{ sr_suffix }}</span>
+                </span>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </section>
+</blko-testimonial-30>
+
+{% schema %}
+{
+  "name": "Skin diaries",
+  "tag": "div",
+  "class": "blko-tm30-section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "What changed by <em>week four</em>", "info": "Use italic for the accent words." },
+    { "type": "text", "id": "compare_label", "label": "Chips label", "default": "Compare scores for" },
+    { "type": "text", "id": "measure_1", "label": "Measure 1", "default": "Hydration" },
+    { "type": "text", "id": "measure_2", "label": "Measure 2", "default": "Calm", "info": "Leave empty to hide its chip." },
+    { "type": "text", "id": "measure_3", "label": "Measure 3", "default": "Smoothness", "info": "Leave empty to hide its chip." },
+    { "type": "text", "id": "first_label", "label": "First note label", "default": "Week 1" },
+    { "type": "text", "id": "last_label", "label": "Last note label", "default": "Week 4" },
+    { "type": "text", "id": "same_label", "label": "No change label", "default": "Same" },
+    { "type": "header", "content": "Typography" },
+    {
+      "type": "select",
+      "id": "font_source",
+      "label": "Fonts",
+      "options": [
+        { "value": "bundled", "label": "Bundled (Schibsted Grotesk)" },
+        { "value": "picker", "label": "Pick from the font library" },
+        { "value": "theme", "label": "Use the theme's fonts" }
+      ],
+      "default": "bundled"
+    },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "assistant_n4" },
+    { "type": "font_picker", "id": "body_font", "label": "Body font", "default": "assistant_n4" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "info": "Mobile uses 70% of it", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "info": "Mobile uses 70% of it", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Corners" },
+    { "type": "range", "id": "radius_chip", "label": "Chips", "min": 0, "max": 20, "step": 1, "unit": "px", "default": 6 },
+    { "type": "range", "id": "radius_card", "label": "Notes", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 10 },
+    { "type": "range", "id": "radius_image", "label": "Portraits", "min": 0, "max": 40, "step": 1, "unit": "px", "default": 10 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_bg", "label": "Background", "default": "#ebe5da" },
+    { "type": "color", "id": "color_text", "label": "Text", "default": "#1d2421" },
+    { "type": "color", "id": "color_muted", "label": "Muted text", "default": "#545c57" },
+    { "type": "color", "id": "color_border", "label": "Lines", "default": "#d8d1c4" },
+    { "type": "color", "id": "color_card", "label": "Notes and pill", "default": "#f7f4ef" },
+    { "type": "color", "id": "color_chip", "label": "Selected chip", "default": "#1d2421" },
+    { "type": "color", "id": "color_chip_label", "label": "Selected chip label", "default": "#f7f4ef" },
+    { "type": "color", "id": "color_dot", "label": "Score dot", "default": "#1d2421" },
+    { "type": "color", "id": "color_dot_off", "label": "Empty score dot", "default": "#d8d1c4" }
+  ],
+  "blocks": [
+    {
+      "type": "diary",
+      "name": "Diary",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Portrait", "info": "Shown at 4:5." },
+        { "type": "text", "id": "name", "label": "Name", "default": "Maya, 31" },
+        { "type": "text", "id": "meta", "label": "Line under the name", "default": "Dry skin" },
+        { "type": "product", "id": "product", "label": "Product she used" },
+        { "type": "header", "content": "Demo, shown until a product is picked" },
+        { "type": "text", "id": "demo_product", "label": "Product name", "default": "Barrier cream" },
+        { "type": "number", "id": "demo_price", "label": "Price", "default": 38 },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "header", "content": "Notes" },
+        { "type": "textarea", "id": "week1_note", "label": "First note", "default": "Tight by noon and flaky round my nose. A pea of cream, pressed in." },
+        { "type": "textarea", "id": "week4_note", "label": "Last note", "default": "No flakes since day 18. Foundation sits flat now." },
+        { "type": "header", "content": "Scores, 1 to 5" },
+        { "type": "range", "id": "week1_score_1", "label": "First note, measure 1", "min": 0, "max": 5, "step": 1, "default": 2 },
+        { "type": "range", "id": "week1_score_2", "label": "First note, measure 2", "min": 0, "max": 5, "step": 1, "default": 3 },
+        { "type": "range", "id": "week1_score_3", "label": "First note, measure 3", "min": 0, "max": 5, "step": 1, "default": 2 },
+        { "type": "range", "id": "week4_score_1", "label": "Last note, measure 1", "min": 0, "max": 5, "step": 1, "default": 4 },
+        { "type": "range", "id": "week4_score_2", "label": "Last note, measure 2", "min": 0, "max": 5, "step": 1, "default": 4 },
+        { "type": "range", "id": "week4_score_3", "label": "Last note, measure 3", "min": 0, "max": 5, "step": 1, "default": 4 }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Skin diaries",
+      "blocks": [
+        {
+          "type": "diary",
+          "settings": {
+            "name": "Maya, 31", "meta": "Dry skin", "demo_product": "Barrier cream", "demo_price": 38,
+            "week1_note": "Tight by noon and flaky round my nose. A pea of cream, pressed in.",
+            "week4_note": "No flakes since day 18. Foundation sits flat now.",
+            "week1_score_1": 2, "week1_score_2": 3, "week1_score_3": 2, "week4_score_1": 4, "week4_score_2": 4, "week4_score_3": 4
+          }
+        },
+        {
+          "type": "diary",
+          "settings": {
+            "name": "Adaeze, 38", "meta": "Combination skin", "demo_product": "Niacinamide serum", "demo_price": 34,
+            "week1_note": "Shiny forehead, dry cheeks. Two drops at night, light as water.",
+            "week4_note": "Pores look smaller in daylight. No more blotting before lunch.",
+            "week1_score_1": 3, "week1_score_2": 3, "week1_score_3": 2, "week4_score_1": 4, "week4_score_2": 4, "week4_score_3": 5
+          }
+        },
+        {
+          "type": "diary",
+          "settings": {
+            "name": "Clara, 27", "meta": "Sensitive skin", "demo_product": "Oat calming milk", "demo_price": 26,
+            "week1_note": "Pink cheeks after my old cleanser again. Swapped to the milk.",
+            "week4_note": "One red flare in four weeks, after a windy run. Gone by evening.",
+            "week1_score_1": 3, "week1_score_2": 1, "week1_score_3": 3, "week4_score_1": 4, "week4_score_2": 4, "week4_score_3": 3
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

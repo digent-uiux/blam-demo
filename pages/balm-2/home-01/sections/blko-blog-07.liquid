@@ -1,0 +1,350 @@
+{%- comment -%}
+  Blog 07, "Bento index": a journal header, a bento of one big featured story on its photo, an editor's note tile and a
+  small second story, then topic tabs over a paged grid of the other posts.
+  Pick a blog: its first article is the featured story, the second the small story, the rest fill the grid. Without a
+  blog the demo posts of the Blocko design system are shown. Tabs filter by article tag, client side.
+  Works in any Online Store 2.0 theme: every class is blko-bl07-, every colour and size is a setting.
+{%- endcomment -%}
+{{ 'blko-blog-07.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-blog-07.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-h01-fonts',
+  source: section.settings.font_source,
+  heading_font: section.settings.heading_font,
+  body_font: section.settings.body_font
+-%}
+
+{%- liquid
+  assign s = section.settings
+  case s.font_source
+    when 'theme'
+      assign heading_family = 'var(--font-heading-family, inherit)'
+      assign body_family = 'var(--font-body-family, inherit)'
+    when 'picker'
+      assign heading_family = s.heading_font.family | append: ', ' | append: s.heading_font.fallback_families
+      assign body_family = s.body_font.family | append: ', ' | append: s.body_font.fallback_families
+    else
+      assign heading_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+      assign body_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+  endcase
+  assign label = s.heading | strip_html | escape
+  assign minutes = s.minutes_label | escape
+  assign per_page = s.per_page
+  assign blog = s.blog
+  assign live = false
+  if blog != blank and blog.articles_count > 0
+    assign live = true
+  endif
+
+  comment
+    Demo posts (title~excerpt~tag~date~iso~minutes), one per line, in the design system's order: the first one is the
+    small story, the rest fill the grid.
+  endcomment
+  capture demo
+    echo 'Gentle exfoliation: how often is enough?~One acid night a week is plenty for most skin. Here is how to tell when to stop.~Skincare~Oct 10, 2026~2026-10-10~5|'
+    echo 'Wash day, simplified: a routine for curly hair~Pre-poo with oil, cleanse the scalp only, and squeeze in conditioner while it drips.~Hair~Oct 7, 2026~2026-10-07~4|'
+    echo 'Vitamin C serum: morning or night?~What the research says about timing, and how to pair it with SPF.~Skincare~Oct 3, 2026~2026-10-03~6|'
+    echo 'A five-minute face for busy mornings~Tinted balm, cream blush, brow gel and one coat of mascara. Done.~Makeup~Sep 29, 2026~2026-09-29~8|'
+    echo "Avocado masks: kitchen myth or real help?~Mashed fruit won't fix dry skin, but its oil can. Here is what to keep from the trend.~Skincare~Sep 24, 2026~2026-09-24~5|"
+    echo 'The right brush for every base~Dense, fluffy or flat: which brush to use for cream, liquid and powder.~Makeup~Sep 20, 2026~2026-09-20~4|'
+    echo 'Why a cold-process soap bar is kinder to dry skin~Glycerin stays in the bar, so your hands and body stay soft.~Body~Sep 16, 2026~2026-09-16~3|'
+    echo 'Sheet masks: how often is too often?~Two to three times a week, and never straight after an acid.~Skincare~Sep 12, 2026~2026-09-12~4'
+  endcapture
+  assign demo_posts = demo | split: '|'
+
+  if live
+    assign total = blog.articles_count | minus: 2 | at_least: 0 | at_most: s.posts_limit
+  else
+    assign total = demo_posts.size | minus: 1
+  endif
+  assign pages = total | plus: per_page | minus: 1 | divided_by: per_page | at_least: 1
+  assign tags = s.tags | split: ','
+  assign count_all = 'blko.blog_07.posts' | t: number: '[number]'
+  assign count_tag = 'blko.blog_07.posts_in' | t: number: '[number]', tag: '[tag]'
+  assign page_label = 'blko.blog_07.page' | t: number: '[number]'
+-%}
+
+<blko-blog-07
+  class="blko-bl07"
+  style="
+    --blko-bl07-pt: {{ s.padding_top }}px; --blko-bl07-pb: {{ s.padding_bottom }}px;
+    --blko-bl07-bg: {{ s.color_bg }}; --blko-bl07-text: {{ s.color_text }}; --blko-bl07-muted: {{ s.color_muted }};
+    --blko-bl07-border: {{ s.color_border }}; --blko-bl07-media: {{ s.color_media }}; --blko-bl07-note: {{ s.color_note }};
+    --blko-bl07-on-image: {{ s.color_on_image }}; --blko-bl07-shade: {{ s.overlay }}%;
+    --blko-bl07-button: {{ s.color_button }}; --blko-bl07-button-label: {{ s.color_button_label }}; --blko-bl07-button-hover: {{ s.color_button_hover }};
+    --blko-bl07-radius-card: {{ s.radius_card }}px; --blko-bl07-radius-button: {{ s.radius_button }}px;
+    --blko-bl07-heading-font: {{ heading_family }}; --blko-bl07-body-font: {{ body_family }};
+  "
+  data-per-page="{{ per_page }}"
+  data-count-all="{{ count_all | escape }}"
+  data-count-tag="{{ count_tag | escape }}"
+  data-page-label="{{ page_label | escape }}"
+>
+  <section class="blko-bl07__inner" aria-label="{{ label }}">
+    <header class="blko-bl07__head">
+      <div class="blko-bl07__head-copy">
+        {%- if s.eyebrow != blank -%}
+          <p class="blko-bl07__eyebrow"><span>{{ s.eyebrow | escape }}</span></p>
+        {%- endif -%}
+        {%- if s.heading != blank -%}
+          <h1 class="blko-bl07__title">{{ s.heading }}</h1>
+        {%- endif -%}
+        {%- if s.lead != blank -%}
+          <p class="blko-bl07__lead">{{ s.lead | escape }}</p>
+        {%- endif -%}
+      </div>
+    </header>
+
+    {%- liquid
+      if live
+        assign f = blog.articles.first
+        assign f_title = f.title | escape
+        assign f_url = f.url
+        assign f_excerpt = f.excerpt_or_content | strip_html | truncatewords: 40
+        assign f_tag = f.tags.first | escape
+        assign f_date = f.published_at | date: '%b %-d, %Y'
+        assign f_iso = f.published_at | date: '%Y-%m-%d'
+        assign f_read = f.content | strip_html | split: ' ' | size | divided_by: 220 | at_least: 1
+      else
+        assign f_title = s.featured_title | escape
+        assign f_url = '#'
+        assign f_excerpt = s.featured_excerpt | escape
+        assign f_tag = s.featured_tag | escape
+        assign f_date = s.featured_date | escape
+        assign f_iso = ''
+        assign f_read = s.featured_minutes
+      endif
+    -%}
+    <div class="blko-bl07__bento">
+      <article class="blko-bl07__feature">
+        {%- if live and f.image -%}
+          {{ f.image | image_url: width: 1400 | image_tag: class: 'blko-bl07__feature-img', widths: '600, 900, 1200, 1400', sizes: '(min-width: 1024px) 66vw, 100vw', alt: f.image.alt }}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'blko-bl07__feature-img blko-bl07__placeholder' }}
+        {%- endif -%}
+        <div class="blko-bl07__shade" aria-hidden="true"></div>
+        {%- if s.featured_label != blank -%}
+          <span class="blko-bl07__badge">{{ s.featured_label | escape }}</span>
+        {%- endif -%}
+        <div class="blko-bl07__feature-body">
+          <p class="blko-bl07__feature-meta">
+            {%- if f_tag != blank %}{{ f_tag }} · {% endif -%}
+            <time{% if f_iso != blank %} datetime="{{ f_iso }}"{% endif %}>{{ f_date }}</time> · {{ f_read }} {{ minutes -}}
+          </p>
+          <h2 class="blko-bl07__feature-title"><a href="{{ f_url }}" class="blko-bl07__cover-link">{{ f_title }}</a></h2>
+          {%- if f_excerpt != blank -%}
+            <p class="blko-bl07__feature-excerpt">{{ f_excerpt }}</p>
+          {%- endif -%}
+        </div>
+        <span class="blko-bl07__feature-arrow" aria-hidden="true">
+          {%- render 'blko-bl07-icon', name: 'arrow-up-right' -%}
+        </span>
+      </article>
+
+      <figure class="blko-bl07__note">
+        {%- if s.note_label != blank -%}
+          <span class="blko-bl07__note-label">{{ s.note_label | escape }}</span>
+        {%- endif -%}
+        <blockquote class="blko-bl07__quote">{{ s.note_quote | escape }}</blockquote>
+        {%- if s.note_caption != blank -%}
+          <figcaption class="blko-bl07__note-caption">{{ s.note_caption | escape }}</figcaption>
+        {%- endif -%}
+      </figure>
+
+      {%- liquid
+        if live
+          assign m = blog.articles[1]
+          if m
+            assign m_title = m.title | escape
+            assign m_url = m.url
+            assign m_tag = m.tags.first | escape
+            assign m_read = m.content | strip_html | split: ' ' | size | divided_by: 220 | at_least: 1
+          endif
+        else
+          assign m = true
+          assign d = demo_posts.first | strip | split: '~'
+          assign m_title = d[0]
+          assign m_url = '#'
+          assign m_tag = d[2]
+          assign m_read = d[5]
+        endif
+      -%}
+      {%- if m -%}
+        <article class="blko-bl07__mini">
+          <div class="blko-bl07__mini-media">
+            {%- if live and m.image -%}
+              {{ m.image | image_url: width: 300 | image_tag: class: 'blko-bl07__img', widths: '150, 300', sizes: '96px', alt: m.image.alt, loading: 'lazy' }}
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'blko-bl07__img blko-bl07__placeholder' }}
+            {%- endif -%}
+          </div>
+          <div class="blko-bl07__mini-body">
+            <p class="blko-bl07__meta">{% if m_tag != blank %}{{ m_tag }} · {% endif %}{{ m_read }} {{ minutes }}</p>
+            <h2 class="blko-bl07__mini-title"><a href="{{ m_url }}" class="blko-bl07__cover-link">{{ m_title }}</a></h2>
+          </div>
+        </article>
+      {%- endif -%}
+    </div>
+
+    <div class="blko-bl07__index">
+      {%- if s.show_tabs -%}
+        <div class="blko-bl07__tabs" role="tablist" aria-label="{{ 'blko.blog_07.filter' | t | escape }}">
+          <button type="button" role="tab" class="blko-bl07__tab" aria-selected="true" data-tag="">{{ s.all_label | escape }}</button>
+          {%- for t in tags -%}
+            {%- assign tag_name = t | strip -%}
+            {%- if tag_name != blank -%}
+              <button type="button" role="tab" class="blko-bl07__tab" aria-selected="false" tabindex="-1" data-tag="{{ tag_name | downcase | escape }}">{{ tag_name | escape }}</button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      <p class="blko-bl07__sr" role="status" data-status>{{ count_all | replace: '[number]', total }}</p>
+
+      <ul class="blko-bl07__grid" role="list" data-grid>
+        {%- if live -%}
+          {%- for article in blog.articles offset: 2 limit: s.posts_limit -%}
+            {%- liquid
+              assign read = article.content | strip_html | split: ' ' | size | divided_by: 220 | at_least: 1
+              assign tag_list = article.tags | join: '|' | downcase
+              assign excerpt = article.excerpt_or_content | strip_html | truncatewords: 30
+            -%}
+            <li class="blko-bl07__item" data-tags="{{ tag_list | escape }}"{% if forloop.index > per_page %} hidden{% endif %}>
+              <article class="blko-bl07__card">
+                <a href="{{ article.url }}" class="blko-bl07__card-media" tabindex="-1" aria-hidden="true">
+                  {%- if article.image -%}
+                    {{ article.image | image_url: width: 700 | image_tag: class: 'blko-bl07__img', widths: '350, 500, 700', sizes: '(min-width: 1024px) 33vw, (min-width: 576px) 50vw, 100vw', alt: article.image.alt, loading: 'lazy' }}
+                  {%- else -%}
+                    {{ 'image' | placeholder_svg_tag: 'blko-bl07__img blko-bl07__placeholder' }}
+                  {%- endif -%}
+                </a>
+                <p class="blko-bl07__card-meta">
+                  {%- if article.tags.first -%}<span>{{ article.tags.first | escape }}</span><span aria-hidden="true">·</span>{%- endif -%}
+                  <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: '%b %-d, %Y' }}</time>
+                  <span aria-hidden="true">·</span>
+                  <span class="blko-bl07__num">{{ read }} {{ minutes }}</span>
+                </p>
+                <h3 class="blko-bl07__card-title"><a href="{{ article.url }}">{{ article.title | escape }}</a></h3>
+                {%- if excerpt != blank -%}
+                  <p class="blko-bl07__card-excerpt">{{ excerpt }}</p>
+                {%- endif -%}
+              </article>
+            </li>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for row in demo_posts offset: 1 -%}
+            {%- assign d = row | strip | split: '~' -%}
+            <li class="blko-bl07__item" data-tags="{{ d[2] | downcase }}"{% if forloop.index > per_page %} hidden{% endif %}>
+              <article class="blko-bl07__card">
+                <a href="#" class="blko-bl07__card-media" tabindex="-1" aria-hidden="true">
+                  {{- 'image' | placeholder_svg_tag: 'blko-bl07__img blko-bl07__placeholder' -}}
+                </a>
+                <p class="blko-bl07__card-meta">
+                  <span>{{ d[2] }}</span>
+                  <span aria-hidden="true">·</span>
+                  <time datetime="{{ d[4] }}">{{ d[3] }}</time>
+                  <span aria-hidden="true">·</span>
+                  <span class="blko-bl07__num">{{ d[5] }} {{ minutes }}</span>
+                </p>
+                <h3 class="blko-bl07__card-title"><a href="#">{{ d[0] }}</a></h3>
+                <p class="blko-bl07__card-excerpt">{{ d[1] }}</p>
+              </article>
+            </li>
+          {%- endfor -%}
+        {%- endif -%}
+      </ul>
+
+      <p class="blko-bl07__empty" data-empty hidden>{{ s.empty_text | escape }}</p>
+
+      <nav class="blko-bl07__pager" aria-label="{{ 'blko.blog_07.pages' | t | escape }}" data-pager{% if pages < 2 %} hidden{% endif %}>
+        <button type="button" class="blko-bl07__page" data-prev aria-label="{{ 'blko.blog_07.previous' | t | escape }}" disabled>
+          {%- render 'blko-bl07-icon', name: 'chevron-left' -%}
+        </button>
+        <span class="blko-bl07__page-list" data-page-list>
+          {%- for n in (1..pages) -%}
+            <button
+              type="button"
+              class="blko-bl07__page"
+              data-page="{{ n }}"
+              aria-label="{{ page_label | replace: '[number]', n | escape }}"
+              {% if n == 1 %}aria-current="page"{% endif %}
+            >
+              {{- n -}}
+            </button>
+          {%- endfor -%}
+        </span>
+        <button type="button" class="blko-bl07__page" data-next aria-label="{{ 'blko.blog_07.next' | t | escape }}"{% if pages < 2 %} disabled{% endif %}>
+          {%- render 'blko-bl07-icon', name: 'chevron-right' -%}
+        </button>
+      </nav>
+    </div>
+  </section>
+</blko-blog-07>
+
+{% schema %}
+{
+  "name": "Journal bento",
+  "tag": "div",
+  "class": "blko-bl07-section",
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Lumen journal · Issue 12" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Notes on skin, hair and <em>slow rituals</em>", "info": "Use italic for the accent words." },
+    { "type": "text", "id": "lead", "label": "Lead", "default": "Routines, ingredient guides and how-tos, written by our skin and hair team." },
+    { "type": "header", "content": "Posts" },
+    { "type": "blog", "id": "blog", "label": "Blog", "info": "First article: featured story. Second: small story. The rest fill the grid. Without a blog, demo posts are shown." },
+    { "type": "range", "id": "posts_limit", "label": "Posts in the grid", "min": 3, "max": 24, "step": 1, "default": 12 },
+    { "type": "range", "id": "per_page", "label": "Posts per page", "min": 3, "max": 12, "step": 1, "default": 6 },
+    { "type": "text", "id": "minutes_label", "label": "Reading time unit", "default": "min" },
+    { "type": "text", "id": "featured_label", "label": "Featured badge", "default": "Featured" },
+    { "type": "checkbox", "id": "show_tabs", "label": "Show topic tabs", "default": true },
+    { "type": "text", "id": "all_label", "label": "All topics tab", "default": "All" },
+    { "type": "text", "id": "tags", "label": "Topic tabs", "default": "Skincare, Makeup, Hair, Body", "info": "Article tags, separated by commas." },
+    { "type": "text", "id": "empty_text", "label": "No posts message", "default": "No posts in this topic yet. Check back soon." },
+    { "type": "header", "content": "Editor's note" },
+    { "type": "text", "id": "note_label", "label": "Label", "default": "Editor's note" },
+    { "type": "textarea", "id": "note_quote", "label": "Quote", "default": "“Fewer products, better order. Most routines need four steps, not ten.”" },
+    { "type": "text", "id": "note_caption", "label": "Caption", "default": "Mara Ellis, skin therapist" },
+    { "type": "header", "content": "Demo featured story" },
+    { "type": "paragraph", "content": "Shown until a blog is picked." },
+    { "type": "text", "id": "featured_title", "label": "Title", "default": "The four-step evening routine our team swears by" },
+    { "type": "textarea", "id": "featured_excerpt", "label": "Excerpt", "default": "Cleanse, treat, seal, sleep. How to layer a serum and an oil without pilling, and why the order matters more than the number of products." },
+    { "type": "text", "id": "featured_tag", "label": "Topic", "default": "Skincare" },
+    { "type": "text", "id": "featured_date", "label": "Date", "default": "Oct 14, 2026" },
+    { "type": "number", "id": "featured_minutes", "label": "Reading time", "default": 7 },
+    { "type": "header", "content": "Typography" },
+    {
+      "type": "select",
+      "id": "font_source",
+      "label": "Fonts",
+      "options": [
+        { "value": "bundled", "label": "Bundled (Schibsted Grotesk)" },
+        { "value": "picker", "label": "Pick from the font library" },
+        { "value": "theme", "label": "Use the theme's fonts" }
+      ],
+      "default": "bundled"
+    },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "assistant_n4" },
+    { "type": "font_picker", "id": "body_font", "label": "Body font", "default": "assistant_n4" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "info": "Mobile uses 70% of it", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "info": "Mobile uses 70% of it", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "radius_card", "label": "Card corners", "info": "Tiles use twice this, photos 1.5 times.", "min": 0, "max": 30, "step": 1, "unit": "px", "default": 10 },
+    { "type": "range", "id": "radius_button", "label": "Page button corners", "min": 0, "max": 22, "step": 1, "unit": "px", "default": 6 },
+    { "type": "range", "id": "overlay", "label": "Featured photo shade", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 50 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_bg", "label": "Background", "default": "#f7f4ef" },
+    { "type": "color", "id": "color_text", "label": "Text", "default": "#1d2421" },
+    { "type": "color", "id": "color_muted", "label": "Muted text", "default": "#545c57" },
+    { "type": "color", "id": "color_border", "label": "Lines", "default": "#d8d1c4" },
+    { "type": "color", "id": "color_media", "label": "Photo background", "default": "#ebe5da" },
+    { "type": "color", "id": "color_note", "label": "Editor's note tile", "default": "#f5f2ec" },
+    { "type": "color", "id": "color_on_image", "label": "Text on photo", "default": "#ffffff" },
+    { "type": "color", "id": "color_button", "label": "Current page", "default": "#3f5a45" },
+    { "type": "color", "id": "color_button_label", "label": "Current page label", "default": "#ffffff" },
+    { "type": "color", "id": "color_button_hover", "label": "Current page hover", "default": "#324a38" }
+  ],
+  "presets": [
+    { "name": "Journal bento" }
+  ]
+}
+{% endschema %}

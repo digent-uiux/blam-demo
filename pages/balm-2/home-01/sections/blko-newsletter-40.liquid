@@ -1,0 +1,201 @@
+{%- comment -%}
+  Newsletter 40, "Concern chips sign-up": a headline, one line, concern chips (pick up to three) and the email field.
+  Signs up for real through Shopify's customer form (contact[email], contact[tags] = newsletter plus the picked
+  concerns); a successful sign-up swaps the form for a short confirmation, a failed one shows the error under the field.
+  Works in any Online Store 2.0 theme: every class is blko-nl40-, every colour and size is a setting.
+{%- endcomment -%}
+{{ 'blko-newsletter-40.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-newsletter-40.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-h01-fonts',
+  source: section.settings.font_source,
+  heading_font: section.settings.heading_font,
+  body_font: section.settings.body_font
+-%}
+
+{%- liquid
+  assign s = section.settings
+  case s.font_source
+    when 'theme'
+      assign heading_family = 'var(--font-heading-family, inherit)'
+      assign body_family = 'var(--font-body-family, inherit)'
+    when 'picker'
+      assign heading_family = s.heading_font.family | append: ', ' | append: s.heading_font.fallback_families
+      assign body_family = s.body_font.family | append: ', ' | append: s.body_font.fallback_families
+    else
+      assign heading_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+      assign body_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+  endcase
+  assign uid = 'blko-nl40-' | append: section.id
+  assign label = s.heading | strip_html | escape
+  assign concerns = s.concerns | split: ','
+  assign picked = s.picked | downcase | split: ','
+  assign picked_clean = ''
+  for p in picked
+    assign p_clean = p | strip
+    assign picked_clean = picked_clean | append: '|' | append: p_clean
+  endfor
+  assign picked_clean = picked_clean | append: '|'
+  assign over_text = s.note_max | replace: '[max]', s.max_picks
+-%}
+
+<blko-newsletter-40
+  class="blko-nl40"
+  style="
+    --blko-nl40-pt: {{ s.padding_top }}px; --blko-nl40-pb: {{ s.padding_bottom }}px;
+    --blko-nl40-bg: {{ s.color_bg }}; --blko-nl40-text: {{ s.color_text }}; --blko-nl40-muted: {{ s.color_muted }};
+    --blko-nl40-border: {{ s.color_border }}; --blko-nl40-input: {{ s.color_input }}; --blko-nl40-error: {{ s.color_error }};
+    --blko-nl40-chip: {{ s.color_chip }}; --blko-nl40-chip-label: {{ s.color_chip_label }};
+    --blko-nl40-button: {{ s.color_button }}; --blko-nl40-button-label: {{ s.color_button_label }}; --blko-nl40-button-hover: {{ s.color_button_hover }};
+    --blko-nl40-radius: {{ s.radius_field }}px; --blko-nl40-radius-button: {{ s.radius_button }}px;
+    --blko-nl40-heading-font: {{ heading_family }}; --blko-nl40-body-font: {{ body_family }};
+  "
+  data-max="{{ s.max_picks }}"
+  data-note-max="{{ over_text | escape }}"
+  data-note-none="{{ s.note_none | escape }}"
+  data-error="{{ s.error_text | escape }}"
+>
+  <section class="blko-nl40__inner" aria-label="{{ label }}">
+    <div class="blko-nl40__body">
+      <header class="blko-nl40__head">
+        {%- if s.heading != blank -%}
+          <h2 class="blko-nl40__title">{{ s.heading }}</h2>
+        {%- endif -%}
+        {%- if s.text != blank -%}
+          <p class="blko-nl40__text">{{ s.text | escape }}</p>
+        {%- endif -%}
+      </header>
+
+      {%- form 'customer', id: uid, class: 'blko-nl40__form', novalidate: 'novalidate' -%}
+        {%- liquid
+          assign done = false
+          if form.posted_successfully?
+            assign done = true
+          endif
+          assign server_error = ''
+          if form.errors
+            if form.errors contains 'email'
+              assign server_error = s.error_text | escape
+            else
+              assign server_error = form.errors | default_errors
+            endif
+          endif
+        -%}
+        <div class="blko-nl40__done" role="status" data-done{% unless done %} hidden{% endunless %}>
+          <p class="blko-nl40__done-title">
+            {%- render 'blko-nl40-icon', name: 'check' -%}
+            {{ s.success_text | escape }}
+          </p>
+          <button type="button" class="blko-nl40__again" data-again>{{ s.again_label | escape }}</button>
+        </div>
+
+        <div class="blko-nl40__fields" data-fields{% if done %} hidden{% endif %}>
+          <input type="hidden" name="contact[tags]" value="newsletter" data-tags>
+          <fieldset class="blko-nl40__set">
+            <legend class="blko-nl40__legend">{{ s.concerns_label | escape }}</legend>
+            <div class="blko-nl40__chips">
+              {%- for c in concerns -%}
+                {%- liquid
+                  assign c_label = c | strip
+                  assign c_key = '|' | append: c_label | downcase | append: '|'
+                -%}
+                {%- if c_label != blank -%}
+                  <button
+                    type="button"
+                    class="blko-nl40__chip"
+                    data-chip="{{ c_label | escape }}"
+                    aria-pressed="{% if picked_clean contains c_key %}true{% else %}false{% endif %}"
+                  >
+                    {{- c_label | escape -}}
+                  </button>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+            <p class="blko-nl40__note" aria-live="polite" data-note></p>
+          </fieldset>
+
+          <div class="blko-nl40__field">
+            <label class="blko-nl40__label" for="{{ uid }}-email">{{ s.email_label | escape }}</label>
+            <div class="blko-nl40__row">
+              <input
+                id="{{ uid }}-email"
+                class="blko-nl40__input"
+                type="email"
+                name="contact[email]"
+                autocomplete="email"
+                placeholder="{{ s.placeholder | escape }}"
+                required
+                {% if server_error != blank %}
+                  aria-invalid="true" aria-describedby="{{ uid }}-email-error"
+                {% endif %}
+                data-email
+              >
+              <button type="submit" class="blko-nl40__button">{{ s.button_label | escape }}</button>
+            </div>
+            <p id="{{ uid }}-email-error" class="blko-nl40__error" role="alert" data-error{% if server_error == blank %} hidden{% endif %}>
+              {{- server_error -}}
+            </p>
+          </div>
+        </div>
+      {%- endform -%}
+    </div>
+  </section>
+</blko-newsletter-40>
+
+{% schema %}
+{
+  "name": "Concern chips sign-up",
+  "tag": "div",
+  "class": "blko-nl40-section",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "A weekly note about <em>your</em> skin", "info": "Use italic for the accent word." },
+    { "type": "text", "id": "text", "label": "Text", "default": "No sales. One tip to try each week, from our facialists." },
+    { "type": "text", "id": "concerns_label", "label": "Chips label", "default": "What's on your mind?" },
+    { "type": "text", "id": "concerns", "label": "Concerns", "default": "Dryness, Breakouts, Redness, Dullness, Fine lines, Dark spots", "info": "Separated by commas. Picked ones are added to the customer's tags." },
+    { "type": "text", "id": "picked", "label": "Picked at first", "default": "Dryness, Redness", "info": "Separated by commas." },
+    { "type": "range", "id": "max_picks", "label": "Most chips to pick", "min": 1, "max": 6, "step": 1, "default": 3 },
+    { "type": "text", "id": "note_max", "label": "Too many picked note", "default": "Up to [max]. Remove one to swap it." },
+    { "type": "text", "id": "note_none", "label": "Nothing picked note", "default": "Pick at least one concern." },
+    { "type": "text", "id": "email_label", "label": "Email label", "default": "Email" },
+    { "type": "text", "id": "placeholder", "label": "Email placeholder", "default": "name@example.com" },
+    { "type": "text", "id": "button_label", "label": "Button", "default": "Send me notes" },
+    { "type": "text", "id": "error_text", "label": "Invalid email message", "default": "Enter a valid email." },
+    { "type": "text", "id": "success_text", "label": "Success message", "default": "You're on the list" },
+    { "type": "text", "id": "again_label", "label": "Sign up again button", "default": "Use another email" },
+    { "type": "header", "content": "Typography" },
+    {
+      "type": "select",
+      "id": "font_source",
+      "label": "Fonts",
+      "options": [
+        { "value": "bundled", "label": "Bundled (Schibsted Grotesk)" },
+        { "value": "picker", "label": "Pick from the font library" },
+        { "value": "theme", "label": "Use the theme's fonts" }
+      ],
+      "default": "bundled"
+    },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "assistant_n4" },
+    { "type": "font_picker", "id": "body_font", "label": "Body font", "default": "assistant_n4" },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "info": "Mobile uses 70% of it", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "info": "Mobile uses 70% of it", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "radius_field", "label": "Chip and field corners", "min": 0, "max": 22, "step": 1, "unit": "px", "default": 6 },
+    { "type": "range", "id": "radius_button", "label": "Button corners", "min": 0, "max": 26, "step": 1, "unit": "px", "default": 6 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_bg", "label": "Background", "default": "#ebe5da" },
+    { "type": "color", "id": "color_text", "label": "Text", "default": "#1d2421" },
+    { "type": "color", "id": "color_muted", "label": "Muted text", "default": "#393f3a" },
+    { "type": "color", "id": "color_border", "label": "Lines", "default": "#c2beb5" },
+    { "type": "color", "id": "color_input", "label": "Field background", "default": "#ebe5da" },
+    { "type": "color", "id": "color_error", "label": "Error", "default": "#b91c1c" },
+    { "type": "color", "id": "color_chip", "label": "Picked chip", "default": "#1d2421" },
+    { "type": "color", "id": "color_chip_label", "label": "Picked chip label", "default": "#ebe5da" },
+    { "type": "color", "id": "color_button", "label": "Button", "default": "#1d2421" },
+    { "type": "color", "id": "color_button_label", "label": "Button label", "default": "#ebe5da" },
+    { "type": "color", "id": "color_button_hover", "label": "Button hover", "default": "#3d423e" }
+  ],
+  "presets": [
+    { "name": "Concern chips sign-up" }
+  ]
+}
+{% endschema %}

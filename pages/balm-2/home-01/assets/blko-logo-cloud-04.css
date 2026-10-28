@@ -1,0 +1,125 @@
+/* Logo cloud 04 - as seen in. All sizes in px (themes that shrink rem don't change it). */
+/* The section is as wide as its content (Width setting), placed left or centered on the page. */
+.blko-lc04-section { width: fit-content; max-width: 100%; }
+.blko-lc04-section:has(> .blko-lc04--center) { margin-left: auto; margin-right: auto; }
+
+.blko-lc04 {
+  box-sizing: border-box;
+  display: block;
+  width: var(--blko-lc04-max);
+  max-width: 100%;
+  margin: 0;
+  padding: var(--blko-lc04-pt) 0 var(--blko-lc04-pb);
+  background: var(--blko-lc04-bg);
+  color: var(--blko-lc04-text);
+  font-family: var(--blko-lc04-body-font);
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.6;
+  letter-spacing: normal;
+  text-transform: none;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+}
+.blko-lc04 *,
+.blko-lc04 *::before,
+.blko-lc04 *::after { box-sizing: border-box; }
+
+.blko-lc04 .blko-lc04__inner {
+  display: grid;
+  justify-items: center;
+  gap: 32px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+.blko-lc04 .blko-lc04__eyebrow {
+  display: block;
+  margin: 0;
+  padding: 0;
+  color: var(--blko-lc04-muted);
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+}
+.blko-lc04 .blko-lc04__quote {
+  display: block;
+  max-width: 640px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--blko-lc04-text);
+  font-family: var(--blko-lc04-heading-font);
+  font-size: var(--blko-lc04-quote-m);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  transition: opacity 500ms;
+}
+.blko-lc04 .blko-lc04__quote.is-swapping { opacity: 0; transition: none; }
+
+.blko-lc04 .blko-lc04__names {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 32px;
+  margin: 0;
+  padding: 0;
+}
+.blko-lc04 .blko-lc04__name {
+  display: block;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0 0 4px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--blko-lc04-muted);
+  opacity: 0.6;
+  font-family: var(--blko-lc04-body-font);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: opacity 150ms, color 150ms, border-color 150ms;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.blko-lc04 .blko-lc04__name:hover,
+.blko-lc04 .blko-lc04__name[aria-pressed="true"] { opacity: 1; }
+.blko-lc04 .blko-lc04__name[aria-pressed="true"] { border-bottom-color: var(--blko-lc04-text); color: var(--blko-lc04-text); }
+.blko-lc04 .blko-lc04__name:focus-visible { outline: 2px solid var(--blko-lc04-text); outline-offset: 4px; }
+
+.blko-lc04 .blko-lc04__name--serif,
+.blko-lc04 .blko-lc04__name--lower {
+  font-family: var(--blko-lc04-heading-font);
+  font-size: 20px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+.blko-lc04 .blko-lc04__name--serif { font-style: italic; }
+.blko-lc04 .blko-lc04__name--lower { font-weight: 600; text-transform: lowercase; }
+.blko-lc04 .blko-lc04__name--caps { font-weight: 700; letter-spacing: 0.15em; }
+.blko-lc04 .blko-lc04__name--mono { letter-spacing: 0.025em; }
+.blko-lc04 .blko-lc04__logo { display: block; width: auto; max-width: 200px; margin: 0; object-fit: contain; }
+
+@media (min-width: 1024px) {
+  .blko-lc04 .blko-lc04__quote { font-size: var(--blko-lc04-quote); }
+  .blko-lc04 .blko-lc04__name--serif,
+  .blko-lc04 .blko-lc04__name--lower { font-size: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .blko-lc04 .blko-lc04__quote,
+  .blko-lc04 .blko-lc04__name { transition: none; }
+}

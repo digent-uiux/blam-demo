@@ -1,0 +1,13 @@
+{%- comment -%}
+  Lucide icons for Blog 07 (ISC licence, lucide.dev), 24px grid, currentColor.
+  Accepts:
+  - name: {String} 'arrow-up-right', 'chevron-left' or 'chevron-right'
+  - class: {String} optional extra class
+{%- endcomment -%}
+<svg class="blko-bl07__icon{% if class %} {{ class }}{% endif %}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {%- case name -%}
+    {%- when 'arrow-up-right' -%}<path d="M7 7h10v10"/><path d="M7 17 17 7"/>
+    {%- when 'chevron-left' -%}<path d="m15 18-6-6 6-6"/>
+    {%- when 'chevron-right' -%}<path d="m9 18 6-6-6-6"/>
+  {%- endcase -%}
+</svg>

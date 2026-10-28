@@ -1,0 +1,105 @@
+{%- comment -%}
+  One Featured products 37 card: photo, name, rating, "from" price and the Quick add button that opens the sizes in place.
+  Accepts:
+  - product: {Object} a real product, or blank for the demo card
+  - block: {Object} the product block (demo fields, block attributes), or blank when the card comes from a collection
+  - index: {Number} 1-based position, picks the placeholder drawing
+  - s: {Object} section.settings
+{%- endcomment -%}
+{%- liquid
+  assign mode = 'sizes'
+  assign direct_variant = ''
+  if product != blank
+    assign title = product.title
+    assign url = product.url
+    assign price = product.price_min
+    assign rating = product.metafields.reviews.rating.value.rating
+    if product.has_only_default_variant
+      assign mode = 'direct'
+      assign direct_variant = product.selected_or_first_available_variant.id
+    elsif product.variants.size > 3
+      assign mode = 'link'
+    endif
+    assign available = product.available
+  else
+    assign title = block.settings.demo_title
+    assign url = '#'
+    assign price = block.settings.demo_price_1 | times: 100
+    assign rating = block.settings.demo_rating
+    assign available = true
+  endif
+  assign ph = index | modulo: 6 | plus: 1
+  assign ph = 'product-' | append: ph
+-%}
+<li class="blko-fp37__card" data-card data-title="{{ title | escape }}" {% if block %}{{ block.shopify_attributes }}{% endif %}>
+  <div class="blko-fp37__media">
+    {%- if product != blank and product.featured_media -%}
+      {{ product.featured_media | image_url: width: 1100 | image_tag: class: 'blko-fp37__img', widths: '360, 540, 720, 900, 1100', sizes: '(min-width: 1024px) 25vw, 50vw', alt: product.featured_media.alt, loading: 'lazy' }}
+    {%- else -%}
+      {{ ph | placeholder_svg_tag: 'blko-fp37__img blko-fp37__img--ph' }}
+    {%- endif -%}
+  </div>
+  <div class="blko-fp37__info">
+    <h3 class="blko-fp37__name"><a href="{{ url }}" class="blko-fp37__link">{{ title | escape }}</a></h3>
+    {%- if s.show_rating and rating != blank -%}
+      {%- assign rating_num = rating | plus: 0 -%}
+      <span class="blko-fp37__rating">
+        <span class="blko-fp37__stars" role="img" aria-label="{{ 'blko.featured_products_37.stars' | t: rating: rating }}">
+          <span class="blko-fp37__row blko-fp37__row--off">
+            {%- for i in (1..5) -%}{%- render 'blko-fp37-icon', name: 'star' -%}{%- endfor -%}
+          </span>
+          <span class="blko-fp37__fill" style="width: {{ rating_num | times: 20 | round: 2 }}%;">
+            <span class="blko-fp37__row">
+              {%- for i in (1..5) -%}{%- render 'blko-fp37-icon', name: 'star' -%}{%- endfor -%}
+            </span>
+          </span>
+        </span>
+        {%- assign score = rating_num | round: 1 | append: '' -%}
+        {%- unless score contains '.' -%}{%- assign score = score | append: '.0' -%}{%- endunless -%}
+        <span class="blko-fp37__score">{{ score }}</span>
+      </span>
+    {%- endif -%}
+    <p class="blko-fp37__price">
+      {%- if product == blank or product.price_varies -%}{{ s.from_label | escape }} {% endif -%}
+      {{- price | money_without_trailing_zeros -}}
+    </p>
+  </div>
+
+  <div class="blko-fp37__action">
+    {%- if available == false -%}
+      <button type="button" class="blko-fp37__btn blko-fp37__btn--outline blko-fp37__btn--full" disabled>{{ s.sold_out_label | escape }}</button>
+    {%- elsif mode == 'link' -%}
+      <a href="{{ url }}" class="blko-fp37__btn blko-fp37__btn--outline blko-fp37__btn--full">
+        {%- render 'blko-fp37-icon', name: 'plus' -%}
+        {{ s.quick_add_label | escape }}
+      </a>
+    {%- else -%}
+      <button
+        type="button"
+        class="blko-fp37__btn blko-fp37__btn--outline blko-fp37__btn--full"
+        data-open
+        {% if mode == 'direct' %}data-variant="{{ direct_variant }}" data-price="{{ price }}" data-size=""{% endif %}
+        aria-label="{{ 'blko.featured_products_37.quick_add' | t: title: title | escape }}"
+      >
+        {%- render 'blko-fp37-icon', name: 'plus' -%}
+        <span data-label>{{ s.quick_add_label | escape }}</span>
+      </button>
+      {%- if mode == 'sizes' -%}
+        {%- if product != blank -%}{%- assign count = product.variants.size -%}{%- else -%}{%- assign count = 2 -%}{%- endif -%}
+        <div class="blko-fp37__sizes" role="group" aria-label="{{ 'blko.featured_products_37.choose' | t: title: title | escape }}" style="--blko-fp37-n: {{ count }};" data-sizes hidden>
+          {%- if product != blank -%}
+            {%- for v in product.variants -%}
+              <button type="button" class="blko-fp37__btn blko-fp37__btn--outline blko-fp37__btn--size" data-variant="{{ v.id }}" data-price="{{ v.price }}" data-size="{{ v.title | escape }}"{% unless v.available %} disabled{% endunless %}>{{ v.title | escape }}</button>
+            {%- endfor -%}
+          {%- else -%}
+            <button type="button" class="blko-fp37__btn blko-fp37__btn--outline blko-fp37__btn--size" data-variant="" data-price="{{ block.settings.demo_price_1 | times: 100 }}" data-size="{{ block.settings.demo_size_1 | escape }}">{{ block.settings.demo_size_1 | escape }}</button>
+            <button type="button" class="blko-fp37__btn blko-fp37__btn--outline blko-fp37__btn--size" data-variant="" data-price="{{ block.settings.demo_price_2 | times: 100 }}" data-size="{{ block.settings.demo_size_2 | escape }}">{{ block.settings.demo_size_2 | escape }}</button>
+          {%- endif -%}
+          <button type="button" class="blko-fp37__btn blko-fp37__btn--ghost blko-fp37__btn--icon" data-close aria-label="{{ 'blko.featured_products_37.close' | t }}">
+            {%- render 'blko-fp37-icon', name: 'x' -%}
+          </button>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</li>

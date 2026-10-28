@@ -1,0 +1,283 @@
+{
+  "sections": {
+    "featured-products-37": {
+      "type": "blko-featured-products-37",
+      "settings": {},
+      "blocks": {
+        "product-1": {
+          "type": "product",
+          "settings": {
+            "demo_title": "Squalane glow oil",
+            "demo_rating": "4.8",
+            "demo_size_1": "15 ml",
+            "demo_price_1": 28,
+            "demo_size_2": "30 ml",
+            "demo_price_2": 48
+          }
+        },
+        "product-2": {
+          "type": "product",
+          "settings": {
+            "demo_title": "Barrier repair cream",
+            "demo_rating": "4.9",
+            "demo_size_1": "50 ml",
+            "demo_price_1": 34,
+            "demo_size_2": "100 ml",
+            "demo_price_2": 56
+          }
+        },
+        "product-3": {
+          "type": "product",
+          "settings": {
+            "demo_title": "Rose water gel cream",
+            "demo_rating": "4.7",
+            "demo_size_1": "50 ml",
+            "demo_price_1": 30,
+            "demo_size_2": "100 ml",
+            "demo_price_2": 50
+          }
+        },
+        "product-4": {
+          "type": "product",
+          "settings": {
+            "demo_title": "Pink clay sugar polish",
+            "demo_rating": "4.7",
+            "demo_size_1": "100 g",
+            "demo_price_1": 26,
+            "demo_size_2": "250 g",
+            "demo_price_2": 44
+          }
+        }
+      },
+      "block_order": [
+        "product-1",
+        "product-2",
+        "product-3",
+        "product-4"
+      ]
+    },
+    "collection-list-32": {
+      "type": "blko-collection-list-32",
+      "settings": {},
+      "blocks": {
+        "zone-1": {
+          "type": "zone",
+          "settings": {
+            "area": "tzone",
+            "name": "T-zone",
+            "concern": "Shine and open pores",
+            "demo_title": "Clay and willow bark bar",
+            "demo_price": 18
+          }
+        },
+        "zone-2": {
+          "type": "zone",
+          "settings": {
+            "area": "undereye",
+            "name": "Under-eye",
+            "concern": "Puffiness and shadows",
+            "demo_title": "Cooling eye set",
+            "demo_price": 44
+          }
+        },
+        "zone-3": {
+          "type": "zone",
+          "settings": {
+            "area": "cheeks",
+            "name": "Cheeks",
+            "concern": "Redness and dry patches",
+            "demo_title": "Centella calm serum",
+            "demo_price": 36
+          }
+        },
+        "zone-4": {
+          "type": "zone",
+          "settings": {
+            "area": "lips",
+            "name": "Lips",
+            "concern": "Dry, flaky lips",
+            "demo_title": "Overnight lip balm",
+            "demo_price": 16
+          }
+        }
+      },
+      "block_order": [
+        "zone-1",
+        "zone-2",
+        "zone-3",
+        "zone-4"
+      ]
+    },
+    "image-with-products-05": {
+      "type": "blko-image-with-products-05",
+      "settings": {},
+      "blocks": {
+        "item-1": {
+          "type": "item",
+          "settings": {
+            "demo_title": "Soft gel cleanser",
+            "demo_price": 24
+          }
+        },
+        "item-2": {
+          "type": "item",
+          "settings": {
+            "demo_title": "Balancing toner",
+            "demo_price": 22
+          }
+        },
+        "item-3": {
+          "type": "item",
+          "settings": {
+            "demo_title": "Hyaluronic serum",
+            "demo_price": 38
+          }
+        },
+        "item-4": {
+          "type": "item",
+          "settings": {
+            "demo_title": "Fig body wash",
+            "demo_price": 26
+          }
+        },
+        "item-5": {
+          "type": "item",
+          "settings": {
+            "demo_title": "Hand lotion",
+            "demo_price": 20
+          }
+        }
+      },
+      "block_order": [
+        "item-1",
+        "item-2",
+        "item-3",
+        "item-4",
+        "item-5"
+      ]
+    },
+    "testimonial-30": {
+      "type": "blko-testimonial-30",
+      "settings": {},
+      "blocks": {
+        "diary-1": {
+          "type": "diary",
+          "settings": {
+            "name": "Maya, 31",
+            "meta": "Dry skin",
+            "demo_product": "Barrier cream",
+            "demo_price": 38,
+            "week1_note": "Tight by noon and flaky round my nose. A pea of cream, pressed in.",
+            "week4_note": "No flakes since day 18. Foundation sits flat now.",
+            "week1_score_1": 2,
+            "week1_score_2": 3,
+            "week1_score_3": 2,
+            "week4_score_1": 4,
+            "week4_score_2": 4,
+            "week4_score_3": 4
+          }
+        },
+        "diary-2": {
+          "type": "diary",
+          "settings": {
+            "name": "Adaeze, 38",
+            "meta": "Combination skin",
+            "demo_product": "Niacinamide serum",
+            "demo_price": 34,
+            "week1_note": "Shiny forehead, dry cheeks. Two drops at night, light as water.",
+            "week4_note": "Pores look smaller in daylight. No more blotting before lunch.",
+            "week1_score_1": 3,
+            "week1_score_2": 3,
+            "week1_score_3": 2,
+            "week4_score_1": 4,
+            "week4_score_2": 4,
+            "week4_score_3": 5
+          }
+        },
+        "diary-3": {
+          "type": "diary",
+          "settings": {
+            "name": "Clara, 27",
+            "meta": "Sensitive skin",
+            "demo_product": "Oat calming milk",
+            "demo_price": 26,
+            "week1_note": "Pink cheeks after my old cleanser again. Swapped to the milk.",
+            "week4_note": "One red flare in four weeks, after a windy run. Gone by evening.",
+            "week1_score_1": 3,
+            "week1_score_2": 1,
+            "week1_score_3": 3,
+            "week4_score_1": 4,
+            "week4_score_2": 4,
+            "week4_score_3": 3
+          }
+        }
+      },
+      "block_order": [
+        "diary-1",
+        "diary-2",
+        "diary-3"
+      ]
+    },
+    "blog-07": {
+      "type": "blko-blog-07",
+      "settings": {}
+    },
+    "newsletter-40": {
+      "type": "blko-newsletter-40",
+      "settings": {}
+    },
+    "logo-cloud-04": {
+      "type": "blko-logo-cloud-04",
+      "settings": {},
+      "blocks": {
+        "publication-1": {
+          "type": "publication",
+          "settings": {
+            "name": "The Morning Edit",
+            "style": "serif",
+            "quote": "The serum that finally calmed my skin, and it costs less than dinner out."
+          }
+        },
+        "publication-2": {
+          "type": "publication",
+          "settings": {
+            "name": "INTERIOR WEEKLY",
+            "style": "caps",
+            "quote": "Quietly the best linen bedding we tested this year."
+          }
+        },
+        "publication-3": {
+          "type": "publication",
+          "settings": {
+            "name": "glow journal",
+            "style": "lower",
+            "quote": "A small-batch brand that gets the basics beautifully right."
+          }
+        },
+        "publication-4": {
+          "type": "publication",
+          "settings": {
+            "name": "Style Room",
+            "style": "mono",
+            "quote": "Their slip dress sold out twice before we went to print."
+          }
+        }
+      },
+      "block_order": [
+        "publication-1",
+        "publication-2",
+        "publication-3",
+        "publication-4"
+      ]
+    }
+  },
+  "order": [
+    "featured-products-37",
+    "collection-list-32",
+    "image-with-products-05",
+    "testimonial-30",
+    "blog-07",
+    "newsletter-40",
+    "logo-cloud-04"
+  ]
+}

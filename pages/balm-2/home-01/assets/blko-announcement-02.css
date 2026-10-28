@@ -1,0 +1,82 @@
+/* Announcement 02 - pop with link. All sizes in px (themes that shrink rem don't change it). */
+.blko-ann02 {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--blko-ann02-bg);
+  color: var(--blko-ann02-text);
+  font-family: var(--blko-ann02-body-font);
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.6;
+  letter-spacing: normal;
+  text-transform: none;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+}
+.blko-ann02 *,
+.blko-ann02 *::before,
+.blko-ann02 *::after { box-sizing: border-box; }
+
+.blko-ann02 .blko-ann02__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 12px;
+  min-height: var(--blko-ann02-h);
+  margin: 0;
+  padding: 8px 16px;
+  font-size: var(--blko-ann02-size);
+  line-height: 1.5;
+  text-align: center;
+}
+.blko-ann02 .blko-ann02__text { display: block; margin: 0; padding: 0; color: inherit; }
+.blko-ann02 .blko-ann02__text strong,
+.blko-ann02 .blko-ann02__text b { font-weight: 600; }
+.blko-ann02 .blko-ann02__text a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+
+.blko-ann02 .blko-ann02__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  margin: 0;
+  padding: 2px 2px 2px 12px;
+  border: 0;
+  border-radius: var(--blko-ann02-radius);
+  background: var(--blko-ann02-pill);
+  color: var(--blko-ann02-pill-label);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  text-decoration: none;
+  box-shadow: none;
+}
+.blko-ann02 .blko-ann02__pill:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--blko-ann02-bg), 0 0 0 4px var(--blko-ann02-pill);
+}
+.blko-ann02 .blko-ann02__chip {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border-radius: 9999px;
+  background: var(--blko-ann02-pill-label);
+  color: var(--blko-ann02-pill);
+  transition: transform 200ms cubic-bezier(.2, .8, .2, 1);
+}
+.blko-ann02 .blko-ann02__pill:hover .blko-ann02__chip { transform: rotate(45deg); }
+.blko-ann02 .blko-ann02__icon { display: block; width: 14px; height: 14px; margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .blko-ann02 .blko-ann02__chip { transition: none; }
+}

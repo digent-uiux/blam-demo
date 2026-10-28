@@ -1,0 +1,194 @@
+{%- comment -%}
+  Header 01, "Logo left, nav center": logo on the left, the main menu in the middle, search / account / wishlist / cart
+  on the right, with a count dot on the bag and an underline that grows under each link. Below 768px the menu moves into
+  a drawer opened from the menu button. Without a menu picked it shows the Blocko demo links.
+  Works in any Online Store 2.0 theme: every class is blko-hdr01-, every colour, size and text is a section setting.
+{%- endcomment -%}
+{{ 'blko-header-01.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-header-01.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-h01-fonts', source: section.settings.font_source, heading_font: section.settings.heading_font, body_font: section.settings.body_font -%}
+
+{%- liquid
+  assign s = section.settings
+  case s.font_source
+    when 'theme'
+      assign heading_family = 'var(--font-heading-family, inherit)'
+      assign body_family = 'var(--font-body-family, inherit)'
+    when 'picker'
+      assign heading_family = s.heading_font.family | append: ', ' | append: s.heading_font.fallback_families
+      assign body_family = s.body_font.family | append: ', ' | append: s.body_font.fallback_families
+    else
+      assign heading_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+      assign body_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+  endcase
+  assign highlight = s.highlight_title | strip | downcase
+  assign demo_links = 'New in,Skincare,Makeup,Body,Gifts,Sale' | split: ','
+  assign brand = s.logo_text | default: shop.name
+  assign count = cart.item_count
+  assign wishlist_url = s.wishlist_url | default: routes.account_url
+  assign drawer_id = 'BlkoHdr01Drawer-' | append: section.id
+-%}
+
+{%- capture nav_items -%}
+  {%- if s.menu != blank and s.menu.links.size > 0 -%}
+    {%- for link in s.menu.links -%}
+      {%- assign t = link.title | strip | downcase -%}
+      <li class="blko-hdr01__item">
+        <a
+          href="{{ link.url }}"
+          class="blko-hdr01__link{% if highlight != blank and t == highlight %} blko-hdr01__link--sale{% endif %}"
+          {% if link.current %}
+            aria-current="page"
+          {% endif %}
+        >
+          {{- link.title | escape -}}
+        </a>
+      </li>
+    {%- endfor -%}
+  {%- else -%}
+    {%- for title in demo_links -%}
+      {%- assign t = title | downcase -%}
+      <li class="blko-hdr01__item">
+        <a
+          href="{{ routes.all_products_collection_url }}"
+          class="blko-hdr01__link{% if highlight != blank and t == highlight %} blko-hdr01__link--sale{% endif %}"
+          {% if forloop.index == 2 %}
+            aria-current="page"
+          {% endif %}
+        >
+          {{- title -}}
+        </a>
+      </li>
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+<blko-header-01
+  class="blko-hdr01"
+  style="
+    --blko-hdr01-heading-font: {{ heading_family }}; --blko-hdr01-body-font: {{ body_family }};
+    --blko-hdr01-bg: {{ s.color_bg }}; --blko-hdr01-text: {{ s.color_text }}; --blko-hdr01-border: {{ s.color_border }};
+    --blko-hdr01-hover: {{ s.color_hover }}; --blko-hdr01-sale: {{ s.color_sale }};
+    --blko-hdr01-count: {{ s.color_count }}; --blko-hdr01-count-label: {{ s.color_count_label }};
+    --blko-hdr01-max: {{ s.max_width }}px; --blko-hdr01-logo-w: {{ s.logo_width }}px; --blko-hdr01-radius: {{ s.radius_button }}px;
+  "
+>
+  <header class="blko-hdr01__bar">
+    <div class="blko-hdr01__inner">
+      <button
+        type="button"
+        class="blko-hdr01__icon blko-hdr01__menu-btn"
+        aria-label="{{ 'blko.header_01.open_menu' | t | escape }}"
+        aria-controls="{{ drawer_id }}"
+        aria-expanded="false"
+        data-menu-toggle
+        data-label-open="{{ 'blko.header_01.open_menu' | t | escape }}"
+        data-label-close="{{ 'blko.header_01.close_menu' | t | escape }}"
+      >
+        {%- render 'blko-hdr01-icon', name: 'menu', class: 'blko-hdr01__svg blko-hdr01__svg--open' -%}
+        {%- render 'blko-hdr01-icon', name: 'x', class: 'blko-hdr01__svg blko-hdr01__svg--close' -%}
+      </button>
+
+      <a href="{{ routes.root_url }}" class="blko-hdr01__brand">
+        {%- if s.logo != blank -%}
+          {%- assign logo_w2 = s.logo_width | times: 2 -%}
+          {{ s.logo | image_url: width: logo_w2 | image_tag: class: 'blko-hdr01__logo', alt: brand, widths: '200, 300, 400, 600', sizes: '(min-width: 768px) 300px, 200px' }}
+        {%- else -%}
+          {{- brand | escape -}}
+        {%- endif -%}
+      </a>
+
+      <nav class="blko-hdr01__nav" aria-label="{{ 'blko.header_01.main' | t | escape }}">
+        <ul class="blko-hdr01__list" role="list">
+          {{- nav_items -}}
+        </ul>
+      </nav>
+
+      <div class="blko-hdr01__actions">
+        {%- if s.show_search -%}
+          <a href="{{ routes.search_url }}" class="blko-hdr01__icon" aria-label="{{ 'blko.header_01.search' | t | escape }}">
+            {%- render 'blko-hdr01-icon', name: 'search', class: 'blko-hdr01__svg' -%}
+          </a>
+        {%- endif -%}
+        {%- if s.show_account -%}
+          <a href="{{ routes.account_url }}" class="blko-hdr01__icon blko-hdr01__icon--wide" aria-label="{{ 'blko.header_01.account' | t | escape }}">
+            {%- render 'blko-hdr01-icon', name: 'user', class: 'blko-hdr01__svg' -%}
+          </a>
+        {%- endif -%}
+        {%- if s.show_wishlist -%}
+          <a href="{{ wishlist_url }}" class="blko-hdr01__icon blko-hdr01__icon--wide" aria-label="{{ 'blko.header_01.wishlist' | t | escape }}">
+            {%- render 'blko-hdr01-icon', name: 'heart', class: 'blko-hdr01__svg' -%}
+          </a>
+        {%- endif -%}
+        <a href="{{ routes.cart_url }}" class="blko-hdr01__icon" aria-label="{{ 'blko.header_01.cart' | t: count: count | escape }}">
+          {%- render 'blko-hdr01-icon', name: 'shopping-bag', class: 'blko-hdr01__svg' -%}
+          {%- if count > 0 -%}
+            <span class="blko-hdr01__count" aria-hidden="true">{{ count }}</span>
+          {%- endif -%}
+        </a>
+      </div>
+    </div>
+
+    <div class="blko-hdr01__drawer" id="{{ drawer_id }}" data-drawer hidden>
+      <nav aria-label="{{ 'blko.header_01.main' | t | escape }}">
+        <ul class="blko-hdr01__drawer-list" role="list">
+          {{- nav_items -}}
+          {%- if s.show_account -%}
+            <li class="blko-hdr01__item">
+              <a href="{{ routes.account_url }}" class="blko-hdr01__link">{{ 'blko.header_01.account' | t }}</a>
+            </li>
+          {%- endif -%}
+        </ul>
+      </nav>
+    </div>
+  </header>
+</blko-header-01>
+
+{% schema %}
+{
+  "name": "Header, nav center",
+  "tag": "div",
+  "class": "blko-hdr01-section",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    { "type": "header", "content": "Logo" },
+    { "type": "image_picker", "id": "logo", "label": "Logo image", "info": "Leave empty to show the store name as text." },
+    { "type": "text", "id": "logo_text", "label": "Logo text", "default": "Lumen", "info": "Shown when no logo image is picked. Leave empty to use the store name." },
+    { "type": "range", "id": "logo_width", "label": "Logo image width", "min": 60, "max": 240, "step": 4, "unit": "px", "default": 120 },
+    { "type": "header", "content": "Menu" },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu", "info": "Top-level links only. Without a menu the demo links show." },
+    { "type": "text", "id": "highlight_title", "label": "Highlighted link", "default": "Sale", "info": "Menu link title shown in the sale color. Leave empty for none." },
+    { "type": "header", "content": "Icons" },
+    { "type": "checkbox", "id": "show_search", "label": "Show search", "default": true },
+    { "type": "checkbox", "id": "show_account", "label": "Show account", "default": true },
+    { "type": "checkbox", "id": "show_wishlist", "label": "Show wishlist", "default": true },
+    { "type": "url", "id": "wishlist_url", "label": "Wishlist link", "info": "Your wishlist app's page. Defaults to the account page." },
+    { "type": "header", "content": "Typography" },
+    {
+      "type": "select",
+      "id": "font_source",
+      "label": "Fonts",
+      "options": [
+        { "value": "bundled", "label": "Bundled (Schibsted Grotesk)" },
+        { "value": "picker", "label": "Pick from the font library" },
+        { "value": "theme", "label": "Use the theme's fonts" }
+      ],
+      "default": "bundled"
+    },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "assistant_n4", "info": "Used when Fonts is set to the font library." },
+    { "type": "font_picker", "id": "body_font", "label": "Body font", "default": "assistant_n4", "info": "Used when Fonts is set to the font library." },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "max_width", "label": "Content width", "min": 960, "max": 1920, "step": 20, "unit": "px", "default": 1280 },
+    { "type": "range", "id": "radius_button", "label": "Icon button corners", "min": 0, "max": 22, "step": 1, "unit": "px", "default": 6 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_bg", "label": "Background", "default": "#f7f4ef" },
+    { "type": "color", "id": "color_text", "label": "Text and icons", "default": "#1d2421" },
+    { "type": "color", "id": "color_border", "label": "Bottom line", "default": "#d8d1c4" },
+    { "type": "color", "id": "color_hover", "label": "Icon hover", "default": "#ebe5da" },
+    { "type": "color", "id": "color_sale", "label": "Highlighted link", "default": "#a1381f" },
+    { "type": "color", "id": "color_count", "label": "Cart count", "default": "#1d2421" },
+    { "type": "color", "id": "color_count_label", "label": "Cart count number", "default": "#f7f4ef" }
+  ],
+  "presets": [{ "name": "Header, nav center" }]
+}
+{% endschema %}

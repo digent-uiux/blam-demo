@@ -1,0 +1,65 @@
+/* Newsletter 40, concern chips sign-up. Self-contained: every value comes from the section's --blko-nl40-* settings. All px. */
+.blko-nl40 { display: block; container-type: inline-size; width: 100%; margin: 0; padding: 0;
+  background: var(--blko-nl40-bg, #ebe5da); color: var(--blko-nl40-text, #1d2421);
+  font-family: var(--blko-nl40-body-font, system-ui, sans-serif); font-size: 16px; line-height: 1.6; font-weight: 400; font-style: normal;
+  letter-spacing: normal; text-transform: none; text-align: start; -webkit-font-smoothing: antialiased; }
+.blko-nl40, .blko-nl40 *, .blko-nl40 *::before, .blko-nl40 *::after { box-sizing: border-box; }
+.blko-nl40 p, .blko-nl40 h2, .blko-nl40 form { margin: 0; padding: 0; }
+.blko-nl40 [hidden] { display: none !important; }
+.blko-nl40 .blko-nl40__inner { display: block; max-width: 1280px; margin: 0 auto; padding: calc(var(--blko-nl40-pt, 80px) * .7) 16px calc(var(--blko-nl40-pb, 80px) * .7); }
+.blko-nl40__body { display: grid; gap: 32px; max-width: 672px; }
+.blko-nl40__head { display: grid; gap: 12px; }
+.blko-nl40 .blko-nl40__title { font-family: var(--blko-nl40-heading-font, inherit); font-size: 28px; line-height: 1.15; letter-spacing: -0.025em;
+  font-weight: 400; font-style: normal; text-transform: none; text-wrap: balance; color: inherit; }
+.blko-nl40__title em { font-style: italic; font-weight: 400; }
+.blko-nl40 .blko-nl40__text { font-size: 16px; line-height: 1.6; color: var(--blko-nl40-muted, #393f3a); text-wrap: pretty; }
+
+.blko-nl40__fields { display: grid; gap: 24px; }
+.blko-nl40 .blko-nl40__set { display: grid; gap: 8px; min-width: 0; margin: 0; padding: 0; border: 0; }
+.blko-nl40 .blko-nl40__legend { display: block; float: none; width: auto; margin: 0 0 8px; padding: 0; border: 0;
+  font-size: 14px; line-height: 1.5; font-weight: 500; color: inherit; }
+.blko-nl40__chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.blko-nl40 .blko-nl40__chip { display: inline-flex; align-items: center; justify-content: center; height: 40px; min-width: 48px; margin: 0; padding: 0 12px;
+  border: 1px solid var(--blko-nl40-border, #c2beb5); border-radius: var(--blko-nl40-radius, 6px); background: transparent; color: var(--blko-nl40-text, #1d2421);
+  font: inherit; font-size: 14px; line-height: 1.5; font-weight: 500; letter-spacing: normal; text-transform: none; font-variant-numeric: tabular-nums;
+  box-shadow: none; cursor: pointer; transition: background-color .15s, border-color .15s, color .15s; -webkit-appearance: none; appearance: none; }
+.blko-nl40 .blko-nl40__chip:hover { border-color: var(--blko-nl40-text, #1d2421); }
+.blko-nl40 .blko-nl40__chip[aria-pressed="true"] { border-color: var(--blko-nl40-chip, #1d2421); background: var(--blko-nl40-chip, #1d2421); color: var(--blko-nl40-chip-label, #ebe5da); }
+.blko-nl40 .blko-nl40__note { display: block; min-height: 20px; font-size: 14px; line-height: 1.5; color: var(--blko-nl40-muted, #393f3a); }
+
+.blko-nl40__field { display: grid; gap: 8px; }
+.blko-nl40 .blko-nl40__label { display: block; margin: 0; font-size: 14px; line-height: 1.5; font-weight: 500; letter-spacing: normal; color: var(--blko-nl40-text, #1d2421); }
+.blko-nl40__row { display: flex; flex-wrap: wrap; gap: 8px; }
+.blko-nl40 .blko-nl40__input { display: block; flex: 1 1 224px; min-width: 0; width: 100%; height: 44px; margin: 0; padding: 0 16px;
+  border: 1px solid var(--blko-nl40-border, #c2beb5); border-radius: var(--blko-nl40-radius, 6px); background: var(--blko-nl40-input, #ebe5da);
+  color: var(--blko-nl40-text, #1d2421); font: inherit; font-size: 16px; line-height: 1.4; letter-spacing: normal; box-shadow: none; outline: none;
+  transition: border-color .2s, box-shadow .2s; -webkit-appearance: none; appearance: none; }
+.blko-nl40 .blko-nl40__input::placeholder { color: var(--blko-nl40-muted, #393f3a); opacity: 1; }
+.blko-nl40 .blko-nl40__input:hover { border-color: var(--blko-nl40-muted, #393f3a); }
+.blko-nl40 .blko-nl40__input:focus { border-color: var(--blko-nl40-text, #1d2421); box-shadow: 0 0 0 3px color-mix(in srgb, var(--blko-nl40-text, #1d2421) 12%, transparent); }
+.blko-nl40 .blko-nl40__input[aria-invalid="true"] { border-color: var(--blko-nl40-error, #b91c1c); }
+.blko-nl40 .blko-nl40__button { display: inline-flex; flex: none; align-items: center; justify-content: center; gap: 8px; height: 52px; margin: 0; padding: 0 32px;
+  border: 0; border-radius: var(--blko-nl40-radius-button, 6px); background: var(--blko-nl40-button, #1d2421); color: var(--blko-nl40-button-label, #ebe5da);
+  font: inherit; font-size: 15px; line-height: 1; font-weight: 600; letter-spacing: normal; text-transform: none; white-space: nowrap;
+  box-shadow: none; cursor: pointer; transition: background-color .2s; -webkit-appearance: none; appearance: none; }
+.blko-nl40 .blko-nl40__button:hover { background: var(--blko-nl40-button-hover, #3d423e); }
+.blko-nl40 .blko-nl40__button:focus-visible, .blko-nl40 .blko-nl40__chip:focus-visible, .blko-nl40 .blko-nl40__again:focus-visible {
+  outline: none; box-shadow: 0 0 0 2px var(--blko-nl40-bg, #ebe5da), 0 0 0 4px var(--blko-nl40-text, #1d2421); }
+.blko-nl40 .blko-nl40__error { display: block; font-size: 14px; line-height: 1.5; color: var(--blko-nl40-error, #b91c1c); }
+
+.blko-nl40__done { display: grid; gap: 12px; }
+.blko-nl40 .blko-nl40__done-title { display: flex; align-items: center; gap: 8px; font-size: 20px; line-height: 1.25; letter-spacing: -0.01em; font-weight: 500; }
+.blko-nl40 .blko-nl40__icon { display: block; flex-shrink: 0; width: 20px; height: 20px; }
+.blko-nl40 .blko-nl40__again { justify-self: start; display: inline-flex; align-items: center; justify-content: center; height: 36px; margin: 0; padding: 0 16px;
+  border: 1px solid var(--blko-nl40-text, #1d2421); border-radius: var(--blko-nl40-radius-button, 6px); background: transparent; color: var(--blko-nl40-text, #1d2421);
+  font: inherit; font-size: 14px; line-height: 1.5; font-weight: 600; letter-spacing: normal; white-space: nowrap; cursor: pointer; box-shadow: none;
+  transition: background-color .2s, color .2s; -webkit-appearance: none; appearance: none; }
+.blko-nl40 .blko-nl40__again:hover { background: var(--blko-nl40-text, #1d2421); color: var(--blko-nl40-bg, #ebe5da); }
+
+@media (min-width: 1024px) {
+  .blko-nl40 .blko-nl40__title { font-size: 36px; }
+  .blko-nl40 .blko-nl40__done-title { font-size: 22px; }
+}
+@container (min-width: 768px) {
+  .blko-nl40 .blko-nl40__inner { padding: var(--blko-nl40-pt, 80px) 32px var(--blko-nl40-pb, 80px); }
+}

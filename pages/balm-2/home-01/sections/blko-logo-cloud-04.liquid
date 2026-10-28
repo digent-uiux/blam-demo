@@ -1,0 +1,145 @@
+{%- comment -%}
+  Logo cloud 04, "As seen in": a press quote above a row of publication names; picking a name swaps the quote.
+  Each publication is a block: its name is drawn as a styled wordmark, or its logo image when one is picked.
+  Works in any Online Store 2.0 theme: every class is blko-lc04-, every colour, size and text is a setting.
+{%- endcomment -%}
+{{ 'blko-logo-cloud-04.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-logo-cloud-04.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-h01-fonts', source: section.settings.font_source, heading_font: section.settings.heading_font, body_font: section.settings.body_font -%}
+
+{%- liquid
+  assign s = section.settings
+  case s.font_source
+    when 'theme'
+      assign heading_family = 'var(--font-heading-family, inherit)'
+      assign body_family = 'var(--font-body-family, inherit)'
+    when 'picker'
+      assign heading_family = s.heading_font.family | append: ', ' | append: s.heading_font.fallback_families
+      assign body_family = s.body_font.family | append: ', ' | append: s.body_font.fallback_families
+    else
+      assign heading_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+      assign body_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+  endcase
+  assign first = section.blocks.first
+-%}
+
+<blko-logo-cloud-04
+  class="blko-lc04 blko-lc04--{{ s.alignment }}"
+  style="
+    --blko-lc04-heading-font: {{ heading_family }}; --blko-lc04-body-font: {{ body_family }};
+    --blko-lc04-bg: {{ s.color_bg }}; --blko-lc04-text: {{ s.color_text }}; --blko-lc04-muted: {{ s.color_muted }};
+    --blko-lc04-max: {{ s.max_width }}px; --blko-lc04-pt: {{ s.padding_top }}px; --blko-lc04-pb: {{ s.padding_bottom }}px;
+    --blko-lc04-quote: {{ s.quote_size }}px; --blko-lc04-quote-m: {{ s.quote_size_mobile }}px;
+  "
+>
+  <section class="blko-lc04__inner">
+    {%- if s.eyebrow != blank -%}
+      <p class="blko-lc04__eyebrow">{{ s.eyebrow | escape }}</p>
+    {%- endif -%}
+    {%- if first -%}
+      <blockquote class="blko-lc04__quote" aria-live="polite" data-quote>&ldquo;{{ first.settings.quote | escape }}&rdquo;</blockquote>
+      <div class="blko-lc04__names" role="group" aria-label="{{ 'blko.logo_cloud_04.choose' | t | escape }}">
+        {%- for block in section.blocks -%}
+          {%- assign b = block.settings -%}
+          <button
+            type="button"
+            class="blko-lc04__name blko-lc04__name--{{ b.style }}{% if b.logo != blank %} blko-lc04__name--image{% endif %}"
+            aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+            data-text="{{ b.quote | escape }}"
+            {{ block.shopify_attributes }}
+          >
+            {%- if b.logo != blank -%}
+              {%- assign logo_h2 = b.logo_height | times: 2 -%}
+              {%- capture logo_style -%}height: {{ b.logo_height }}px;{%- endcapture -%}
+              {{ b.logo | image_url: height: logo_h2 | image_tag: class: 'blko-lc04__logo', alt: b.name, style: logo_style, loading: 'lazy' }}
+            {%- else -%}
+              {{- b.name | escape -}}
+            {%- endif -%}
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </section>
+</blko-logo-cloud-04>
+
+{% schema %}
+{
+  "name": "Logo cloud, press quotes",
+  "tag": "div",
+  "class": "blko-lc04-section",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "As seen in", "info": "Leave empty to hide." },
+    { "type": "header", "content": "Typography" },
+    {
+      "type": "select",
+      "id": "font_source",
+      "label": "Fonts",
+      "options": [
+        { "value": "bundled", "label": "Bundled (Schibsted Grotesk)" },
+        { "value": "picker", "label": "Pick from the font library" },
+        { "value": "theme", "label": "Use the theme's fonts" }
+      ],
+      "default": "bundled"
+    },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "assistant_n4", "info": "Used when Fonts is set to the font library." },
+    { "type": "font_picker", "id": "body_font", "label": "Body font", "default": "assistant_n4", "info": "Used when Fonts is set to the font library." },
+    { "type": "range", "id": "quote_size", "label": "Quote size, desktop", "min": 18, "max": 48, "step": 1, "unit": "px", "default": 28 },
+    { "type": "range", "id": "quote_size_mobile", "label": "Quote size, mobile", "min": 16, "max": 40, "step": 1, "unit": "px", "default": 22 },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "max_width", "label": "Width", "min": 480, "max": 1280, "step": 20, "unit": "px", "default": 880 },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Position on the page",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 0 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_bg", "label": "Background", "default": "#f7f4ef" },
+    { "type": "color", "id": "color_text", "label": "Quote and active name", "default": "#1d2421" },
+    { "type": "color", "id": "color_muted", "label": "Eyebrow and names", "default": "#545c57" }
+  ],
+  "blocks": [
+    {
+      "type": "publication",
+      "name": "Publication",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Name", "default": "The Morning Edit" },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Wordmark style",
+          "options": [
+            { "value": "serif", "label": "Large italic" },
+            { "value": "caps", "label": "Small, bold, spaced" },
+            { "value": "lower", "label": "Large, lowercase" },
+            { "value": "mono", "label": "Small, wide" }
+          ],
+          "default": "serif"
+        },
+        { "type": "image_picker", "id": "logo", "label": "Logo image", "info": "Replaces the wordmark. Transparent PNG or SVG works best." },
+        { "type": "range", "id": "logo_height", "label": "Logo height", "min": 16, "max": 48, "step": 2, "unit": "px", "default": 24 },
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "The serum that finally calmed my skin, and it costs less than dinner out." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Logo cloud, press quotes",
+      "blocks": [
+        { "type": "publication", "settings": { "name": "The Morning Edit", "style": "serif", "quote": "The serum that finally calmed my skin, and it costs less than dinner out." } },
+        { "type": "publication", "settings": { "name": "INTERIOR WEEKLY", "style": "caps", "quote": "Quietly the best linen bedding we tested this year." } },
+        { "type": "publication", "settings": { "name": "glow journal", "style": "lower", "quote": "A small-batch brand that gets the basics beautifully right." } },
+        { "type": "publication", "settings": { "name": "Style Room", "style": "mono", "quote": "Their slip dress sold out twice before we went to print." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

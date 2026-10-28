@@ -1,0 +1,21 @@
+{%- comment -%}
+  Fonts for the Home 01 sections. Prints the @font-face rules for the chosen source and nothing else; the section sets
+  its own font-family from the same source (see each section's --blko-*-heading-font / --blko-*-body-font).
+  Accepts:
+  - source: {String} 'bundled' (Schibsted Grotesk from assets, SIL Open Font License 1.1; no italic face, like the DS: the browser slants it), 'picker' or 'theme'
+  - heading_font: {Object} font_picker value, used when source is 'picker'
+  - body_font: {Object} font_picker value, used when source is 'picker'
+{%- endcomment -%}
+{%- case source -%}
+  {%- when 'picker' -%}
+    <style>
+      {{ heading_font | font_face: font_display: 'swap' }}
+      {{ body_font | font_face: font_display: 'swap' }}
+      {{ body_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+    </style>
+  {%- when 'theme' -%}
+  {%- else -%}
+    <style>
+      @font-face { font-family: 'blko-h01 Schibsted Grotesk'; src: url('{{ 'blko-h01-schibsted-grotesk-normal.woff2' | asset_url }}') format('woff2'); font-weight: 400 900; font-style: normal; font-display: swap; }
+    </style>
+{%- endcase -%}

@@ -1,0 +1,18 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement-02": {
+      "type": "blko-announcement-02",
+      "settings": {}
+    },
+    "header-01": {
+      "type": "blko-header-01",
+      "settings": {}
+    }
+  },
+  "order": [
+    "announcement-02",
+    "header-01"
+  ]
+}

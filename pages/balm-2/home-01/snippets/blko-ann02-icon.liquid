@@ -1,0 +1,11 @@
+{%- comment -%}
+  Lucide icons used by Announcement 02 (ISC license). Accepts:
+  - name: {String} 'arrow-up-right'
+  - class: {String} optional class
+{%- endcomment -%}
+<svg class="{{ class }}" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {%- case name -%}
+    {%- when 'arrow-up-right' -%}
+      <path d="M7 7h10v10"/><path d="M7 17 17 7"/>
+  {%- endcase -%}
+</svg>

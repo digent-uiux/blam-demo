@@ -1,0 +1,274 @@
+{%- comment -%}
+  Image with products 05, "Shelfie on dark": a shelf photo on a dark band and, beside it, the same products as a ruled
+  tick-list (all ticked to start). The set line totals the ticked ones, shows the set saving from a number of pieces
+  and one button adds every ticked product to the cart with POST /cart/add.js. Each product is a block with a product
+  picker; a block without a product shows its demo name and price. Works in any Online Store 2.0 theme: every class is
+  blko-iwp05-.
+{%- endcomment -%}
+{{ 'blko-image-with-products-05.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-image-with-products-05.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-h01-fonts', source: section.settings.font_source, heading_font: section.settings.heading_font, body_font: section.settings.body_font -%}
+
+{%- liquid
+  assign s = section.settings
+  case s.font_source
+    when 'theme'
+      assign heading_family = 'var(--font-heading-family, inherit)'
+      assign body_family = 'var(--font-body-family, inherit)'
+    when 'picker'
+      assign heading_family = s.heading_font.family | append: ', ' | append: s.heading_font.fallback_families
+      assign body_family = s.body_font.family | append: ', ' | append: s.body_font.fallback_families
+    else
+      assign heading_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+      assign body_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+  endcase
+  assign label = s.heading | strip_html | escape
+  assign pt_mobile = s.padding_top | times: 0.7 | round
+  assign pb_mobile = s.padding_bottom | times: 0.7 | round
+  assign words = 'zero,one,two,three,four,five,six,seven,eight,nine,ten,eleven,twelve' | split: ','
+  assign subtotal = 0
+  assign chosen = 0
+  assign count = section.blocks.size
+-%}
+
+<blko-image-with-products-05
+  class="blko-iwp05{% if s.image_position == 'right' %} blko-iwp05--image-right{% endif %}"
+  style="
+    --blko-iwp05-heading-font: {{ heading_family }}; --blko-iwp05-body-font: {{ body_family }};
+    --blko-iwp05-bg: {{ s.color_bg }}; --blko-iwp05-text: {{ s.color_text }};
+    --blko-iwp05-button: {{ s.color_button }}; --blko-iwp05-button-label: {{ s.color_button_label }}; --blko-iwp05-button-hover: {{ s.color_button_hover }};
+    --blko-iwp05-h2: {{ s.heading_size }}px; --blko-iwp05-h2-mobile: {{ s.heading_size_mobile }}px;
+    --blko-iwp05-pt: {{ s.padding_top }}px; --blko-iwp05-pb: {{ s.padding_bottom }}px; --blko-iwp05-pt-mobile: {{ pt_mobile }}px; --blko-iwp05-pb-mobile: {{ pb_mobile }}px;
+    --blko-iwp05-radius-image: {{ s.radius_image }}px; --blko-iwp05-radius-button: {{ s.radius_button }}px;
+  "
+  data-money-format="{{ shop.money_format | strip_html | escape }}"
+  data-words="{{ words | join: ',' }}"
+  data-set-from="{{ s.set_from }}"
+  data-set-off="{{ s.set_off }}"
+  data-code="{{ s.discount_code | escape }}"
+  data-after="{{ s.after_add }}"
+  data-note-set="{{ s.note_set | escape }}"
+  data-note-more="{{ s.note_more | escape }}"
+  data-button-all="{{ s.button_all | escape }}"
+  data-button-some="{{ s.button_some | escape }}"
+  data-button-empty="{{ s.button_empty | escape }}"
+  data-button-added="{{ s.button_added | escape }}"
+  data-added-one="{{ s.added_one | escape }}"
+  data-added-other="{{ s.added_other | escape }}"
+  data-adding="{{ 'blko.image_with_products_05.adding' | t | escape }}"
+  data-error="{{ 'blko.image_with_products_05.error' | t | escape }}"
+  data-demo="{{ 'blko.image_with_products_05.demo' | t | escape }}"
+>
+  <section class="blko-iwp05__band" aria-label="{{ label }}">
+    <div class="blko-iwp05__inner">
+      {%- if s.image != blank -%}
+        {%- capture focal -%}object-position: {{ s.image.presentation.focal_point }};{%- endcapture -%}
+        {{ s.image | image_url: width: 1600 | image_tag: class: 'blko-iwp05__img', widths: '600, 900, 1200, 1600', sizes: '(min-width: 1024px) 640px, 100vw', alt: s.image.alt, style: focal, loading: 'lazy' }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'blko-iwp05__img blko-iwp05__img--ph' }}
+      {%- endif -%}
+
+      <div class="blko-iwp05__col">
+        <header class="blko-iwp05__head">
+          <h2 class="blko-iwp05__title">{{ s.heading }}</h2>
+          {%- if s.text != blank -%}
+            <p class="blko-iwp05__lead">{{ s.text | escape }}</p>
+          {%- endif -%}
+        </header>
+
+        <ul class="blko-iwp05__list" role="list">
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign p = block.settings.product
+              assign variant_id = ''
+              assign available = true
+              if p != blank
+                assign v = p.selected_or_first_available_variant
+                assign title = p.title
+                assign price = v.price
+                assign variant_id = v.id
+                assign available = v.available
+              else
+                assign title = block.settings.demo_title
+                assign price = block.settings.demo_price | times: 100
+              endif
+              assign on = false
+              if block.settings.checked and available
+                assign on = true
+                assign subtotal = subtotal | plus: price
+                assign chosen = chosen | plus: 1
+              endif
+            -%}
+            <li class="blko-iwp05__item" {{ block.shopify_attributes }}>
+              <label class="blko-iwp05__row">
+                <input
+                  type="checkbox"
+                  class="blko-iwp05__input"
+                  data-item
+                  data-price="{{ price }}"
+                  data-variant="{{ variant_id }}"
+                  {% if on %}checked{% endif %}
+                  {% unless available %}disabled{% endunless %}
+                >
+                <span class="blko-iwp05__tick" aria-hidden="true">{%- render 'blko-iwp05-icon', name: 'check' -%}</span>
+                <span class="blko-iwp05__name">{{ title | escape }}</span>
+                <span class="blko-iwp05__price">{{ price | money_without_trailing_zeros }}</span>
+              </label>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        {%- liquid
+          assign is_set = false
+          if chosen >= s.set_from and s.set_off > 0
+            assign is_set = true
+          endif
+          assign total = subtotal
+          if is_set
+            assign keep = 100 | minus: s.set_off
+            assign total = subtotal | times: keep | divided_by: 10000.0 | round | times: 100
+          endif
+          assign left = s.set_from | minus: chosen
+          if is_set
+            assign note_tpl = s.note_set
+          else
+            assign note_tpl = s.note_more
+          endif
+          assign total_money = total | money_without_trailing_zeros
+          if chosen == 0
+            assign button = s.button_empty
+          elsif chosen == count
+            assign button = s.button_all | replace: '[words]', words[count] | replace: '[count]', chosen | replace: '[total]', total_money
+          else
+            assign button = s.button_some | replace: '[words]', words[chosen] | replace: '[count]', chosen | replace: '[total]', total_money
+          endif
+        -%}
+        <div class="blko-iwp05__sum">
+          <p class="blko-iwp05__line">
+            {%- comment -%} Empty comments split the line into the same text runs the design system renders (same glyph spacing). {%- endcomment -%}
+            {%- assign picked_run = chosen | append: '<!-- -->' -%}
+            {%- assign count_run = '<!-- -->' | append: count | append: '<!-- -->' -%}
+            <span class="blko-iwp05__note" data-note>{{ note_tpl | escape | replace: '[picked]', picked_run | replace: '[count]', count_run | replace: '[left]', left | replace: '[percent]', s.set_off | replace: ' · ', ' · <!-- -->' }}</span>
+            <span class="blko-iwp05__amounts">
+              <s class="blko-iwp05__was" data-compare{% unless is_set %} hidden{% endunless %}>
+                {%- comment -%} No whitespace inside: the DS renders "Was " + amount as one tight run. {%- endcomment -%}
+                <span class="blko-iwp05__sr">{{ 'blko.image_with_products_05.was' | t }} </span>
+                {%- liquid
+                  assign was_run = subtotal | money_without_trailing_zeros
+                  echo was_run
+                -%}
+              </s>
+              {{- '' -}}
+              <span class="blko-iwp05__total" data-total>{{ total_money }}</span>
+            </span>
+          </p>
+          <button type="button" class="blko-iwp05__btn" data-add{% if chosen == 0 %} disabled{% endif %}>
+            {%- render 'blko-iwp05-icon', name: 'check', class: 'blko-iwp05__done' -%}
+            <span data-label>{{ button | escape }}</span>
+          </button>
+          <p class="blko-iwp05__msg" role="status" data-msg></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</blko-image-with-products-05>
+
+{% schema %}
+{
+  "name": "Shelfie, tick-list set",
+  "tag": "div",
+  "class": "blko-iwp05-section",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "header", "content": "Photo" },
+    { "type": "image_picker", "id": "image", "label": "Shelf photo", "info": "Portrait photo, at least 1200px wide." },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Photo position, desktop",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    { "type": "header", "content": "Heading" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Everything on <em>this</em> shelf", "info": "Use italic for the accent word." },
+    { "type": "text", "id": "text", "label": "Text", "default": "Untick what you have. Three or more ship as a set at 15% off." },
+    { "type": "header", "content": "Set" },
+    { "type": "range", "id": "set_from", "label": "Pieces for the set price", "min": 1, "max": 6, "step": 1, "default": 3 },
+    { "type": "range", "id": "set_off", "label": "Set saving shown", "min": 0, "max": 50, "step": 1, "unit": "%", "default": 15, "info": "Display only. Create a matching automatic discount, or fill in a discount code below." },
+    { "type": "text", "id": "discount_code", "label": "Discount code to apply", "info": "Optional. Applied on the way to the cart when the set qualifies." },
+    {
+      "type": "select",
+      "id": "after_add",
+      "label": "After adding",
+      "options": [
+        { "value": "stay", "label": "Stay and show a message" },
+        { "value": "cart", "label": "Go to the cart" }
+      ],
+      "default": "stay"
+    },
+    { "type": "text", "id": "note_set", "label": "Set line, set price", "default": "[picked] of [count] · set price, [percent]% off" },
+    { "type": "text", "id": "note_more", "label": "Set line, below the set", "default": "[picked] of [count] · add [left] more for the set price", "info": "[picked] is ticked, [count] all, [left] how many more are needed." },
+    { "type": "text", "id": "button_all", "label": "Button, all ticked", "default": "Add all [words] · [total]", "info": "[words] is the count in words, [count] in digits." },
+    { "type": "text", "id": "button_some", "label": "Button, some ticked", "default": "Add [count] · [total]" },
+    { "type": "text", "id": "button_empty", "label": "Button, nothing ticked", "default": "Tick at least one bottle" },
+    { "type": "text", "id": "button_added", "label": "Button, added", "default": "Added to bag" },
+    { "type": "text", "id": "added_one", "label": "Message, one added", "default": "[count] item added to bag · [total]" },
+    { "type": "text", "id": "added_other", "label": "Message, several added", "default": "[count] items added to bag · [total]" },
+    { "type": "header", "content": "Typography" },
+    {
+      "type": "select",
+      "id": "font_source",
+      "label": "Fonts",
+      "options": [
+        { "value": "bundled", "label": "Bundled (Schibsted Grotesk)" },
+        { "value": "picker", "label": "Pick from the font library" },
+        { "value": "theme", "label": "Use the theme's fonts" }
+      ],
+      "default": "bundled"
+    },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "assistant_n4", "info": "Used when Fonts is set to the font library." },
+    { "type": "font_picker", "id": "body_font", "label": "Body font", "default": "assistant_n4", "info": "Used when Fonts is set to the font library." },
+    { "type": "range", "id": "heading_size", "label": "Heading size, desktop", "min": 20, "max": 64, "step": 2, "unit": "px", "default": 36 },
+    { "type": "range", "id": "heading_size_mobile", "label": "Heading size, mobile", "min": 18, "max": 48, "step": 2, "unit": "px", "default": 28 },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "info": "Mobile uses 70% of it.", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "info": "Mobile uses 70% of it.", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "radius_image", "label": "Photo corners", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 10 },
+    { "type": "range", "id": "radius_button", "label": "Button corners", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 6 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_bg", "label": "Background", "default": "#1d2421" },
+    { "type": "color", "id": "color_text", "label": "Text, lines and ticks", "default": "#f7f4ef" },
+    { "type": "color", "id": "color_button", "label": "Button", "default": "#f7f4ef" },
+    { "type": "color", "id": "color_button_label", "label": "Button label", "default": "#1d2421" },
+    { "type": "color", "id": "color_button_hover", "label": "Button hover", "default": "#ebe5da" }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Product",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product", "info": "Its first available variant goes in the cart." },
+        { "type": "checkbox", "id": "checked", "label": "Ticked by default", "default": true },
+        { "type": "header", "content": "Demo, shown until a product is picked" },
+        { "type": "text", "id": "demo_title", "label": "Name", "default": "Soft gel cleanser" },
+        { "type": "number", "id": "demo_price", "label": "Price", "default": 24 }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shelfie, tick-list set",
+      "blocks": [
+        { "type": "item", "settings": { "demo_title": "Soft gel cleanser", "demo_price": 24 } },
+        { "type": "item", "settings": { "demo_title": "Balancing toner", "demo_price": 22 } },
+        { "type": "item", "settings": { "demo_title": "Hyaluronic serum", "demo_price": 38 } },
+        { "type": "item", "settings": { "demo_title": "Fig body wash", "demo_price": 26 } },
+        { "type": "item", "settings": { "demo_title": "Hand lotion", "demo_price": 20 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

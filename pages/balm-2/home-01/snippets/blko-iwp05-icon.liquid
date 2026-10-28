@@ -1,0 +1,11 @@
+{%- comment -%}
+  Lucide icons for Image with products 05 (ISC licence, lucide.dev), 24px grid, currentColor.
+  Accepts:
+  - name: {String} 'check'
+  - class: {String} optional extra class
+{%- endcomment -%}
+<svg class="blko-iwp05__icon{% if class %} {{ class }}{% endif %}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {%- case name -%}
+    {%- when 'check' -%}<path d="M20 6 9 17l-5-5"/>
+  {%- endcase -%}
+</svg>

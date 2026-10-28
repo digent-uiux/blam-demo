@@ -1,0 +1,184 @@
+{%- comment -%}
+  Featured products 37, "Bestsellers, four plain cards, size quick add": a heading with a "Shop all" link and plain
+  product cards (photo, name, rating, "from" price). Quick add opens the card's sizes in place; picking one adds it to
+  the cart with POST /cart/add.js. Products come from a collection, or from product blocks; a block without a product
+  shows its demo name, rating and sizes. Works in any Online Store 2.0 theme: every class is blko-fp37-.
+{%- endcomment -%}
+{{ 'blko-featured-products-37.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-featured-products-37.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-h01-fonts', source: section.settings.font_source, heading_font: section.settings.heading_font, body_font: section.settings.body_font -%}
+
+{%- liquid
+  assign s = section.settings
+  case s.font_source
+    when 'theme'
+      assign heading_family = 'var(--font-heading-family, inherit)'
+      assign body_family = 'var(--font-body-family, inherit)'
+    when 'picker'
+      assign heading_family = s.heading_font.family | append: ', ' | append: s.heading_font.fallback_families
+      assign body_family = s.body_font.family | append: ', ' | append: s.body_font.fallback_families
+    else
+      assign heading_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+      assign body_family = "'blko-h01 Schibsted Grotesk', system-ui, sans-serif"
+  endcase
+  assign label = s.heading | strip_html | escape
+  assign pt_mobile = s.padding_top | times: 0.7 | round
+  assign pb_mobile = s.padding_bottom | times: 0.7 | round
+-%}
+
+<blko-featured-products-37
+  class="blko-fp37"
+  style="
+    --blko-fp37-heading-font: {{ heading_family }}; --blko-fp37-body-font: {{ body_family }};
+    --blko-fp37-bg: {{ s.color_bg }}; --blko-fp37-text: {{ s.color_text }}; --blko-fp37-media: {{ s.color_media }};
+    --blko-fp37-star: {{ s.color_star }}; --blko-fp37-button: {{ s.color_button }}; --blko-fp37-button-hover-label: {{ s.color_button_hover_label }};
+    --blko-fp37-h2: {{ s.heading_size }}px; --blko-fp37-h2-mobile: {{ s.heading_size_mobile }}px;
+    --blko-fp37-cols: {{ s.columns_desktop }}; --blko-fp37-cols-mobile: {{ s.columns_mobile }};
+    --blko-fp37-pt: {{ s.padding_top }}px; --blko-fp37-pb: {{ s.padding_bottom }}px; --blko-fp37-pt-mobile: {{ pt_mobile }}px; --blko-fp37-pb-mobile: {{ pb_mobile }}px;
+    --blko-fp37-radius-image: {{ s.radius_image }}px; --blko-fp37-radius-button: {{ s.radius_button }}px; --blko-fp37-ratio: {{ s.image_ratio }};
+  "
+  data-money-format="{{ shop.money_format | strip_html | escape }}"
+  data-after="{{ s.after_add }}"
+  data-added-label="{{ s.added_label | escape }}"
+  data-status="{{ 'blko.featured_products_37.status' | t | escape }}"
+  data-demo="{{ 'blko.featured_products_37.demo' | t | escape }}"
+  data-adding="{{ 'blko.featured_products_37.adding' | t | escape }}"
+  data-error="{{ 'blko.featured_products_37.error' | t | escape }}"
+>
+  <section class="blko-fp37__band" aria-label="{{ label }}">
+    <div class="blko-fp37__inner">
+      <header class="blko-fp37__head">
+        <div class="blko-fp37__titles">
+          <h2 class="blko-fp37__title">{{ s.heading }}</h2>
+        </div>
+        {%- if s.link_label != blank -%}
+          <a href="{{ s.link_url | default: routes.all_products_collection_url }}" class="blko-fp37__all">{{ s.link_label | escape }}</a>
+        {%- endif -%}
+      </header>
+
+      <ul class="blko-fp37__grid" role="list">
+        {%- if s.collection != blank and s.collection.products_count > 0 -%}
+          {%- for product in s.collection.products limit: s.products_to_show -%}
+            {%- render 'blko-fp37-card', product: product, block: nil, index: forloop.index, s: s -%}
+          {%- endfor -%}
+        {%- else -%}
+          {%- for block in section.blocks -%}
+            {%- render 'blko-fp37-card', product: block.settings.product, block: block, index: forloop.index, s: s -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </ul>
+
+      <p class="blko-fp37__sr" role="status" data-msg>&nbsp;</p>
+    </div>
+  </section>
+</blko-featured-products-37>
+
+{% schema %}
+{
+  "name": "Bestsellers, quick add",
+  "tag": "div",
+  "class": "blko-fp37-section",
+  "max_blocks": 12,
+  "settings": [
+    { "type": "header", "content": "Heading" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Bestsellers" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Shop all", "info": "Leave empty to hide." },
+    { "type": "url", "id": "link_url", "label": "Link", "info": "Defaults to all products." },
+    { "type": "header", "content": "Products" },
+    { "type": "collection", "id": "collection", "label": "Collection", "info": "Leave empty to use the product blocks." },
+    { "type": "range", "id": "products_to_show", "label": "Products from the collection", "min": 2, "max": 12, "step": 1, "default": 4 },
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating", "default": true, "info": "Reads the reviews.rating metafield." },
+    { "type": "text", "id": "from_label", "label": "Price prefix", "default": "From", "info": "Shown when sizes have different prices." },
+    { "type": "text", "id": "quick_add_label", "label": "Quick add label", "default": "Quick add" },
+    { "type": "text", "id": "added_label", "label": "Added label", "default": "Added ([count])", "info": "[count] is how many were added." },
+    { "type": "text", "id": "sold_out_label", "label": "Sold out label", "default": "Sold out" },
+    {
+      "type": "select",
+      "id": "after_add",
+      "label": "After adding",
+      "options": [
+        { "value": "stay", "label": "Stay on the page" },
+        { "value": "cart", "label": "Go to the cart" }
+      ],
+      "default": "stay"
+    },
+    { "type": "header", "content": "Typography" },
+    {
+      "type": "select",
+      "id": "font_source",
+      "label": "Fonts",
+      "options": [
+        { "value": "bundled", "label": "Bundled (Schibsted Grotesk)" },
+        { "value": "picker", "label": "Pick from the font library" },
+        { "value": "theme", "label": "Use the theme's fonts" }
+      ],
+      "default": "bundled"
+    },
+    { "type": "font_picker", "id": "heading_font", "label": "Heading font", "default": "assistant_n4", "info": "Used when Fonts is set to the font library." },
+    { "type": "font_picker", "id": "body_font", "label": "Body font", "default": "assistant_n4", "info": "Used when Fonts is set to the font library." },
+    { "type": "range", "id": "heading_size", "label": "Heading size, desktop", "min": 20, "max": 64, "step": 2, "unit": "px", "default": 36 },
+    { "type": "range", "id": "heading_size_mobile", "label": "Heading size, mobile", "min": 18, "max": 48, "step": 2, "unit": "px", "default": 28 },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "columns_desktop", "label": "Columns, desktop", "min": 2, "max": 6, "step": 1, "default": 4 },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns, mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Photo shape",
+      "options": [
+        { "value": "4 / 5", "label": "Portrait 4:5" },
+        { "value": "3 / 4", "label": "Portrait 3:4" },
+        { "value": "1 / 1", "label": "Square" }
+      ],
+      "default": "4 / 5"
+    },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "info": "Mobile uses 70% of it.", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "info": "Mobile uses 70% of it.", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "radius_image", "label": "Photo corners", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 10 },
+    { "type": "range", "id": "radius_button", "label": "Button corners", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 6 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_bg", "label": "Background", "default": "#f7f4ef" },
+    { "type": "color", "id": "color_text", "label": "Text", "default": "#1d2421" },
+    { "type": "color", "id": "color_media", "label": "Photo background", "default": "#ebe5da" },
+    { "type": "color", "id": "color_star", "label": "Stars", "default": "#1d2421" },
+    { "type": "color", "id": "color_button", "label": "Button border and hover", "default": "#1d2421" },
+    { "type": "color", "id": "color_button_hover_label", "label": "Button hover label", "default": "#f7f4ef" }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Product", "info": "Quick add shows up to 3 sizes in place; with more, it opens the product page." },
+        { "type": "header", "content": "Demo, shown until a product is picked" },
+        { "type": "text", "id": "demo_title", "label": "Name", "default": "Squalane glow oil" },
+        { "type": "text", "id": "demo_rating", "label": "Rating", "default": "4.8", "info": "Out of 5." },
+        { "type": "text", "id": "demo_size_1", "label": "First size", "default": "15 ml" },
+        { "type": "number", "id": "demo_price_1", "label": "First size price", "default": 28 },
+        { "type": "text", "id": "demo_size_2", "label": "Second size", "default": "30 ml" },
+        { "type": "number", "id": "demo_price_2", "label": "Second size price", "default": 48 }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bestsellers, quick add",
+      "blocks": [
+        { "type": "product", "settings": { "demo_title": "Squalane glow oil", "demo_rating": "4.8", "demo_size_1": "15 ml", "demo_price_1": 28, "demo_size_2": "30 ml", "demo_price_2": 48 } },
+        { "type": "product", "settings": { "demo_title": "Barrier repair cream", "demo_rating": "4.9", "demo_size_1": "50 ml", "demo_price_1": 34, "demo_size_2": "100 ml", "demo_price_2": 56 } },
+        { "type": "product", "settings": { "demo_title": "Rose water gel cream", "demo_rating": "4.7", "demo_size_1": "50 ml", "demo_price_1": 30, "demo_size_2": "100 ml", "demo_price_2": 50 } },
+        { "type": "product", "settings": { "demo_title": "Pink clay sugar polish", "demo_rating": "4.7", "demo_size_1": "100 g", "demo_price_1": 26, "demo_size_2": "250 g", "demo_price_2": 44 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

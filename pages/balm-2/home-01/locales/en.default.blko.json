@@ -1,0 +1,63 @@
+{
+  "blko": {
+    "announcement_02": {
+      "label": "Announcement"
+    },
+    "blog_07": {
+      "filter": "Filter posts by topic",
+      "posts": "{{ number }} posts",
+      "posts_in": "{{ number }} posts in {{ tag }}",
+      "pages": "Blog pages",
+      "page": "Page {{ number }}",
+      "previous": "Previous page",
+      "next": "Next page"
+    },
+    "collection_list_32": {
+      "map": "Face map, [zone] selected",
+      "adding": "Adding to the cart…",
+      "added": "[name] added to bag",
+      "error": "Couldn't add it to the cart. Please try again.",
+      "demo": "This is a demo product: pick a product in the zone block to sell it."
+    },
+    "featured_products_37": {
+      "stars": "{{ rating }} out of 5 stars",
+      "quick_add": "Quick add {{ title }}",
+      "choose": "Choose a size of {{ title }}",
+      "close": "Close sizes",
+      "status": "[name], added. Bag total [total]",
+      "demo": "This is a demo product: pick a product in the block to sell it.",
+      "adding": "Adding to the cart…",
+      "error": "Couldn't add it to the cart. Please try again."
+    },
+    "footer_02": {
+      "email_label": "Email address",
+      "success": "Thanks for subscribing.",
+      "legal": "Legal"
+    },
+    "header_01": {
+      "open_menu": "Open menu",
+      "close_menu": "Close menu",
+      "main": "Main",
+      "search": "Search",
+      "account": "Account",
+      "wishlist": "Wishlist",
+      "cart": {
+        "one": "Cart, {{ count }} item",
+        "other": "Cart, {{ count }} items"
+      }
+    },
+    "image_with_products_05": {
+      "was": "Was",
+      "adding": "Adding to the cart…",
+      "error": "Couldn't add them to the cart. Please try again.",
+      "demo": "These are demo products: pick a product in each block to sell them."
+    },
+    "logo_cloud_04": {
+      "choose": "Choose publication"
+    },
+    "testimonial_30": {
+      "change_suffix": "from {{ first }} to {{ last }}",
+      "score": "{{ measure }} {{ score }} out of 5"
+    }
+  }
+}
