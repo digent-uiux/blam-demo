@@ -27,21 +27,21 @@ Do not use a zip.
 
 1. Ask which theme, which page and where on the page the section goes. Wait for the answer.
 2. In that theme's code editor, create each file below at the same path, with the exact content from its link. If a file with the same name already exists, compare first and never overwrite it blindly.
-   - `sections/blko-announcement-11.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/announcement-11/sections/blko-announcement-11.liquid
-   - `snippets/blko-fonts-roast.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/announcement-11/snippets/blko-fonts-roast.liquid
-   - `snippets/blko-ui-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/announcement-11/snippets/blko-ui-icon.liquid
-   - `assets/blko-announcement-11.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/announcement-11/assets/blko-announcement-11.css
-   - `assets/blko-announcement-11.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/announcement-11/assets/blko-announcement-11.js
-   - `assets/blko-f-ibm-plex-mono-400.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/announcement-11/assets/blko-f-ibm-plex-mono-400.woff2
-   - `assets/blko-f-ibm-plex-mono-500.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/announcement-11/assets/blko-f-ibm-plex-mono-500.woff2
-   - `assets/blko-f-ibm-plex-sans.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/announcement-11/assets/blko-f-ibm-plex-sans.woff2
-   - `assets/blko-f-syne.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/announcement-11/assets/blko-f-syne.woff2
-   - `assets/blko-roast-motion.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/announcement-11/assets/blko-roast-motion.css
-   - `assets/blko-roast-motion.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/announcement-11/assets/blko-roast-motion.js
-   - `assets/blko-ui-core.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/announcement-11/assets/blko-ui-core.css
-   - `assets/blko-ui-motion.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/announcement-11/assets/blko-ui-motion.js
+   - `sections/blko-announcement-11.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/announcement-11/sections/blko-announcement-11.liquid
+   - `snippets/blko-fonts-roast.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/announcement-11/snippets/blko-fonts-roast.liquid
+   - `snippets/blko-ui-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/announcement-11/snippets/blko-ui-icon.liquid
+   - `assets/blko-announcement-11.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/announcement-11/assets/blko-announcement-11.css
+   - `assets/blko-announcement-11.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/announcement-11/assets/blko-announcement-11.js
+   - `assets/blko-f-ibm-plex-mono-400.woff2`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/announcement-11/assets/blko-f-ibm-plex-mono-400.woff2
+   - `assets/blko-f-ibm-plex-mono-500.woff2`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/announcement-11/assets/blko-f-ibm-plex-mono-500.woff2
+   - `assets/blko-f-ibm-plex-sans.woff2`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/announcement-11/assets/blko-f-ibm-plex-sans.woff2
+   - `assets/blko-f-syne.woff2`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/announcement-11/assets/blko-f-syne.woff2
+   - `assets/blko-roast-motion.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/announcement-11/assets/blko-roast-motion.css
+   - `assets/blko-roast-motion.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/announcement-11/assets/blko-roast-motion.js
+   - `assets/blko-ui-core.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/announcement-11/assets/blko-ui-core.css
+   - `assets/blko-ui-motion.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/announcement-11/assets/blko-ui-motion.js
    The `.woff2` fonts are binary: upload them in Online Store > Themes > Edit code > assets > Add a new asset.
-3. Merge the keys from `locales/en.default.blko.json` (https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/announcement-11/locales/en.default.blko.json) into your `locales/en.default.json`. Keep your existing keys.
+3. Merge the keys from `locales/en.default.blko.json` (https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/announcement-11/locales/en.default.blko.json) into your `locales/en.default.json`. Keep your existing keys.
 4. Open the page in the Theme Editor and add the section at the chosen position.
 
 ## Look

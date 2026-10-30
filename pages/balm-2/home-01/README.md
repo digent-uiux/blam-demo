@@ -43,49 +43,49 @@ Do not use a zip.
 
 1. Ask which theme, and whether this should be the home page or an alternate home template. Wait for the answer.
 2. In that theme's code editor, create each file below at the same path, with the exact content from its link. If a file with the same name already exists, compare first and never overwrite it blindly.
-   - `sections/blko-announcement-02.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/sections/blko-announcement-02.liquid
-   - `snippets/blko-ann02-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/snippets/blko-ann02-icon.liquid
-   - `snippets/blko-h01-fonts.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/snippets/blko-h01-fonts.liquid
-   - `assets/blko-announcement-02.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-announcement-02.css
-   - `assets/blko-h01-schibsted-grotesk-normal.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-h01-schibsted-grotesk-normal.woff2 (binary font: download it, then upload in Assets > Add a new asset)
-   - `sections/blko-header-01.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/sections/blko-header-01.liquid
-   - `snippets/blko-hdr01-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/snippets/blko-hdr01-icon.liquid
-   - `assets/blko-header-01.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-header-01.css
-   - `assets/blko-header-01.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-header-01.js
-   - `sections/blko-featured-products-37.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/sections/blko-featured-products-37.liquid
-   - `snippets/blko-fp37-card.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/snippets/blko-fp37-card.liquid
-   - `snippets/blko-fp37-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/snippets/blko-fp37-icon.liquid
-   - `assets/blko-featured-products-37.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-featured-products-37.css
-   - `assets/blko-featured-products-37.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-featured-products-37.js
-   - `sections/blko-collection-list-32.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/sections/blko-collection-list-32.liquid
-   - `snippets/blko-cl32-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/snippets/blko-cl32-icon.liquid
-   - `assets/blko-collection-list-32.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-collection-list-32.css
-   - `assets/blko-collection-list-32.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-collection-list-32.js
-   - `sections/blko-image-with-products-05.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/sections/blko-image-with-products-05.liquid
-   - `snippets/blko-iwp05-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/snippets/blko-iwp05-icon.liquid
-   - `assets/blko-image-with-products-05.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-image-with-products-05.css
-   - `assets/blko-image-with-products-05.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-image-with-products-05.js
-   - `sections/blko-testimonial-30.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/sections/blko-testimonial-30.liquid
-   - `snippets/blko-tm30-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/snippets/blko-tm30-icon.liquid
-   - `assets/blko-testimonial-30.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-testimonial-30.css
-   - `assets/blko-testimonial-30.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-testimonial-30.js
-   - `sections/blko-blog-07.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/sections/blko-blog-07.liquid
-   - `snippets/blko-bl07-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/snippets/blko-bl07-icon.liquid
-   - `assets/blko-blog-07.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-blog-07.css
-   - `assets/blko-blog-07.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-blog-07.js
-   - `sections/blko-newsletter-40.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/sections/blko-newsletter-40.liquid
-   - `snippets/blko-nl40-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/snippets/blko-nl40-icon.liquid
-   - `assets/blko-newsletter-40.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-newsletter-40.css
-   - `assets/blko-newsletter-40.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-newsletter-40.js
-   - `sections/blko-logo-cloud-04.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/sections/blko-logo-cloud-04.liquid
-   - `assets/blko-logo-cloud-04.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-logo-cloud-04.css
-   - `assets/blko-logo-cloud-04.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-logo-cloud-04.js
-   - `sections/blko-footer-02.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/sections/blko-footer-02.liquid
-   - `snippets/blko-ft02-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/snippets/blko-ft02-icon.liquid
-   - `assets/blko-footer-02.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/assets/blko-footer-02.css
-   - `templates/index.home-01.json`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/templates/index.home-01.json
-3. Merge the keys from `locales/en.default.blko.json` (https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/locales/en.default.blko.json) into your `locales/en.default.json`. Keep your existing keys.
-4. Header group: add the sections **Announcement, pill link** and **Header, nav center** (in this order) to the header group, with the settings in https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/groups/header-group.json. Footer group: add **Footer, newsletter** with the settings in https://raw.githubusercontent.com/digent-uiux/blam-demo/main/pages/balm-2/home-01/groups/footer-group.json. Do it in the Theme Editor (Add section in the Header / Footer group), or by merging those entries into the theme's `sections/header-group.json` / `sections/footer-group.json` without removing the theme's own entries unless the merchant asks.
+   - `sections/blko-announcement-02.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/sections/blko-announcement-02.liquid
+   - `snippets/blko-ann02-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/snippets/blko-ann02-icon.liquid
+   - `snippets/blko-h01-fonts.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/snippets/blko-h01-fonts.liquid
+   - `assets/blko-announcement-02.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-announcement-02.css
+   - `assets/blko-h01-schibsted-grotesk-normal.woff2`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-h01-schibsted-grotesk-normal.woff2 (binary font: download it, then upload in Assets > Add a new asset)
+   - `sections/blko-header-01.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/sections/blko-header-01.liquid
+   - `snippets/blko-hdr01-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/snippets/blko-hdr01-icon.liquid
+   - `assets/blko-header-01.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-header-01.css
+   - `assets/blko-header-01.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-header-01.js
+   - `sections/blko-featured-products-37.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/sections/blko-featured-products-37.liquid
+   - `snippets/blko-fp37-card.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/snippets/blko-fp37-card.liquid
+   - `snippets/blko-fp37-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/snippets/blko-fp37-icon.liquid
+   - `assets/blko-featured-products-37.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-featured-products-37.css
+   - `assets/blko-featured-products-37.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-featured-products-37.js
+   - `sections/blko-collection-list-32.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/sections/blko-collection-list-32.liquid
+   - `snippets/blko-cl32-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/snippets/blko-cl32-icon.liquid
+   - `assets/blko-collection-list-32.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-collection-list-32.css
+   - `assets/blko-collection-list-32.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-collection-list-32.js
+   - `sections/blko-image-with-products-05.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/sections/blko-image-with-products-05.liquid
+   - `snippets/blko-iwp05-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/snippets/blko-iwp05-icon.liquid
+   - `assets/blko-image-with-products-05.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-image-with-products-05.css
+   - `assets/blko-image-with-products-05.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-image-with-products-05.js
+   - `sections/blko-testimonial-30.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/sections/blko-testimonial-30.liquid
+   - `snippets/blko-tm30-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/snippets/blko-tm30-icon.liquid
+   - `assets/blko-testimonial-30.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-testimonial-30.css
+   - `assets/blko-testimonial-30.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-testimonial-30.js
+   - `sections/blko-blog-07.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/sections/blko-blog-07.liquid
+   - `snippets/blko-bl07-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/snippets/blko-bl07-icon.liquid
+   - `assets/blko-blog-07.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-blog-07.css
+   - `assets/blko-blog-07.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-blog-07.js
+   - `sections/blko-newsletter-40.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/sections/blko-newsletter-40.liquid
+   - `snippets/blko-nl40-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/snippets/blko-nl40-icon.liquid
+   - `assets/blko-newsletter-40.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-newsletter-40.css
+   - `assets/blko-newsletter-40.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-newsletter-40.js
+   - `sections/blko-logo-cloud-04.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/sections/blko-logo-cloud-04.liquid
+   - `assets/blko-logo-cloud-04.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-logo-cloud-04.css
+   - `assets/blko-logo-cloud-04.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-logo-cloud-04.js
+   - `sections/blko-footer-02.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/sections/blko-footer-02.liquid
+   - `snippets/blko-ft02-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/snippets/blko-ft02-icon.liquid
+   - `assets/blko-footer-02.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/assets/blko-footer-02.css
+   - `templates/index.home-01.json`: https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/templates/index.home-01.json
+3. Merge the keys from `locales/en.default.blko.json` (https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/locales/en.default.blko.json) into your `locales/en.default.json`. Keep your existing keys.
+4. Header group: add the sections **Announcement, pill link** and **Header, nav center** (in this order) to the header group, with the settings in https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/groups/header-group.json. Footer group: add **Footer, newsletter** with the settings in https://raw.githubusercontent.com/digent-uiux/demo/main/pages/balm-2/home-01/groups/footer-group.json. Do it in the Theme Editor (Add section in the Header / Footer group), or by merging those entries into the theme's `sections/header-group.json` / `sections/footer-group.json` without removing the theme's own entries unless the merchant asks.
 5. Assign `index.home-01` to the home page in the Theme Editor (or keep it as an alternate template), then open it and pick products, collections, the blog and the menus.
 
 ## Files per section

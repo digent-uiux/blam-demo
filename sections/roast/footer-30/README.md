@@ -27,26 +27,26 @@ Do not use a zip.
 
 1. Ask which theme, which page and where on the page the section goes. Wait for the answer.
 2. In that theme's code editor, create each file below at the same path, with the exact content from its link. If a file with the same name already exists, compare first and never overwrite it blindly.
-   - `sections/blko-footer-30.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/sections/blko-footer-30.liquid
-   - `snippets/blko-fonts-roast.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/snippets/blko-fonts-roast.liquid
-   - `snippets/blko-ui-button.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/snippets/blko-ui-button.liquid
-   - `snippets/blko-ui-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/snippets/blko-ui-icon.liquid
-   - `snippets/blko-ui-input.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/snippets/blko-ui-input.liquid
-   - `snippets/blko-ui-payment-marks.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/snippets/blko-ui-payment-marks.liquid
-   - `assets/blko-f-ibm-plex-mono-400.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/assets/blko-f-ibm-plex-mono-400.woff2
-   - `assets/blko-f-ibm-plex-mono-500.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/assets/blko-f-ibm-plex-mono-500.woff2
-   - `assets/blko-f-ibm-plex-sans.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/assets/blko-f-ibm-plex-sans.woff2
-   - `assets/blko-f-syne.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/assets/blko-f-syne.woff2
-   - `assets/blko-footer-30.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/assets/blko-footer-30.css
-   - `assets/blko-footer-30.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/assets/blko-footer-30.js
-   - `assets/blko-roast-motion.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/assets/blko-roast-motion.css
-   - `assets/blko-roast-motion.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/assets/blko-roast-motion.js
-   - `assets/blko-ui-commerce.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/assets/blko-ui-commerce.css
-   - `assets/blko-ui-commerce.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/assets/blko-ui-commerce.js
-   - `assets/blko-ui-core.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/assets/blko-ui-core.css
-   - `assets/blko-ui-motion.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/assets/blko-ui-motion.js
+   - `sections/blko-footer-30.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/sections/blko-footer-30.liquid
+   - `snippets/blko-fonts-roast.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/snippets/blko-fonts-roast.liquid
+   - `snippets/blko-ui-button.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/snippets/blko-ui-button.liquid
+   - `snippets/blko-ui-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/snippets/blko-ui-icon.liquid
+   - `snippets/blko-ui-input.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/snippets/blko-ui-input.liquid
+   - `snippets/blko-ui-payment-marks.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/snippets/blko-ui-payment-marks.liquid
+   - `assets/blko-f-ibm-plex-mono-400.woff2`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/assets/blko-f-ibm-plex-mono-400.woff2
+   - `assets/blko-f-ibm-plex-mono-500.woff2`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/assets/blko-f-ibm-plex-mono-500.woff2
+   - `assets/blko-f-ibm-plex-sans.woff2`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/assets/blko-f-ibm-plex-sans.woff2
+   - `assets/blko-f-syne.woff2`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/assets/blko-f-syne.woff2
+   - `assets/blko-footer-30.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/assets/blko-footer-30.css
+   - `assets/blko-footer-30.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/assets/blko-footer-30.js
+   - `assets/blko-roast-motion.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/assets/blko-roast-motion.css
+   - `assets/blko-roast-motion.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/assets/blko-roast-motion.js
+   - `assets/blko-ui-commerce.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/assets/blko-ui-commerce.css
+   - `assets/blko-ui-commerce.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/assets/blko-ui-commerce.js
+   - `assets/blko-ui-core.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/assets/blko-ui-core.css
+   - `assets/blko-ui-motion.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/assets/blko-ui-motion.js
    The `.woff2` fonts are binary: upload them in Online Store > Themes > Edit code > assets > Add a new asset.
-3. Merge the keys from `locales/en.default.blko.json` (https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/footer-30/locales/en.default.blko.json) into your `locales/en.default.json`. Keep your existing keys.
+3. Merge the keys from `locales/en.default.blko.json` (https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/footer-30/locales/en.default.blko.json) into your `locales/en.default.json`. Keep your existing keys.
 4. Open the page in the Theme Editor and add the section at the chosen position.
 
 ## Look

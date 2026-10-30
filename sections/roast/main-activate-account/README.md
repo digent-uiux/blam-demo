@@ -27,11 +27,11 @@ Do not use a zip.
 
 1. Ask which theme, which page and where on the page the section goes. Wait for the answer.
 2. In that theme's code editor, create each file below at the same path, with the exact content from its link. If a file with the same name already exists, compare first and never overwrite it blindly.
-   - `sections/blko-main-activate-account.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/main-activate-account/sections/blko-main-activate-account.liquid
-   - `snippets/blko-account-shell.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/main-activate-account/snippets/blko-account-shell.liquid
-   - `snippets/blko-fallback-image.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/main-activate-account/snippets/blko-fallback-image.liquid
-   - `assets/blko-customer.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/main-activate-account/assets/blko-customer.css
-3. Merge the keys from `locales/en.default.blko.json` (https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/main-activate-account/locales/en.default.blko.json) into your `locales/en.default.json`. Keep your existing keys.
+   - `sections/blko-main-activate-account.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/main-activate-account/sections/blko-main-activate-account.liquid
+   - `snippets/blko-account-shell.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/main-activate-account/snippets/blko-account-shell.liquid
+   - `snippets/blko-fallback-image.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/main-activate-account/snippets/blko-fallback-image.liquid
+   - `assets/blko-customer.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/main-activate-account/assets/blko-customer.css
+3. Merge the keys from `locales/en.default.blko.json` (https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/main-activate-account/locales/en.default.blko.json) into your `locales/en.default.json`. Keep your existing keys.
 4. Open the page in the Theme Editor and add the section at the chosen position.
 
 ## Files

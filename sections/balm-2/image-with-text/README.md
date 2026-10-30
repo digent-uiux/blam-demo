@@ -25,8 +25,8 @@ Do not use a zip.
 
 1. Ask which theme, which page and where on the page the section goes. Wait for the answer.
 2. In that theme's code editor, create each file below at the same path, with the exact content from its link. If a file with the same name already exists, compare first and never overwrite it blindly.
-   - `sections/blko-image-with-text.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/balm-2/image-with-text/sections/blko-image-with-text.liquid
-   - `snippets/blko-fallback-image.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/balm-2/image-with-text/snippets/blko-fallback-image.liquid
+   - `sections/blko-image-with-text.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/balm-2/image-with-text/sections/blko-image-with-text.liquid
+   - `snippets/blko-fallback-image.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/balm-2/image-with-text/snippets/blko-fallback-image.liquid
 3. No locale keys to merge.
 4. Open the page in the Theme Editor and add the section at the chosen position.
 

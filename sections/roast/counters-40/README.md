@@ -27,19 +27,19 @@ Do not use a zip.
 
 1. Ask which theme, which page and where on the page the section goes. Wait for the answer.
 2. In that theme's code editor, create each file below at the same path, with the exact content from its link. If a file with the same name already exists, compare first and never overwrite it blindly.
-   - `sections/blko-counters-40.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/counters-40/sections/blko-counters-40.liquid
-   - `snippets/blko-fonts-roast.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/counters-40/snippets/blko-fonts-roast.liquid
-   - `snippets/blko-ui-section.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/counters-40/snippets/blko-ui-section.liquid
-   - `assets/blko-counters-40.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/counters-40/assets/blko-counters-40.css
-   - `assets/blko-counters-40.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/counters-40/assets/blko-counters-40.js
-   - `assets/blko-f-ibm-plex-mono-400.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/counters-40/assets/blko-f-ibm-plex-mono-400.woff2
-   - `assets/blko-f-ibm-plex-mono-500.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/counters-40/assets/blko-f-ibm-plex-mono-500.woff2
-   - `assets/blko-f-ibm-plex-sans.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/counters-40/assets/blko-f-ibm-plex-sans.woff2
-   - `assets/blko-f-syne.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/counters-40/assets/blko-f-syne.woff2
-   - `assets/blko-roast-motion.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/counters-40/assets/blko-roast-motion.css
-   - `assets/blko-roast-motion.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/counters-40/assets/blko-roast-motion.js
-   - `assets/blko-ui-core.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/counters-40/assets/blko-ui-core.css
-   - `assets/blko-ui-motion.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/roast/counters-40/assets/blko-ui-motion.js
+   - `sections/blko-counters-40.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/counters-40/sections/blko-counters-40.liquid
+   - `snippets/blko-fonts-roast.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/counters-40/snippets/blko-fonts-roast.liquid
+   - `snippets/blko-ui-section.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/counters-40/snippets/blko-ui-section.liquid
+   - `assets/blko-counters-40.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/counters-40/assets/blko-counters-40.css
+   - `assets/blko-counters-40.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/counters-40/assets/blko-counters-40.js
+   - `assets/blko-f-ibm-plex-mono-400.woff2`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/counters-40/assets/blko-f-ibm-plex-mono-400.woff2
+   - `assets/blko-f-ibm-plex-mono-500.woff2`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/counters-40/assets/blko-f-ibm-plex-mono-500.woff2
+   - `assets/blko-f-ibm-plex-sans.woff2`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/counters-40/assets/blko-f-ibm-plex-sans.woff2
+   - `assets/blko-f-syne.woff2`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/counters-40/assets/blko-f-syne.woff2
+   - `assets/blko-roast-motion.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/counters-40/assets/blko-roast-motion.css
+   - `assets/blko-roast-motion.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/counters-40/assets/blko-roast-motion.js
+   - `assets/blko-ui-core.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/counters-40/assets/blko-ui-core.css
+   - `assets/blko-ui-motion.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/roast/counters-40/assets/blko-ui-motion.js
    The `.woff2` fonts are binary: upload them in Online Store > Themes > Edit code > assets > Add a new asset.
 3. No locale keys to merge.
 4. Open the page in the Theme Editor and add the section at the chosen position.

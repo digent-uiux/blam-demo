@@ -26,13 +26,13 @@ Do not use a zip.
 
 1. Ask which theme, which page and where on the page the section goes. Wait for the answer.
 2. In that theme's code editor, create each file below at the same path, with the exact content from its link. If a file with the same name already exists, compare first and never overwrite it blindly.
-   - `sections/blko-bundle-01.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/blocks/bundle-01/sections/blko-bundle-01.liquid
-   - `snippets/blko-bundle-01-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/blocks/bundle-01/snippets/blko-bundle-01-icon.liquid
-   - `assets/blko-bundle-01.css`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/blocks/bundle-01/assets/blko-bundle-01.css
-   - `assets/blko-bundle-01.js`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/blocks/bundle-01/assets/blko-bundle-01.js
-   - `assets/blko-b01-bagel-fat-one.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/blocks/bundle-01/assets/blko-b01-bagel-fat-one.woff2 (binary font: upload the downloaded file in Assets > Add a new asset)
-   - `assets/blko-b01-plus-jakarta-sans.woff2`: https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/blocks/bundle-01/assets/blko-b01-plus-jakarta-sans.woff2 (binary font: upload the downloaded file in Assets > Add a new asset)
-3. Merge the keys from `locales/en.default.blko.json` (https://raw.githubusercontent.com/digent-uiux/blam-demo/main/sections/blocks/bundle-01/locales/en.default.blko.json) into your `locales/en.default.json`. Keep your existing keys.
+   - `sections/blko-bundle-01.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/blocks/bundle-01/sections/blko-bundle-01.liquid
+   - `snippets/blko-bundle-01-icon.liquid`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/blocks/bundle-01/snippets/blko-bundle-01-icon.liquid
+   - `assets/blko-bundle-01.css`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/blocks/bundle-01/assets/blko-bundle-01.css
+   - `assets/blko-bundle-01.js`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/blocks/bundle-01/assets/blko-bundle-01.js
+   - `assets/blko-b01-bagel-fat-one.woff2`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/blocks/bundle-01/assets/blko-b01-bagel-fat-one.woff2 (binary font: upload the downloaded file in Assets > Add a new asset)
+   - `assets/blko-b01-plus-jakarta-sans.woff2`: https://raw.githubusercontent.com/digent-uiux/demo/main/sections/blocks/bundle-01/assets/blko-b01-plus-jakarta-sans.woff2 (binary font: upload the downloaded file in Assets > Add a new asset)
+3. Merge the keys from `locales/en.default.blko.json` (https://raw.githubusercontent.com/digent-uiux/demo/main/sections/blocks/bundle-01/locales/en.default.blko.json) into your `locales/en.default.json`. Keep your existing keys.
 4. Open the page in the Theme Editor, add **Bundle, room photo** at the chosen position, then pick a product in each **Piece** block and drag its hotspot into place.
 5. If the bundle should really be cheaper, create an automatic discount (or a code, set in the section) that matches **Discount shown** and **Pieces needed for the discount**.
 
