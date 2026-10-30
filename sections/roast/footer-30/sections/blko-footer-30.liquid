@@ -1,0 +1,368 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-footer-30.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-ui-commerce.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-commerce.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-footer-30.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- comment -%}
+  Halden footer (roast): left 5/12 wordmark (letters rise from masks on reveal), pitch, address + hours, newsletter
+  (native customer form, round icon button that turns to a check once posted). Right 7/12: live roast line over a
+  hairline, link columns (menu blocks, demo links while the menu is empty), social icons. Base: ©, policies, payment.
+{%- endcomment -%}
+{%- liquid
+  assign word = s.wordmark | default: shop.name
+  assign policies = linklists[s.policy_menu]
+  assign uid = 'f30-' | append: section.id
+  assign cols = section.blocks | where: 'type', 'column'
+  assign socials = section.blocks | where: 'type', 'social'
+-%}
+<div class="bfooter30" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-bfooter30 data-rm-magnetic
+><footer class="bfooter30__flip"
+  ><div class="bfooter30__wrap"
+    ><div class="bfooter30__grid"
+      ><div class="bfooter30__left"
+        ><p class="bfooter30__mark" aria-label="{{ word | escape }}" data-mark
+          >{%- assign chars = word | split: '' -%}
+          {%- for ch in chars -%}<span aria-hidden="true" class="bfooter30__ch"><span style="transition-delay:{{ forloop.index0 | times: 70 }}ms">{{ ch | escape }}</span></span>{%- endfor -%}
+        </p
+        >{%- if s.pitch != blank -%}<p class="bfooter30__pitch">{{ s.pitch | escape }}</p>{%- endif -%}
+        <div class="bfooter30__addr bfooter30__label"
+          >{%- if s.address != blank -%}<p>{{ s.address | escape }}</p>{%- endif -%}
+          {%- if s.hours != blank -%}<p>{{ s.hours | escape }}</p>{%- endif -%}
+        </div
+        >{%- if s.newsletter -%}
+        {%- form 'customer', id: uid, class: 'bfooter30__form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter"
+          >{%- assign eid = uid | append: '-email' -%}
+          <label for="{{ eid }}" class="bfooter30__label">{{ s.form_label | escape }}</label
+          ><div class="bfooter30__row"
+            >{%- assign ph = 'blko.footer_30.email' | t -%}
+            {%- if form.posted_successfully? -%}
+              {%- render 'blko-ui-input', id: eid, type: 'email', name: 'contact[email]', required: true, autocomplete: 'email', placeholder: ph, disabled: true, className: 'bfooter30__input' -%}
+              {%- capture ic -%}{% render 'blko-ui-icon', name: 'check', className: 'rm-draw' %}{%- endcapture -%}
+              {%- assign lb = 'blko.footer_30.subscribed' | t -%}
+              {%- render 'blko-ui-button', type: 'submit', size: 'icon', label: lb, children: ic, attrs: 'disabled', className: 'bfooter30__go' -%}
+            {%- else -%}
+              {%- render 'blko-ui-input', id: eid, type: 'email', name: 'contact[email]', required: true, autocomplete: 'email', placeholder: ph, invalid: form.errors, className: 'bfooter30__input' -%}
+              {%- capture ic -%}{% render 'blko-ui-icon', name: 'arrow-right' %}{%- endcapture -%}
+              {%- assign lb = 'blko.footer_30.subscribe' | t -%}
+              {%- render 'blko-ui-button', type: 'submit', size: 'icon', label: lb, children: ic, className: 'bfooter30__go' -%}
+            {%- endif -%}
+          </div
+          ><p class="bfooter30__msg" aria-live="polite">{% if form.posted_successfully? %}{{ 'blko.footer_30.done' | t }}{% elsif form.errors %}{{ 'blko.footer_30.error' | t }}{% endif %}</p
+        >{%- endform -%}
+        {%- endif -%}
+      </div
+
+      ><div class="bfooter30__right"
+        ><div class="bfooter30__status bfooter30__label"
+          ><p class="bfooter30__live"><span aria-hidden="true" class="bfooter30__dot"></span><span>{{ s.next_roast | escape }}</span></p
+          >{%- if s.next_ship != blank -%}<p class="bfooter30__ship">{{ s.next_ship | escape }}</p>{%- endif -%}
+        </div
+        >{%- if cols.size > 0 -%}
+        <nav aria-label="{{ 'blko.footer_30.footer' | t | escape }}" class="bfooter30__cols"
+          >{%- for b in cols -%}
+            {%- assign menu = linklists[b.settings.menu] -%}
+            <div class="bfooter30__col" {{ b.shopify_attributes }}
+              ><h2 class="bfooter30__label bfooter30__head">{{ b.settings.title | escape }}</h2
+              ><ul class="bfooter30__links"
+                >{%- if menu != blank and menu.links.size > 0 -%}
+                  {%- for l in menu.links -%}<li><a href="{{ l.url }}" class="bfooter30__link"><span class="rm-ul">{{ l.title | escape }}</span></a></li>{%- endfor -%}
+                {%- else -%}
+                  {%- assign names = b.settings.links | newline_to_br | split: '<br />' -%}
+                  {%- for nm in names -%}{%- assign t = nm | strip -%}{%- if t != blank -%}<li><a href="{{ routes.root_url }}" class="bfooter30__link"><span class="rm-ul">{{ t | escape }}</span></a></li>{%- endif -%}{%- endfor -%}
+                {%- endif -%}
+              </ul
+            ></div
+          >{%- endfor -%}
+        </nav
+        >{%- endif -%}
+        {%- if socials.size > 0 -%}
+        <ul class="bfooter30__social" aria-label="{{ 'blko.footer_30.follow' | t | escape }}"
+          >{%- for b in socials -%}
+            <li {{ b.shopify_attributes }}><a href="{{ b.settings.link | default: '#' }}" aria-label="{{ b.settings.label | escape }}" class="bfooter30__soc">{%- render 'blko-ui-icon', name: b.settings.icon, className: 'rm-nudge' -%}</a></li
+          >{%- endfor -%}
+        </ul
+        >{%- endif -%}
+      </div
+    ></div
+
+    ><div class="bfooter30__base"
+      ><div class="bfooter30__base-l"
+        ><p>© {{ 'now' | date: '%Y' }} {{ s.copyright | default: shop.name | escape }}</p
+        >{%- if policies != blank and policies.links.size > 0 -%}
+          {%- for l in policies.links -%}<a href="{{ l.url }}" class="bfooter30__link"><span class="rm-ul">{{ l.title | escape }}</span></a>{%- endfor -%}
+        {%- else -%}
+          {%- assign names = s.policy_demo | split: ',' -%}
+          {%- for nm in names -%}<a href="{{ routes.root_url }}" class="bfooter30__link"><span class="rm-ul">{{ nm | strip | escape }}</span></a>{%- endfor -%}
+        {%- endif -%}
+      </div
+      >{%- if s.payment -%}{%- render 'blko-ui-payment-marks' -%}{%- endif -%}
+    </div
+  ></div
+></footer
+></div
+
+>
+
+{% schema %}
+{
+  "name": "Footer 30 - Wordmark",
+  "tag": "div",
+  "class": "blko-bundle",
+  "settings": [
+    {
+      "type": "text",
+      "id": "wordmark",
+      "label": "Wordmark (blank = store name)",
+      "default": "Halden"
+    },
+    {
+      "type": "text",
+      "id": "pitch",
+      "label": "Pitch",
+      "default": "Specialty coffee and whole-leaf tea, roasted in small batches six days a week."
+    },
+    {
+      "type": "text",
+      "id": "address",
+      "label": "Address",
+      "default": "14 Kiln Lane, Unit 3"
+    },
+    {
+      "type": "text",
+      "id": "hours",
+      "label": "Hours",
+      "default": "Bar open Tue–Sun · 8:00–16:00"
+    },
+    {
+      "type": "header",
+      "content": "Roast line"
+    },
+    {
+      "type": "text",
+      "id": "next_roast",
+      "label": "Next roast",
+      "default": "Roasting next: Monday 2 Nov"
+    },
+    {
+      "type": "text",
+      "id": "next_ship",
+      "label": "Next ship day",
+      "default": "Ships Tuesday · fresh to your door by Thursday"
+    },
+    {
+      "type": "header",
+      "content": "Newsletter"
+    },
+    {
+      "type": "checkbox",
+      "id": "newsletter",
+      "label": "Show the newsletter",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "form_label",
+      "label": "Newsletter label",
+      "default": "Roast notes, every other Friday"
+    },
+    {
+      "type": "header",
+      "content": "Base row"
+    },
+    {
+      "type": "text",
+      "id": "copyright",
+      "label": "Copyright (blank = store name)",
+      "default": "Halden Coffee & Tea"
+    },
+    {
+      "type": "link_list",
+      "id": "policy_menu",
+      "label": "Policies menu"
+    },
+    {
+      "type": "text",
+      "id": "policy_demo",
+      "label": "Demo policies (while the menu is empty)",
+      "default": "Privacy, Terms, Accessibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "payment",
+      "label": "Show payment icons",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Link column",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Shop"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        },
+        {
+          "type": "textarea",
+          "id": "links",
+          "label": "Demo links (one per line, while the menu is empty)",
+          "default": "Coffee"
+        }
+      ]
+    },
+    {
+      "type": "social",
+      "name": "Social link",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "camera",
+          "options": [
+            {
+              "value": "camera",
+              "label": "Photos"
+            },
+            {
+              "value": "play",
+              "label": "Videos"
+            },
+            {
+              "value": "headphones",
+              "label": "Podcast"
+            },
+            {
+              "value": "mail",
+              "label": "Mail"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Photos"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer 30 - Wordmark",
+      "blocks": [
+        {
+          "type": "column",
+          "settings": {
+            "title": "Shop",
+            "links": "Coffee\nTea & matcha\nThe roast club\nBrewing gear\nGift cards"
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "title": "Learn",
+            "links": "Brew guides\nOur farms\nRoast calendar\nThe journal"
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "title": "Help",
+            "links": "Shipping\nReturns\nOrder status\nWholesale\nContact"
+          }
+        },
+        {
+          "type": "social",
+          "settings": {
+            "icon": "camera",
+            "label": "Photos"
+          }
+        },
+        {
+          "type": "social",
+          "settings": {
+            "icon": "play",
+            "label": "Videos"
+          }
+        },
+        {
+          "type": "social",
+          "settings": {
+            "icon": "headphones",
+            "label": "Podcast"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,74 @@
+{%- assign s = section.settings -%}
+<div class="blko-section blko-scheme color-{{ s.color_scheme }} blko-page" style="--blko-pt: {{ s.padding_top }}px; --blko-pb: {{ s.padding_bottom }}px;">
+  <div class="blko-container blko-page__inner blko-page__inner--{{ s.width }} blko-page__inner--{{ s.alignment }}">
+    {%- if s.show_title -%}
+      <h1 class="blko-{{ s.heading_size }}">{{ page.title | escape }}</h1>
+    {%- endif -%}
+    <div class="blko-rte blko-{{ s.text_size }}">{{ page.content }}</div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-page__inner { display: grid; gap: 2rem; max-width: 48rem; }
+  .blko-page__inner--medium { max-width: 60rem; }
+  .blko-page__inner--wide { max-width: var(--blko-page, 1280px); }
+  .blko-page__inner--center { text-align: center; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Page",
+  "tag": "section",
+  "class": "blko-main-page",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Heading" },
+    { "type": "checkbox", "id": "show_title", "label": "Show page title", "default": true },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Title size",
+      "options": [
+        { "value": "h1", "label": "Large" },
+        { "value": "h2", "label": "Medium" },
+        { "value": "display", "label": "Extra large" }
+      ],
+      "default": "h1"
+    },
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Content width",
+      "options": [
+        { "value": "narrow", "label": "Narrow" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "wide", "label": "Full page width" }
+      ],
+      "default": "narrow"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        { "value": "start", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "start"
+    },
+    {
+      "type": "select",
+      "id": "text_size",
+      "label": "Text size",
+      "options": [
+        { "value": "body", "label": "Regular" },
+        { "value": "body-lg", "label": "Large" }
+      ],
+      "default": "body-lg"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,63 @@
+{%- comment -%}One story of blko-blog-94. kind: feature | land | small | text | four3 | tall | wide; cat, read, title, dek, image, href, d (delay ms), attrs.{%- endcomment -%}
+{%- capture meta_line -%}<p class="bblog94__label bblog94__muted">{{ cat | escape }} · {{ read | escape }}</p>{%- endcapture -%}
+{%- capture photo -%}{%- if image != blank -%}{{ image | image_url: width: 1400 | image_tag: class: 'bblog94__img', loading: 'lazy', widths: '400, 700, 1000, 1400', sizes: '(min-width: 896px) 50vw, 100vw', alt: image.alt | default: title }}{%- else -%}{{ 'image' | placeholder_svg_tag: 'bblog94__img placeholder-svg' }}{%- endif -%}{%- endcapture -%}
+{%- case kind -%}
+  {%- when 'feature' -%}
+<a href="{{ href }}" class="rm-rise rm-zoom bblog94__feature" style="--d:{{ d }}ms" data-story data-cat="{{ cat | escape }}" data-read="{{ read | escape }}" data-title="{{ title | escape }}" {{ attrs }}>
+  {{ photo }}
+  <span aria-hidden="true" class="bblog94__scrim"></span>
+  <span class="bblog94__label bblog94__flag">{{ 'blko.blog_94.feature' | t }}</span>
+  <div class="bblog94__fcopy">
+    <p class="bblog94__label bblog94__dim85">{{ cat | escape }} · {{ read | escape }}</p>
+    <h2 class="bblog94__fh2"><span class="rm-ul">{{ title | escape }}</span></h2>
+    <p class="bblog94__fdek">{{ dek | escape }}</p>
+    <span class="bblog94__fmore"><span aria-hidden="true" class="bblog94__circle">{%- render 'blko-ui-icon', name: 'arrow-up-right', size: 16, className: 'rm-nudge' -%}</span>{{ 'blko.blog_94.read_more' | t }}</span>
+  </div>
+</a>
+{%- endcase -%}
+{%- case kind -%}
+  {%- when 'land', 'four3' -%}
+<a href="{{ href }}" class="rm-rise rm-zoom bblog94__story bblog94__story--{{ kind }}" style="--d:{{ d }}ms" data-story data-cat="{{ cat | escape }}" data-read="{{ read | escape }}" data-title="{{ title | escape }}" {{ attrs }}>
+  <div class="bblog94__photo bblog94__photo--{{ kind }}">{{ photo }}</div>
+  {{ meta_line }}
+  <h3 class="bblog94__h3 bblog94__t-mid"><span class="rm-ul">{{ title | escape }}</span></h3>
+  <p class="bblog94__dek">{{ dek | escape }}</p>
+</a>
+{%- endcase -%}
+{%- if kind == 'small' -%}
+<a href="{{ href }}" class="rm-rise rm-zoom bblog94__small" style="--d:{{ d }}ms" data-story data-cat="{{ cat | escape }}" data-read="{{ read | escape }}" data-title="{{ title | escape }}" {{ attrs }}>
+  <div class="bblog94__photo bblog94__photo--sq">{{ photo }}</div>
+  <div class="bblog94__scopy">
+    {{ meta_line }}
+    <h3 class="bblog94__h3 bblog94__t-22"><span class="rm-ul">{{ title | escape }}</span></h3>
+    <span class="bblog94__more">{{ 'blko.blog_94.read' | t }} {% render 'blko-ui-icon', name: 'arrow-right', size: 16, className: 'rm-nudge' %}</span>
+  </div>
+</a>
+{%- endif -%}
+{%- if kind == 'text' -%}
+<a href="{{ href }}" class="rm-rise bblog94__text" style="--d:{{ d }}ms" data-story data-cat="{{ cat | escape }}" data-read="{{ read | escape }}" data-title="{{ title | escape }}" {{ attrs }}>
+  <div class="bblog94__ttop"><p class="bblog94__label bblog94__dim75">{{ cat | escape }} · {{ read | escape }}</p>{%- render 'blko-ui-icon', name: 'arrow-up-right', size: 20, className: 'rm-nudge' -%}</div>
+  <div class="bblog94__tbody">
+    <p class="bblog94__quote">{{ dek | escape }}</p>
+    <h3 class="bblog94__h3 bblog94__t-text"><span class="rm-ul">{{ title | escape }}</span></h3>
+  </div>
+</a>
+{%- endif -%}
+{%- if kind == 'tall' -%}
+<a href="{{ href }}" class="rm-rise rm-zoom bblog94__story bblog94__story--tall" style="--d:{{ d }}ms" data-story data-cat="{{ cat | escape }}" data-read="{{ read | escape }}" data-title="{{ title | escape }}" {{ attrs }}>
+  <div class="bblog94__photo bblog94__photo--tall">{{ photo }}</div>
+  {{ meta_line }}
+  <h3 class="bblog94__h3 bblog94__t-24"><span class="rm-ul">{{ title | escape }}</span></h3>
+</a>
+{%- endif -%}
+{%- if kind == 'wide' -%}
+<a href="{{ href }}" class="rm-rise rm-zoom bblog94__wide" style="--d:{{ d }}ms" data-story data-cat="{{ cat | escape }}" data-read="{{ read | escape }}" data-title="{{ title | escape }}" {{ attrs }}>
+  <div class="bblog94__photo bblog94__photo--land">{{ photo }}</div>
+  <div class="bblog94__wcopy">
+    {{ meta_line }}
+    <h3 class="bblog94__h3 bblog94__t-wide"><span class="rm-ul">{{ title | escape }}</span></h3>
+    <p class="bblog94__wdek">{{ dek | escape }}</p>
+    <span class="bblog94__wmore"><span class="rm-ul">{{ 'blko.blog_94.read_more' | t }}</span>{%- render 'blko-ui-icon', name: 'arrow-right', size: 16, className: 'rm-nudge' -%}</span>
+  </div>
+</a>
+{%- endif -%}

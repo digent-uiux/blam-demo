@@ -1,0 +1,22 @@
+{
+  "blko": {
+    "recipe_03": {
+      "brewer": "Brewer",
+      "ratio": "Ratio",
+      "dose": "Dose",
+      "water": "Water",
+      "time": "Time",
+      "timer": "Brew timer",
+      "step": "Step",
+      "enjoy": "Enjoy",
+      "start": "Start",
+      "pause": "Pause",
+      "resume": "Resume",
+      "again": "Again",
+      "start_label": "Start timer",
+      "pause_label": "Pause timer",
+      "restart_label": "Restart timer",
+      "reset_label": "Reset timer"
+    }
+  }
+}

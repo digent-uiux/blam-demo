@@ -80,6 +80,30 @@
     }
   },
   {
+    "id": "roast",
+    "name": "Roast",
+    "industry": "food",
+    "subIndustry": "Coffee & tea roaster",
+    "status": "active",
+    "manifest": "roast/manifest.json",
+    "layouts": "roast/templates/layouts.json",
+    "templateJsBytes": {
+      "home": 0,
+      "collection": 0,
+      "product": 0,
+      "cart": 0,
+      "search": 0,
+      "blog": 0,
+      "article": 0,
+      "404": 0,
+      "about": 0,
+      "contact": 0,
+      "faq": 0,
+      "account-login": 0,
+      "account": 0
+    }
+  },
+  {
     "id": "bare",
     "name": "Bare",
     "industry": "beauty",

@@ -1,0 +1,185 @@
+{%- comment -%}
+  Image banner: photo (optional mobile photo) with a scrim, short heading, one line and up to two buttons.
+  Height, content position, scrim, full width and both buttons come from settings.
+{%- endcomment -%}
+{%- liquid
+  assign pos = section.settings.content_position | split: '-'
+  assign image = section.settings.image
+  assign mobile_image = section.settings.mobile_image
+-%}
+<div
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-ibanner blko-ibanner--h-{{ section.settings.height }} blko-ibanner--v-{{ pos[0] }} blko-ibanner--x-{{ pos[1] }} blko-ibanner--text-{{ section.settings.text_color }}{% unless section.settings.full_width %} blko-ibanner--boxed{% endunless %}"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px; --blko-ibanner-scrim: {{ section.settings.overlay_opacity }}%;"
+>
+  <div class="blko-ibanner__frame">
+    <div class="blko-ibanner__media">
+      <picture class="blko-ibanner__picture">
+        {%- if mobile_image != blank -%}
+          <source
+            media="(max-width: 749px)"
+            srcset="{{ mobile_image | image_url: width: 750 }} 750w, {{ mobile_image | image_url: width: 1100 }} 1100w, {{ mobile_image | image_url: width: 1500 }} 1500w"
+            sizes="100vw"
+            width="{{ mobile_image.width }}"
+            height="{{ mobile_image.height }}"
+          >
+        {%- endif -%}
+        {%- if image != blank -%}
+          {{ image | image_url: width: 2000 | image_tag: loading: 'lazy', sizes: '100vw', widths: '750, 1100, 1500, 2000', class: 'blko-ibanner__img' }}
+        {%- else -%}
+          {%- render 'blko-fallback-image', name: 'banner', class: 'blko-ibanner__img' -%}
+        {%- endif -%}
+      </picture>
+    </div>
+    <div class="blko-ibanner__scrim" aria-hidden="true"></div>
+    <div class="blko-ibanner__content">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="blko-h2 blko-ibanner__title">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <p class="blko-body blko-ibanner__text">{{ section.settings.text | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.button_label != blank or section.settings.button_label_2 != blank -%}
+        <div class="blko-ibanner__actions">
+          {%- for i in (1..2) -%}
+            {%- liquid
+              if i == 1
+                assign b_label = section.settings.button_label
+                assign b_link = section.settings.button_link
+                assign b_style = section.settings.button_style
+              else
+                assign b_label = section.settings.button_label_2
+                assign b_link = section.settings.button_link_2
+                assign b_style = section.settings.button_style_2
+              endif
+            -%}
+            {%- if b_label == blank -%}{%- continue -%}{%- endif -%}
+            <a href="{{ b_link | default: routes.all_products_collection_url }}" class="blko-btn blko-btn--{{ b_style }}">{{ b_label | escape }}</a>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-ibanner { --blko-ibanner-min: 520px; --blko-ibanner-min-lg: 640px; }
+  .blko-ibanner--h-small { --blko-ibanner-min: 400px; --blko-ibanner-min-lg: 480px; }
+  .blko-ibanner--h-large { --blko-ibanner-min: 640px; --blko-ibanner-min-lg: 800px; }
+  .blko-ibanner--h-full { --blko-ibanner-min: 100svh; --blko-ibanner-min-lg: 100svh; }
+  .blko-ibanner--boxed { padding-inline: var(--blko-gutter, 16px); }
+  .blko-ibanner__frame { position: relative; isolation: isolate; display: grid; align-items: end; min-height: var(--blko-ibanner-min); overflow: hidden; background: var(--color-bg-alt, #e4e0cc); color: var(--blko-on-image, #fff); --blko-ibanner-tint: var(--blko-overlay, #000); }
+  .blko-ibanner--boxed .blko-ibanner__frame { max-width: calc(var(--blko-page, 1280px) - 2 * var(--blko-gutter, 16px)); margin-inline: auto; border-radius: var(--radius-image, 0); }
+  .blko-ibanner--text-scheme .blko-ibanner__frame { color: var(--color-text, #262f29); --blko-ibanner-tint: var(--color-bg, #f6f2ea); }
+  .blko-ibanner--v-top .blko-ibanner__frame { align-items: start; }
+  .blko-ibanner--v-middle .blko-ibanner__frame { align-items: center; }
+  .blko-ibanner__media, .blko-ibanner__scrim { position: absolute; inset: 0; z-index: -1; }
+  .blko-ibanner__picture { display: block; width: 100%; height: 100%; }
+  .blko-ibanner__img { width: 100%; height: 100%; object-fit: cover; }
+  .blko-ibanner__scrim { background: linear-gradient(to top, color-mix(in srgb, var(--blko-ibanner-tint) var(--blko-ibanner-scrim, 55%), transparent), color-mix(in srgb, var(--blko-ibanner-tint) calc(var(--blko-ibanner-scrim, 55%) * .2), transparent), transparent); }
+  .blko-ibanner--v-top .blko-ibanner__scrim { background: linear-gradient(to bottom, color-mix(in srgb, var(--blko-ibanner-tint) var(--blko-ibanner-scrim, 55%), transparent), color-mix(in srgb, var(--blko-ibanner-tint) calc(var(--blko-ibanner-scrim, 55%) * .2), transparent), transparent); }
+  .blko-ibanner--v-middle .blko-ibanner__scrim { background: color-mix(in srgb, var(--blko-ibanner-tint) calc(var(--blko-ibanner-scrim, 55%) * .6), transparent); }
+  .blko-ibanner__content { display: grid; justify-items: start; gap: 1rem; max-width: 34rem; padding: 2.5rem 1.5rem; }
+  .blko-ibanner--v-bottom .blko-ibanner__content { padding-top: 0; }
+  .blko-ibanner--x-center .blko-ibanner__content { justify-self: center; justify-items: center; text-align: center; }
+  .blko-ibanner--x-right .blko-ibanner__content { justify-self: end; justify-items: end; text-align: right; }
+  .blko-ibanner__title em { font-style: var(--heading-italic, italic); }
+  .blko-ibanner__text { opacity: .9; text-wrap: pretty; }
+  .blko-ibanner__actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+  .blko-ibanner--x-center .blko-ibanner__actions { justify-content: center; }
+  .blko-ibanner--x-right .blko-ibanner__actions { justify-content: flex-end; }
+  @media (min-width: 1024px) {
+    .blko-ibanner__frame { min-height: var(--blko-ibanner-min-lg); }
+    .blko-ibanner__content { padding: 3.5rem 3rem; }
+    .blko-ibanner--v-bottom .blko-ibanner__content { padding-top: 0; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Image banner",
+  "tag": "section",
+  "class": "blko-ibanner-section",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1", "info": "Colours the buttons and the space around a boxed banner." },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0 },
+    { "type": "header", "content": "Image" },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "image_picker", "id": "mobile_image", "label": "Mobile image", "info": "Optional. Shown on screens under 750px." },
+    { "type": "range", "id": "overlay_opacity", "label": "Scrim opacity", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 55 },
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "Height",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "full", "label": "Full screen" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "content_position",
+      "label": "Content position",
+      "options": [
+        { "value": "top-left", "label": "Top left" },
+        { "value": "top-center", "label": "Top center" },
+        { "value": "top-right", "label": "Top right" },
+        { "value": "middle-left", "label": "Middle left" },
+        { "value": "middle-center", "label": "Middle center" },
+        { "value": "middle-right", "label": "Middle right" },
+        { "value": "bottom-left", "label": "Bottom left" },
+        { "value": "bottom-center", "label": "Bottom center" },
+        { "value": "bottom-right", "label": "Bottom right" }
+      ],
+      "default": "bottom-left"
+    },
+    { "type": "checkbox", "id": "full_width", "label": "Full width", "default": true },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Text on image",
+      "options": [
+        { "value": "light", "label": "Light" },
+        { "value": "scheme", "label": "Color scheme text" }
+      ],
+      "default": "light"
+    },
+    { "type": "header", "content": "Content" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Press, don’t rub", "info": "Use italic for an accent word." },
+    { "type": "text", "id": "text", "label": "Text", "default": "Three drops, warmed in your palms, pressed in after cleansing." },
+    { "type": "header", "content": "First button" },
+    { "type": "text", "id": "button_label", "label": "Label", "default": "Shop face oils", "info": "Leave empty to hide." },
+    { "type": "url", "id": "button_link", "label": "Link" },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Style",
+      "options": [
+        { "value": "inverse", "label": "Solid light" },
+        { "value": "primary", "label": "Solid (scheme button)" },
+        { "value": "on-image", "label": "Outline" }
+      ],
+      "default": "inverse"
+    },
+    { "type": "header", "content": "Second button" },
+    { "type": "text", "id": "button_label_2", "label": "Label", "info": "Leave empty to hide." },
+    { "type": "url", "id": "button_link_2", "label": "Link" },
+    {
+      "type": "select",
+      "id": "button_style_2",
+      "label": "Style",
+      "options": [
+        { "value": "inverse", "label": "Solid light" },
+        { "value": "primary", "label": "Solid (scheme button)" },
+        { "value": "on-image", "label": "Outline" }
+      ],
+      "default": "on-image"
+    }
+  ],
+  "presets": [{ "name": "Image banner" }]
+}
+{% endschema %}

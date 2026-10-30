@@ -1,0 +1,188 @@
+{
+  "sections": {
+    "page-header-80": {
+      "type": "blko-page-header-80",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "topic-1": {
+          "type": "topic",
+          "settings": {
+            "label": "Orders & shipping",
+            "count": 4,
+            "anchor": "#faq-0"
+          }
+        },
+        "topic-2": {
+          "type": "topic",
+          "settings": {
+            "label": "Subscriptions",
+            "count": 3,
+            "anchor": "#faq-1"
+          }
+        },
+        "topic-3": {
+          "type": "topic",
+          "settings": {
+            "label": "Brewing",
+            "count": 3,
+            "anchor": "#faq-2"
+          }
+        },
+        "topic-4": {
+          "type": "topic",
+          "settings": {
+            "label": "Wholesale",
+            "count": 2,
+            "anchor": "#faq-3"
+          }
+        }
+      },
+      "block_order": [
+        "topic-1",
+        "topic-2",
+        "topic-3",
+        "topic-4"
+      ]
+    },
+    "faq-64": {
+      "type": "blko-faq-64",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "topic-1": {
+          "type": "topic",
+          "settings": {
+            "title": "Orders & shipping"
+          }
+        },
+        "question-2": {
+          "type": "question",
+          "settings": {
+            "question": "When will my coffee ship?",
+            "answer": "We roast on Mondays and ship on Tuesdays. Order by Sunday 6 pm and your beans leave the roastery the day after roasting."
+          }
+        },
+        "question-3": {
+          "type": "question",
+          "settings": {
+            "question": "How much is shipping?",
+            "answer": "Free over $45 within the country. Below that it is a flat $5.50, tracked, and usually arrives in two to three days."
+          }
+        },
+        "question-4": {
+          "type": "question",
+          "settings": {
+            "question": "Do you ship abroad?",
+            "answer": "Yes, to most of Europe and North America. Rates and duties show at checkout before you pay."
+          }
+        },
+        "question-5": {
+          "type": "question",
+          "settings": {
+            "question": "Can I change or cancel an order?",
+            "answer": "Until Sunday 6 pm, yes: reply to your confirmation email or write to the bar. After that it is already in the roaster."
+          }
+        },
+        "topic-6": {
+          "type": "topic",
+          "settings": {
+            "title": "Subscriptions"
+          }
+        },
+        "question-7": {
+          "type": "question",
+          "settings": {
+            "question": "How do I pause or skip a delivery?",
+            "answer": "From your account, under Subscription: skip the next bag, pause for up to three months, or change the cadence at any time."
+          }
+        },
+        "question-8": {
+          "type": "question",
+          "settings": {
+            "question": "Can I switch coffees between deliveries?",
+            "answer": "Yes. Pick a new roast before the Sunday cut-off and the next bag follows it. The 15% club price stays."
+          }
+        },
+        "question-9": {
+          "type": "question",
+          "settings": {
+            "question": "Is there a minimum commitment?",
+            "answer": "No. Cancel whenever you like; we only ask for a one-line reason so we can get better."
+          }
+        },
+        "topic-10": {
+          "type": "topic",
+          "settings": {
+            "title": "Brewing"
+          }
+        },
+        "question-11": {
+          "type": "question",
+          "settings": {
+            "question": "Whole bean or ground?",
+            "answer": "Whole bean keeps its aroma longest. If you have no grinder, pick your brewer at checkout and we grind it on the day it ships."
+          }
+        },
+        "question-12": {
+          "type": "question",
+          "settings": {
+            "question": "How long do the beans stay fresh?",
+            "answer": "Best between 7 and 40 days after the roast date printed on the bag. Keep them sealed, cool and out of the light."
+          }
+        },
+        "question-13": {
+          "type": "question",
+          "settings": {
+            "question": "What ratio should I start with?",
+            "answer": "1:16 for filter (15 g to 240 g of water at 94 °C) and 1:2 for espresso. Each bag carries its own recipe card."
+          }
+        },
+        "topic-14": {
+          "type": "topic",
+          "settings": {
+            "title": "Wholesale"
+          }
+        },
+        "question-15": {
+          "type": "question",
+          "settings": {
+            "question": "Do you supply cafés and offices?",
+            "answer": "Yes, from 5 kg a week. We include barista training, a brew audit and the same Monday roast."
+          }
+        },
+        "question-16": {
+          "type": "question",
+          "settings": {
+            "question": "Can I visit the roastery first?",
+            "answer": "Of course. Book a cupping on a Saturday morning at Pier 7 and taste the current lots with our head roaster."
+          }
+        }
+      },
+      "block_order": [
+        "topic-1",
+        "question-2",
+        "question-3",
+        "question-4",
+        "question-5",
+        "topic-6",
+        "question-7",
+        "question-8",
+        "question-9",
+        "topic-10",
+        "question-11",
+        "question-12",
+        "question-13",
+        "topic-14",
+        "question-15",
+        "question-16"
+      ]
+    }
+  },
+  "order": [
+    "page-header-80",
+    "faq-64"
+  ]
+}

@@ -1,0 +1,624 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-product-detail-41.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-ui-commerce.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-commerce.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-product-detail-41.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- comment -%}
+  Halden product page (roast): 896px up, 12 columns. Left (7): a sticky thumb rail with a sliding marker beside a tall
+  stack of photos (each with its note tag), and a sticky tasting-notes bar riding at the bottom of the column whose chip
+  row follows the photo in view (gliding pill, 0N / 0N counter). Right (5): a sticky buy box with breadcrumb, origin line,
+  h1, rating and price, a cup profile drawn as bars, grind chips, size chips, one-time vs subscribe radio cards (cadence
+  select), quantity, Add to bag (real /cart/add.js, then blkoRoast.ping), wishlist heart, roast date, shipping line and
+  accordions. Phones: a swipe gallery with dots and the note, the buy box, and a sticky bottom add bar.
+  On a product page the title, price, photos, options (the option named like "Size option name" as big chips, the rest as
+  round chips), selling plans and the cart are live; Note blocks label the photos by position. Elsewhere the settings and
+  blocks drive a preview. Static / reduced motion: photo 1 active, bars full, first choices selected.
+{%- endcomment -%}
+{%- liquid
+  assign live = false
+  if product != blank and product.id != blank
+    assign live = true
+  endif
+  assign notes = section.blocks | where: 'type', 'note'
+  assign infos = section.blocks | where: 'type', 'info'
+  assign money0 = 0 | money_without_trailing_zeros
+  assign size_name = s.size_option | downcase | strip
+  assign pct = s.discount | plus: 0
+  assign has_sub = true
+  if live
+    assign variant = product.selected_or_first_available_variant
+    assign price = variant.price
+    assign media = product.media | where: 'media_type', 'image'
+    assign shots_n = media.size
+    assign r_value = product.metafields.reviews.rating.value.rating | default: 0
+    assign r_count = product.metafields.reviews.rating_count.value | default: 0
+    assign group = product.selling_plan_groups.first
+    if group == blank
+      assign has_sub = false
+    else
+      assign adj = group.selling_plans.first.price_adjustments.first
+      if adj.value_type == 'percentage'
+        assign pct = adj.value
+      endif
+    endif
+    assign crumb = product.collections.first
+    assign item_name = product.title
+  else
+    assign sizes = s.sizes | newline_to_br | split: '<br />'
+    assign first_size = sizes.first | split: '|'
+    assign price = first_size[1] | strip | times: 100 | round
+    assign shots_n = notes.size
+    assign r_value = s.rating | plus: 0
+    assign r_count = s.rating_count | plus: 0
+    assign item_name = s.name
+  endif
+  if shots_n > 8
+    assign shots_n = 8
+  endif
+  assign keep = 100 | minus: pct
+  assign sub_price = price | times: keep | divided_by: 100
+  assign first_note = notes.first.settings.label
+  assign first_line = notes.first.settings.line
+-%}
+{%- capture total -%}{%- render 'blko-ui-money', amount: price, cents: true -%}{%- endcapture -%}
+{%- capture total_sub -%}{%- render 'blko-ui-money', amount: sub_price, cents: true -%}{%- endcapture -%}
+{%- capture arrow -%}{%- render 'blko-ui-icon', name: 'arrow-right' -%}{%- endcapture -%}
+{%- capture check -%}{%- render 'blko-ui-icon', name: 'check' -%}{%- endcapture -%}
+{%- assign last = shots_n | minus: 1 -%}
+
+{%- capture gallery -%}
+<div class="bproductdetail41__gal"
+  ><nav aria-label="{{ 'blko.product_detail_41.photos' | t | escape }}" class="bproductdetail41__rail"
+    ><div class="bproductdetail41__railin"
+      ><span aria-hidden="true" class="bproductdetail41__mark" data-mark></span
+      >{%- for i in (0..last) -%}
+        {%- assign nb = notes[i] -%}
+        {%- assign n = forloop.index -%}
+        {%- assign lab = 'blko.product_detail_41.show_photo' | t: n: n, note: nb.settings.label -%}
+        <button type="button" class="bproductdetail41__thumb" data-go="{{ i }}" aria-label="{{ lab | escape }}"{% if forloop.first %} aria-current="true"{% endif %}
+          >{%- if live -%}
+            {{ media[i].preview_image | image_url: width: 160 | image_tag: alt: '', loading: 'lazy' -}}
+          {%- elsif nb.settings.image != blank -%}
+            {{ nb.settings.image | image_url: width: 160 | image_tag: alt: '', loading: 'lazy' -}}
+          {%- else -%}
+            {{ 'product-' | append: n | placeholder_svg_tag -}}
+          {%- endif -%}
+        </button
+      >{%- endfor -%}
+      <span class="bproductdetail41__label bproductdetail41__tc"><span data-cur>01</span>/{% if shots_n < 10 %}0{% endif %}{{ shots_n }}</span
+    ></div
+  ></nav
+  ><div class="bproductdetail41__col"
+    ><div class="bproductdetail41__shots" data-row
+      >{%- for i in (0..last) -%}
+        {%- assign nb = notes[i] -%}
+        {%- assign n = forloop.index -%}
+        <figure class="bproductdetail41__fig" data-fig
+          ><div class="rm-zoom bproductdetail41__box"
+            >{%- if live -%}
+              {%- assign im = media[i].preview_image -%}
+              {%- assign al = media[i].alt | default: product.title -%}
+              {%- if forloop.first -%}
+                {{ im | image_url: width: 1400 | image_tag: alt: al, loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200, 1400', sizes: '(min-width: 1024px) 50vw, 100vw', class: 'bproductdetail41__img' -}}
+              {%- else -%}
+                {{ im | image_url: width: 1400 | image_tag: alt: al, loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 1024px) 50vw, 100vw', class: 'bproductdetail41__img' -}}
+              {%- endif -%}
+            {%- elsif nb.settings.image != blank -%}
+              {{ nb.settings.image | image_url: width: 1400 | image_tag: alt: nb.settings.image.alt, loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 1024px) 50vw, 100vw', class: 'bproductdetail41__img' -}}
+            {%- else -%}
+              {{ 'product-' | append: n | placeholder_svg_tag: 'bproductdetail41__img' -}}
+            {%- endif -%}
+            {%- if nb.settings.label != blank -%}
+            <figcaption class="bproductdetail41__cap"
+              ><span class="bproductdetail41__label bproductdetail41__capn">{% if n < 10 %}0{% endif %}{{ n }}</span
+              ><span class="bproductdetail41__label">{{ nb.settings.label | escape }}</span
+            ></figcaption
+            >{%- endif -%}
+          </div
+        ></figure
+      >{%- endfor -%}
+    </div
+
+    ><div class="bproductdetail41__dotsrow"
+      ><div class="bproductdetail41__dots" role="group" aria-label="{{ 'blko.product_detail_41.choose_photo' | t | escape }}"
+        >{%- for i in (0..last) -%}
+          {%- assign lab = 'blko.product_detail_41.photo' | t: n: forloop.index, note: notes[i].settings.label -%}
+          <button type="button" class="bproductdetail41__dot" data-go="{{ i }}" aria-label="{{ lab | escape }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"><span></span></button
+        >{%- endfor -%}
+      </div
+      ><p class="bproductdetail41__label bproductdetail41__muted">{{ 'blko.product_detail_41.note' | t }} · <span class="bproductdetail41__ink" data-note>{{ first_note | escape }}</span></p
+    ></div
+
+    >{%- if notes.size > 0 -%}
+    <div class="bproductdetail41__nbwrap"
+      ><div class="bproductdetail41__nbar"
+        ><div class="bproductdetail41__nbtop"
+          ><p class="bproductdetail41__label bproductdetail41__dim">{{ 'blko.product_detail_41.notes' | t }} · <span data-cur>01</span> / {% if shots_n < 10 %}0{% endif %}{{ shots_n }}</p
+          ><p aria-live="polite" class="bproductdetail41__nbline" data-line>{{ first_line | escape }}</p
+        ></div
+        ><div class="bproductdetail41__chips" data-chips style="--n:{{ shots_n }}"
+          ><span aria-hidden="true" class="bproductdetail41__pill" data-pill></span
+          >{%- for i in (0..last) -%}
+            <button type="button" class="bproductdetail41__chip" data-go="{{ i }}" data-line="{{ notes[i].settings.line | escape }}" data-label="{{ notes[i].settings.label | escape }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">{{ notes[i].settings.label | escape }}</button
+          >{%- endfor -%}
+        </div
+      ></div
+    ></div
+    >{%- endif -%}
+  </div
+></div
+>{%- endcapture -%}
+
+{%- capture radio_dot -%}<span aria-hidden="true" class="bproductdetail41__rd"><span></span></span>{%- endcapture -%}
+
+{%- capture options -%}
+  {%- if live -%}
+    <script type="application/json" data-variants>{{ product.variants | json }}</script
+    >{%- for opt in product.options_with_values -%}
+      {%- assign on = opt.name | downcase | strip -%}
+      <fieldset class="rm-rise bproductdetail41__fs" style="--d:{{ forloop.index0 | times: 50 | plus: 280 }}ms" data-group="{{ forloop.index0 }}"
+        >{%- if on == size_name -%}
+          <legend class="bproductdetail41__label bproductdetail41__lg">{{ opt.name | escape }}</legend
+          ><div class="bproductdetail41__sizes" data-blko-ui-options
+            >{%- for v in opt.values -%}{%- render 'blko-ui-option', selected: v.selected, value: v.value, children: v.value, className: 'bproductdetail41__opt bproductdetail41__opt--size' -%}{%- endfor -%}
+          </div
+        >{%- else -%}
+          <legend class="bproductdetail41__label bproductdetail41__lg bproductdetail41__lg--split">{{ opt.name | escape }} <span class="bproductdetail41__lgv" data-sel>{{ opt.selected_value | escape }}</span></legend
+          ><div class="bproductdetail41__grinds" data-blko-ui-options
+            >{%- for v in opt.values -%}{%- render 'blko-ui-option', selected: v.selected, value: v.value, children: v.value, className: 'bproductdetail41__opt' -%}{%- endfor -%}
+          </div
+        >{%- endif -%}
+      </fieldset
+    >{%- endfor -%}
+  {%- else -%}
+    {%- assign grinds = s.grinds | split: ',' -%}
+    {%- if grinds.size > 0 -%}
+    <fieldset class="rm-rise bproductdetail41__fs" style="--d:280ms" data-group="0"
+      ><legend class="bproductdetail41__label bproductdetail41__lg bproductdetail41__lg--split">{{ 'blko.product_detail_41.grind' | t }} <span class="bproductdetail41__lgv" data-sel>{{ grinds.first | strip | escape }}</span></legend
+      ><div class="bproductdetail41__grinds" data-blko-ui-options
+        >{%- for g in grinds -%}{%- assign gv = g | strip -%}{%- render 'blko-ui-option', selected: forloop.first, value: gv, children: gv, className: 'bproductdetail41__opt' -%}{%- endfor -%}
+      </div
+    ></fieldset
+    >{%- endif -%}
+    <fieldset class="rm-rise bproductdetail41__fs" style="--d:330ms" data-group="1" data-demo-sizes
+      ><legend class="bproductdetail41__label bproductdetail41__lg">{{ 'blko.product_detail_41.size' | t }}</legend
+      ><div class="bproductdetail41__sizes" data-blko-ui-options
+        >{%- for z in sizes -%}
+          {%- assign zp = z | split: '|' -%}{%- assign zn = zp[0] | strip -%}
+          {%- if zn != blank -%}
+            {%- assign zc = zp[1] | strip | times: 100 | round -%}
+            {%- capture ch -%}<span>{{ zn | escape }}</span><span class="bproductdetail41__dim">{%- render 'blko-ui-money', amount: zc, cents: true -%}</span>{%- endcapture -%}
+            {%- render 'blko-ui-option', selected: forloop.first, value: zc, children: ch, className: 'bproductdetail41__opt bproductdetail41__opt--size' -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div
+    ></fieldset
+  >{%- endif -%}
+{%- endcapture -%}
+
+{%- capture buy -%}
+<div class="bproductdetail41__buybox"
+  ><div class="bproductdetail41__head"
+    ><nav aria-label="{{ 'blko.product_detail_41.breadcrumb' | t | escape }}" class="rm-rise"
+      ><ol class="bproductdetail41__crumbs"
+        ><li><a href="{{ routes.root_url }}" class="rm-ul">{{ 'blko.product_detail_41.home' | t }}</a></li
+        >{%- if live and crumb != blank -%}
+          <li aria-hidden="true">/</li><li><a href="{{ crumb.url }}" class="rm-ul">{{ crumb.title | escape }}</a></li
+        >{%- elsif live == false and s.crumb != blank -%}
+          <li aria-hidden="true">/</li><li><a href="{{ routes.all_products_collection_url }}" class="rm-ul">{{ s.crumb | escape }}</a></li
+        >{%- endif -%}
+        <li aria-hidden="true">/</li
+        ><li aria-current="page" class="bproductdetail41__ink">{{ item_name | escape }}</li
+      ></ol
+    ></nav
+    >{%- if s.origin != blank -%}<p class="rm-rise bproductdetail41__label bproductdetail41__muted bproductdetail41__origin" style="--d:60ms"><span aria-hidden="true" class="bproductdetail41__pip bproductdetail41__pip--3"></span>{{ s.origin | escape }}</p>{%- endif -%}
+    <h1 class="bproductdetail41__title"
+      >{%- if live -%}
+        <span class="rm-mask"><span class="rm-line">{{ product.title | escape }}</span></span
+      >{%- else -%}
+        <span class="rm-mask"><span class="rm-line">{{ s.title_1 }}</span></span
+        >{%- if s.title_2 != blank -%}<span class="rm-mask"><span class="rm-line" style="--d:90ms">{{ s.title_2 }}</span></span>{%- endif -%}
+      {%- endif -%}
+    </h1
+    ><div class="rm-rise bproductdetail41__rp" style="--d:160ms"
+      >{%- if r_value > 0 -%}
+        <a href="#reviews" class="bproductdetail41__rlink">{%- render 'blko-ui-rating', value: r_value, count: r_count -%}<span class="bproductdetail41__sr"> {{ 'blko.product_detail_41.reviews' | t }}</span></a
+      >{%- else -%}<span></span>{%- endif -%}
+      <p class="bproductdetail41__price"><span data-price>{{ total }}</span><s class="bproductdetail41__was" data-was hidden><span class="bproductdetail41__sr">{{ 'blko.product_detail_41.was' | t }} </span><span data-was-v>{{ total }}</span></s></p
+    ></div
+  ></div
+
+  >{%- assign prof = s.profile | newline_to_br | split: '<br />' -%}
+  {%- if s.profile != blank -%}
+  <dl class="rm-rise bproductdetail41__prof" style="--d:220ms" data-prof
+    >{%- for row in prof -%}
+      {%- assign pp = row | split: '|' -%}{%- assign pk = pp[0] | strip -%}
+      {%- if pk != blank -%}
+        {%- assign pv = pp[1] | strip | plus: 0 -%}{%- assign pw = pv | times: 20 -%}
+        <div class="bproductdetail41__prow"
+          ><dt class="bproductdetail41__label bproductdetail41__muted">{{ pk | escape }}</dt
+          ><dd class="bproductdetail41__track" aria-label="{{ 'blko.product_detail_41.out_of' | t: v: pv | escape }}"><span style="--w:{{ pw }}%;transition-delay:{{ forloop.index0 | times: 140 | plus: 300 }}ms"></span></dd
+          ><dd class="bproductdetail41__pword">{{ pp[2] | strip | escape }}</dd
+        ></div
+      >{%- endif -%}
+    {%- endfor -%}
+  </dl
+  >{%- endif -%}
+
+  {{ options -}}
+
+  {%- if has_sub -%}
+  <fieldset class="rm-rise bproductdetail41__fs bproductdetail41__fs--buy" style="--d:380ms"
+    ><legend class="bproductdetail41__label bproductdetail41__lg">{{ 'blko.product_detail_41.purchase' | t }}</legend
+    ><label class="bproductdetail41__card is-on" data-card="once"
+      ><input type="radio" name="pd41-buy-{{ section.id }}" value="once" class="bproductdetail41__sr" checked data-buy
+      >{{ radio_dot -}}
+      <span class="bproductdetail41__ct">{{ 'blko.product_detail_41.one_time' | t }}</span
+      ><span class="bproductdetail41__cp" data-once>{{ total }}</span
+    ></label
+    ><div class="bproductdetail41__card bproductdetail41__card--sub" data-card="sub"
+      ><label class="bproductdetail41__crow"
+        ><input type="radio" name="pd41-buy-{{ section.id }}" value="sub" class="bproductdetail41__sr" data-buy
+        >{{ radio_dot -}}
+        <span class="bproductdetail41__ct">{{ 'blko.product_detail_41.subscribe' | t: pct: pct }}</span
+        ><span class="bproductdetail41__label bproductdetail41__off">-{{ pct }}%</span
+        ><span class="bproductdetail41__cp" data-subp>{{ total_sub }}</span
+      ></label
+      ><div class="bproductdetail41__cad"
+        ><label for="pd41-cad-{{ section.id }}" class="bproductdetail41__dl">{{ 'blko.product_detail_41.deliver' | t }}</label
+        >{%- capture opts -%}
+          {%- if live -%}
+            {%- for plan in group.selling_plans -%}<option value="{{ plan.id }}"{% if forloop.first %} selected{% endif %}>{{ plan.name | escape }}</option>{%- endfor -%}
+          {%- else -%}
+            {%- assign cads = s.cadences | split: ',' -%}
+            {%- assign ci = s.cadence_index | minus: 1 -%}
+            {%- for c in cads -%}<option value="{{ c | strip | escape }}"{% if forloop.index0 == ci %} selected{% endif %}>{{ c | strip | escape }}</option>{%- endfor -%}
+          {%- endif -%}
+        {%- endcapture -%}
+        {%- assign cad_id = 'pd41-cad-' | append: section.id -%}
+        {%- render 'blko-ui-select', id: cad_id, children: opts, className: 'bproductdetail41__sel' -%}
+      </div
+    ></div
+  ></fieldset
+  >{%- endif -%}
+
+  <div class="rm-rise bproductdetail41__act" style="--d:430ms"
+    ><div class="bproductdetail41__addrow"
+      >{%- render 'blko-ui-quantity', max: 20, className: 'bproductdetail41__qty' -%}
+      <div class="bproductdetail41__grow"
+        >{%- capture lbl -%}<span class="bproductdetail41__lbl" data-l-add><span class="rm-roll"><span>{{ 'blko.product_detail_41.add' | t }}<span class="bproductdetail41__wide"> · <span data-sum>{{ total }}</span></span></span></span>{{ arrow }}</span><span class="bproductdetail41__lbl" data-l-done hidden>{{ check }}<span class="rm-roll"><span>{{ 'blko.product_detail_41.added' | t }}</span></span></span>{%- endcapture -%}
+        {%- capture at -%}aria-live="polite" data-add{% if live and variant.available == false %} disabled{% endif %}{%- endcapture -%}
+        {%- render 'blko-ui-button', size: 'lg', full: true, children: lbl, attrs: at, className: 'bproductdetail41__add' -%}
+      </div
+      ><button type="button" class="bproductdetail41__heart" aria-pressed="false" aria-label="{{ 'blko.product_detail_41.save' | t | escape }}" data-save="{{ 'blko.product_detail_41.save' | t | escape }}" data-saved="{{ 'blko.product_detail_41.saved' | t | escape }}" data-heart>{%- render 'blko-ui-icon', name: 'heart', size: 20, className: 'rm-heart' -%}</button
+    ></div
+    >{%- if s.roast_line != blank -%}<p class="bproductdetail41__label bproductdetail41__origin"><span aria-hidden="true" class="bproductdetail41__pip bproductdetail41__pip--4"></span>{{ s.roast_line | escape }}</p>{%- endif -%}
+    {%- if s.ship_line != blank -%}<p class="bproductdetail41__ship">{%- render 'blko-ui-icon', name: 'truck', size: 16, className: 'rm-nudge bproductdetail41__ink' -%}<span>{{ s.ship_line | escape }}<span data-cadline></span></span></p>{%- endif -%}
+    <p class="bproductdetail41__sr" aria-live="polite" data-msg data-error="{{ 'blko.product_detail_41.error' | t | escape }}"></p
+  ></div
+
+  >{%- if infos.size > 0 -%}
+  <div class="rm-rise bproductdetail41__accs" style="--d:480ms"
+    >{%- for b in infos -%}
+      {%- assign on = false -%}{%- if forloop.index == s.open_index -%}{%- assign on = true -%}{%- endif -%}
+      <div class="bproductdetail41__acc" {{ b.shopify_attributes }}
+        ><h2 class="bproductdetail41__ah"><button type="button" class="bproductdetail41__ab" aria-expanded="{{ on }}" aria-controls="pd41-{{ section.id }}-{{ forloop.index }}" id="pd41-{{ section.id }}-h{{ forloop.index }}" data-acc>{{ b.settings.title | escape }}<span aria-hidden="true" class="rm-pm"></span></button></h2
+        ><div id="pd41-{{ section.id }}-{{ forloop.index }}" role="region" aria-labelledby="pd41-{{ section.id }}-h{{ forloop.index }}" class="bproductdetail41__ap{% if on %} is-open{% endif %}"
+          ><div{% unless on %} inert{% endunless %}><div class="bproductdetail41__abody">{{ b.settings.body }}</div></div
+        ></div
+      ></div
+    >{%- endfor -%}
+  </div
+  >{%- endif -%}
+</div
+>{%- endcapture -%}
+
+{%- capture body -%}
+<div class="bproductdetail41__grid" data-root data-live="{{ live }}" data-money="{{ money0 | escape }}" data-base="{{ price }}" data-pct="{{ pct }}"{% if live %} data-variant="{{ variant.id }}"{% endif %}
+  ><div class="bproductdetail41__galcol">{{ gallery }}</div
+  ><div class="bproductdetail41__buycol">{{ buy }}</div
+  ><div class="bproductdetail41__mbar"
+    ><div class="bproductdetail41__mtx"
+      ><span class="bproductdetail41__mname"><span>{{ item_name | escape }}</span><span data-mvar></span></span
+      ><span class="bproductdetail41__mprice"><span data-mprice>{{ total }}</span><span data-msub data-word="{{ 'blko.product_detail_41.subscribe_short' | t | escape }}"></span></span
+    ></div
+    ><div class="bproductdetail41__mbtn"
+      >{%- capture lbl2 -%}<span class="bproductdetail41__lbl" data-l-add><span class="rm-roll"><span>{{ 'blko.product_detail_41.add' | t }} · <span data-sum>{{ total }}</span></span></span>{{ arrow }}</span><span class="bproductdetail41__lbl" data-l-done hidden>{{ check }}<span class="rm-roll"><span>{{ 'blko.product_detail_41.added' | t }}</span></span></span>{%- endcapture -%}
+      {%- capture at2 -%}aria-live="polite" data-add{% if live and variant.available == false %} disabled{% endif %}{%- endcapture -%}
+      {%- render 'blko-ui-button', size: 'lg', children: lbl2, attrs: at2, className: 'bproductdetail41__add' -%}
+    </div
+  ></div
+></div
+>{%- endcapture -%}
+<div class="bproductdetail41" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-bproductdetail41 data-rm-magnetic
+  >{%- render 'blko-ui-section', surface: 'bg', label: s.label, className: 'rm-load', inner: 'bproductdetail41__in', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Product Detail 41 - Notes",
+  "tag": "div",
+  "class": "blko-bundle",
+  "max_blocks": 14,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "On a product page the title, price, photos, options, selling plans and cart come from the product; Note blocks label the photos by position. Elsewhere the settings below drive a preview."
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label (screen readers)",
+      "default": "Guji Natural, Ethiopia"
+    },
+    {
+      "type": "text",
+      "id": "origin",
+      "label": "Origin line",
+      "default": "Ethiopia · Guji · Hambela · Natural · Light roast"
+    },
+    {
+      "type": "textarea",
+      "id": "profile",
+      "label": "Cup profile (Name | 0–5 | word per line)",
+      "default": "Acidity | 4 | Bright\nBody | 2.5 | Silky\nSweetness | 4.5 | High"
+    },
+    {
+      "type": "text",
+      "id": "size_option",
+      "label": "Size option name",
+      "default": "Size"
+    },
+    {
+      "type": "text",
+      "id": "discount",
+      "label": "Subscribe saving % (preview; live uses the selling plan)",
+      "default": "15"
+    },
+    {
+      "type": "text",
+      "id": "roast_line",
+      "label": "Roast date line",
+      "default": "Roasted Mon 26 Oct · rest 7 days"
+    },
+    {
+      "type": "text",
+      "id": "ship_line",
+      "label": "Shipping line",
+      "default": "Ships Tuesday · free over $45"
+    },
+    {
+      "type": "range",
+      "id": "open_index",
+      "label": "Accordion open at start (0 = none)",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Preview"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Product name",
+      "default": "Guji Natural"
+    },
+    {
+      "type": "text",
+      "id": "crumb",
+      "label": "Breadcrumb collection",
+      "default": "Coffee"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Title line 1",
+      "default": "Guji"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Title line 2 (wrap a word in <em>)",
+      "default": "<em>Natural</em>"
+    },
+    {
+      "type": "text",
+      "id": "rating",
+      "label": "Rating",
+      "default": "4.9"
+    },
+    {
+      "type": "text",
+      "id": "rating_count",
+      "label": "Review count",
+      "default": "212"
+    },
+    {
+      "type": "text",
+      "id": "grinds",
+      "label": "Grinds (comma separated)",
+      "default": "Whole bean, Espresso, Filter, French press"
+    },
+    {
+      "type": "textarea",
+      "id": "sizes",
+      "label": "Sizes (Name | price per line)",
+      "default": "250 g | 24\n1 kg | 84"
+    },
+    {
+      "type": "text",
+      "id": "cadences",
+      "label": "Cadences (comma separated)",
+      "default": "Every 2 weeks, Every 3 weeks, Every 4 weeks, Every 6 weeks"
+    },
+    {
+      "type": "range",
+      "id": "cadence_index",
+      "label": "Cadence selected",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "note",
+      "name": "Tasting note (photo)",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Note",
+          "default": "Blueberry"
+        },
+        {
+          "type": "text",
+          "id": "line",
+          "label": "Line",
+          "default": "Ripe, jammy fruit up front"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo (preview)"
+        }
+      ]
+    },
+    {
+      "type": "info",
+      "name": "Accordion",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Details"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Text",
+          "default": "<p>Heirloom Ethiopian varieties grown at 2,100 m by 640 smallholders around Hambela.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Detail 41 - Notes",
+      "blocks": [
+        {
+          "type": "note",
+          "settings": {
+            "label": "Blueberry",
+            "line": "Ripe, jammy fruit up front"
+          }
+        },
+        {
+          "type": "note",
+          "settings": {
+            "label": "Cacao nib",
+            "line": "A dry, dark-chocolate middle"
+          }
+        },
+        {
+          "type": "note",
+          "settings": {
+            "label": "Jasmine",
+            "line": "Floral lift as it cools"
+          }
+        },
+        {
+          "type": "note",
+          "settings": {
+            "label": "Honey",
+            "line": "A long, sweet finish"
+          }
+        },
+        {
+          "type": "info",
+          "settings": {
+            "title": "Details",
+            "body": "<p>Heirloom Ethiopian varieties grown at 2,100 m by 640 smallholders around Hambela. Dried whole on raised beds for 21 days. Roasted light for filter, with an omni curve that also pulls a fruity espresso.</p>"
+          }
+        },
+        {
+          "type": "info",
+          "settings": {
+            "title": "Shipping & returns",
+            "body": "<p>Roasted Monday, shipped Tuesday in a recyclable valve bag. Free shipping over $45, otherwise $5. If a bag isn't for you, tell us within 30 days and we'll swap it or refund it.</p>"
+          }
+        },
+        {
+          "type": "info",
+          "settings": {
+            "title": "Brew notes",
+            "body": "<p>Pour-over: 15 g to 250 g water at 94 °C, 3:00 total. Espresso: 18 g in, 40 g out in 28 s. Rest the beans 7 days after the roast date for the sweetest cup.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

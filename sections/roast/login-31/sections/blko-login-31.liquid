@@ -1,0 +1,272 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-login-31.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-ui-commerce.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-commerce.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-login-31.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- liquid
+  assign k = 'l31-' | append: section.id
+  assign id_email = k | append: '-email'
+  assign id_pw = k | append: '-pw'
+  assign id_name = k | append: '-name'
+  assign id_email2 = k | append: '-email2'
+  assign id_pw2 = k | append: '-pw2'
+  assign forgot_url = routes.account_login_url | append: '#recover'
+  assign t_email = 'blko.login_31.email' | t
+  assign t_pw = 'blko.login_31.password' | t
+  assign t_name = 'blko.login_31.first_name' | t
+  assign t_rem = 'blko.login_31.remember' | t
+  assign t_notes = 'blko.login_31.notes' | t
+  assign t_hint = 'blko.login_31.notes_hint' | t
+-%}
+{%- capture eye -%}<button type="button" class="blogin31__eye" aria-label="{{ 'blko.login_31.show' | t }}" aria-pressed="false" data-eye data-show="{{ 'blko.login_31.show' | t | escape }}" data-hide="{{ 'blko.login_31.hide' | t | escape }}"><span data-eye-on>{% render 'blko-ui-icon', name: 'eye', className: 'rm-nudge' %}</span><span data-eye-off hidden>{% render 'blko-ui-icon', name: 'eye-off', className: 'rm-nudge' %}</span></button>{%- endcapture -%}
+{%- capture body -%}
+  <div class="blogin31__grid" data-rm-magnetic
+    ><figure class="blogin31__photo"
+      >{%- if s.image != blank -%}{{ s.image | image_url: width: 1400 | image_tag: alt: s.image.alt, class: 'blogin31__img' }}{%- else -%}{{ 'lifestyle-1' | placeholder_svg_tag: 'blogin31__img' }}{%- endif -%}
+      <span aria-hidden="true" class="blogin31__scrim"></span
+      >{%- if s.stamp != blank -%}<span class="blogin31__stamp"><span class="blogin31__label">{{ s.stamp | escape }}</span></span>{%- endif -%}
+      <figcaption class="blogin31__quote"
+        ><p class="blogin31__q">&ldquo;{{ s.quote | escape }}&rdquo;</p
+        ><p class="blogin31__label blogin31__src">{{ s.quote_source | escape }}</p
+      ></figcaption
+    ></figure
+    ><div class="blogin31__side"
+      ><div class="blogin31__wrap"
+        ><div class="blogin31__head"
+          ><p class="blogin31__label blogin31__muted rm-rise">{{ s.eyebrow | escape }}</p
+          ><h1 class="blogin31__h1"><span class="rm-mask"><span class="rm-line" data-h-in>{{ s.heading | escape }} <em>{{ s.heading_em | escape }}</em></span><span class="rm-line" data-h-up hidden>{{ s.up_heading | escape }} <em>{{ s.up_heading_em | escape }}</em></span></span></h1
+        ></div
+        >{%- if s.show_signup -%}
+        <div role="tablist" aria-label="{{ 'blko.login_31.account' | t }}" class="blogin31__toggle rm-rise" style="--d:120ms"
+          ><span aria-hidden="true" class="blogin31__pill"></span
+          ><button type="button" role="tab" aria-selected="true" aria-controls="{{ k }}-in" class="blogin31__tab" data-mode="in">{{ 'blko.login_31.sign_in' | t }}</button
+          ><button type="button" role="tab" aria-selected="false" aria-controls="{{ k }}-up" class="blogin31__tab" data-mode="up">{{ 'blko.login_31.create' | t }}</button
+        ></div
+        >{%- endif -%}
+        <div class="blogin31__panes"
+          >{%- form 'customer_login', id: 'l31-in-form', class: 'blogin31__pane' -%}
+            <div id="{{ k }}-in" role="tabpanel" class="blogin31__fields" data-pane="in"
+              >{%- if form.errors -%}<p role="alert" class="blko-ui-field__error">{{ form.errors | default_errors }}</p>{%- endif -%}
+              {%- capture c -%}{%- render 'blko-ui-input', id: id_email, type: 'email', name: 'customer[email]', autocomplete: 'email', required: true, placeholder: 'you@example.com' -%}{%- endcapture -%}
+              {%- render 'blko-ui-field', id: id_email, label: t_email, className: 'rm-rise', children: c -%}
+              <div class="rm-rise" style="--d:80ms"
+                >{%- capture c -%}<span class="blogin31__pw">{%- render 'blko-ui-input', id: id_pw, type: 'password', name: 'customer[password]', autocomplete: 'current-password', required: true, className: 'blogin31__pw-in' -%}{{ eye }}</span>{%- endcapture -%}
+                {%- render 'blko-ui-field', id: id_pw, label: t_pw, children: c -%}
+              </div
+              ><div class="blogin31__row rm-rise" style="--d:140ms"
+                >{%- render 'blko-ui-checkbox', label: t_rem, defaultChecked: true -%}
+                <a href="{{ forgot_url }}" class="blogin31__small"><span class="rm-ul">{{ 'blko.login_31.forgot' | t }}</span></a
+              ></div
+              ><div class="rm-rise" style="--d:200ms"
+                >{%- capture lbl -%}<span class="rm-roll"><span>{{ 'blko.login_31.sign_in' | t }}</span></span>{%- endcapture -%}
+                {%- render 'blko-ui-button', type: 'submit', size: 'lg', full: true, children: lbl, iconAfter: 'arrow-right' -%}
+              </div
+            ></div
+          >{%- endform -%}
+          {%- if s.show_signup -%}
+          {%- form 'create_customer', id: 'l31-up-form', class: 'blogin31__pane blogin31__pane--up is-off' -%}
+            <div id="{{ k }}-up" role="tabpanel" class="blogin31__fields" data-pane="up"
+              >{%- capture c -%}{%- render 'blko-ui-input', id: id_name, name: 'customer[first_name]', autocomplete: 'given-name', required: true -%}{%- endcapture -%}
+              {%- render 'blko-ui-field', id: id_name, label: t_name, children: c -%}
+              {%- capture c -%}{%- render 'blko-ui-input', id: id_email2, type: 'email', name: 'customer[email]', autocomplete: 'email', required: true, placeholder: 'you@example.com' -%}{%- endcapture -%}
+              {%- render 'blko-ui-field', id: id_email2, label: t_email, children: c -%}
+              {%- capture c -%}<span class="blogin31__pw">{%- render 'blko-ui-input', id: id_pw2, type: 'password', name: 'customer[password]', autocomplete: 'new-password', required: true, className: 'blogin31__pw-in' -%}{{ eye }}</span>{%- endcapture -%}
+              {%- render 'blko-ui-field', id: id_pw2, label: t_pw, children: c -%}
+              {%- render 'blko-ui-checkbox', name: 'customer[accepts_marketing]', value: 'true', label: t_notes, hint: t_hint, defaultChecked: true -%}
+              {%- capture lbl -%}<span class="rm-roll"><span>{{ 'blko.login_31.create' | t }}</span></span>{%- endcapture -%}
+              {%- render 'blko-ui-button', type: 'submit', size: 'lg', full: true, children: lbl, iconAfter: 'arrow-right' -%}
+            </div
+          >{%- endform -%}
+          {%- endif -%}
+        </div
+        ><p aria-live="polite" class="blogin31__label blogin31__muted blogin31__live" data-live data-in="{{ 'blko.login_31.signing' | t | escape }}" data-up="{{ 'blko.login_31.created' | t | escape }}"></p
+        >{%- if section.blocks.size > 0 -%}
+        <ul class="blogin31__perks rm-rise" style="--d:260ms"
+          >{%- for b in section.blocks -%}<li class="blogin31__label blogin31__muted" {{ b.shopify_attributes }}><span aria-hidden="true" class="blogin31__dot"></span>{{ b.settings.text | escape }}</li>{%- endfor -%}
+        </ul
+        >{%- endif -%}
+      </div
+    ></div
+  ></div
+>{%- endcapture -%}
+<div class="blogin31" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast
+  >{%- render 'blko-ui-section', surface: 'dark', bleed: true, full: true, label: s.label, className: 'rm-load', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Sign in, account toggle",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Sign in"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Your Halden account"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Welcome"
+    },
+    {
+      "type": "text",
+      "id": "heading_em",
+      "label": "Heading, accent word",
+      "default": "back"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_signup",
+      "label": "Show create account",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "up_heading",
+      "label": "Sign-up heading",
+      "default": "Join the"
+    },
+    {
+      "type": "text",
+      "id": "up_heading_em",
+      "label": "Sign-up accent word",
+      "default": "club"
+    },
+    {
+      "type": "header",
+      "content": "Photo"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo"
+    },
+    {
+      "type": "text",
+      "id": "stamp",
+      "label": "Stamp",
+      "default": "Members save 10% on every bag"
+    },
+    {
+      "type": "text",
+      "id": "quote",
+      "label": "Quote",
+      "default": "Five spoons, five teas, one morning. That is how we cup a new harvest."
+    },
+    {
+      "type": "text",
+      "id": "quote_source",
+      "label": "Quote source",
+      "default": "Noor Vale · tea buyer"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "perk",
+      "name": "Perk",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Free shipping over $45"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Sign in, account toggle",
+      "blocks": [
+        {
+          "type": "perk",
+          "settings": {
+            "text": "Free shipping over $45"
+          }
+        },
+        {
+          "type": "perk",
+          "settings": {
+            "text": "Pause or skip any time"
+          }
+        },
+        {
+          "type": "perk",
+          "settings": {
+            "text": "Early access to new lots"
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

@@ -1,0 +1,118 @@
+[
+  {
+    "page": "home",
+    "title": "Roast \u2014 Home",
+    "sectionIds": [
+      "hero-56",
+      "marquee-gsap-05",
+      "featured-products-59",
+      "scroll-images-08",
+      "collection-list-68",
+      "counters-40",
+      "subscription-07",
+      "testimonial-42",
+      "blog-93",
+      "newsletter-55"
+    ]
+  },
+  {
+    "page": "collection",
+    "title": "Shop",
+    "sectionIds": [
+      "collection-banner-89",
+      "filter-bar-31",
+      "collection-grid-49"
+    ]
+  },
+  {
+    "page": "product",
+    "title": "Product",
+    "sectionIds": [
+      "product-detail-41",
+      "product-story-60",
+      "recipe-03",
+      "reviews-54",
+      "recommendations-69"
+    ]
+  },
+  {
+    "page": "cart",
+    "title": "Your cart",
+    "sectionIds": [
+      "cart-page-35",
+      "recommendations-70"
+    ]
+  },
+  {
+    "page": "search",
+    "title": "Search",
+    "sectionIds": [
+      "search-results-29"
+    ]
+  },
+  {
+    "page": "blog",
+    "title": "Journal",
+    "sectionIds": [
+      "page-header-77",
+      "blog-94"
+    ]
+  },
+  {
+    "page": "article",
+    "title": "Article",
+    "sectionIds": [
+      "article-30",
+      "blog-95"
+    ]
+  },
+  {
+    "page": "404",
+    "title": "Page not found",
+    "sectionIds": [
+      "not-found-30",
+      "collection-list-69"
+    ]
+  },
+  {
+    "page": "about",
+    "title": "About",
+    "sectionIds": [
+      "page-header-78",
+      "horizontal-scroll-05",
+      "image-with-text-42",
+      "team-27"
+    ]
+  },
+  {
+    "page": "contact",
+    "title": "Contact",
+    "sectionIds": [
+      "page-header-79",
+      "contact-62",
+      "store-locator-08"
+    ]
+  },
+  {
+    "page": "faq",
+    "title": "FAQ",
+    "sectionIds": [
+      "page-header-80",
+      "faq-64"
+    ]
+  },
+  {
+    "page": "account-login",
+    "title": "Sign in",
+    "sectionIds": [
+      "login-31"
+    ]
+  },
+  {
+    "page": "account",
+    "title": "Your account",
+    "sectionIds": [
+      "account-34"
+    ]
+  }
+]

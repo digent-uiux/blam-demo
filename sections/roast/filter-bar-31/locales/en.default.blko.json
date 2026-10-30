@@ -1,0 +1,58 @@
+{
+  "blko_ui": {
+    "price": {
+      "from": "From",
+      "was": "Was",
+      "save": "Save"
+    },
+    "rating": {
+      "stars": "{{ value }} out of 5 stars"
+    },
+    "quantity": {
+      "label": "Quantity",
+      "decrease": "Decrease {{ label }}",
+      "increase": "Increase {{ label }}"
+    },
+    "field": {
+      "optional": "(optional)"
+    },
+    "option": {
+      "sold_out": "sold out"
+    },
+    "product": {
+      "save": "Save {{ title }}",
+      "add": "Add {{ title }} to bag",
+      "colors": "{{ count }} colours"
+    }
+  },
+  "blko": {
+    "filter_bar_31": {
+      "title": "Filter and sort",
+      "roast": "Roast",
+      "roast_suffix": "roast",
+      "scale_hint": "Light → Dark",
+      "process": "Process",
+      "any_process": "Any process",
+      "origin": "Origin",
+      "price": "Price",
+      "price_legend": "Price per 250 g",
+      "from": "From",
+      "up_to": "Up to",
+      "done": "Done",
+      "sort": "Sort",
+      "density": "Grid density",
+      "per_row": "[n] per row",
+      "one": "roast",
+      "many": "roasts",
+      "filter_sort": "Filter &amp; sort",
+      "sheet_title": "Filter <em>&amp;</em> sort",
+      "close": "Close",
+      "close_filters": "Close filters",
+      "clear_all": "Clear all",
+      "show": "Show [n] [word]",
+      "active": "Active filters",
+      "remove": "Remove filter: [label]",
+      "to": "to"
+    }
+  }
+}

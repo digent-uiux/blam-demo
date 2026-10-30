@@ -1,0 +1,127 @@
+{
+  "sections": {
+    "page-header-79": {
+      "type": "blko-page-header-79",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "row-1": {
+          "type": "row",
+          "settings": {
+            "label": "Write to us",
+            "detail": "hello@halden.coffee · replies within a day"
+          }
+        },
+        "row-2": {
+          "type": "row",
+          "settings": {
+            "label": "Call the bar",
+            "detail": "+1 (415) 555 0142 · 8 am – 6 pm"
+          }
+        },
+        "row-3": {
+          "type": "row",
+          "settings": {
+            "label": "Visit us",
+            "detail": "Pier 7, Harbour district"
+          }
+        }
+      },
+      "block_order": [
+        "row-1",
+        "row-2",
+        "row-3"
+      ]
+    },
+    "contact-62": {
+      "type": "blko-contact-62",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "topic-1": {
+          "type": "topic",
+          "settings": {
+            "label": "Orders",
+            "order": true
+          }
+        },
+        "topic-2": {
+          "type": "topic",
+          "settings": {
+            "label": "Subscriptions",
+            "order": true
+          }
+        },
+        "topic-3": {
+          "type": "topic",
+          "settings": {
+            "label": "Wholesale",
+            "order": false
+          }
+        },
+        "topic-4": {
+          "type": "topic",
+          "settings": {
+            "label": "Press",
+            "order": false
+          }
+        },
+        "topic-5": {
+          "type": "topic",
+          "settings": {
+            "label": "Something else",
+            "order": false
+          }
+        }
+      },
+      "block_order": [
+        "topic-1",
+        "topic-2",
+        "topic-3",
+        "topic-4",
+        "topic-5"
+      ]
+    },
+    "store-locator-08": {
+      "type": "blko-store-locator-08",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "location-1": {
+          "type": "location",
+          "settings": {
+            "name": "Pier 7 Roastery",
+            "area": "Harbour district",
+            "address": "Pier 7, Boat Shed 3, Harbour district",
+            "phone": "+1 (415) 555 0142",
+            "hours": "7-18\n7-18\n7-18\n7-18\n7-19\n8-19\n9-16",
+            "services": "Watch the roast, Cupping Saturdays, Bean refills"
+          }
+        },
+        "location-2": {
+          "type": "location",
+          "settings": {
+            "name": "Kiln Street Bar",
+            "area": "Old town",
+            "address": "48 Kiln Street, Old town",
+            "phone": "+1 (415) 555 0177",
+            "hours": "7-17\n7-17\n7-17\n7-17\n7-17\n8-15\nclosed",
+            "services": "Slow bar, Tea flights, Brew classes"
+          }
+        }
+      },
+      "block_order": [
+        "location-1",
+        "location-2"
+      ]
+    }
+  },
+  "order": [
+    "page-header-79",
+    "contact-62",
+    "store-locator-08"
+  ]
+}

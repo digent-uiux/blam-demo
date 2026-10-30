@@ -1,0 +1,250 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-testimonial-42.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-ui-commerce.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-commerce.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-testimonial-42.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- comment -%}
+  Halden "Notes from the regulars" (roast): mono heading row with stars, a long Syne pull quote whose words fill from
+  20% to 100% as the section scrolls (motion only; static fully filled), three unequal offset quote cards (blocks).
+{%- endcomment -%}
+{%- capture body -%}
+<div class="btestimonial42__top"
+  ><div class="rm-rise btestimonial42__row"
+    ><h2 class="btestimonial42__label btestimonial42__h">{{ s.heading | escape }}</h2
+    ><span aria-hidden="true" class="btestimonial42__rule"></span
+    ><span class="btestimonial42__sum">{%- assign rv = s.rating | plus: 0 -%}{%- render 'blko-ui-stars', value: rv, size: 'sm' -%}<span class="btestimonial42__tab">{{ s.summary | escape }}</span></span
+  ></div
+  ><figure class="btestimonial42__fig" data-quote
+    ><blockquote class="btestimonial42__bq"
+      ><p class="btestimonial42__pull"><span aria-hidden="true" class="btestimonial42__q">&ldquo;</span
+        >{%- assign words = s.quote | strip | split: ' ' -%}
+        {%- for w in words -%}<span data-w>{{ w | escape }}{% unless forloop.last %} {% endunless %}</span>{%- endfor -%}
+        <span aria-hidden="true" class="btestimonial42__q" data-w>&rdquo;</span></p
+    ></blockquote
+    ><figcaption class="btestimonial42__cap"
+      ><span aria-hidden="true" class="btestimonial42__line"></span
+      ><span class="btestimonial42__label">{{ s.name | escape }}</span
+      ><span class="btestimonial42__label btestimonial42__muted">{{ s.meta | escape }}</span
+      >{%- assign rv = s.name_rating | plus: 0 -%}{%- render 'blko-ui-stars', value: rv, size: 'sm' -%}
+    </figcaption
+  ></figure
+></div
+>{%- if section.blocks.size > 0 -%}
+<ul class="btestimonial42__cards"
+  >{%- for b in section.blocks -%}
+    {%- assign i = forloop.index0 | modulo: 3 -%}
+    <li class="rm-rise btestimonial42__item btestimonial42__item--{{ i }}" style="--d:{{ forloop.index0 | times: 110 }}ms" {{ b.shopify_attributes }}
+      ><figure class="btestimonial42__card btestimonial42__card--{{ b.settings.tone }}"
+        >{%- assign rv = b.settings.rating | plus: 0 -%}{%- if b.settings.tone == 'copper' -%}{%- render 'blko-ui-stars', value: rv, size: 'xs', tone: 'inherit' -%}{%- else -%}{%- render 'blko-ui-stars', value: rv, size: 'xs' -%}{%- endif -%}
+        <blockquote class="btestimonial42__bq"><p class="btestimonial42__ct{% if b.settings.tone == 'copper' %} btestimonial42__ct--big{% endif %}">&ldquo;{{ b.settings.text | escape }}&rdquo;</p></blockquote
+        ><figcaption class="btestimonial42__label btestimonial42__by"><span>{{ b.settings.name | escape }}</span><span class="btestimonial42__city">{{ b.settings.city | escape }}</span></figcaption
+      ></figure
+    ></li
+  >{%- endfor -%}
+</ul
+>{%- endif -%}
+{%- endcapture -%}
+<div class="btestimonial42" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-btestimonial42
+  >{%- render 'blko-ui-section', surface: 'bg', label: s.heading, inner: 'btestimonial42__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Testimonial 42",
+  "tag": "div",
+  "class": "blko-bundle",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Notes from the regulars"
+    },
+    {
+      "type": "text",
+      "id": "rating",
+      "label": "Average rating (0–5)",
+      "default": "4.9"
+    },
+    {
+      "type": "text",
+      "id": "summary",
+      "label": "Rating summary",
+      "default": "4.9 from 2,140 reviews"
+    },
+    {
+      "type": "header",
+      "content": "Pull quote"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote",
+      "default": "I've tried every subscription going. Halden is the only one where the bag lands two days after the roast date, the Guji tastes like a blueberry jam I can't stop thinking about, and the decaf my partner drinks actually tastes like coffee."
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Name",
+      "default": "Mira Okafor"
+    },
+    {
+      "type": "text",
+      "id": "meta",
+      "label": "City and note",
+      "default": "Lisbon · Member since 2021"
+    },
+    {
+      "type": "text",
+      "id": "name_rating",
+      "label": "Rating (0–5)",
+      "default": "5"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Short quote",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Quote",
+          "default": "Skipped a box from my phone in ten seconds. That alone keeps me."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Tomas"
+        },
+        {
+          "type": "text",
+          "id": "city",
+          "label": "City",
+          "default": "Leeds"
+        },
+        {
+          "type": "text",
+          "id": "rating",
+          "label": "Rating (0–5)",
+          "default": "5"
+        },
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Card",
+          "default": "plain",
+          "options": [
+            {
+              "value": "plain",
+              "label": "Outlined"
+            },
+            {
+              "value": "copper",
+              "label": "Copper highlight"
+            },
+            {
+              "value": "alt",
+              "label": "Darker crema"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonial 42",
+      "blocks": [
+        {
+          "type": "quote",
+          "settings": {
+            "text": "The Yunnan black is my afternoon ritual. Honeyed, a bit malty, never bitter, even when I forget it in the pot.",
+            "name": "Aiko",
+            "city": "Vancouver",
+            "rating": "4.8",
+            "tone": "plain"
+          }
+        },
+        {
+          "type": "quote",
+          "settings": {
+            "text": "Skipped a box from my phone in ten seconds. That alone keeps me.",
+            "name": "Tomas",
+            "city": "Leeds",
+            "rating": "5",
+            "tone": "copper"
+          }
+        },
+        {
+          "type": "quote",
+          "settings": {
+            "text": "We run a six-seat café and buy the House Espresso in 5 kg bags. Dialled in on day one, steady every week since.",
+            "name": "Priya & Sam",
+            "city": "Bristol",
+            "rating": "5",
+            "tone": "alt"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

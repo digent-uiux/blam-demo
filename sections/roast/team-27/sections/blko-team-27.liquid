@@ -1,0 +1,247 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-team-27.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-team-27.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- capture body -%}
+  <figure class="bteam27__fig"
+    ><div class="bteam27__photo rm-zoom"
+      >{%- if s.image != blank -%}{{ s.image | image_url: width: 900 | image_tag: alt: s.image.alt, loading: 'lazy', class: 'bteam27__img' }}{%- else -%}{{ 'lifestyle-1' | placeholder_svg_tag: 'bteam27__img' }}{%- endif -%}
+    </div
+    >{%- assign p = section.blocks.first.settings -%}
+    <figcaption aria-live="polite" class="bteam27__cap"
+      ><span class="bteam27__label bteam27__n" data-n>01</span
+      ><span data-cap><span class="bteam27__who" data-who>{{ p.name | escape }} · {{ p.role | escape }}</span><span class="bteam27__note" data-note>{{ p.note | escape }}</span></span
+    ></figcaption
+  ></figure
+  ><div class="bteam27__copy"
+    ><p class="bteam27__label">{{ s.eyebrow | escape }}</p
+    ><h2 class="bteam27__h2"><span class="rm-mask"><span class="rm-line">{{ s.line_1 | escape }}</span></span><span class="rm-mask"><span class="rm-line" style="--d:90ms">{{ s.line_2 | escape }} <em>{{ s.line_2_em | escape }}</em></span></span></h2
+    ><ul class="bteam27__list"
+      >{%- for b in section.blocks -%}
+      <li class="rm-rise" style="--d:{{ forloop.index0 | times: 60 | plus: 120 }}ms" {{ b.shopify_attributes }}
+        ><button type="button" class="bteam27__row" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" data-person data-p-who="{{ b.settings.name | escape }} · {{ b.settings.role | escape }}" data-p-note="{{ b.settings.note | escape }}"
+          ><span class="bteam27__name">{{ b.settings.name | escape }}</span
+          ><span class="bteam27__role">{{ b.settings.role | escape }}</span
+          ><span class="bteam27__label bteam27__brew">{{ b.settings.brew | escape }}</span
+        ></button
+      ></li
+      >{%- endfor -%}
+      {%- if s.hiring_label != blank -%}
+      <li class="rm-rise" style="--d:{{ section.blocks.size | times: 60 | plus: 120 }}ms"
+        ><a href="{{ s.hiring_link | default: '#' }}" class="bteam27__hire"><span class="bteam27__name"><span class="rm-ul">{{ s.hiring_label | escape }}</span></span>{% render 'blko-ui-icon', name: 'arrow-up-right', className: 'rm-nudge' %}</a
+      ></li
+      >{%- endif -%}
+    </ul
+  ></div
+>{%- endcapture -%}
+<div class="bteam27" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast
+  >{%- render 'blko-ui-section', surface: 'pop-3', label: s.label, inner: 'bteam27__grid', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Team, hover roster",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "The people at the bar"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The team"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Heading, line 1",
+      "default": "The people"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Heading, line 2",
+      "default": "at the"
+    },
+    {
+      "type": "text",
+      "id": "line_2_em",
+      "label": "Heading, accent word",
+      "default": "bar."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo"
+    },
+    {
+      "type": "text",
+      "id": "hiring_label",
+      "label": "Hiring row label",
+      "default": "We’re hiring baristas"
+    },
+    {
+      "type": "url",
+      "id": "hiring_link",
+      "label": "Hiring link"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "person",
+      "name": "Person",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Maren Oduya"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Role",
+          "default": "Head of the bar"
+        },
+        {
+          "type": "text",
+          "id": "brew",
+          "label": "Brew of the moment",
+          "default": "Kenya on a cone dripper"
+        },
+        {
+          "type": "textarea",
+          "id": "note",
+          "label": "Caption line",
+          "default": "Trains every new barista and still pulls the first shot each morning."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 9,
+  "presets": [
+    {
+      "name": "Team, hover roster",
+      "blocks": [
+        {
+          "type": "person",
+          "settings": {
+            "name": "Maren Oduya",
+            "role": "Head of the bar",
+            "brew": "Kenya on a cone dripper",
+            "note": "Trains every new barista and still pulls the first shot each morning."
+          }
+        },
+        {
+          "type": "person",
+          "settings": {
+            "name": "Tomas Reyhill",
+            "role": "Head roaster",
+            "brew": "Guji, straight espresso",
+            "note": "Writes every profile and cups each batch before it is bagged."
+          }
+        },
+        {
+          "type": "person",
+          "settings": {
+            "name": "Ines Varga",
+            "role": "Green buyer",
+            "brew": "Rwanda, press brewer",
+            "note": "Spends harvest season on the farms and sets the prices we publish."
+          }
+        },
+        {
+          "type": "person",
+          "settings": {
+            "name": "Kofi Lindqvist",
+            "role": "Tea lead",
+            "brew": "Yunnan gold, gongfu",
+            "note": "Built the tea list from three gardens and hosts the Sunday tastings."
+          }
+        },
+        {
+          "type": "person",
+          "settings": {
+            "name": "Ada Nakamura",
+            "role": "Wholesale",
+            "brew": "House blend, flat white",
+            "note": "Looks after the forty cafés that pour our coffee."
+          }
+        },
+        {
+          "type": "person",
+          "settings": {
+            "name": "Sol Batista",
+            "role": "Dispatch",
+            "brew": "Decaf, French press",
+            "note": "Packs every Tuesday order by hand and writes the roast date on each bag."
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

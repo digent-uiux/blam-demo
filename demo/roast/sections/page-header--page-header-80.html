@@ -1,0 +1,81 @@
+<!doctype html><html lang="en" class="t0mrfW_variable E_H7JW_variable o_1SAq_variable EgwAuW_variable w3uxYa_variable _9r9Ruq_variable bzeDxq_variable fV9fLq_variable OgZcfW_variable ff9q3q_variable g1S1oW_variable hrY6zq_variable uI-2uW_variable NQZxfG_variable VC18ba_variable haR_Xq_variable U3Bc3G_variable Bw1OkW_variable msubAa_variable xaN0Gq_variable I0A85q_variable -AbhhG_variable _0pDvPW_variable _0JAMpW_variable pOz78W_variable m6dhkW_variable hglmMG_variable qPJFCq_variable GTeQ1q_variable _2k9p9a_variable _7V0zFG_variable xVKFYW_variable _14EhFq_variable eTmprG_variable _8SfMSG_variable vahjGq_variable G5TzgW_variable _1yIbrG_variable MVNhTG_variable GozIQa_variable zUoora_variable Qkrphq_variable Y2qzUq_variable GnuVlW_variable _9INEga_variable x9fqQG_variable xiq7la_variable OOIKGq_variable eE8WqG_variable _8AZuyG_variable lCC5Hq_variable YzdJZq_variable kal4vG_variable UpaEsW_variable _hTXFW_variable nx7nPa_variable"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="image" href="https://images.unsplash.com/photo-1572286258217-40142c1c6a70?w=700&amp;q=80&amp;auto=format&amp;fit=crop"/><link rel="stylesheet" href="../assets/chunks/2vrm03dgvlqlq.css" data-precedence="next"/><link rel="stylesheet" href="../assets/chunks/1v6ooo4lqd7l3.css" data-precedence="next"/><link rel="stylesheet" href="../assets/chunks/2bqoz4fwvg18c.css" data-precedence="next"/><link rel="stylesheet" href="../assets/chunks/3m_gifownx2e1.css" data-precedence="next"/><style data-precedence="medium" data-href="roast-motion roast-header-39 roast-page-header-80 roast-footer-30">
+/* Type: Syne has no italic, so the accent word in a heading drops to the regular weight instead. */
+[data-theme="roast"] :is(h1, h2, h3, .font-heading) em { font-style: normal; font-weight: 400; letter-spacing: -0.02em; }
+
+/* Buttons: sweep fill, arrow slide, press. */
+html.motion [data-theme="roast"] :is(a, button)[class*="rounded-button"] { position: relative; isolation: isolate; overflow: hidden; transition: color .35s var(--motion-ease, cubic-bezier(.22,1,.36,1)), background-color .35s var(--motion-ease, cubic-bezier(.22,1,.36,1)), border-color .35s var(--motion-ease, cubic-bezier(.22,1,.36,1)), scale .18s var(--motion-ease, cubic-bezier(.22,1,.36,1)), translate .5s var(--motion-ease, cubic-bezier(.22,1,.36,1)); }
+html.motion [data-theme="roast"] :is(a, button)[class*="rounded-button"]::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: color-mix(in oklab, currentColor 16%, transparent); transform: scaleX(0); transform-origin: 100% 50%; transition: transform .5s var(--motion-ease, cubic-bezier(.22,1,.36,1)); pointer-events: none; }
+html.motion [data-theme="roast"] :is(a, button)[class*="rounded-button"]:is(:hover, :focus-visible)::before { transform: scaleX(1); transform-origin: 0 50%; }
+html.motion [data-theme="roast"] :is(a, button)[class*="rounded-button"]:active { scale: .97; }
+html.motion [data-theme="roast"] :is(a, button)[class*="rounded-button"]:is(:hover, :focus-visible) > svg:last-child { animation: rm-arrow .55s var(--motion-ease, cubic-bezier(.22,1,.36,1)); }
+@keyframes rm-arrow { 0% { transform: none; } 45% { transform: translateX(130%); opacity: 0; } 46% { transform: translateX(-130%); opacity: 0; } 100% { transform: none; opacity: 1; } }
+
+/* Roll: the label slides up and its copy rolls in from below. */
+.rm-roll { display: inline-block; overflow: hidden; vertical-align: top; line-height: 1.25; height: 1.25em; }
+.rm-roll > span { display: block; }
+html.motion .rm-roll > span { text-shadow: 0 1.25em currentColor; transition: transform .5s var(--motion-ease, cubic-bezier(.22,1,.36,1)); }
+html.motion :is(a, button):is(:hover, :focus-visible) .rm-roll > span { transform: translateY(-1.25em); }
+
+/* Links: underline sweep (in from the left, out to the right). */
+.rm-ul { background: linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0 1px; text-decoration: none; padding-bottom: 2px; }
+html.motion .rm-ul { transition: background-size .45s var(--motion-ease, cubic-bezier(.22,1,.36,1)); }
+:is(a, button):is(:hover, :focus-visible) .rm-ul, .rm-ul:is(:hover, :focus-visible), .rm-ul[aria-current="page"] { background-size: 100% 1px; background-position: 0 100%; }
+
+/* Icons. */
+html.motion :is(a, button):is(:hover, :focus-visible) .rm-nudge, html.motion .rm-nudge:is(:hover, :focus-visible) { animation: rm-nudge .6s var(--motion-ease, cubic-bezier(.22,1,.36,1)); }
+@keyframes rm-nudge { 0%, 100% { transform: none; } 40% { transform: translate(3px, -1px) rotate(-8deg); } 70% { transform: translate(-1px, 0) rotate(3deg); } }
+html.motion :is(a, button):is(:hover, :focus-visible) .rm-heart, html.motion [data-theme="roast"] article.group button[aria-label^="Save"]:is(:hover, :focus-visible) svg { animation: rm-beat .7s var(--motion-ease, cubic-bezier(.22,1,.36,1)); }
+@keyframes rm-beat { 0%, 100% { transform: none; } 30% { transform: scale(1.25); } 55% { transform: scale(.92); } 75% { transform: scale(1.08); } }
+html.motion :is(a, button):is(:hover, :focus-visible) .rm-draw :is(path, circle, line, polyline, rect, ellipse) { stroke-dasharray: 80; animation: rm-draw .8s var(--motion-ease, cubic-bezier(.22,1,.36,1)) both; }
+@keyframes rm-draw { from { stroke-dashoffset: 80; } to { stroke-dashoffset: 0; } }
+html.motion .rm-cart.is-pinged { animation: rm-wiggle .7s var(--motion-ease, cubic-bezier(.22,1,.36,1)); }
+@keyframes rm-wiggle { 0%, 100% { transform: none; } 20% { transform: rotate(-14deg) scale(1.1); } 40% { transform: rotate(10deg) scale(1.1); } 60% { transform: rotate(-6deg); } 80% { transform: rotate(3deg); } }
+.rm-count { transition: transform .4s var(--motion-ease, cubic-bezier(.22,1,.36,1)); }
+.rm-cart.is-pinged .rm-count { transform: scale(1.35); }
+
+/* Plus / minus: the vertical bar turns flat when open. */
+.rm-pm { position: relative; display: inline-block; width: 14px; height: 14px; flex: none; }
+.rm-pm::before, .rm-pm::after { content: ""; position: absolute; left: 0; top: 50%; width: 100%; height: 1.5px; margin-top: -.75px; background: currentColor; border-radius: 1px; }
+.rm-pm::after { transform: rotate(90deg); }
+html.motion .rm-pm::after, html.motion .rm-pm::before { transition: transform .45s var(--motion-ease, cubic-bezier(.22,1,.36,1)); }
+[aria-expanded="true"] .rm-pm::after, .rm-pm[data-open]::after { transform: rotate(0deg); }
+[aria-expanded="true"] .rm-pm::before, .rm-pm[data-open]::before { transform: rotate(180deg); }
+
+/* Images: zoom on hover. Product cards: zoom (DS), quick add slides up, stars fill on reveal. */
+.rm-zoom img { transition: transform 1.1s var(--motion-ease, cubic-bezier(.22,1,.36,1)); }
+html.motion .rm-zoom:is(:hover, :focus-within) img { transform: scale(1.06); }
+@media (hover: hover) {
+  html.motion [data-theme="roast"] article.group button[aria-label^="Add"] { transform: translateY(160%); opacity: 0; transition: transform .45s var(--motion-ease, cubic-bezier(.22,1,.36,1)), opacity .3s var(--motion-ease, cubic-bezier(.22,1,.36,1)), background-color .2s; }
+  html.motion [data-theme="roast"] article.group:is(:hover, :focus-within) button[aria-label^="Add"] { transform: none; opacity: 1; }
+}
+html.motion [data-theme="roast"] article.group button[aria-label^="Add"]:active { scale: .9; }
+html.motion [data-theme="roast"] [data-reveal-group][data-shown] [role="img"][aria-label$="out of 5 stars"] > span:last-child { animation: rm-stars 1.2s var(--motion-ease, cubic-bezier(.22,1,.36,1)) .25s both; }
+@keyframes rm-stars { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+/* Heading line mask and staggered rise. Inside a Section: plays when the section reveals (below the first screen).
+   Under .rm-load: plays on load (first-screen blocks). */
+.rm-mask { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+.rm-line { display: block; }
+html.motion [data-pending] .rm-line { transform: translateY(105%); }
+html.motion [data-shown] .rm-line { animation: rm-line .95s var(--motion-ease, cubic-bezier(.22,1,.36,1)) both; animation-delay: var(--d, 0ms); }
+html.motion .rm-load .rm-line { animation: rm-line 1.05s var(--motion-ease, cubic-bezier(.22,1,.36,1)) both; animation-delay: calc(var(--d, 0ms) + 120ms); }
+@keyframes rm-line { from { transform: translateY(105%); } to { transform: none; } }
+html.motion [data-pending] .rm-rise { opacity: 0; }
+html.motion [data-shown] .rm-rise, html.motion .rm-load .rm-rise { animation: rm-rise .9s var(--motion-ease, cubic-bezier(.22,1,.36,1)) both; animation-delay: var(--d, 0ms); }
+@keyframes rm-rise { from { opacity: 0; transform: translateY(var(--motion-distance, 28px)); } }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="roast"] :is(a, button)[class*="rounded-button"]::before, .rm-roll > span, .rm-ul, .rm-zoom img { transition: none !important; }
+}
+
+[data-theme="roast"] .h39-burger span { position: absolute; left: 11px; right: 11px; height: 1.5px; background: currentColor; border-radius: 2px; transition: translate .45s var(--motion-ease), rotate .45s var(--motion-ease); }
+[data-theme="roast"] .h39-burger span:first-child { translate: 0 -4px; }
+[data-theme="roast"] .h39-burger span:last-child { translate: 0 4px; }
+[data-theme="roast"] .h39-burger[aria-expanded="true"] span:first-child { translate: 0 0; rotate: 45deg; }
+[data-theme="roast"] .h39-burger[aria-expanded="true"] span:last-child { translate: 0 0; rotate: -45deg; }
+[data-theme="roast"] [aria-current="page"] > .rm-ul { background-size: 100% 1px; background-position: 0 100%; }
+html.motion [data-theme="roast"] .h39-sheet[data-open] .h39-item { animation: rm-rise .8s var(--motion-ease) both; animation-delay: var(--d); }
+@keyframes ph80-spin { to { rotate: 360deg; } } html.motion .ph80-ring { animation: ph80-spin 30s linear infinite; }
+@keyframes f30-pulse { 0% { box-shadow: 0 0 0 0 color-mix(in oklab, currentColor 55%, transparent); } 70%, 100% { box-shadow: 0 0 0 9px transparent; } }
+html.motion .f30-dot { animation: f30-pulse 2s cubic-bezier(.22,1,.36,1) infinite; }
+</style><meta name="robots" content="noindex, nofollow"/><meta name="next-size-adjust" content=""/><meta name="robots" content="noindex, nofollow"><title>Page header, help · Roast</title></head><body class="bg-bg"><div data-theme="roast" class="_9r9Ruq_variable bzeDxq_variable fV9fLq_variable OgZcfW_variable ff9q3q_variable g1S1oW_variable hrY6zq_variable uI-2uW_variable NQZxfG_variable VC18ba_variable haR_Xq_variable U3Bc3G_variable Bw1OkW_variable msubAa_variable xaN0Gq_variable I0A85q_variable -AbhhG_variable _0pDvPW_variable _0JAMpW_variable pOz78W_variable m6dhkW_variable hglmMG_variable qPJFCq_variable GTeQ1q_variable _2k9p9a_variable _7V0zFG_variable xVKFYW_variable _14EhFq_variable eTmprG_variable _8SfMSG_variable vahjGq_variable G5TzgW_variable _1yIbrG_variable MVNhTG_variable GozIQa_variable zUoora_variable Qkrphq_variable Y2qzUq_variable GnuVlW_variable _9INEga_variable x9fqQG_variable xiq7la_variable OOIKGq_variable eE8WqG_variable _8AZuyG_variable lCC5Hq_variable YzdJZq_variable kal4vG_variable UpaEsW_variable _hTXFW_variable nx7nPa_variable bg-bg font-body text-text"><section aria-label="Help centre" class="@container w-full bg-pop-4 text-on-pop-4 rm-load relative z-[1]"><div data-reveal-group="" class="mx-auto max-w-page px-4 py-14 @3xl:px-8 @3xl:py-20 relative grid gap-10 @4xl:grid-cols-12 @4xl:items-center @4xl:gap-8"><div class="order-2 @4xl:order-1 @4xl:col-span-8"><nav aria-label="Breadcrumb" class="font-mono text-label uppercase tracking-[0.08em] opacity-80"><ol class="flex gap-2"><li><a href="#" class="rm-ul no-underline">Home</a></li><li aria-hidden="true">/</li><li aria-current="page">Help</li></ol></nav><h1 class="mt-8 font-heading text-[clamp(2.75rem,7cqw,6rem)] leading-[0.92] font-extrabold tracking-[-0.045em]"><span class="rm-mask"><span class="rm-line" style="--d:0ms">Questions,</span></span><span class="rm-mask"><span class="rm-line" style="--d:110ms"><em>answered.</em></span></span></h1><p class="rm-rise mt-6 max-w-[46ch] text-[1.0625rem] leading-relaxed opacity-90" style="--d:300ms">Shipping, grinds, pausing a subscription, your first pour-over. If it isn’t here, write to the bar.</p><ul class="mt-8 flex flex-wrap gap-2"><li class="rm-rise" style="--d:380ms"><a href="#faq-0" class="group inline-flex h-12 items-center gap-3 rounded-full border border-current/40 pr-4 pl-2 no-underline transition-colors duration-300 hover:bg-on-pop-4 hover:text-pop-4 focus-visible:bg-on-pop-4 focus-visible:text-pop-4 focus-visible:outline-none"><span class="grid size-8 place-items-center rounded-full bg-current/15 font-mono text-xs">4</span><span class="font-medium">Orders &amp; shipping</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down rm-nudge size-4" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a></li><li class="rm-rise" style="--d:450ms"><a href="#faq-1" class="group inline-flex h-12 items-center gap-3 rounded-full border border-current/40 pr-4 pl-2 no-underline transition-colors duration-300 hover:bg-on-pop-4 hover:text-pop-4 focus-visible:bg-on-pop-4 focus-visible:text-pop-4 focus-visible:outline-none"><span class="grid size-8 place-items-center rounded-full bg-current/15 font-mono text-xs">3</span><span class="font-medium">Subscriptions</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down rm-nudge size-4" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a></li><li class="rm-rise" style="--d:520ms"><a href="#faq-2" class="group inline-flex h-12 items-center gap-3 rounded-full border border-current/40 pr-4 pl-2 no-underline transition-colors duration-300 hover:bg-on-pop-4 hover:text-pop-4 focus-visible:bg-on-pop-4 focus-visible:text-pop-4 focus-visible:outline-none"><span class="grid size-8 place-items-center rounded-full bg-current/15 font-mono text-xs">3</span><span class="font-medium">Brewing</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down rm-nudge size-4" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a></li><li class="rm-rise" style="--d:590ms"><a href="#faq-3" class="group inline-flex h-12 items-center gap-3 rounded-full border border-current/40 pr-4 pl-2 no-underline transition-colors duration-300 hover:bg-on-pop-4 hover:text-pop-4 focus-visible:bg-on-pop-4 focus-visible:text-pop-4 focus-visible:outline-none"><span class="grid size-8 place-items-center rounded-full bg-current/15 font-mono text-xs">2</span><span class="font-medium">Wholesale</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down rm-nudge size-4" aria-hidden="true"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg></a></li></ul></div><div aria-hidden="true" class="relative order-1 mx-auto grid size-40 place-items-center @3xl:size-52 @4xl:order-2 @4xl:col-span-4 @4xl:-mb-40 @4xl:size-[min(100%,340px)] @4xl:self-end"><svg viewBox="0 0 100 100" class="ph80-ring absolute inset-0 size-full"><defs><path id="ph80-circle" d="M50 50 m-46 0 a46 46 0 1 1 92 0 a46 46 0 1 1 -92 0"></path></defs><text class="fill-current font-mono text-[5.6px] uppercase tracking-[0.2em]"><textPath href="#ph80-circle">Still stuck? The bar answers every message · </textPath></text></svg><div class="size-[82%] overflow-hidden rounded-full shadow-md"><img src="https://images.unsplash.com/photo-1572286258217-40142c1c6a70?w=700&amp;q=80&amp;auto=format&amp;fit=crop" alt="" class="size-full object-cover"/></div></div></div></section></div></body></html>

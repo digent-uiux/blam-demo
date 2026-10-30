@@ -1,0 +1,17 @@
+{
+  "blko": {
+    "store_locator_08": {
+      "locations": "Locations",
+      "hours": "Hours",
+      "today": "Today",
+      "closed": "Closed",
+      "closed_today": "Closed today",
+      "open_today": "Open today [o] – [c]",
+      "open_now": "Open now · until [c]",
+      "closed_now": "Closed now · opens [o]",
+      "at_bar": "At this bar",
+      "directions": "Get directions",
+      "call": "Call"
+    }
+  }
+}

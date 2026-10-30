@@ -1,0 +1,242 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-collection-list-68.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-collection-list-68.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- comment -%}
+  Halden "Shop by brew" (roast): huge Syne rows split by hairlines (index + count, name, arrow circle). Motion with a fine
+  pointer from 768px: a cursor image trail of the rows' photos, the hovered row slides right and the others dim. Static,
+  reduced motion and touch: each row shows its photo inline as a small tilted thumb.
+{%- endcomment -%}
+{%- capture body -%}
+<div class="bcollectionlist68__head"
+  ><h2 class="bcollectionlist68__title"><span class="rm-mask"><span class="rm-line">{{ s.heading }}</span></span></h2
+  ><div class="rm-rise bcollectionlist68__side"
+    >{%- if s.lead != blank -%}<p class="bcollectionlist68__lead">{{ s.lead | escape }}</p>{%- endif -%}
+    {%- if s.count != blank -%}<p class="bcollectionlist68__label bcollectionlist68__muted">{{ s.count | escape }}</p>{%- endif -%}
+  </div
+></div
+><div class="bcollectionlist68__wrap"
+  ><ul class="bcollectionlist68__list" data-list{% if s.trail %} data-trail-ok{% endif %}
+    >{%- for b in section.blocks limit: 8 -%}
+      {%- liquid
+        assign c = collections[b.settings.collection]
+        assign name = b.settings.label
+        if name == blank and c != blank
+          assign name = c.title
+        endif
+        assign im = b.settings.image
+        if im == blank and c != blank
+          assign im = c.featured_image
+        endif
+        assign url = routes.collections_url
+        if c != blank
+          assign url = c.url
+        endif
+        assign count = b.settings.count
+        if count == blank and c != blank
+          assign count = c.products_count | append: ' products'
+        endif
+        assign alt = b.settings.alt | default: name
+      -%}
+      <li class="rm-rise bcollectionlist68__row" data-row="{{ forloop.index0 }}" style="--d:{{ forloop.index0 | times: 70 }}ms" {{ b.shopify_attributes }}
+        ><a href="{{ url }}" class="bcollectionlist68__a"
+          ><span class="bcollectionlist68__thumb"
+            >{%- if im != blank -%}{{ im | image_url: width: 160 | image_tag: alt: '', loading: 'lazy', class: 'bcollectionlist68__img' }}{%- else -%}{{ 'collection-2' | placeholder_svg_tag: 'bcollectionlist68__img' }}{%- endif -%}
+          </span
+          ><span class="bcollectionlist68__label bcollectionlist68__idx"><span>{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span><span class="bcollectionlist68__muted">{{ count | escape }}</span></span
+          ><span class="bcollectionlist68__nm"
+            ><span class="bcollectionlist68__name">{{ name | escape }}</span
+            ><span class="bcollectionlist68__inl"{% if im != blank %} data-src="{{ im | image_url: width: 400 }}"{% endif %}
+              >{%- if im != blank -%}{{ im | image_url: width: 200 | image_tag: alt: alt, loading: 'lazy', class: 'bcollectionlist68__img' }}{%- else -%}{{ 'collection-2' | placeholder_svg_tag: 'bcollectionlist68__img' }}{%- endif -%}
+            </span
+            ><span class="bcollectionlist68__label bcollectionlist68__muted bcollectionlist68__cnt">{{ count | escape }}</span
+          ></span
+          ><span aria-hidden="true" class="bcollectionlist68__circ">{%- render 'blko-ui-icon', name: 'arrow-up-right', size: 20, className: 'bcollectionlist68__arr' -%}</span
+        ></a
+      ></li
+    >{%- endfor -%}
+  </ul
+  ><div aria-hidden="true" class="bcollectionlist68__layer" data-layer hidden></div
+></div
+>{%- endcapture -%}
+<div class="bcollectionlist68" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-bcollectionlist68
+  >{%- render 'blko-ui-section', surface: 'alt', label: s.label, inner: 'bcollectionlist68__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Collection list 68",
+  "tag": "div",
+  "class": "blko-bundle",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Shop by brew"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (wrap a word in <em>)",
+      "default": "Shop by <em>brew</em>"
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Lead",
+      "default": "Pick how you make it at home. We’ll match the roast, the grind and the gear."
+    },
+    {
+      "type": "text",
+      "id": "count",
+      "label": "Count line",
+      "default": "05 ways in · 85 products"
+    },
+    {
+      "type": "checkbox",
+      "id": "trail",
+      "label": "Cursor image trail (desktop)",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Collection",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label (blank = collection title)",
+          "default": "Espresso"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (blank = collection image)"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Image alt",
+          "default": "An espresso shot pouring from a machine into a small glass"
+        },
+        {
+          "type": "text",
+          "id": "count",
+          "label": "Count label (blank = product count)",
+          "default": "18 coffees"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection list 68",
+      "blocks": [
+        {
+          "type": "row",
+          "settings": {
+            "label": "Espresso",
+            "count": "18 coffees",
+            "alt": "An espresso shot pouring from a machine into a small glass"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Filter",
+            "count": "24 coffees",
+            "alt": "Hot water poured over a paper filter coffee dripper"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Cold brew",
+            "count": "6 blends",
+            "alt": "Iced coffee in a tall glass with milk swirling through it"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Tea & matcha",
+            "count": "15 teas",
+            "alt": "A bowl of whisked green matcha on a wooden board"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Gear",
+            "count": "22 tools",
+            "alt": "A hand grinder, kettle and brewing tools laid out on a counter"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,188 @@
+{
+  "sections": {
+    "search-results-29": {
+      "type": "blko-search-results-29",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "chip-1": {
+          "type": "chip",
+          "settings": {
+            "term": "matcha"
+          }
+        },
+        "chip-2": {
+          "type": "chip",
+          "settings": {
+            "term": "oolong"
+          }
+        },
+        "chip-3": {
+          "type": "chip",
+          "settings": {
+            "term": "teapot"
+          }
+        },
+        "chip-4": {
+          "type": "chip",
+          "settings": {
+            "term": "cold brew"
+          }
+        },
+        "chip-5": {
+          "type": "chip",
+          "settings": {
+            "term": "gift"
+          }
+        },
+        "popular-6": {
+          "type": "popular",
+          "settings": {
+            "term": "tea"
+          }
+        },
+        "popular-7": {
+          "type": "popular",
+          "settings": {
+            "term": "green tea"
+          }
+        },
+        "popular-8": {
+          "type": "popular",
+          "settings": {
+            "term": "loose leaf"
+          }
+        },
+        "popular-9": {
+          "type": "popular",
+          "settings": {
+            "term": "oolong"
+          }
+        },
+        "popular-10": {
+          "type": "popular",
+          "settings": {
+            "term": "teapot"
+          }
+        },
+        "product-11": {
+          "type": "product",
+          "settings": {
+            "title": "Sencha Asahi, first flush",
+            "vendor": "Japan · Green tea · 50 g",
+            "price": 18,
+            "value": "4.8",
+            "count": 126,
+            "keys": "green tea sencha loose leaf",
+            "label": "New harvest",
+            "tone": "surface"
+          }
+        },
+        "product-12": {
+          "type": "product",
+          "settings": {
+            "title": "Assam Breakfast",
+            "vendor": "India · Black tea · 100 g",
+            "price": 14,
+            "value": "4.7",
+            "count": 208,
+            "keys": "tea black breakfast milk loose leaf"
+          }
+        },
+        "product-13": {
+          "type": "product",
+          "settings": {
+            "title": "Ruby Oolong, spring lot",
+            "vendor": "Taiwan · Oolong · 50 g",
+            "price": 28,
+            "value": "4.9",
+            "count": 64,
+            "keys": "tea oolong loose leaf"
+          }
+        },
+        "product-14": {
+          "type": "product",
+          "settings": {
+            "title": "Clay Teapot, 350 ml",
+            "vendor": "Brew gear · Hand thrown",
+            "price": 64,
+            "value": "4.8",
+            "count": 41,
+            "keys": "tea teapot gear gift clay"
+          }
+        },
+        "product-15": {
+          "type": "product",
+          "settings": {
+            "title": "Hibiscus Cold Brew Bags",
+            "vendor": "Herbal · 12 bags",
+            "price": 16,
+            "value": "4.6",
+            "count": 87,
+            "keys": "tea cold brew iced herbal hibiscus"
+          }
+        },
+        "product-16": {
+          "type": "product",
+          "settings": {
+            "title": "Hojicha Latte Powder",
+            "vendor": "Japan · Roasted green tea · 80 g",
+            "price": 22,
+            "value": "4.7",
+            "count": 112,
+            "keys": "tea latte hojicha matcha powder gift"
+          }
+        },
+        "story-17": {
+          "type": "story",
+          "settings": {
+            "cat": "Tea",
+            "read": "6 min read",
+            "title": "Brewing outside: a flask, a leaf, a cold morning",
+            "dek": "Grandpa-style tea for walks, and which leaves can sit in the water all day.",
+            "keys": "tea oolong leaf"
+          }
+        },
+        "story-18": {
+          "type": "story",
+          "settings": {
+            "cat": "Tea",
+            "read": "5 min read",
+            "title": "Why we rest our oolong for a week before it ships",
+            "dek": "Fresh off the roaster, it tastes of the pan. Seven days later, it tastes of the mountain.",
+            "keys": "tea oolong leaf"
+          }
+        },
+        "page-19": {
+          "type": "page",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "chip-1",
+        "chip-2",
+        "chip-3",
+        "chip-4",
+        "chip-5",
+        "popular-6",
+        "popular-7",
+        "popular-8",
+        "popular-9",
+        "popular-10",
+        "product-11",
+        "product-12",
+        "product-13",
+        "product-14",
+        "product-15",
+        "product-16",
+        "story-17",
+        "story-18",
+        "page-19"
+      ]
+    }
+  },
+  "order": [
+    "search-results-29"
+  ]
+}

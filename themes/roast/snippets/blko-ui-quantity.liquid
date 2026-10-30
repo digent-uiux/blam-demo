@@ -1,0 +1,17 @@
+{%- comment -%}Quantity(value?, min=1, max=99, size='md', label='Quantity', className). Emits bubbling blko-ui:change with {value}. Optional name adds a form input.{%- endcomment -%}
+{%- liquid
+  assign qty_min = min | default: 1
+  assign qty_max = max | default: 99
+  assign qty_value = value | default: qty_min
+  assign qty_label = label
+  if qty_label == blank
+    assign qty_label = 'blko_ui.quantity.label' | t
+  endif
+  assign qty_action_label = qty_label | downcase
+-%}
+<blko-ui-quantity role="group" aria-label="{{ qty_label | escape }}" class="blko-ui-quantity blko-ui-quantity--{{ size | default: 'md' }} {{ className }}" data-min="{{ qty_min }}" data-max="{{ qty_max }}">
+  <button type="button" data-step="-1" aria-label="{{ 'blko_ui.quantity.decrease' | t: label: qty_action_label | escape }}"{% if qty_value <= qty_min %} disabled{% endif %}>{% render 'blko-ui-icon', name: 'minus' %}</button>
+  <span aria-live="polite" data-value>{{ qty_value }}</span>
+  <button type="button" data-step="1" aria-label="{{ 'blko_ui.quantity.increase' | t: label: qty_action_label | escape }}"{% if qty_value >= qty_max %} disabled{% endif %}>{% render 'blko-ui-icon', name: 'plus' %}</button>
+  {% if name != blank %}<input type="hidden" name="{{ name | escape }}" value="{{ qty_value }}">{% endif %}
+</blko-ui-quantity>

@@ -1,0 +1,78 @@
+{
+  "blko_ui": {
+    "price": {
+      "from": "From",
+      "was": "Was",
+      "save": "Save"
+    },
+    "rating": {
+      "stars": "{{ value }} out of 5 stars"
+    },
+    "quantity": {
+      "label": "Quantity",
+      "decrease": "Decrease {{ label }}",
+      "increase": "Increase {{ label }}"
+    },
+    "field": {
+      "optional": "(optional)"
+    },
+    "option": {
+      "sold_out": "sold out"
+    },
+    "product": {
+      "save": "Save {{ title }}",
+      "add": "Add {{ title }} to bag",
+      "colors": "{{ count }} colours"
+    },
+    "payment": {
+      "label": "Payment methods we accept",
+      "card": "Card",
+      "wallet": "Wallet",
+      "pay_later": "Pay later",
+      "bank": "Bank",
+      "gift_card": "Gift card"
+    }
+  },
+  "blko": {
+    "cart_page_35": {
+      "item": "[n] item",
+      "items": "[n] items",
+      "left_a": "You’re",
+      "left_b": "from free shipping",
+      "unlocked": "Free shipping unlocked",
+      "free_over": "Free over [x]",
+      "progress": "Progress to free shipping",
+      "lines": "Items in your bag",
+      "grind": "Grind",
+      "size": "Size",
+      "subscribe": "Subscribe & save [p]%",
+      "every": "Every",
+      "qty_of": "Quantity of [name]",
+      "dec": "Decrease quantity of [name]",
+      "inc": "Increase quantity of [name]",
+      "rm_name": "Remove [name]",
+      "remove": "Remove",
+      "was": "Was",
+      "gift": "This order is a gift",
+      "gift_hint": "We leave prices off the slip and add your note on a card.",
+      "gift_note": "Gift note",
+      "gift_ph": "Happy brewing. Start with the Kenya.",
+      "summary": "Summary",
+      "aside": "Order summary",
+      "items_row": "Items",
+      "sub_save": "Subscribe & save",
+      "code": "Code",
+      "shipping": "Shipping",
+      "free": "Free",
+      "discount": "Discount code",
+      "apply": "Apply",
+      "bad_code": "That code isn’t valid. Try [code].",
+      "bad_live": "That code isn’t valid for this bag.",
+      "no_code": "Enter a code first.",
+      "total": "Total",
+      "tax": "Tax included",
+      "checkout": "Check out",
+      "restore": "Restore my bag"
+    }
+  }
+}

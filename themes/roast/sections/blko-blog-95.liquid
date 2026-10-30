@@ -1,0 +1,288 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-blog-95.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-blog-95.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- liquid
+  assign src = blog
+  if s.blog != blank
+    assign src = s.blog
+  endif
+  assign live = false
+  if src != blank and src.articles_count > 1
+    assign live = true
+  endif
+  if src != blank and article == blank and src.articles_count > 0
+    assign live = true
+  endif
+  assign all_href = s.all_link | default: src.url | default: routes.root_url
+-%}
+{%- capture body -%}
+  <header class="bblog95__head"
+    ><div class="bblog95__titles"
+      ><p class="bblog95__label rm-rise bblog95__muted">{{ s.eyebrow | escape }}</p
+      ><h2 class="bblog95__h2"><span class="rm-mask"><span class="rm-line" style="--d:0ms">{{ s.heading | escape }} <em>{{ s.accent | escape }}</em></span></span></h2
+    ></div
+    ><div class="bblog95__ctrl"
+      >{%- if s.all_text != blank -%}<a href="{{ all_href }}" class="bblog95__all"><span class="rm-ul">{{ s.all_text | escape }}</span></a>{%- endif -%}
+      {%- capture prev_icon -%}{% render 'blko-ui-icon', name: 'arrow-left', size: 16, className: 'rm-nudge' %}{%- endcapture -%}
+      {%- capture next_icon -%}{% render 'blko-ui-icon', name: 'arrow-right', size: 16, className: 'rm-nudge' %}{%- endcapture -%}
+      {%- capture prev_label -%}{{ 'blko.blog_95.prev' | t }}{%- endcapture -%}
+      {%- capture next_label -%}{{ 'blko.blog_95.next' | t }}{%- endcapture -%}
+      {%- render 'blko-ui-button', variant: 'outline', size: 'icon', label: prev_label, attrs: 'data-go="-1" disabled', children: prev_icon -%}
+      {%- render 'blko-ui-button', variant: 'outline', size: 'icon', label: next_label, attrs: 'data-go="1"', children: next_icon -%}
+    </div
+  ></header
+  ><div class="bblog95__railwrap"
+    ><ol aria-label="{{ 'blko.blog_95.rail' | t }}" class="bblog95__rail" data-rail
+      >{%- if live -%}
+        {%- assign n = 0 -%}
+        {%- for a in src.articles limit: 6 -%}
+          {%- if article and a.id == article.id -%}{%- continue -%}{%- endif -%}
+          {%- if n >= 3 -%}{%- break -%}{%- endif -%}
+          {%- liquid
+            assign n = n | plus: 1
+            assign words = a.content | strip_html | split: ' ' | size
+            assign mins = words | divided_by: 200 | floor | at_least: 1
+            assign cat = a.tags.first | default: src.title
+            assign num = n | prepend: '0' | slice: -2, 2
+          -%}
+      <li class="rm-rise bblog95__slide" style="--d:{{ n | minus: 1 | times: 100 }}ms"
+        ><a href="{{ a.url }}" class="rm-zoom bblog95__card"
+          ><span aria-hidden="true" class="bblog95__num">{{ num }}</span
+          ><div class="bblog95__photo"
+            >{%- if a.image -%}{{ a.image | image_url: width: 1200 | image_tag: class: 'bblog95__img', loading: 'lazy', widths: '600, 900, 1200', sizes: '(min-width: 768px) 62vw, 84vw', alt: a.image.alt | default: a.title }}{%- else -%}{{ 'image' | placeholder_svg_tag: 'bblog95__img placeholder-svg' }}{%- endif -%}
+          </div
+          ><div class="bblog95__meta"
+            ><div class="bblog95__copy"
+              ><p class="bblog95__label bblog95__muted">{{ cat | escape }} · {{ mins }} {{ 'blko.blog_95.min_read' | t }}</p
+              ><h3 class="bblog95__h3"><span class="rm-ul">{{ a.title | escape }}</span></h3
+              ><p class="bblog95__dek">{{ a.excerpt_or_content | strip_html | truncatewords: 16 }}</p
+            ></div
+            ><span class="bblog95__more">{{ s.more_text | escape }} {% render 'blko-ui-icon', name: 'arrow-right', size: 16, className: 'rm-nudge' %}</span
+          ></div
+        ></a
+      ></li
+        >{%- endfor -%}
+      {%- else -%}
+        {%- for b in section.blocks -%}
+          {%- assign num = forloop.index | prepend: '0' | slice: -2, 2 -%}
+      <li class="rm-rise bblog95__slide" style="--d:{{ forloop.index0 | times: 100 }}ms" {{ b.shopify_attributes }}
+        ><a href="{{ b.settings.link | default: '#' }}" class="rm-zoom bblog95__card"
+          ><span aria-hidden="true" class="bblog95__num">{{ num }}</span
+          ><div class="bblog95__photo"
+            >{%- if b.settings.image != blank -%}{{ b.settings.image | image_url: width: 1200 | image_tag: class: 'bblog95__img', loading: 'lazy', widths: '600, 900, 1200', sizes: '(min-width: 768px) 62vw, 84vw', alt: b.settings.image.alt }}{%- else -%}{{ 'image' | placeholder_svg_tag: 'bblog95__img placeholder-svg' }}{%- endif -%}
+          </div
+          ><div class="bblog95__meta"
+            ><div class="bblog95__copy"
+              ><p class="bblog95__label bblog95__muted">{{ b.settings.cat | escape }} · {{ b.settings.read | escape }}</p
+              ><h3 class="bblog95__h3"><span class="rm-ul">{{ b.settings.title | escape }}</span></h3
+              ><p class="bblog95__dek">{{ b.settings.dek | escape }}</p
+            ></div
+            ><span class="bblog95__more">{{ s.more_text | escape }} {% render 'blko-ui-icon', name: 'arrow-right', size: 16, className: 'rm-nudge' %}</span
+          ></div
+        ></a
+      ></li
+        >{%- endfor -%}
+      {%- endif -%}
+    </ol
+    ><span aria-hidden="true" class="bblog95__track"><span data-bar style="transform:scaleX(0.15)"></span></span
+  ></div
+>{%- endcapture -%}
+<div class="bblog95" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-rm-magnetic
+  >{%- render 'blko-ui-section', surface: 'alt', label: s.label, inner: 'bblog95__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Blog, keep reading",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Shows three more posts from the blog (the current post left out). The cards below fill in when the blog is empty."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Keep reading"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "More from the journal"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Keep"
+    },
+    {
+      "type": "text",
+      "id": "accent",
+      "label": "Heading accent word",
+      "default": "reading"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Related from blog",
+      "info": "Defaults to the current blog."
+    },
+    {
+      "type": "text",
+      "id": "all_text",
+      "label": "All link label",
+      "default": "All stories"
+    },
+    {
+      "type": "url",
+      "id": "all_link",
+      "label": "All link"
+    },
+    {
+      "type": "text",
+      "id": "more_text",
+      "label": "Read more label",
+      "default": "Read more"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "post",
+      "name": "Story card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "cat",
+          "label": "Category",
+          "default": "Brew guides"
+        },
+        {
+          "type": "text",
+          "id": "read",
+          "label": "Read time",
+          "default": "6 min read"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Keeping a brew journal that you will actually use"
+        },
+        {
+          "type": "text",
+          "id": "dek",
+          "label": "Dek",
+          "default": "Four columns, one notebook, and the window seat where we write them up."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog, keep reading",
+      "blocks": [
+        {
+          "type": "post",
+          "settings": {
+            "cat": "Brew guides",
+            "read": "6 min read",
+            "title": "Keeping a brew journal that you will actually use",
+            "dek": "Four columns, one notebook, and the window seat where we write them up."
+          }
+        },
+        {
+          "type": "post",
+          "settings": {
+            "cat": "Notes from the bar",
+            "read": "4 min read",
+            "title": "Milk drinks with a light roast, without losing the fruit",
+            "dek": "Smaller cups, cooler milk, and a ristretto that leans sweet."
+          }
+        },
+        {
+          "type": "post",
+          "settings": {
+            "cat": "Origins",
+            "read": "8 min read",
+            "title": "Black, on a plate of leaves: tasting our new Sumatra",
+            "dek": "Cedar, dark chocolate, and a finish that lasts as long as the conversation."
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

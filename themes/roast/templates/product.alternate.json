@@ -1,0 +1,341 @@
+{
+  "sections": {
+    "product-detail-41": {
+      "type": "blko-product-detail-41",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "note-1": {
+          "type": "note",
+          "settings": {
+            "label": "Blueberry",
+            "line": "Ripe, jammy fruit up front"
+          }
+        },
+        "note-2": {
+          "type": "note",
+          "settings": {
+            "label": "Cacao nib",
+            "line": "A dry, dark-chocolate middle"
+          }
+        },
+        "note-3": {
+          "type": "note",
+          "settings": {
+            "label": "Jasmine",
+            "line": "Floral lift as it cools"
+          }
+        },
+        "note-4": {
+          "type": "note",
+          "settings": {
+            "label": "Honey",
+            "line": "A long, sweet finish"
+          }
+        },
+        "info-5": {
+          "type": "info",
+          "settings": {
+            "title": "Details",
+            "body": "<p>Heirloom Ethiopian varieties grown at 2,100 m by 640 smallholders around Hambela. Dried whole on raised beds for 21 days. Roasted light for filter, with an omni curve that also pulls a fruity espresso.</p>"
+          }
+        },
+        "info-6": {
+          "type": "info",
+          "settings": {
+            "title": "Shipping & returns",
+            "body": "<p>Roasted Monday, shipped Tuesday in a recyclable valve bag. Free shipping over $45, otherwise $5. If a bag isn't for you, tell us within 30 days and we'll swap it or refund it.</p>"
+          }
+        },
+        "info-7": {
+          "type": "info",
+          "settings": {
+            "title": "Brew notes",
+            "body": "<p>Pour-over: 15 g to 250 g water at 94 °C, 3:00 total. Espresso: 18 g in, 40 g out in 28 s. Rest the beans 7 days after the roast date for the sweetest cup.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "note-1",
+        "note-2",
+        "note-3",
+        "note-4",
+        "info-5",
+        "info-6",
+        "info-7"
+      ]
+    },
+    "product-story-60": {
+      "type": "blko-product-story-60",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "fact-1": {
+          "type": "fact",
+          "settings": {
+            "key": "Altitude",
+            "value": "2,100",
+            "unit": "m",
+            "note": "Hambela Wamena, Guji zone"
+          }
+        },
+        "fact-2": {
+          "type": "fact",
+          "settings": {
+            "key": "Variety",
+            "value": "74158",
+            "unit": "",
+            "note": "Heirloom selections, JARC"
+          }
+        },
+        "fact-3": {
+          "type": "fact",
+          "settings": {
+            "key": "Process",
+            "value": "21",
+            "unit": "days",
+            "note": "Natural, on raised beds"
+          }
+        }
+      },
+      "block_order": [
+        "fact-1",
+        "fact-2",
+        "fact-3"
+      ]
+    },
+    "recipe-03": {
+      "type": "blko-recipe-03",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "brewer-1": {
+          "type": "brewer",
+          "settings": {
+            "name": "Pour-over",
+            "ratio": "1 : 16",
+            "dose": "15 g · medium-fine",
+            "water": "94 °C · 240 g",
+            "total": 180,
+            "steps": "0 | Bloom with 40 g of water and swirl the bed gently.\n40 | Pour slow spirals to 150 g, keeping off the paper.\n75 | Pause for ten seconds, then pour to 240 g.\n110 | Give one soft swirl so the bed drains flat.\n150 | Let it draw down. Done near 3:00. Pour and wait two minutes; the blueberry opens as it cools."
+          }
+        },
+        "brewer-2": {
+          "type": "brewer",
+          "settings": {
+            "name": "Press brewer",
+            "ratio": "1 : 13",
+            "dose": "17 g · fine-medium",
+            "water": "88 °C · 220 g",
+            "total": 120,
+            "steps": "0 | Set it inverted, add the coffee and pour all 220 g.\n10 | Stir three times, cap it with a rinsed filter.\n60 | Flip onto your cup at one minute.\n75 | Press slow and steady for thirty seconds.\n105 | Stop at the hiss. Top with 30 g hot water if you like it longer."
+          }
+        },
+        "brewer-3": {
+          "type": "brewer",
+          "settings": {
+            "name": "French press",
+            "ratio": "1 : 15",
+            "dose": "30 g · coarse",
+            "water": "95 °C · 450 g",
+            "total": 240,
+            "steps": "0 | Pour all 450 g over the grounds, start the clock.\n30 | Leave the crust to form. Don't stir.\n210 | Break the crust and skim off the foam and floaters.\n230 | Set the plunger at the surface; don't push it down. Pour slow."
+          }
+        }
+      },
+      "block_order": [
+        "brewer-1",
+        "brewer-2",
+        "brewer-3"
+      ]
+    },
+    "reviews-54": {
+      "type": "blko-reviews-54",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "tag-1": {
+          "type": "tag",
+          "settings": {
+            "label": "Fruity",
+            "share": 82
+          }
+        },
+        "tag-2": {
+          "type": "tag",
+          "settings": {
+            "label": "Sweet",
+            "share": 64
+          }
+        },
+        "tag-3": {
+          "type": "tag",
+          "settings": {
+            "label": "Blueberry",
+            "share": 58
+          }
+        },
+        "tag-4": {
+          "type": "tag",
+          "settings": {
+            "label": "Floral",
+            "share": 41
+          }
+        },
+        "tag-5": {
+          "type": "tag",
+          "settings": {
+            "label": "Juicy",
+            "share": 37
+          }
+        },
+        "tag-6": {
+          "type": "tag",
+          "settings": {
+            "label": "Chocolate",
+            "share": 29
+          }
+        },
+        "tag-7": {
+          "type": "tag",
+          "settings": {
+            "label": "Winey",
+            "share": 18
+          }
+        },
+        "tag-8": {
+          "type": "tag",
+          "settings": {
+            "label": "Tea-like",
+            "share": 12
+          }
+        },
+        "review-9": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "name": "Hedda L.",
+            "title": "Blueberry muffin in a cup",
+            "body": "Third bag now. As a pour-over at 1:16 it tastes like blueberry jam on toast, then something floral once it cools. Rest it a week; it's quiet the first few days.",
+            "grind": "Whole bean · Cone dripper",
+            "date": "Oct 21, 2026",
+            "helpful": 48
+          }
+        },
+        "review-10": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "name": "Tomás R.",
+            "title": "The one that made me buy a grinder",
+            "body": "I didn't believe the notes until I tried it side by side with a supermarket bag. Sweet, juicy, no bitterness at all.",
+            "grind": "Filter grind · Glass brewer",
+            "date": "Oct 9, 2026",
+            "helpful": 31,
+            "dark": true
+          }
+        },
+        "review-11": {
+          "type": "review",
+          "settings": {
+            "stars": 4,
+            "name": "Priya S.",
+            "title": "Wild as espresso, lovely as milk drink",
+            "body": "Straight shots are a lot of fruit for me; as a flat white it's like strawberry milk. Took four shots to dial in at 18 in, 40 out.",
+            "grind": "Espresso grind",
+            "date": "Oct 17, 2026",
+            "helpful": 22
+          }
+        },
+        "review-12": {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "name": "Elliot H.",
+            "title": "Smells incredible when you open the bag",
+            "body": "Even the French press, which usually muddies everything, keeps the cacao and berry clear. Subscribed every 3 weeks.",
+            "grind": "French press grind",
+            "date": "Oct 26, 2026",
+            "helpful": 12
+          }
+        }
+      },
+      "block_order": [
+        "tag-1",
+        "tag-2",
+        "tag-3",
+        "tag-4",
+        "tag-5",
+        "tag-6",
+        "tag-7",
+        "tag-8",
+        "review-9",
+        "review-10",
+        "review-11",
+        "review-12"
+      ]
+    },
+    "recommendations-69": {
+      "type": "blko-recommendations-69",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "card-1": {
+          "type": "card",
+          "settings": {
+            "title": "Ember Espresso Blend",
+            "vendor": "Brazil · Colombia · Espresso",
+            "price": 22,
+            "value": "4.8",
+            "count": 341,
+            "label": "Bestseller",
+            "bundle_name": "Ember Espresso Blend · 250 g",
+            "note": "For milk drinks"
+          }
+        },
+        "card-2": {
+          "type": "card",
+          "settings": {
+            "title": "Bensa Washed",
+            "vendor": "Ethiopia · Filter",
+            "price": 26,
+            "value": "4.9",
+            "count": 88,
+            "bundle_name": "Bensa Washed · 250 g",
+            "note": "A clean contrast"
+          }
+        },
+        "card-3": {
+          "type": "card",
+          "settings": {
+            "title": "Shade-Grown Matcha, 30 g",
+            "vendor": "Japan · Ceremonial tea",
+            "price": 28,
+            "value": "4.7",
+            "count": 126,
+            "label": "Tea",
+            "bundle_name": "Shade-Grown Matcha · 30 g",
+            "note": "The afternoon cup"
+          }
+        }
+      },
+      "block_order": [
+        "card-1",
+        "card-2",
+        "card-3"
+      ]
+    }
+  },
+  "order": [
+    "product-detail-41",
+    "product-story-60",
+    "recipe-03",
+    "reviews-54",
+    "recommendations-69"
+  ]
+}

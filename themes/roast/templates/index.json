@@ -1,0 +1,436 @@
+{
+  "sections": {
+    "hero-56": {
+      "type": "blko-hero-56",
+      "settings": {
+        "tokens": "theme"
+      }
+    },
+    "marquee-gsap-05": {
+      "type": "blko-marquee-gsap-05",
+      "settings": {
+        "tokens": "theme"
+      }
+    },
+    "featured-products-59": {
+      "type": "blko-featured-products-59",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "card-1": {
+          "type": "card",
+          "settings": {
+            "title": "Guji Natural",
+            "vendor": "Ethiopia · Filter",
+            "price": 24,
+            "value": "4.9",
+            "count": 212,
+            "label": "New lot",
+            "tags": "Filter",
+            "alt": "Freshly roasted coffee beans in a bag on a counter"
+          }
+        },
+        "card-2": {
+          "type": "card",
+          "settings": {
+            "title": "Huila Pink Bourbon",
+            "vendor": "Colombia · Espresso",
+            "price": 22,
+            "value": "4.8",
+            "count": 164,
+            "tags": "Espresso, Filter",
+            "alt": "A cup of coffee with latte art beside scattered roasted beans"
+          }
+        },
+        "card-3": {
+          "type": "card",
+          "settings": {
+            "title": "Night Shift Decaf",
+            "vendor": "Peru · Swiss water",
+            "price": 19,
+            "value": "4.7",
+            "count": 98,
+            "tags": "Decaf, Espresso",
+            "alt": "A small cup of dark coffee on a saucer from above"
+          }
+        },
+        "card-4": {
+          "type": "card",
+          "settings": {
+            "title": "Yunnan Gold Black Tea",
+            "vendor": "China · Loose leaf",
+            "price": 26,
+            "value": "4.9",
+            "count": 73,
+            "tags": "Tea",
+            "alt": "Loose leaf tea in a small dish on a wooden table"
+          }
+        }
+      },
+      "block_order": [
+        "card-1",
+        "card-2",
+        "card-3",
+        "card-4"
+      ]
+    },
+    "scroll-images-08": {
+      "type": "blko-scroll-images-08",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "note-1": {
+          "type": "note",
+          "settings": {
+            "name": "Blueberry",
+            "copy": "The first sip: ripe, jammy fruit from a slow natural dry on raised beds.",
+            "detail": "Natural process · 21 days on beds",
+            "pop": "2"
+          }
+        },
+        "note-2": {
+          "type": "note",
+          "settings": {
+            "name": "Cacao",
+            "copy": "As it cools, a soft cocoa body rounds it out. Never bitter, never burnt.",
+            "detail": "Medium roast · drop at 204 °C",
+            "pop": "4"
+          }
+        },
+        "note-3": {
+          "type": "note",
+          "settings": {
+            "name": "Jasmine",
+            "copy": "A floral lift on the finish, the mark of heirloom Ethiopian varieties.",
+            "detail": "Guji · 2,100 m · heirloom",
+            "pop": "3"
+          }
+        },
+        "note-4": {
+          "type": "note",
+          "settings": {
+            "name": "Honey",
+            "copy": "It ends long and sweet. Brew it 1:16 at 94 °C and give it three and a half minutes.",
+            "detail": "1:16 · 94 °C · 3 min 30",
+            "pop": "1"
+          }
+        }
+      },
+      "block_order": [
+        "note-1",
+        "note-2",
+        "note-3",
+        "note-4"
+      ]
+    },
+    "collection-list-68": {
+      "type": "blko-collection-list-68",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "row-1": {
+          "type": "row",
+          "settings": {
+            "label": "Espresso",
+            "count": "18 coffees",
+            "alt": "An espresso shot pouring from a machine into a small glass"
+          }
+        },
+        "row-2": {
+          "type": "row",
+          "settings": {
+            "label": "Filter",
+            "count": "24 coffees",
+            "alt": "Hot water poured over a paper filter coffee dripper"
+          }
+        },
+        "row-3": {
+          "type": "row",
+          "settings": {
+            "label": "Cold brew",
+            "count": "6 blends",
+            "alt": "Iced coffee in a tall glass with milk swirling through it"
+          }
+        },
+        "row-4": {
+          "type": "row",
+          "settings": {
+            "label": "Tea & matcha",
+            "count": "15 teas",
+            "alt": "A bowl of whisked green matcha on a wooden board"
+          }
+        },
+        "row-5": {
+          "type": "row",
+          "settings": {
+            "label": "Gear",
+            "count": "22 tools",
+            "alt": "A hand grinder, kettle and brewing tools laid out on a counter"
+          }
+        }
+      },
+      "block_order": [
+        "row-1",
+        "row-2",
+        "row-3",
+        "row-4",
+        "row-5"
+      ]
+    },
+    "counters-40": {
+      "type": "blko-counters-40",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "stat-1": {
+          "type": "stat",
+          "settings": {
+            "value": "14",
+            "suffix": "",
+            "label": "Single origins this season"
+          }
+        },
+        "stat-2": {
+          "type": "stat",
+          "settings": {
+            "value": "38",
+            "suffix": "",
+            "label": "Partner farms"
+          }
+        },
+        "stat-3": {
+          "type": "stat",
+          "settings": {
+            "value": "72",
+            "suffix": " h",
+            "label": "From roast to your door"
+          }
+        },
+        "stat-4": {
+          "type": "stat",
+          "settings": {
+            "value": "4.9",
+            "decimals": 1,
+            "suffix": "",
+            "label": "Average of 3,200 reviews"
+          }
+        }
+      },
+      "block_order": [
+        "stat-1",
+        "stat-2",
+        "stat-3",
+        "stat-4"
+      ]
+    },
+    "subscription-07": {
+      "type": "blko-subscription-07",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "cadence-1": {
+          "type": "cadence",
+          "settings": {
+            "weeks": 2,
+            "off": 15
+          }
+        },
+        "cadence-2": {
+          "type": "cadence",
+          "settings": {
+            "weeks": 4,
+            "off": 10
+          }
+        },
+        "cadence-3": {
+          "type": "cadence",
+          "settings": {
+            "weeks": 6,
+            "off": 5
+          }
+        },
+        "style-4": {
+          "type": "style",
+          "settings": {
+            "label": "Bright"
+          }
+        },
+        "style-5": {
+          "type": "style",
+          "settings": {
+            "label": "Balanced"
+          }
+        },
+        "style-6": {
+          "type": "style",
+          "settings": {
+            "label": "Rich"
+          }
+        },
+        "style-7": {
+          "type": "style",
+          "settings": {
+            "label": "Roaster's choice"
+          }
+        },
+        "perk-8": {
+          "type": "perk",
+          "settings": {
+            "text": "Roasted to order, at your door within 72 hours"
+          }
+        },
+        "perk-9": {
+          "type": "perk",
+          "settings": {
+            "text": "Skip, swap or pause any time"
+          }
+        },
+        "perk-10": {
+          "type": "perk",
+          "settings": {
+            "text": "Free shipping on every delivery"
+          }
+        },
+        "perk-11": {
+          "type": "perk",
+          "settings": {
+            "text": "First pick of micro-lots"
+          }
+        }
+      },
+      "block_order": [
+        "cadence-1",
+        "cadence-2",
+        "cadence-3",
+        "style-4",
+        "style-5",
+        "style-6",
+        "style-7",
+        "perk-8",
+        "perk-9",
+        "perk-10",
+        "perk-11"
+      ]
+    },
+    "testimonial-42": {
+      "type": "blko-testimonial-42",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "quote-1": {
+          "type": "quote",
+          "settings": {
+            "text": "The Yunnan black is my afternoon ritual. Honeyed, a bit malty, never bitter, even when I forget it in the pot.",
+            "name": "Aiko",
+            "city": "Vancouver",
+            "rating": "4.8",
+            "tone": "plain"
+          }
+        },
+        "quote-2": {
+          "type": "quote",
+          "settings": {
+            "text": "Skipped a box from my phone in ten seconds. That alone keeps me.",
+            "name": "Tomas",
+            "city": "Leeds",
+            "rating": "5",
+            "tone": "copper"
+          }
+        },
+        "quote-3": {
+          "type": "quote",
+          "settings": {
+            "text": "We run a six-seat café and buy the House Espresso in 5 kg bags. Dialled in on day one, steady every week since.",
+            "name": "Priya & Sam",
+            "city": "Bristol",
+            "rating": "5",
+            "tone": "alt"
+          }
+        }
+      },
+      "block_order": [
+        "quote-1",
+        "quote-2",
+        "quote-3"
+      ]
+    },
+    "blog-93": {
+      "type": "blko-blog-93",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "guide-1": {
+          "type": "guide",
+          "settings": {
+            "category": "Filter",
+            "read": "8 min read",
+            "title": "Pour-over at home: one recipe, three adjustments",
+            "excerpt": "Start at 15 grams to 250 of water, then change one thing at a time: grind, pour speed, temperature.",
+            "alt": "A cup of coffee on a wooden table, beans scattered beside it"
+          }
+        },
+        "guide-2": {
+          "type": "guide",
+          "settings": {
+            "category": "Espresso",
+            "read": "6 min read",
+            "title": "Dialling in a new bag in five shots",
+            "excerpt": "Dose, yield, time: the order we change them in, and what a sour or bitter shot is telling you.",
+            "alt": "An iced drink in a tall glass"
+          }
+        },
+        "guide-3": {
+          "type": "guide",
+          "settings": {
+            "category": "Cold brew",
+            "read": "4 min read",
+            "title": "The overnight cold brew ratio we keep coming back to",
+            "excerpt": "A coarse grind, one to eight, sixteen hours in the fridge. Then dilute to taste over ice.",
+            "alt": "A freshly made coffee in a cup"
+          }
+        },
+        "guide-4": {
+          "type": "guide",
+          "settings": {
+            "category": "Basics",
+            "read": "3 min read",
+            "title": "How to store beans so the last cup tastes like the first",
+            "excerpt": "Air, light, heat and moisture, in that order. Why the freezer helps, and when it doesn't.",
+            "alt": "A milk coffee with latte art, close up"
+          }
+        }
+      },
+      "block_order": [
+        "guide-1",
+        "guide-2",
+        "guide-3",
+        "guide-4"
+      ]
+    },
+    "newsletter-55": {
+      "type": "blko-newsletter-55",
+      "settings": {
+        "tokens": "theme"
+      }
+    }
+  },
+  "order": [
+    "hero-56",
+    "marquee-gsap-05",
+    "featured-products-59",
+    "scroll-images-08",
+    "collection-list-68",
+    "counters-40",
+    "subscription-07",
+    "testimonial-42",
+    "blog-93",
+    "newsletter-55"
+  ]
+}

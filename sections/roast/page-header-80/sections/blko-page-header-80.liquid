@@ -1,0 +1,203 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-page-header-80.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- capture body -%}
+  <div class="bpageheader80__left"
+    ><nav aria-label="{{ 'blko.page_header_80.breadcrumb' | t }}" class="bpageheader80__label bpageheader80__crumbs"
+      ><ol><li><a href="{{ routes.root_url }}" class="rm-ul">{{ 'blko.page_header_80.home' | t }}</a></li><li aria-hidden="true">/</li><li aria-current="page">{{ s.crumb | escape }}</li></ol
+    ></nav
+    ><h1 class="bpageheader80__h1"><span class="rm-mask"><span class="rm-line">{{ s.line_1 | escape }}</span></span><span class="rm-mask"><span class="rm-line" style="--d:110ms"><em>{{ s.line_2 | escape }}</em></span></span></h1
+    >{%- if s.lead != blank -%}<p class="rm-rise bpageheader80__lead" style="--d:300ms">{{ s.lead | escape }}</p>{%- endif -%}
+    <ul class="bpageheader80__pills"
+      >{%- for b in section.blocks -%}
+      <li class="rm-rise" style="--d:{{ forloop.index0 | times: 70 | plus: 380 }}ms" {{ b.shopify_attributes }}
+        ><a href="{{ b.settings.anchor | default: '#' }}" class="bpageheader80__pill"><span class="bpageheader80__n">{{ b.settings.count }}</span><span class="bpageheader80__pl">{{ b.settings.label | escape }}</span>{%- render 'blko-ui-icon', name: 'arrow-down', className: 'rm-nudge' -%}</a
+      ></li
+      >{%- endfor -%}
+    </ul
+  ></div
+  ><div aria-hidden="true" class="bpageheader80__art"
+    ><svg viewBox="0 0 100 100" class="bpageheader80__ring"><defs><path id="bpageheader80-circle-{{ section.id }}" d="M50 50 m-46 0 a46 46 0 1 1 92 0 a46 46 0 1 1 -92 0" /></defs><text><textPath href="#bpageheader80-circle-{{ section.id }}">{{ s.ring | escape }}</textPath></text></svg
+    ><div class="bpageheader80__photo"
+      >{%- if s.image != blank -%}{{ s.image | image_url: width: 700 | image_tag: alt: '', loading: 'lazy', class: 'bpageheader80__img' }}{%- else -%}{{ 'image' | placeholder_svg_tag: 'bpageheader80__img' }}{%- endif -%}
+    </div
+  ></div
+>{%- endcapture -%}
+<div class="bpageheader80" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast
+  >{%- render 'blko-ui-section', surface: 'pop-4', label: s.label, className: 'rm-load bpageheader80__sec', inner: 'bpageheader80__grid', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Page header, help",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Help centre"
+    },
+    {
+      "type": "text",
+      "id": "crumb",
+      "label": "Breadcrumb page",
+      "default": "Help"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Heading, line 1",
+      "default": "Questions,"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Heading, line 2 (accent)",
+      "default": "answered."
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Lead",
+      "default": "Shipping, grinds, pausing a subscription, your first pour-over. If it isn’t here, write to the bar."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Round photo"
+    },
+    {
+      "type": "text",
+      "id": "ring",
+      "label": "Ring text",
+      "default": "Still stuck? The bar answers every message · "
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "topic",
+      "name": "Topic link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Orders & shipping"
+        },
+        {
+          "type": "number",
+          "id": "count",
+          "label": "Question count",
+          "default": 4
+        },
+        {
+          "type": "text",
+          "id": "anchor",
+          "label": "Anchor",
+          "default": "#faq-0",
+          "info": "The FAQ section's topic id, e.g. #faq-0."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page header, help",
+      "blocks": [
+        {
+          "type": "topic",
+          "settings": {
+            "label": "Orders & shipping",
+            "count": 4,
+            "anchor": "#faq-0"
+          }
+        },
+        {
+          "type": "topic",
+          "settings": {
+            "label": "Subscriptions",
+            "count": 3,
+            "anchor": "#faq-1"
+          }
+        },
+        {
+          "type": "topic",
+          "settings": {
+            "label": "Brewing",
+            "count": 3,
+            "anchor": "#faq-2"
+          }
+        },
+        {
+          "type": "topic",
+          "settings": {
+            "label": "Wholesale",
+            "count": 2,
+            "anchor": "#faq-3"
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

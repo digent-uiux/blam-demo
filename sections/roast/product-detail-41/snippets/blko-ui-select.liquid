@@ -1,0 +1,5 @@
+{%- comment -%}Select: children is captured option markup (including selected/disabled). Same native attributes and className as Input.{%- endcomment -%}
+<span class="blko-ui-select">
+  <select class="blko-ui-input {{ className }}"{% if id != blank %} id="{{ id | escape }}"{% endif %}{% if name != blank %} name="{{ name | escape }}"{% endif %}{% if label != blank %} aria-label="{{ label | escape }}"{% endif %}{% if describedBy != blank %} aria-describedby="{{ describedBy | escape }}"{% endif %}{% if invalid %} aria-invalid="true"{% endif %}{% if required %} required{% endif %}{% if disabled %} disabled{% endif %}{% if multiple %} multiple{% endif %}>{{ children }}</select>
+  {% render 'blko-ui-icon', name: 'chevron-down', size: 16 %}
+</span>

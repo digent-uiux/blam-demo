@@ -1,0 +1,149 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-marquee-gsap-05.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-marquee-gsap-05.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- comment -%}
+  Halden origins ticker (roast): copper band, one row of growing regions in the heading face at h2 size with a mono
+  altitude note after each, small round photos between them. Motion only (plain JS, no GSAP): a slow loop whose speed
+  follows scroll velocity and whose direction follows scroll direction (down runs left, up runs right), easing back to a
+  drift; hover or focus eases it to a stop. Static / reduced motion: one still row from the first origin.
+{%- endcomment -%}
+{%- liquid
+  assign rows = s.origins | newline_to_br | split: '<br />'
+-%}
+{%- capture items -%}
+  {%- assign k = 0 -%}
+  {%- for r in rows -%}
+    {%- assign parts = r | split: '|' -%}{%- assign nm = parts[0] | strip -%}{%- assign nt = parts[1] | strip -%}
+    {%- if nm != blank -%}
+      {%- assign odd = k | modulo: 2 -%}
+      <li class="bmarqueegsap05__item"
+        ><span class="bmarqueegsap05__name"><span class="bmarqueegsap05__n{% if odd == 1 %} bmarqueegsap05__n--light{% endif %}">{{ nm | escape }}</span>{%- if s.show_notes and nt != blank -%}<span class="bmarqueegsap05__note">{{ nt | escape }}</span>{%- endif -%}</span
+        >{%- if odd == 0 -%}{%- assign im = s.image_1 -%}{%- assign ph = 'product-1' -%}{%- else -%}{%- assign im = s.image_2 -%}{%- assign ph = 'product-2' -%}{%- endif -%}
+        {%- if im != blank -%}
+          {{ im | image_url: width: 160 | image_tag: alt: '', loading: 'lazy', class: 'bmarqueegsap05__ph' -}}
+        {%- else -%}
+          <span class="bmarqueegsap05__ph">{{ ph | placeholder_svg_tag }}</span
+        >{%- endif -%}
+      </li
+      >{%- assign k = k | plus: 1 -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- capture list -%}{%- for r in rows -%}{%- assign nm = r | split: '|' | first | strip -%}{%- if nm != blank -%}{% unless forloop.first %}, {% endunless %}{{ nm }}{%- endif -%}{%- endfor -%}{%- endcapture -%}
+<section class="bmarqueegsap05" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-bmarqueegsap05 aria-label="{{ s.label | escape }}" style="--speed:{{ s.speed }}"
+  ><p class="bmarqueegsap05__sr">{{ 'blko.marquee_gsap_05.origins' | t: list: list | escape }}</p
+  ><div class="bmarqueegsap05__strip" aria-hidden="true" data-strip
+    ><div class="bmarqueegsap05__track" data-track
+      ><ul class="bmarqueegsap05__list">{{ items }}</ul
+      ><ul class="bmarqueegsap05__list">{{ items }}</ul
+    ></div
+  ></div
+></section
+
+>
+
+{% schema %}
+{
+  "name": "Marquee GSAP 05 - Origins",
+  "tag": "div",
+  "class": "blko-bundle",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Where our coffee and tea come from"
+    },
+    {
+      "type": "textarea",
+      "id": "origins",
+      "label": "Origins (Name | note per line)",
+      "default": "Ethiopia | 2,100 m\nColombia | 1,850 m\nKenya | 1,700 m\nGuatemala | 1,600 m\nRwanda | 1,900 m\nSumatra | 1,400 m\nYunnan | 1,800 m"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_notes",
+      "label": "Show the notes",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Photo 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Photo 2"
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Loop time",
+      "min": 20,
+      "max": 120,
+      "step": 5,
+      "unit": "s",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marquee GSAP 05 - Origins"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,231 @@
+{%- liquid
+  assign items = blank
+  assign fetch_url = blank
+  assign limit = section.settings.limit
+
+  if section.settings.source == 'manual'
+    assign items = section.settings.product_list
+  elsif section.settings.source == 'collection'
+    assign items = section.settings.collection.products
+  else
+    if recommendations.performed and recommendations.products_count > 0
+      assign items = recommendations.products
+    elsif section.settings.product_list != blank
+      assign items = section.settings.product_list
+    endif
+    if product != blank and recommendations.performed != true
+      assign fetch_url = routes.product_recommendations_url | append: '?section_id=' | append: section.id | append: '&product_id=' | append: product.id | append: '&limit=' | append: limit | append: '&intent=' | append: section.settings.intent
+    endif
+  endif
+
+  assign use_demo = false
+  if items == blank and fetch_url == blank
+    assign use_demo = true
+  endif
+
+  assign is_grid = false
+  if section.settings.layout == 'grid'
+    assign is_grid = true
+  endif
+-%}
+{%- if items != blank or fetch_url != blank or use_demo -%}
+<blko-recommendations
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-pairs blko-pairs--{{ section.settings.layout }}"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px;"
+  {% if fetch_url != blank %}
+    data-url="{{ fetch_url }}"
+  {% endif %}
+  {% if items == blank and use_demo == false %}
+    hidden
+  {% endif %}
+>
+  <div class="blko-container blko-pairs__grid">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="blko-h3 blko-pairs__title">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+    {%- if use_demo -%}
+      {%- if is_grid -%}
+        {%- liquid
+          assign cols = section.settings.columns | plus: 0
+          assign card_vw = 100 | divided_by: cols
+          assign card_sizes = '(min-width: 1024px) ' | append: card_vw | append: 'vw, 50vw'
+        -%}
+        <ul class="blko-product-grid blko-product-grid--{{ cols }}" role="list">
+          {%- for i in (1..limit) -%}
+            <li>{% render 'blko-demo-card', index: i, sizes: card_sizes %}</li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <ul class="blko-list-reset blko-divided blko-divided--edges blko-pairs__list" role="list">
+          {%- for i in (1..limit) -%}
+            <li class="blko-pairs__item">
+              <span class="blko-media blko-media--square blko-pairs__media">{% render 'blko-demo-card', index: i, part: 'image', sizes: '88px' %}</span>
+              <div class="blko-pairs__info">
+                <h3 class="blko-body blko-medium blko-pairs__name"><a href="{{ routes.all_products_collection_url }}">{% render 'blko-demo-card', index: i, part: 'title' %}</a></h3>
+                {% render 'blko-demo-card', index: i, part: 'price' %}
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    {%- elsif items != blank -%}
+      {%- if is_grid -%}
+        {%- liquid
+          assign cols = section.settings.columns | plus: 0
+          assign card_vw = 100 | divided_by: cols
+          assign card_sizes = '(min-width: 1024px) ' | append: card_vw | append: 'vw, 50vw'
+        -%}
+        <ul class="blko-product-grid blko-product-grid--{{ cols }}" role="list" data-blko-recommendations-list>
+          {%- for item in items limit: limit -%}
+            <li>{% render 'blko-product-card', product: item, quick_add: true, sizes: card_sizes %}</li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <ul class="blko-list-reset blko-divided blko-divided--edges blko-pairs__list" role="list" data-blko-recommendations-list>
+          {%- for item in items limit: limit -%}
+            {%- liquid
+              assign note = item.metafields.custom.pairing_note.value | default: item.type
+              assign image = item.featured_media.preview_image
+            -%}
+            <li class="blko-pairs__item">
+              <a class="blko-media blko-media--square blko-pairs__media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+                {%- if image -%}
+                  {{ image | image_url: width: 240 | image_tag: loading: 'lazy', widths: '120, 180, 240', sizes: '88px', alt: '' }}
+                {%- else -%}
+                  {%- assign demo_index = forloop.index -%}
+                  {% render 'blko-demo-card', index: demo_index, part: 'image', sizes: '88px' %}
+                {%- endif -%}
+              </a>
+              <div class="blko-pairs__info">
+                <h3 class="blko-body blko-medium blko-pairs__name"><a href="{{ item.url }}">{{ item.title | escape }}</a></h3>
+                {%- if section.settings.show_note and note != blank -%}
+                  <p class="blko-small blko-muted blko-pretty blko-pairs__note">{{ note | escape }}</p>
+                {%- endif -%}
+                {%- render 'blko-price', product: item -%}
+              </div>
+              {%- if item.has_only_default_variant and item.available -%}
+                {%- form 'product', item, class: 'blko-pairs__form' -%}
+                  <input type="hidden" name="id" value="{{ item.selected_or_first_available_variant.id }}">
+                  <button type="submit" class="blko-btn blko-btn--outline blko-btn--sm">
+                    {{- 'blko.recommendations.add' | t -}}
+                    <span class="blko-visually-hidden">{{ item.title | escape }}</span>
+                  </button>
+                {%- endform -%}
+              {%- else -%}
+                <a class="blko-btn blko-btn--outline blko-btn--sm" href="{{ item.url }}">
+                  {{- 'blko.recommendations.view' | t -}}
+                  <span class="blko-visually-hidden">{{ item.title | escape }}</span>
+                </a>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</blko-recommendations>
+{%- endif -%}
+
+{%- if fetch_url != blank -%}
+  <script src="{{ 'blko-recommendations.js' | asset_url }}" defer></script>
+{%- endif -%}
+
+{% stylesheet %}
+  .blko-pairs { display: block; }
+  .blko-pairs[hidden], .shopify-section:has(> .blko-pairs[hidden]) { display: none; }
+  .blko-pairs__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  .blko-pairs__item {
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 1rem;
+  }
+  .blko-pairs__name a { text-decoration: none; text-underline-offset: 4px; }
+  .blko-pairs__name a:hover { text-decoration: underline; }
+  .blko-pairs__info { display: grid; gap: .25rem; min-width: 0; }
+  .blko-pairs__note { display: none; }
+  .blko-pairs__form { margin: 0; }
+  @media (min-width: 750px) {
+    .blko-pairs--list .blko-pairs__grid { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 4rem; }
+    .blko-pairs--list .blko-pairs__grid > :only-child { grid-column: 2; }
+    .blko-pairs__item { grid-template-columns: 5.5rem minmax(0, 1fr) auto; gap: 1.5rem; }
+    .blko-pairs__note { display: block; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Pairs well with",
+  "tag": "section",
+  "class": "blko-section-pairs-well",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Pairs well with" },
+    { "type": "checkbox", "id": "show_note", "label": "Show one line per product", "info": "List layout. Uses the custom.pairing_note product metafield, else the product type.", "default": true },
+    { "type": "header", "content": "Products" },
+    {
+      "type": "select",
+      "id": "source",
+      "label": "Source",
+      "options": [
+        { "value": "auto", "label": "Automatic recommendations" },
+        { "value": "collection", "label": "Collection" },
+        { "value": "manual", "label": "Products I pick" }
+      ],
+      "default": "auto"
+    },
+    {
+      "type": "select",
+      "id": "intent",
+      "label": "Recommendation type",
+      "options": [
+        { "value": "complementary", "label": "Complementary" },
+        { "value": "related", "label": "Related" }
+      ],
+      "default": "complementary",
+      "info": "Automatic only. Complementary products are set in the Search & Discovery app."
+    },
+    { "type": "collection", "id": "collection", "label": "Collection", "info": "Used by \"Collection\"." },
+    {
+      "type": "product_list",
+      "id": "product_list",
+      "label": "Products",
+      "info": "Used by \"Products I pick\", and as a fallback when there are no recommendations.",
+      "limit": 12
+    },
+    { "type": "range", "id": "limit", "label": "Number of products", "min": 1, "max": 12, "step": 1, "default": 3 },
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "list", "label": "List beside the heading" },
+        { "value": "grid", "label": "Product cards" }
+      ],
+      "default": "list"
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Columns on desktop",
+      "info": "Product cards layout.",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" },
+        { "value": "4", "label": "4" }
+      ],
+      "default": "4"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pairs well with"
+    }
+  ]
+}
+{% endschema %}

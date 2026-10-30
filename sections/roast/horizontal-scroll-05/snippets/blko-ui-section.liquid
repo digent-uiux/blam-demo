@@ -1,0 +1,11 @@
+{%- comment -%}
+  Section(surface='bg', bleed, full, label, className, inner, children): components/ui/section.tsx.
+  Full-width band with a container, the surface colours, the page width and the standard padding (none when bleed).
+  Capture the inner HTML first: {% capture body %}…{% endcapture %}{% render 'blko-ui-section', children: body %}.
+  - surface: bg | alt | inverse | dark | accent | pop-1..4 | soft-1..4 (dark flips every token, so components stay readable)
+  - full: no page max-width; style: extra inline style on the <section> (section padding settings)
+{%- endcomment -%}
+{%- assign s = surface | default: 'bg' -%}
+<section{% if label != blank %} aria-label="{{ label | escape }}"{% endif %} class="blko-ui-section blko-ui-surface--{{ s }}{% if className != blank %} {{ className }}{% endif %}"{% if style != blank %} style="{{ style }}"{% endif %}>
+  <div data-reveal-group class="blko-ui-section__inner{% unless full %} blko-ui-section__inner--page{% endunless %}{% unless bleed %} blko-ui-section__inner--pad{% endunless %}{% if inner != blank %} {{ inner }}{% endif %}">{{ children }}</div>
+</section>

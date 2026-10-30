@@ -1,0 +1,317 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-filter-bar-31.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-ui-commerce.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-commerce.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-filter-bar-31.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- liquid
+  assign live = false
+  if collection != blank and collection.handle != blank
+    assign live = true
+  endif
+  assign rf = nil
+  assign pf = nil
+  assign of = nil
+  assign prf = nil
+  assign roast_l = s.roast_label | downcase
+  assign process_l = s.process_label | downcase
+  assign origin_l = s.origin_label | downcase
+  if live
+    for f in collection.filters
+      assign fl = f.label | downcase
+      if f.type == 'price_range'
+        assign prf = f
+      elsif fl == roast_l
+        assign rf = f
+      elsif fl == process_l
+        assign pf = f
+      elsif fl == origin_l
+        assign of = f
+      endif
+    endfor
+    assign count = collection.products_count
+  else
+    assign lines = s.catalog | newline_to_br | split: '<br />'
+    assign count = 0
+    for l in lines
+      assign t = l | strip
+      if t != blank
+        assign count = count | plus: 1
+      endif
+    endfor
+  endif
+  assign sid = section.id
+-%}
+{%- capture sort_html -%}
+  {%- if live -%}
+    {%- assign cur = collection.sort_by | default: collection.default_sort_by -%}
+    {%- for o in collection.sort_options -%}<option value="{{ o.value }}"{% if o.value == cur %} selected{% endif %}>{{ o.name | escape }}</option>{%- endfor -%}
+  {%- else -%}
+    {%- assign sorts = s.sorts | newline_to_br | split: '<br />' -%}
+    {%- for o in sorts -%}
+      {%- assign kv = o | split: '|' -%}
+      {%- assign sv = kv[0] | strip -%}
+      {%- if sv == blank -%}{%- continue -%}{%- endif -%}
+      <option value="{{ sv | escape }}"{% if forloop.first %} selected{% endif %}>{{ kv[1] | strip | escape }}</option
+    >{%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+{%- capture count_line -%}
+  <p aria-live="polite" class="bfilterbar31__count"><span class="bfilterbar31__numbox"><span class="bfilterbar31__num" data-count>{{ count }}</span></span><span class="bfilterbar31__label bfilterbar31__muted" data-count-word>{% if count == 1 %}{{ 'blko.filter_bar_31.one' | t }}{% else %}{{ 'blko.filter_bar_31.many' | t }}{% endif %}</span></p
+>{%- endcapture -%}
+{%- capture chips -%}
+  {%- if live -%}
+    {%- for f in collection.filters -%}
+      {%- for v in f.active_values -%}
+        <li class="bfilterbar31__chip"><a href="{{ v.url_to_remove }}" class="bfilterbar31__chipbtn" aria-label="{{ 'blko.filter_bar_31.remove' | t | replace: '[label]', v.label | escape }}">{{ v.label | escape }}{% render 'blko-ui-icon', name: 'x', size: 14, className: 'rm-nudge' %}</a></li
+      >{%- endfor -%}
+      {%- if f.type == 'price_range' -%}
+        {%- if f.min_value.value != nil or f.max_value.value != nil -%}
+          <li class="bfilterbar31__chip"><a href="{{ f.url_to_remove }}" class="bfilterbar31__chipbtn">{{ f.min_value.value | default: 0 | money_without_trailing_zeros }} {{ 'blko.filter_bar_31.to' | t }} {{ f.max_value.value | default: f.range_max | money_without_trailing_zeros }}{% render 'blko-ui-icon', name: 'x', size: 14, className: 'rm-nudge' %}</a></li
+        >{%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+{%- capture clear_href -%}{% if live %}{{ collection.url }}{% if collection.sort_by != blank %}?sort_by={{ collection.sort_by }}{% endif %}{% endif %}{%- endcapture -%}
+{%- capture body -%}
+  <h2 class="bfilterbar31__sr">{{ 'blko.filter_bar_31.title' | t }}</h2
+  ><div class="bfilterbar31__desk"
+    ><div class="bfilterbar31__left"
+      >{%- render 'blko-filter-bar-31-part', part: 'scale', sfx: '', sid: sid, live: live, rf: rf, ss: s -%}
+      <span aria-hidden="true" class="bfilterbar31__rule"></span
+      >{%- render 'blko-filter-bar-31-part', part: 'process', sfx: '', sid: sid, live: live, pf: pf, ss: s -%}
+      <div class="bfilterbar31__pop" data-pop
+        ><button type="button" aria-expanded="false" aria-controls="bfilterbar31-po-{{ sid }}" class="bfilterbar31__popbtn" data-pop-btn>{{ 'blko.filter_bar_31.origin' | t }}<span class="bfilterbar31__badge" data-badge="origins" hidden>0</span>{% render 'blko-ui-icon', name: 'chevron-down', size: 16, className: 'bfilterbar31__chev' %}</button
+        ><div id="bfilterbar31-po-{{ sid }}" role="dialog" aria-label="{{ 'blko.filter_bar_31.origin' | t }}" class="bfilterbar31__panel bfilterbar31__panel--wide" data-pop-panel hidden
+          >{%- render 'blko-filter-bar-31-part', part: 'origins', sfx: '', sid: sid, live: live, of: of, ss: s -%}
+          <div class="bfilterbar31__done"><button type="button" class="bfilterbar31__label rm-ul" data-pop-done>{{ 'blko.filter_bar_31.done' | t }}</button></div
+        ></div
+      ></div
+      ><div class="bfilterbar31__pop" data-pop
+        ><button type="button" aria-expanded="false" aria-controls="bfilterbar31-pp-{{ sid }}" class="bfilterbar31__popbtn" data-pop-btn>{{ 'blko.filter_bar_31.price' | t }}<span class="bfilterbar31__badge" data-badge="price" hidden>1</span>{% render 'blko-ui-icon', name: 'chevron-down', size: 16, className: 'bfilterbar31__chev' %}</button
+        ><div id="bfilterbar31-pp-{{ sid }}" role="dialog" aria-label="{{ 'blko.filter_bar_31.price' | t }}" class="bfilterbar31__panel" data-pop-panel hidden
+          >{%- render 'blko-filter-bar-31-part', part: 'price', sfx: '', sid: sid, live: live, prf: prf, ss: s -%}
+          <div class="bfilterbar31__done"><button type="button" class="bfilterbar31__label rm-ul" data-pop-done>{{ 'blko.filter_bar_31.done' | t }}</button></div
+        ></div
+      ></div
+    ></div
+    ><div class="bfilterbar31__right"
+      >{{ count_line -}}
+      {%- render 'blko-filter-bar-31-part', part: 'sort', sfx: '', sid: sid, live: live, ss: s, sort_html: sort_html -%}
+      {%- if s.show_density -%}
+      <div role="group" aria-label="{{ 'blko.filter_bar_31.density' | t }}" class="bfilterbar31__seg bfilterbar31__seg--dens" data-seg-dens
+        ><span aria-hidden="true" class="bfilterbar31__ind bfilterbar31__ind--3" data-ind style="translate: 200% 0"></span
+        >{%- for n in (2..4) -%}
+          {%- capture pr -%}{{ 'blko.filter_bar_31.per_row' | t | replace: '[n]', n }}{%- endcapture -%}
+          <button type="button" aria-pressed="{% if n == 4 %}true{% else %}false{% endif %}" aria-label="{{ pr | escape }}" class="bfilterbar31__dbtn" data-dens="{{ n }}">{%- for i in (1..n) -%}<span aria-hidden="true" class="bfilterbar31__bar"></span>{%- endfor -%}</button
+        >{%- endfor -%}
+      </div
+      >{%- endif -%}
+    </div
+  ></div
+
+  ><div class="bfilterbar31__phone"
+    >{%- capture fs_label -%}<span class="rm-roll"><span>{{ 'blko.filter_bar_31.filter_sort' | t }}</span></span><span class="bfilterbar31__badge bfilterbar31__badge--btn" data-badge="all" hidden>0</span>{%- endcapture -%}
+    {%- render 'blko-ui-button', variant: 'outline', icon: 'sliders-horizontal', attrs: 'aria-haspopup="dialog" aria-expanded="false" data-sheet-open', children: fs_label -%}
+    {{ count_line -}}
+  </div
+
+  ><ul aria-label="{{ 'blko.filter_bar_31.active' | t }}" class="bfilterbar31__chips" data-chips{% if chips == blank %} hidden{% endif %}
+    >{{ chips -}}
+    <li class="bfilterbar31__clearli">{% if live %}<a href="{{ clear_href }}" class="bfilterbar31__label rm-ul bfilterbar31__clear">{{ 'blko.filter_bar_31.clear_all' | t }}</a>{% else %}<button type="button" class="bfilterbar31__label rm-ul bfilterbar31__clear" data-clear>{{ 'blko.filter_bar_31.clear_all' | t }}</button>{% endif %}</li
+  ></ul
+  ><template data-chip-tpl><li class="bfilterbar31__chip"><button type="button" class="bfilterbar31__chipbtn" data-chip-x><span data-chip-label></span>{% render 'blko-ui-icon', name: 'x', size: 14, className: 'rm-nudge' %}</button></li></template
+
+  ><div class="bfilterbar31__sheet" data-sheet
+    ><button type="button" aria-label="{{ 'blko.filter_bar_31.close_filters' | t }}" tabindex="-1" class="bfilterbar31__fade" data-sheet-close></button
+    ><div role="dialog" aria-modal="true" aria-labelledby="bfilterbar31-sh-{{ sid }}" class="bfilterbar31__sbox"
+      ><span aria-hidden="true" class="bfilterbar31__handle"></span
+      ><div class="bfilterbar31__shead"
+        ><h3 id="bfilterbar31-sh-{{ sid }}" class="bfilterbar31__stitle">{{ 'blko.filter_bar_31.sheet_title' | t }}</h3
+        ><button type="button" aria-label="{{ 'blko.filter_bar_31.close' | t }}" class="bfilterbar31__x" data-sheet-close data-sheet-x>{% render 'blko-ui-icon', name: 'x', size: 16 %}</button
+      ></div
+      ><div class="bfilterbar31__sbody"
+        >{%- render 'blko-filter-bar-31-part', part: 'sort', full: true, sfx: '-m', sid: sid, live: live, ss: s, sort_html: sort_html -%}
+        <div class="bfilterbar31__swrap">{%- render 'blko-filter-bar-31-part', part: 'scale', sfx: '-m', sid: sid, live: live, rf: rf, ss: s -%}</div
+        >{%- render 'blko-filter-bar-31-part', part: 'process', full: true, sfx: '-m', sid: sid, live: live, pf: pf, ss: s -%}
+        {%- render 'blko-filter-bar-31-part', part: 'origins', sfx: '-m', sid: sid, live: live, of: of, ss: s -%}
+        {%- render 'blko-filter-bar-31-part', part: 'price', sfx: '-m', sid: sid, live: live, prf: prf, ss: s -%}
+      </div
+      ><div class="bfilterbar31__sfoot"
+        ><button type="button" class="bfilterbar31__label rm-ul bfilterbar31__clear" data-clear>{{ 'blko.filter_bar_31.clear_all' | t }}</button
+        >{%- if count == 1 -%}{%- assign word = 'blko.filter_bar_31.one' | t -%}{%- else -%}{%- assign word = 'blko.filter_bar_31.many' | t -%}{%- endif -%}
+        {%- capture show_label -%}<span class="rm-roll"><span data-show>{{ 'blko.filter_bar_31.show' | t | replace: '[n]', count | replace: '[word]', word }}</span></span>{%- endcapture -%}
+        {%- render 'blko-ui-button', attrs: 'data-sheet-show', children: show_label -%}
+      </div
+    ></div
+  ></div
+>{%- endcapture -%}
+<div class="bfilterbar31" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-rm-magnetic data-mode="{% if live %}live{% else %}demo{% endif %}" data-base="{% if live %}{{ collection.url }}{% endif %}" data-sticky="{{ s.sticky }}" data-catalog-nl="{{ s.catalog | newline_to_br | escape }}" data-cur="{{ s.currency | escape }}" data-l-one="{{ 'blko.filter_bar_31.one' | t }}" data-l-many="{{ 'blko.filter_bar_31.many' | t }}" data-l-show="{{ 'blko.filter_bar_31.show' | t }}" data-l-remove="{{ 'blko.filter_bar_31.remove' | t }}" data-l-to="{{ 'blko.filter_bar_31.to' | t }}" data-l-hint="{{ 'blko.filter_bar_31.scale_hint' | t }}" data-l-roast="{{ 'blko.filter_bar_31.roast_suffix' | t }}"
+  >{%- render 'blko-ui-section', surface: 'bg', bleed: true, label: s.label, className: 'bfilterbar31__band', inner: 'bfilterbar31__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Filter bar, roast scale",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "On a collection page this drives Shopify's storefront filters (Search & Discovery): the roast scale, process and origin controls use the filters whose labels match below, the price popover uses the price filter, and sort uses the collection's sort options. Elsewhere it filters the sample catalog and tells the Collection grid 49 below it."
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Filter and sort"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "Sticky on desktop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_density",
+      "label": "Show grid density toggle",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Storefront filters"
+    },
+    {
+      "type": "text",
+      "id": "roast_label",
+      "label": "Roast filter label",
+      "default": "Roast"
+    },
+    {
+      "type": "text",
+      "id": "process_label",
+      "label": "Process filter label",
+      "default": "Process"
+    },
+    {
+      "type": "text",
+      "id": "origin_label",
+      "label": "Origin filter label",
+      "default": "Origin"
+    },
+    {
+      "type": "text",
+      "id": "currency",
+      "label": "Currency symbol",
+      "default": "$"
+    },
+    {
+      "type": "header",
+      "content": "Without a collection"
+    },
+    {
+      "type": "textarea",
+      "id": "roast_names",
+      "label": "Roast levels (one per line, light to dark)",
+      "default": "Light\nLight-medium\nMedium\nMedium-dark\nDark"
+    },
+    {
+      "type": "text",
+      "id": "processes",
+      "label": "Processes (comma separated)",
+      "default": "Washed, Natural, Honey, Anaerobic"
+    },
+    {
+      "type": "text",
+      "id": "origins",
+      "label": "Origins (comma separated)",
+      "default": "Ethiopia, Kenya, Rwanda, Colombia, Guatemala, Peru, Brazil, Indonesia"
+    },
+    {
+      "type": "number",
+      "id": "price_min",
+      "label": "Lowest price",
+      "default": 18
+    },
+    {
+      "type": "number",
+      "id": "price_max",
+      "label": "Highest price",
+      "default": 32
+    },
+    {
+      "type": "textarea",
+      "id": "sorts",
+      "label": "Sort options (value | label per line)",
+      "default": "manual | Featured\ncreated-descending | Newest\nprice-ascending | Price, low to high\nprice-descending | Price, high to low\nbest-rated | Best rated"
+    },
+    {
+      "type": "textarea",
+      "id": "catalog",
+      "label": "Sample catalog (origin | process | roast 1-5 | price per line)",
+      "default": "Ethiopia | Natural | 1 | 24\nKenya | Washed | 1 | 26\nBrazil | Natural | 4 | 21\nColombia | Washed | 2 | 22\nGuatemala | Honey | 3 | 23\nPeru | Washed | 4 | 19\nRwanda | Washed | 2 | 25\nIndonesia | Anaerobic | 5 | 22\nEthiopia | Anaerobic | 2 | 32\nBrazil | Honey | 4 | 18\nColombia | Washed | 3 | 20\nIndonesia | Washed | 5 | 19\nEthiopia | Washed | 1 | 25\nGuatemala | Washed | 3 | 22\nKenya | Washed | 1 | 29\nPeru | Washed | 3 | 20\nRwanda | Natural | 2 | 27\nBrazil | Natural | 4 | 19\nColombia | Washed | 3 | 18\nColombia | Washed | 3 | 21\nIndonesia | Honey | 4 | 23\nBrazil | Natural | 5 | 18\nBrazil | Natural | 5 | 20\nRwanda | Honey | 2 | 26"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Filter bar, roast scale"
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

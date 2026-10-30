@@ -1,0 +1,45 @@
+{
+  "blko_ui": {
+    "price": {
+      "from": "From",
+      "was": "Was",
+      "save": "Save"
+    },
+    "rating": {
+      "stars": "{{ value }} out of 5 stars"
+    },
+    "quantity": {
+      "label": "Quantity",
+      "decrease": "Decrease {{ label }}",
+      "increase": "Increase {{ label }}"
+    },
+    "field": {
+      "optional": "(optional)"
+    },
+    "option": {
+      "sold_out": "sold out"
+    },
+    "product": {
+      "save": "Save {{ title }}",
+      "add": "Add {{ title }} to bag",
+      "colors": "{{ count }} colours"
+    }
+  },
+  "blko": {
+    "reviews_54": {
+      "average": "Average rating [score] out of 5",
+      "stars": "stars",
+      "breakdown": "Rating breakdown",
+      "tags": "Tasting notes reviewers mentioned",
+      "reviews": "reviews",
+      "showing": "Showing",
+      "of": "of",
+      "sort": "Sort",
+      "helpful": "Helpful",
+      "most_helpful": "Most helpful",
+      "newest": "Newest",
+      "highest": "Highest rated",
+      "verified": "Verified"
+    }
+  }
+}

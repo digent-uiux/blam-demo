@@ -1,0 +1,44 @@
+{
+  "blko_ui": {
+    "price": {
+      "from": "From",
+      "was": "Was",
+      "save": "Save"
+    },
+    "rating": {
+      "stars": "{{ value }} out of 5 stars"
+    },
+    "quantity": {
+      "label": "Quantity",
+      "decrease": "Decrease {{ label }}",
+      "increase": "Increase {{ label }}"
+    },
+    "field": {
+      "optional": "(optional)"
+    },
+    "option": {
+      "sold_out": "sold out"
+    },
+    "product": {
+      "save": "Save {{ title }}",
+      "add": "Add {{ title }} to bag",
+      "colors": "{{ count }} colours"
+    }
+  },
+  "blko": {
+    "article_30": {
+      "journal": "Journal",
+      "on_page": "On this page",
+      "share": "Share",
+      "copy": "Copy link",
+      "copied": "Link copied",
+      "email": "Share by email",
+      "more_share": "More ways to share",
+      "add": "Add to bag",
+      "added": "In your bag",
+      "error": "Couldn't add, try again",
+      "min_read": "min read",
+      "shop": "Shop the beans · used in this guide"
+    }
+  }
+}

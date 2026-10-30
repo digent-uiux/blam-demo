@@ -1,0 +1,40 @@
+{%- comment -%}
+  Button / ButtonLink(variant='primary', size='md', full, shape='default', font='sans', children, className, href, type,
+  icon, iconAfter, label, attrs): components/ui/button.tsx. With href it renders <a> (ButtonLink), else <button>.
+  - variant: primary | secondary | outline | ghost | inverse | link | outline-inverse | ghost-inverse | inherit
+  - size: sm | md | lg | icon-sm | icon      shape: default (--blko-radius-button) | pill (--blko-theme-radius-button, else full pill)
+  - icon / iconAfter: Lucide name drawn at 16px before / after the label; label: aria-label (icon-only buttons)
+  - attrs: raw extra attributes (data-*, aria-*, disabled, form)
+{%- endcomment -%}
+{%- liquid
+  assign v = variant | default: 'primary'
+  assign sz = size | default: 'md'
+  capture cls
+    echo 'blko-ui-button blko-ui-button--' | append: v
+    unless v == 'link'
+      echo ' blko-ui-button--' | append: sz
+      if shape == 'pill'
+        echo ' blko-ui-button--pill'
+      endif
+    endunless
+    if font == 'mono'
+      echo ' blko-ui-button--mono'
+    endif
+    if full
+      echo ' blko-ui-button--full'
+    endif
+    if className != blank
+      echo ' ' | append: className
+    endif
+  endcapture
+-%}
+{%- capture inner -%}
+  {%- if icon != blank -%}{% render 'blko-ui-icon', name: icon %}{%- endif -%}
+  {{- children -}}
+  {%- if iconAfter != blank -%}{% render 'blko-ui-icon', name: iconAfter %}{%- endif -%}
+{%- endcapture -%}
+{%- if href != blank -%}
+<a href="{{ href }}" class="{{ cls }}"{% if label != blank %} aria-label="{{ label | escape }}"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>{{ inner }}</a>
+{%- else -%}
+<button type="{{ type | default: 'button' }}" class="{{ cls }}"{% if label != blank %} aria-label="{{ label | escape }}"{% endif %}{% if attrs != blank %} {{ attrs }}{% endif %}>{{ inner }}</button>
+{%- endif -%}

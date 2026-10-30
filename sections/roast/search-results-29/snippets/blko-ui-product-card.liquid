@@ -1,0 +1,35 @@
+{%- comment -%}
+ProductCard(title, image:image_picker, alt='', href='#', price, compareAt, from, vendor,
+badge:{label,tone}, rating:{value,count}, colors:array, ratio='portrait', quickAdd, wishlist, footer, className).
+Major-unit prices (cents:true for Shopify). Optional product supplies live Shopify data and variant id.
+Actions emit blko-ui:wishlist / blko-ui:quick-add; cart integration is owned by the caller, as in TSX.
+{%- endcomment -%}
+{%- liquid
+  assign card_title = title | default: product.title
+  assign card_image = image | default: product.featured_image
+  assign card_href = href | default: product.url | default: '#'
+  assign card_price = price
+  assign card_compare = compareAt
+  assign card_cents = cents
+  if card_price == nil and product != blank
+    assign card_price = product.price
+    assign card_compare = product.compare_at_price
+    assign card_cents = true
+  endif
+-%}
+<article class="blko-ui-product-card {{ className }}"{% if product != blank %} data-variant-id="{{ product.selected_or_first_available_variant.id }}"{% endif %}>
+  <div class="blko-ui-product-card__media blko-ui-product-card__media--{{ ratio | default: 'portrait' }}">
+    {% if card_image != blank %}{{ card_image | image_url: width: 1200 | image_tag: alt: alt, loading: 'lazy', class: 'blko-ui-product-card__image' }}{% else %}{{ 'product-1' | placeholder_svg_tag: 'blko-ui-product-card__image placeholder-svg' }}{% endif %}
+    {% if badge != blank %}{% assign card_badge_tone = badge.tone | default: 'surface' %}{% render 'blko-ui-badge', tone: card_badge_tone, children: badge.label, className: 'blko-ui-product-card__badge' %}{% endif %}
+    {% if wishlist %}<button type="button" data-blko-ui-wishlist aria-label="{{ 'blko_ui.product.save' | t: title: card_title | escape }}" class="blko-ui-product-card__wishlist">{% render 'blko-ui-icon', name: 'heart', size: 16 %}</button>{% endif %}
+    {% if quickAdd %}<button type="button" data-blko-ui-quick-add aria-label="{{ 'blko_ui.product.add' | t: title: card_title | escape }}" class="blko-ui-product-card__add">{% render 'blko-ui-icon', name: 'plus', size: 16 %}</button>{% endif %}
+  </div>
+  <div class="blko-ui-product-card__copy">
+    {% if vendor != blank %}<p class="blko-ui-product-card__vendor">{{ vendor | escape }}</p>{% endif %}
+    <h3><a href="{{ card_href | escape }}">{{ card_title | escape }}</a></h3>
+    {% if rating != blank %}{% render 'blko-ui-rating', value: rating.value, count: rating.count, size: 'xs' %}{% endif %}
+    {% render 'blko-ui-price', amount: card_price, compareAt: card_compare, from: from, cents: card_cents %}
+    {% if colors.size > 0 %}<div class="blko-ui-product-card__colors" aria-label="{{ 'blko_ui.product.colors' | t: count: colors.size | escape }}">{% for color in colors limit: 4 %}<span style="background: {{ color | escape }}"></span>{% endfor %}{% if colors.size > 4 %}<small>+{{ colors.size | minus: 4 }}</small>{% endif %}</div>{% endif %}
+  </div>
+  {% if footer != blank %}<div class="blko-ui-product-card__footer">{{ footer }}</div>{% endif %}
+</article>

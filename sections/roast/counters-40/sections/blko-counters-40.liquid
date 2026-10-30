@@ -1,0 +1,247 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-counters-40.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-counters-40.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- comment -%}
+  Halden "Small batches, big detail" (roast): full-bleed photo band under an espresso scrim, heading top left, caption top
+  right, a 4-up count-up bar on blurred espresso glass at the bottom. Motion only: the photo settles from 1.15 to 1 while
+  the band scrolls through, heading lines rise in masks, hairlines draw in, figures count up. Static: settled, final.
+{%- endcomment -%}
+{%- capture body -%}
+<div class="bcounters40__band" data-band style="--k:{{ s.scrim | divided_by: 100.0 }}"
+  >{%- if s.image != blank -%}
+    {{ s.image | image_url: width: 2200 | image_tag: alt: s.alt, loading: 'lazy', widths: '750, 1100, 1500, 2200', class: 'bcounters40__img', data-img: '' -}}
+  {%- else -%}
+    {{ 'lifestyle-1' | placeholder_svg_tag: 'bcounters40__img bcounters40__ph' -}}
+  {%- endif -%}
+  <div aria-hidden="true" class="bcounters40__scrim"></div
+  ><div class="bcounters40__in"
+    ><div class="bcounters40__top"
+      ><div class="bcounters40__head"
+        >{%- if s.eyebrow != blank -%}<p class="rm-rise bcounters40__label bcounters40__eyebrow">{{ s.eyebrow | escape }}</p>{%- endif -%}
+        <h2 class="bcounters40__title"
+          ><span class="rm-mask"><span class="rm-line">{{ s.line_1 }}</span></span
+          >{%- if s.line_2 != blank -%}<span class="rm-mask"><span class="rm-line" style="--d:110ms">{{ s.line_2 }}</span></span>{%- endif -%}
+        </h2
+        >{%- if s.text != blank -%}<p class="rm-rise bcounters40__text" style="--d:180ms">{{ s.text | escape }}</p>{%- endif -%}
+      </div
+      >{%- if s.caption != blank -%}<p class="rm-rise bcounters40__label bcounters40__cap" style="--d:240ms">{{ s.caption | escape }}</p>{%- endif -%}
+    </div
+    >{%- if section.blocks.size > 0 -%}
+    <div class="bcounters40__bar" data-bar
+      >{%- for b in section.blocks -%}
+        {%- assign d = b.settings.decimals | plus: 0 -%}
+        {%- assign to = b.settings.value | plus: 0 -%}
+        {%- assign shown = to | round: d -%}
+        {%- if d > 0 -%}{%- assign shown = to | times: 1.0 | round: d -%}{%- endif -%}
+        <div class="bcounters40__cell" {{ b.shopify_attributes }}
+          ><span aria-hidden="true" class="bcounters40__rule" style="transition-delay:{{ forloop.index0 | times: 140 }}ms"></span
+          ><p class="bcounters40__num" aria-label="{{ shown }}{{ b.settings.suffix }}"><span aria-hidden="true" data-to="{{ to }}" data-dec="{{ d }}" data-suf="{{ b.settings.suffix | escape }}" data-ms="{{ forloop.index0 | times: 140 | plus: 1500 }}">{{ shown }}{{ b.settings.suffix | escape }}</span></p
+          ><p class="bcounters40__label bcounters40__lab">{{ b.settings.label | escape }}</p
+        ></div
+      >{%- endfor -%}
+    </div
+    >{%- endif -%}
+  </div
+></div
+>{%- endcapture -%}
+<div class="bcounters40" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-bcounters40
+  >{%- render 'blko-ui-section', surface: 'dark', bleed: true, full: true, label: s.label, children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Counters 40 - Photo band",
+  "tag": "div",
+  "class": "blko-bundle",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Small batches, big detail"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "By the numbers"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Heading line 1",
+      "default": "Small batches,"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Heading line 2 (wrap a word in <em>)",
+      "default": "big <em>detail.</em>"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "Twelve kilos to a batch, cupped the next morning, and only then allowed out of the building."
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Caption (desktop)",
+      "default": "The bar at Kiln Lane · 07:40"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "alt",
+      "label": "Image alt",
+      "default": "Inside a coffee bar, warm light over the counter"
+    },
+    {
+      "type": "range",
+      "id": "scrim",
+      "label": "Scrim strength",
+      "min": 50,
+      "max": 120,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "14"
+        },
+        {
+          "type": "range",
+          "id": "decimals",
+          "label": "Decimals",
+          "min": 0,
+          "max": 2,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "label": "Suffix",
+          "default": " h"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Single origins this season"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Counters 40 - Photo band",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "value": "14",
+            "suffix": "",
+            "label": "Single origins this season"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "value": "38",
+            "suffix": "",
+            "label": "Partner farms"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "value": "72",
+            "suffix": " h",
+            "label": "From roast to your door"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "value": "4.9",
+            "decimals": 1,
+            "suffix": "",
+            "label": "Average of 3,200 reviews"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

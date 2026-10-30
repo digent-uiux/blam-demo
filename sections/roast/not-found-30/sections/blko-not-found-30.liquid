@@ -1,0 +1,217 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-not-found-30.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-ui-commerce.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-commerce.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-not-found-30.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- assign qid = 'nf30-q-' | append: section.id -%}
+{%- capture body -%}
+  <div data-rm-magnetic class="bnotfound30__wrap"
+    ><div class="bnotfound30__stage" data-stage
+      ><span aria-hidden="true" class="bnotfound30__bean" style="left:4%;top:12%"><span data-bean data-x="4" data-y="12"><svg viewBox="0 0 40 56"><ellipse cx="20" cy="28" rx="17" ry="25"/><path d="M20 5 C 12 18, 28 36, 20 51" stroke-width="3" stroke-linecap="round"/></svg></span></span
+      ><span aria-hidden="true" class="bnotfound30__bean" style="left:13%;top:78%"><span data-bean data-x="13" data-y="78"><svg viewBox="0 0 40 56"><ellipse cx="20" cy="28" rx="17" ry="25"/><path d="M20 5 C 12 18, 28 36, 20 51" stroke-width="3" stroke-linecap="round"/></svg></span></span
+      ><span aria-hidden="true" class="bnotfound30__bean" style="left:22%;top:6%"><span data-bean data-x="22" data-y="6"><svg viewBox="0 0 40 56"><ellipse cx="20" cy="28" rx="17" ry="25"/><path d="M20 5 C 12 18, 28 36, 20 51" stroke-width="3" stroke-linecap="round"/></svg></span></span
+      ><span aria-hidden="true" class="bnotfound30__bean" style="left:31%;top:88%"><span data-bean data-x="31" data-y="88"><svg viewBox="0 0 40 56"><ellipse cx="20" cy="28" rx="17" ry="25"/><path d="M20 5 C 12 18, 28 36, 20 51" stroke-width="3" stroke-linecap="round"/></svg></span></span
+      ><span aria-hidden="true" class="bnotfound30__bean" style="left:38%;top:18%"><span data-bean data-x="38" data-y="18"><svg viewBox="0 0 40 56"><ellipse cx="20" cy="28" rx="17" ry="25"/><path d="M20 5 C 12 18, 28 36, 20 51" stroke-width="3" stroke-linecap="round"/></svg></span></span
+      ><span aria-hidden="true" class="bnotfound30__bean" style="left:46%;top:92%"><span data-bean data-x="46" data-y="92"><svg viewBox="0 0 40 56"><ellipse cx="20" cy="28" rx="17" ry="25"/><path d="M20 5 C 12 18, 28 36, 20 51" stroke-width="3" stroke-linecap="round"/></svg></span></span
+      ><span aria-hidden="true" class="bnotfound30__bean" style="left:55%;top:4%"><span data-bean data-x="55" data-y="4"><svg viewBox="0 0 40 56"><ellipse cx="20" cy="28" rx="17" ry="25"/><path d="M20 5 C 12 18, 28 36, 20 51" stroke-width="3" stroke-linecap="round"/></svg></span></span
+      ><span aria-hidden="true" class="bnotfound30__bean" style="left:63%;top:84%"><span data-bean data-x="63" data-y="84"><svg viewBox="0 0 40 56"><ellipse cx="20" cy="28" rx="17" ry="25"/><path d="M20 5 C 12 18, 28 36, 20 51" stroke-width="3" stroke-linecap="round"/></svg></span></span
+      ><span aria-hidden="true" class="bnotfound30__bean" style="left:70%;top:14%"><span data-bean data-x="70" data-y="14"><svg viewBox="0 0 40 56"><ellipse cx="20" cy="28" rx="17" ry="25"/><path d="M20 5 C 12 18, 28 36, 20 51" stroke-width="3" stroke-linecap="round"/></svg></span></span
+      ><span aria-hidden="true" class="bnotfound30__bean" style="left:78%;top:90%"><span data-bean data-x="78" data-y="90"><svg viewBox="0 0 40 56"><ellipse cx="20" cy="28" rx="17" ry="25"/><path d="M20 5 C 12 18, 28 36, 20 51" stroke-width="3" stroke-linecap="round"/></svg></span></span
+      ><span aria-hidden="true" class="bnotfound30__bean" style="left:86%;top:8%"><span data-bean data-x="86" data-y="8"><svg viewBox="0 0 40 56"><ellipse cx="20" cy="28" rx="17" ry="25"/><path d="M20 5 C 12 18, 28 36, 20 51" stroke-width="3" stroke-linecap="round"/></svg></span></span
+      ><span aria-hidden="true" class="bnotfound30__bean" style="left:94%;top:70%"><span data-bean data-x="94" data-y="70"><svg viewBox="0 0 40 56"><ellipse cx="20" cy="28" rx="17" ry="25"/><path d="M20 5 C 12 18, 28 36, 20 51" stroke-width="3" stroke-linecap="round"/></svg></span></span
+      ><span aria-hidden="true" class="bnotfound30__bean" style="left:92%;top:30%"><span data-bean data-x="92" data-y="30"><svg viewBox="0 0 40 56"><ellipse cx="20" cy="28" rx="17" ry="25"/><path d="M20 5 C 12 18, 28 36, 20 51" stroke-width="3" stroke-linecap="round"/></svg></span></span
+      ><span aria-hidden="true" class="bnotfound30__bean" style="left:2%;top:52%"><span data-bean data-x="2" data-y="52"><svg viewBox="0 0 40 56"><ellipse cx="20" cy="28" rx="17" ry="25"/><path d="M20 5 C 12 18, 28 36, 20 51" stroke-width="3" stroke-linecap="round"/></svg></span></span
+      ><p class="bnotfound30__sr">{{ 'blko.not_found_30.error' | t }}</p
+      ><div aria-hidden="true" class="bnotfound30__giant"
+        ><span class="rm-mask"><span class="rm-line">4</span></span
+        ><span class="bnotfound30__cup rm-rise" style="--d:140ms"
+          >{%- if s.cup_image != blank -%}{{ s.cup_image | image_url: width: 1000 | image_tag: alt: '', class: 'bnotfound30__img' }}{%- else -%}{{ 'product-1' | placeholder_svg_tag: 'bnotfound30__img' }}{%- endif -%}
+        </span
+        ><span class="rm-mask"><span class="rm-line" style="--d:260ms">4</span></span
+      ></div
+    ></div
+    ><div class="bnotfound30__low"
+      ><div class="bnotfound30__copy"
+        ><h1 class="bnotfound30__h1"><span class="rm-mask"><span class="rm-line">{{ s.heading | escape }} <em>{{ s.heading_em | escape }}</em></span></span></h1
+        >{%- if s.text != blank -%}<p class="bnotfound30__text rm-rise" style="--d:200ms">{{ s.text | escape }}</p>{%- endif -%}
+        {%- if s.show_search -%}
+        <form role="search" action="{{ routes.search_url }}" method="get" class="bnotfound30__search rm-rise" style="--d:260ms"
+          ><label for="{{ qid }}" class="bnotfound30__sr">{{ 'blko.not_found_30.search_label' | t }}</label
+          ><span class="bnotfound30__field"
+            >{%- render 'blko-ui-icon', name: 'search', className: 'bnotfound30__sicon' -%}
+            {%- render 'blko-ui-input', id: qid, name: 'q', type: 'search', placeholder: s.placeholder, className: 'bnotfound30__input' -%}
+          </span
+          >{%- capture arr -%}{%- render 'blko-ui-icon', name: 'arrow-right', className: 'rm-nudge' -%}{%- endcapture -%}
+          {%- assign sl = 'blko.not_found_30.search' | t -%}
+          {%- render 'blko-ui-button', type: 'submit', size: 'icon', label: sl, children: arr -%}
+        </form
+        >{%- endif -%}
+        <div class="bnotfound30__ctas rm-rise" style="--d:320ms"
+          >{%- if s.primary_label != blank -%}
+          {%- capture lbl -%}<span class="rm-roll"><span>{{ s.primary_label | escape }}</span></span>{%- endcapture -%}
+          {%- assign href = s.primary_link | default: routes.all_products_collection_url -%}
+          {%- render 'blko-ui-button', href: href, size: 'lg', children: lbl, iconAfter: 'arrow-right' -%}
+          {%- endif -%}
+          {%- if s.secondary_label != blank -%}
+          {%- capture lbl -%}<span class="rm-roll"><span>{{ s.secondary_label | escape }}</span></span>{%- endcapture -%}
+          {%- assign href = s.secondary_link | default: routes.root_url -%}
+          {%- render 'blko-ui-button', href: href, size: 'lg', variant: 'outline', children: lbl -%}
+          {%- endif -%}
+        </div
+      ></div
+      ><p class="bnotfound30__label bnotfound30__stamp rm-rise" style="--d:380ms">{{ s.stamp_1 | escape }}<br>{{ s.stamp_2 | escape }}</p
+    ></div
+  ></div
+>{%- endcapture -%}
+<div class="bnotfound30" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast
+  >{%- render 'blko-ui-section', surface: 'pop-2', label: s.label, className: 'rm-load bnotfound30__section', inner: 'bnotfound30__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "404, cup zero",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Page not found"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "This page went"
+    },
+    {
+      "type": "text",
+      "id": "heading_em",
+      "label": "Heading, accent word",
+      "default": "cold."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "The link may be old, or the lot sold out. Search for what you were after, or start again from the shop."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show search",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Search placeholder",
+      "default": "Search coffee, tea, gear"
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "Primary button",
+      "default": "Shop coffee"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Primary link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary button",
+      "default": "Go home"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Secondary link"
+    },
+    {
+      "type": "text",
+      "id": "stamp_1",
+      "label": "Stamp, line 1",
+      "default": "Error 404 · Brewed fresh,"
+    },
+    {
+      "type": "text",
+      "id": "stamp_2",
+      "label": "Stamp, line 2",
+      "default": "served lukewarm"
+    },
+    {
+      "type": "image_picker",
+      "id": "cup_image",
+      "label": "Cup photo (the zero)"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "404, cup zero"
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

@@ -1,0 +1,71 @@
+/* Roast motion kit: port of components/ui/roast-motion.tsx (theme 25). Scoped to [data-roast] (every roast section root
+   carries it). Motion only runs under html.blko-rm, which blko-roast-motion.js adds when ?static is off, reduced motion
+   is off and the browser isn't automated, so static renders, thumbnails and parity stay settled. Sections only add the
+   classes / data attributes below; no section re-implements them.
+   Classes: rm-roll (button label roll), rm-ul (underline sweep), rm-nudge, rm-heart, rm-draw, rm-cart + rm-count (cart
+   ping), rm-pm (plus/minus), rm-zoom (image zoom), rm-mask > rm-line (heading line mask), rm-rise (staggered rise, --d),
+   rm-load (play on load instead of on reveal). Buttons: every blko-ui-button inside [data-roast] gets the sweep fill,
+   arrow slide and press. */
+[data-roast] { --rm-ease: var(--blko-motion-ease, cubic-bezier(.22,1,.36,1)); }
+
+/* Type: Syne has no italic, so the accent word in a heading drops to the regular weight instead. */
+[data-roast] :is(h1, h2, h3, h4, .rm-heading) em { font-style: normal; font-weight: 400; letter-spacing: -0.02em; }
+
+/* Buttons: sweep fill, arrow slide, press. */
+html.blko-rm [data-roast] .blko-ui-button:not(.blko-ui-button--link) { position: relative; isolation: isolate; overflow: hidden; transition: color .35s var(--rm-ease), background-color .35s var(--rm-ease), border-color .35s var(--rm-ease), scale .18s var(--rm-ease), translate .5s var(--rm-ease); }
+html.blko-rm [data-roast] .blko-ui-button:not(.blko-ui-button--link)::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: color-mix(in oklab, currentColor 16%, transparent); transform: scaleX(0); transform-origin: 100% 50%; transition: transform .5s var(--rm-ease); pointer-events: none; }
+html.blko-rm [data-roast] .blko-ui-button:not(.blko-ui-button--link):is(:hover, :focus-visible)::before { transform: scaleX(1); transform-origin: 0 50%; }
+html.blko-rm [data-roast] .blko-ui-button:active { scale: .97; }
+html.blko-rm [data-roast] .blko-ui-button:is(:hover, :focus-visible) > svg:last-child { animation: rm-arrow .55s var(--rm-ease); }
+@keyframes rm-arrow { 0% { transform: none; } 45% { transform: translateX(130%); opacity: 0; } 46% { transform: translateX(-130%); opacity: 0; } 100% { transform: none; opacity: 1; } }
+
+/* Roll: the label slides up and its copy rolls in from below. */
+[data-roast] .rm-roll { display: inline-block; overflow: hidden; vertical-align: top; line-height: 1.25; height: 1.25em; }
+[data-roast] .rm-roll > span { display: block; }
+html.blko-rm [data-roast] .rm-roll > span { text-shadow: 0 1.25em currentColor; transition: transform .5s var(--rm-ease); }
+html.blko-rm [data-roast] :is(a, button):is(:hover, :focus-visible) .rm-roll > span { transform: translateY(-1.25em); }
+
+/* Links: underline sweep. */
+[data-roast] .rm-ul { background: linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0 1px; text-decoration: none; padding-bottom: 2px; }
+html.blko-rm [data-roast] .rm-ul { transition: background-size .45s var(--rm-ease); }
+[data-roast] :is(a, button):is(:hover, :focus-visible) .rm-ul, [data-roast] .rm-ul:is(:hover, :focus-visible), [data-roast] .rm-ul[aria-current="page"] { background-size: 100% 1px; background-position: 0 100%; }
+
+/* Icons. */
+html.blko-rm [data-roast] :is(a, button):is(:hover, :focus-visible) .rm-nudge, html.blko-rm [data-roast] .rm-nudge:is(:hover, :focus-visible) { animation: rm-nudge .6s var(--rm-ease); }
+@keyframes rm-nudge { 0%, 100% { transform: none; } 40% { transform: translate(3px, -1px) rotate(-8deg); } 70% { transform: translate(-1px, 0) rotate(3deg); } }
+html.blko-rm [data-roast] :is(a, button):is(:hover, :focus-visible) .rm-heart { animation: rm-beat .7s var(--rm-ease); }
+@keyframes rm-beat { 0%, 100% { transform: none; } 30% { transform: scale(1.25); } 55% { transform: scale(.92); } 75% { transform: scale(1.08); } }
+html.blko-rm [data-roast] :is(a, button):is(:hover, :focus-visible) .rm-draw :is(path, circle, line, polyline, rect, ellipse) { stroke-dasharray: 80; animation: rm-draw .8s var(--rm-ease) both; }
+@keyframes rm-draw { from { stroke-dashoffset: 80; } to { stroke-dashoffset: 0; } }
+html.blko-rm [data-roast] .rm-cart.is-pinged { animation: rm-wiggle .7s var(--rm-ease); }
+@keyframes rm-wiggle { 0%, 100% { transform: none; } 20% { transform: rotate(-14deg) scale(1.1); } 40% { transform: rotate(10deg) scale(1.1); } 60% { transform: rotate(-6deg); } 80% { transform: rotate(3deg); } }
+[data-roast] .rm-count { transition: transform .4s var(--rm-ease); }
+[data-roast] .rm-cart.is-pinged .rm-count { transform: scale(1.35); }
+
+/* Plus / minus: the vertical bar turns flat when open. */
+[data-roast] .rm-pm { position: relative; display: inline-block; width: 14px; height: 14px; flex: none; }
+[data-roast] .rm-pm::before, [data-roast] .rm-pm::after { content: ""; position: absolute; left: 0; top: 50%; width: 100%; height: 1.5px; margin-top: -.75px; background: currentColor; border-radius: 1px; }
+[data-roast] .rm-pm::after { transform: rotate(90deg); }
+html.blko-rm [data-roast] .rm-pm::after, html.blko-rm [data-roast] .rm-pm::before { transition: transform .45s var(--rm-ease); }
+[data-roast] [aria-expanded="true"] .rm-pm::after, [data-roast] .rm-pm[data-open]::after { transform: rotate(0deg); }
+[data-roast] [aria-expanded="true"] .rm-pm::before, [data-roast] .rm-pm[data-open]::before { transform: rotate(180deg); }
+
+/* Images: zoom on hover. */
+[data-roast] .rm-zoom img, [data-roast] .rm-zoom svg[data-placeholder] { transition: transform 1.1s var(--rm-ease); }
+html.blko-rm [data-roast] .rm-zoom:is(:hover, :focus-within) :is(img, svg[data-placeholder]) { transform: scale(1.06); }
+
+/* Heading line mask and staggered rise: play when the section reveals (blko-ui-motion.js sets data-pending /
+   data-shown), or on load under .rm-load (first-screen blocks). */
+[data-roast] .rm-mask { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+[data-roast] .rm-line { display: block; }
+html.blko-rm [data-roast] [data-pending] .rm-line { transform: translateY(105%); }
+html.blko-rm [data-roast] [data-shown] .rm-line { animation: rm-line .95s var(--rm-ease) both; animation-delay: var(--d, 0ms); }
+html.blko-rm [data-roast].rm-load .rm-line, html.blko-rm [data-roast] .rm-load .rm-line { animation: rm-line 1.05s var(--rm-ease) both; animation-delay: calc(var(--d, 0ms) + 120ms); }
+@keyframes rm-line { from { transform: translateY(105%); } to { transform: none; } }
+html.blko-rm [data-roast] [data-pending] .rm-rise { opacity: 0; }
+html.blko-rm [data-roast] [data-shown] .rm-rise, html.blko-rm [data-roast].rm-load .rm-rise, html.blko-rm [data-roast] .rm-load .rm-rise { animation: rm-rise .9s var(--rm-ease) both; animation-delay: var(--d, 0ms); }
+@keyframes rm-rise { from { opacity: 0; transform: translateY(var(--blko-motion-distance, 28px)); } }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-roast] .blko-ui-button::before, [data-roast] .rm-roll > span, [data-roast] .rm-ul, [data-roast] .rm-zoom img { transition: none !important; }
+}

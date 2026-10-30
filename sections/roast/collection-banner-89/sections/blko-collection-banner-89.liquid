@@ -1,0 +1,322 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-collection-banner-89.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-collection-banner-89.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- liquid
+  assign title = s.title
+  assign count = s.count
+  assign lead = s.lead
+  if collection and collection.title != blank
+    assign title = collection.title
+    assign count = collection.products_count
+    if collection.description != blank
+      assign lead = collection.description | strip_html | truncatewords: 40
+    endif
+  endif
+-%}
+{%- capture body -%}
+  <span aria-hidden="true" class="bcollectionbanner89__crema"></span
+  ><div class="rm-load bcollectionbanner89__grid" data-mag
+    ><div class="bcollectionbanner89__left"
+      ><nav aria-label="{{ 'blko.collection_banner_89.breadcrumb' | t }}" class="rm-rise" style="--d:80ms"
+        ><ol class="bcollectionbanner89__label bcollectionbanner89__crumbs"
+          ><li><a href="{{ routes.root_url }}" class="rm-ul">{{ 'blko.collection_banner_89.home' | t }}</a></li
+          ><li aria-hidden="true">/</li
+          ><li><a href="{{ routes.all_products_collection_url }}" class="rm-ul">{{ 'blko.collection_banner_89.shop' | t }}</a></li
+          ><li aria-hidden="true">/</li
+          ><li aria-current="page" class="bcollectionbanner89__here">{{ title | escape }}</li
+        ></ol
+      ></nav
+      ><div class="bcollectionbanner89__titles"
+        ><p class="bcollectionbanner89__label rm-rise bcollectionbanner89__count" style="--d:140ms"><span aria-hidden="true" class="bcollectionbanner89__dot"></span>{{ count }} {{ s.count_label | escape }}</p
+        ><h1 class="bcollectionbanner89__h1"><span class="rm-mask"><span class="rm-line" style="--d:0ms">{{ title | escape }}</span></span></h1
+      ></div
+      ><p class="rm-rise bcollectionbanner89__lead" style="--d:320ms"><span class="bcollectionbanner89__strong">{{ s.lead_strong }}</span> {{ lead | escape }}</p
+      >{%- if section.blocks.size > 0 -%}
+      <ul aria-label="{{ s.pills_label | escape }}" class="rm-rise bcollectionbanner89__pills" style="--d:420ms"
+        >{%- for b in section.blocks -%}
+          {%- liquid
+            assign c = b.settings.collection
+            assign href = '#'
+            assign n = b.settings.count
+            if c != blank
+              assign href = c.url
+              assign n = c.products_count
+            endif
+            assign on = forloop.first
+            if collection and collection.handle != blank
+              assign on = false
+              if c != blank and c.handle == collection.handle
+                assign on = true
+              endif
+            endif
+          -%}
+        <li {{ b.shopify_attributes }}><a href="{{ href }}" data-magnetic class="bcollectionbanner89__pill{% if on %} is-on{% endif %}"{% if on %} aria-current="page"{% endif %}><span>{{ b.settings.label | escape }}</span><span class="bcollectionbanner89__pillcount">{{ n }}</span></a></li
+        >{%- endfor -%}
+      </ul
+      >{%- endif -%}
+    </div
+    ><div class="bcollectionbanner89__right"
+      ><div class="bcollectionbanner89__panel rm-zoom" data-panel
+        >{%- if s.image != blank -%}
+          {{ s.image | image_url: width: 1200 | image_tag: class: 'bcollectionbanner89__img', loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200', sizes: '(min-width: 896px) 42vw, 100vw', alt: s.image.alt, data-par: '', style: 'transform:translate3d(0,-5%,0)' -}}
+        {%- else -%}
+          {{ 'collection-1' | placeholder_svg_tag: 'bcollectionbanner89__img placeholder-svg' -}}
+        {%- endif -%}
+        <span aria-hidden="true" class="bcollectionbanner89__shade"></span
+        ><p class="bcollectionbanner89__label bcollectionbanner89__cap"
+          ><span>{{ s.cap_1 | escape }}<br><span class="bcollectionbanner89__dim">{{ s.cap_2 | escape }}</span></span
+          ><span class="bcollectionbanner89__capr">{{ s.cap_3 | escape }}<br><span class="bcollectionbanner89__dim">{{ s.cap_4 | escape }}</span></span
+        ></p
+      ></div
+      >{%- if s.stamp != blank -%}
+      <div aria-hidden="true" class="rm-rise bcollectionbanner89__stamp" style="--d:700ms"><span class="bcollectionbanner89__label">{{ s.stamp | escape | newline_to_br }}</span></div
+      >{%- endif -%}
+      {%- if s.link_text != blank -%}
+      <a href="{{ s.link | default: '#' }}" class="bcollectionbanner89__label rm-rise bcollectionbanner89__how" style="--d:800ms"><span class="rm-ul">{{ s.link_text | escape }}</span>{%- render 'blko-ui-icon', name: 'arrow-down-right', size: 14, className: 'rm-nudge' -%}</a
+      >{%- endif -%}
+    </div
+  ></div
+  ><div aria-hidden="true" class="bcollectionbanner89__after"></div
+>{%- endcapture -%}
+<div class="bcollectionbanner89" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast
+  >{%- render 'blko-ui-section', surface: 'pop-4', bleed: true, label: s.label, className: 'bcollectionbanner89__band', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Collection banner, panel",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "On a collection page the title, product count and description come from the collection."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Coffee collection"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title (no collection)",
+      "default": "Coffee"
+    },
+    {
+      "type": "number",
+      "id": "count",
+      "label": "Product count (no collection)",
+      "default": 24
+    },
+    {
+      "type": "text",
+      "id": "count_label",
+      "label": "Count line",
+      "default": "roasts · roasted this Monday"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "lead_strong",
+      "label": "Lead, bold opening",
+      "default": "Roasted <em>loud</em>, brewed slow."
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Lead (no collection description)",
+      "default": "Single origins and house blends, roasted in 12 kg batches every Monday and shipped whole bean or ground for your brewer."
+    },
+    {
+      "type": "text",
+      "id": "pills_label",
+      "label": "Pills label",
+      "default": "Coffee collections"
+    },
+    {
+      "type": "header",
+      "content": "Photo panel"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "cap_1",
+      "label": "Caption, left",
+      "default": "Lot 214"
+    },
+    {
+      "type": "text",
+      "id": "cap_2",
+      "label": "Caption, left (dim)",
+      "default": "Guji · Ethiopia"
+    },
+    {
+      "type": "text",
+      "id": "cap_3",
+      "label": "Caption, right",
+      "default": "Medium roast"
+    },
+    {
+      "type": "text",
+      "id": "cap_4",
+      "label": "Caption, right (dim)",
+      "default": "12 kg batch"
+    },
+    {
+      "type": "textarea",
+      "id": "stamp",
+      "label": "Stamp (one line each)",
+      "default": "Roasted\nMon\n26 Oct"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link label",
+      "default": "How we roast"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "sub",
+      "name": "Sub-collection",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Espresso"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "number",
+          "id": "count",
+          "label": "Count (no collection)",
+          "default": 7
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection banner, panel",
+      "blocks": [
+        {
+          "type": "sub",
+          "settings": {
+            "label": "All coffee",
+            "count": 24
+          }
+        },
+        {
+          "type": "sub",
+          "settings": {
+            "label": "Espresso",
+            "count": 7
+          }
+        },
+        {
+          "type": "sub",
+          "settings": {
+            "label": "Filter",
+            "count": 11
+          }
+        },
+        {
+          "type": "sub",
+          "settings": {
+            "label": "Decaf",
+            "count": 3
+          }
+        },
+        {
+          "type": "sub",
+          "settings": {
+            "label": "Blends",
+            "count": 5
+          }
+        },
+        {
+          "type": "sub",
+          "settings": {
+            "label": "Single origin",
+            "count": 19
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

@@ -1,0 +1,592 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-cart-page-35.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-ui-commerce.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-commerce.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-cart-page-35.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- comment -%}
+  Cart page, roast: the h1 "Your bag" with an item count, a roast-date line and "Continue shopping"; a free-shipping
+  meter; the lines (photo, origin, name, option selects, a "Subscribe & save" switch with a cadence select, a stepper
+  whose minus turns into a bin at 1, Remove); a gift note; an espresso summary card (items, subscription savings,
+  discount code, shipping, total, checkout, payment marks). With items in the cart everything is the real cart: options,
+  subscriptions (the product's first selling plan group), quantities and Remove post to /cart/change.js and reload; the
+  gift note saves to cart.note and the "Gift" attribute; a discount code goes through /discount/<code>; Check out posts
+  the cart form. Line blocks are the preview (and the editor view of an empty cart); on an empty cart page the empty
+  state shows. Shipping is an estimate from the threshold and fee settings.
+{%- endcomment -%}
+{%- liquid
+  assign live = false
+  if cart.item_count > 0 and cart.items.size > 0
+    assign live = true
+  endif
+  assign real_empty = false
+  if live == false and request.page_type == 'cart' and request.design_mode == false
+    assign real_empty = true
+  endif
+  assign free_c = s.free_over | times: 100
+  assign fee_c = s.ship_fee | times: 100
+  assign lines = section.blocks | where: 'type', 'line'
+  assign grinds = s.grinds | split: ','
+  assign cads = s.cadences | split: ','
+  assign sub_label = 'blko.cart_page_35.subscribe' | t | replace: '[p]', s.sub_pct
+  if live
+    assign count = cart.item_count
+    assign gross = 0
+    for it in cart.items
+      assign was_c = it.original_line_price
+      if it.selling_plan_allocation and it.selling_plan_allocation.compare_at_price > it.selling_plan_allocation.price
+        assign was_c = it.selling_plan_allocation.compare_at_price | times: it.quantity
+      endif
+      assign gross = gross | plus: was_c
+    endfor
+    assign subt = cart.items_subtotal_price
+    assign savings = gross | minus: subt
+    assign after = cart.total_price
+  elsif real_empty
+    assign count = 0
+    assign gross = 0
+    assign savings = 0
+    assign subt = 0
+    assign after = 0
+  else
+    assign count = 0
+    assign gross = 0
+    assign savings = 0
+    for b in lines
+      assign q = b.settings.qty
+      assign unit = b.settings.price | times: 100
+      if b.settings.large
+        assign unit = b.settings.price_large | times: 100
+      endif
+      assign lc = unit | times: q
+      assign count = count | plus: q
+      assign gross = gross | plus: lc
+      if b.settings.sub
+        assign sv = lc | times: s.sub_pct | divided_by: 100
+        assign savings = savings | plus: sv
+      endif
+    endfor
+    assign subt = gross | minus: savings
+    assign after = subt
+  endif
+  assign ship = fee_c
+  if subt >= free_c or count == 0
+    assign ship = 0
+  endif
+  assign total = after | plus: ship
+  assign left = free_c | minus: subt | at_least: 0
+  assign capped = subt | at_most: free_c
+  assign pct = capped | times: 100.0 | divided_by: free_c
+  if count == 1
+    assign count_label = 'blko.cart_page_35.item' | t | replace: '[n]', count
+  else
+    assign count_label = 'blko.cart_page_35.items' | t | replace: '[n]', count
+  endif
+  assign m0 = 0 | money_without_trailing_zeros
+  assign free_m = free_c | money_without_trailing_zeros
+  assign code_bad = false
+  if live
+    for dc in cart.discount_codes
+      unless dc.applicable
+        assign code_bad = true
+      endunless
+    endfor
+  endif
+-%}
+{%- capture body -%}
+<div class="bcartpage35__wrap"
+  ><header class="bcartpage35__head"
+    ><div class="bcartpage35__hl"
+      >{%- if s.eyebrow != blank -%}<p class="bcartpage35__label bcartpage35__muted bcartpage35__eye rm-rise" style="--d:60ms"><span aria-hidden="true" class="bcartpage35__dot bcartpage35__dot--4"></span>{{ s.eyebrow | escape }}</p>{%- endif -%}
+      <h1 class="bcartpage35__h1"><span class="rm-mask"><span class="rm-line">{{ s.heading }}</span></span><span class="bcartpage35__label bcartpage35__pill rm-rise" style="--d:300ms" data-count>{{ count_label }}</span></h1
+    ></div
+    ><a href="{{ s.continue_link | default: routes.all_products_collection_url }}" class="bcartpage35__cont rm-rise" style="--d:260ms">{%- render 'blko-ui-icon', name: 'arrow-left', className: 'rm-nudge' -%}<span class="rm-ul">{{ s.continue_label | escape }}</span></a
+  ></header
+
+  ><div class="bcartpage35__empty" data-empty-view
+    ><div class="bcartpage35__ein"
+      ><p class="bcartpage35__label bcartpage35__muted">{{ s.empty_label | escape }}</p
+      ><h2 class="bcartpage35__eh">{{ s.empty_title }}</h2
+      ><p class="bcartpage35__muted bcartpage35__et">{{ s.empty_text | escape }}</p
+      ><div class="bcartpage35__eb"
+        >{%- capture shop_in -%}<span class="rm-roll"><span>{{ s.shop_label | escape }}</span></span>{%- render 'blko-ui-icon', name: 'arrow-right' -%}{%- endcapture -%}
+        {%- assign shop_href = s.shop_link | default: routes.all_products_collection_url -%}
+        {%- render 'blko-ui-button', href: shop_href, size: 'lg', children: shop_in -%}
+        {%- unless live or real_empty -%}
+          {%- capture rs_in -%}<span class="rm-roll"><span>{{ 'blko.cart_page_35.restore' | t }}</span></span>{%- endcapture -%}
+          {%- render 'blko-ui-button', size: 'lg', variant: 'outline', attrs: 'data-restore', children: rs_in -%}
+        {%- endunless -%}
+      </div
+    ></div
+  ></div
+
+  ><div class="bcartpage35__body"
+    ><div class="bcartpage35__main"
+      ><div class="bcartpage35__meter rm-rise" style="--d:160ms"
+        ><p aria-live="polite" class="bcartpage35__mt"
+          ><span class="bcartpage35__mtl">{%- render 'blko-ui-icon', name: 'truck' -%}<span data-left-on{% if left == 0 %} data-off{% endif %}>{{ 'blko.cart_page_35.left_a' | t }} <strong class="bcartpage35__strong" data-left>{{ left | money_without_trailing_zeros }}</strong> {{ 'blko.cart_page_35.left_b' | t }}</span><span data-left-done{% if left > 0 %} data-off{% endif %}>{{ 'blko.cart_page_35.unlocked' | t }}</span></span
+          ><span class="bcartpage35__label bcartpage35__muted">{{ 'blko.cart_page_35.free_over' | t | replace: '[x]', free_m }}</span
+        ></p
+        ><div role="progressbar" aria-label="{{ 'blko.cart_page_35.progress' | t | escape }}" aria-valuemin="0" aria-valuemax="{{ s.free_over }}" aria-valuenow="{{ capped | divided_by: 100.0 }}" class="bcartpage35__track" data-track
+          ><span class="bcartpage35__fill" data-fill style="width:{{ pct }}%"></span
+          ><span aria-hidden="true" class="bcartpage35__knob" data-knob style="left:{{ pct }}%"></span
+        ></div
+      ></div
+
+      ><ul aria-label="{{ 'blko.cart_page_35.lines' | t | escape }}" class="bcartpage35__lines" data-lines
+        >{%- if live -%}
+          {%- for it in cart.items -%}
+            {%- liquid
+              assign was_c = it.original_line_price
+              if it.selling_plan_allocation and it.selling_plan_allocation.compare_at_price > it.selling_plan_allocation.price
+                assign was_c = it.selling_plan_allocation.compare_at_price | times: it.quantity
+              endif
+              assign paid = it.final_line_price | money_without_trailing_zeros
+              assign was = ''
+              if was_c > it.final_line_price
+                assign was = was_c | money_without_trailing_zeros
+              endif
+              assign origin = it.product.type | default: it.vendor
+              assign grp = it.product.selling_plan_groups.first
+              assign has_sub = false
+              if grp
+                assign has_sub = true
+              endif
+              assign sub_on = false
+              if it.selling_plan_allocation
+                assign sub_on = true
+              endif
+              assign d = forloop.index0 | times: 110 | plus: 220
+              assign max = 99
+            -%}
+            {%- capture opts -%}
+              {%- unless it.product.has_only_default_variant -%}
+                {%- for o in it.product.options_with_values -%}
+                  {%- assign oid = section.id | append: '-' | append: forloop.parentloop.index | append: '-o' | append: forloop.index -%}
+                  <div class="bcartpage35__fld"
+                    ><label for="{{ oid }}" class="bcartpage35__label bcartpage35__muted">{{ o.name | escape }}</label
+                    >{%- assign cur = it.variant.options[forloop.index0] -%}
+                    {%- capture oo -%}{%- for v in o.values -%}<option value="{{ v | escape }}"{% if v == cur %} selected{% endif %}>{{ v | escape }}</option>{%- endfor -%}{%- endcapture -%}
+                    {%- render 'blko-ui-select', id: oid, className: 'bcartpage35__w', children: oo -%}
+                  </div
+                >{%- endfor -%}
+              {%- endunless -%}
+            {%- endcapture -%}
+            {%- capture every -%}{%- if grp -%}{%- for sp in grp.selling_plans -%}<option value="{{ sp.id }}"{% if it.selling_plan_allocation.selling_plan.id == sp.id %} selected{% endif %}>{{ sp.name | escape }}</option>{%- endfor -%}{%- endif -%}{%- endcapture -%}
+            {%- capture attrs -%}data-key="{{ it.key }}" data-line="{{ forloop.index }}" data-variant="{{ it.variant.id }}"{% if it.selling_plan_allocation %} data-plan="{{ it.selling_plan_allocation.selling_plan.id }}"{% endif %} data-variants="{{ it.product.variants | map: 'options' | json | escape }}" data-ids="{{ it.product.variants | map: 'id' | join: ',' }}"{%- endcapture -%}
+            {%- render 'blko-cart-page-35-line', attrs: attrs, qty: it.quantity, max: max, name: it.product.title, href: it.url, image: it.image, origin: origin, paid: paid, was: was, opts: opts, has_sub: has_sub, sub_on: sub_on, sub_label: sub_label, every: every, d: d -%}
+          {%- endfor -%}
+        {%- elsif real_empty == false -%}
+          {%- for b in lines -%}
+            {%- liquid
+              assign bs = b.settings
+              assign unit = bs.price | times: 100
+              if bs.large
+                assign unit = bs.price_large | times: 100
+              endif
+              assign lc = unit | times: bs.qty
+              assign pc = lc
+              assign was = ''
+              if bs.sub
+                assign sv = lc | times: s.sub_pct | divided_by: 100
+                assign pc = lc | minus: sv
+                assign was = lc | money_without_trailing_zeros
+              endif
+              assign paid = pc | money_without_trailing_zeros
+              assign d = forloop.index0 | times: 110 | plus: 220
+              assign ps = bs.price | times: 100
+              assign pl = bs.price_large | times: 100
+              assign gid = section.id | append: '-' | append: forloop.index | append: '-g'
+              assign sid = section.id | append: '-' | append: forloop.index | append: '-s'
+            -%}
+            {%- capture opts -%}
+              <div class="bcartpage35__fld"
+                ><label for="{{ gid }}" class="bcartpage35__label bcartpage35__muted">{{ 'blko.cart_page_35.grind' | t }}</label
+                >{%- capture oo -%}{%- for g in grinds -%}{%- assign gs = g | strip -%}<option{% if gs == bs.grind %} selected{% endif %}>{{ gs | escape }}</option>{%- endfor -%}{%- endcapture -%}
+                {%- render 'blko-ui-select', id: gid, className: 'bcartpage35__w', children: oo -%}
+              </div
+              ><div class="bcartpage35__fld"
+                ><label for="{{ sid }}" class="bcartpage35__label bcartpage35__muted">{{ 'blko.cart_page_35.size' | t }}</label
+                >{%- capture oo -%}<option value="s"{% unless bs.large %} selected{% endunless %}>{{ s.size_s | escape }} · {{ ps | money_without_trailing_zeros }}</option><option value="l"{% if bs.large %} selected{% endif %}>{{ s.size_l | escape }} · {{ pl | money_without_trailing_zeros }}</option>{%- endcapture -%}
+                {%- render 'blko-ui-select', id: sid, className: 'bcartpage35__w', children: oo -%}
+              </div
+            >{%- endcapture -%}
+            {%- capture every -%}{%- for c in cads -%}{%- assign cs = c | strip -%}<option{% if cs == bs.every %} selected{% endif %}>{{ cs | escape }}</option>{%- endfor -%}{%- endcapture -%}
+            {%- capture attrs -%}data-ps="{{ ps }}" data-pl="{{ pl }}" data-size="{% if bs.large %}l{% else %}s{% endif %}"{%- endcapture -%}
+            {%- render 'blko-cart-page-35-line', attrs: attrs, qty: bs.qty, max: 12, name: bs.title, href: '#', image: bs.image, origin: bs.origin, paid: paid, was: was, opts: opts, has_sub: true, sub_on: bs.sub, sub_label: sub_label, every: every, d: d -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </ul
+
+      >{%- if s.show_gift -%}
+      {%- assign gift_on = false -%}
+      {%- if live and cart.attributes.Gift == 'Yes' -%}{%- assign gift_on = true -%}{%- endif -%}
+      <div class="bcartpage35__gift rm-rise{% if gift_on %} is-on{% endif %}" style="--d:460ms" data-gift
+        >{%- capture g_label -%}<span class="bcartpage35__b5">{{ 'blko.cart_page_35.gift' | t }}</span>{%- endcapture -%}
+        {%- assign g_hint = 'blko.cart_page_35.gift_hint' | t -%}
+        {%- render 'blko-ui-checkbox', label: g_label, hint: g_hint, checked: gift_on, name: 'gift' -%}
+        <div class="bcartpage35__note"
+          ><label for="{{ section.id }}-note" class="bcartpage35__label bcartpage35__muted">{{ 'blko.cart_page_35.gift_note' | t }}</label
+          >{%- assign ph = 'blko.cart_page_35.gift_ph' | t -%}
+          {%- if live -%}{%- assign nv = cart.note -%}{%- else -%}{%- assign nv = '' -%}{%- endif -%}
+          <textarea class="blko-ui-input blko-ui-textarea" rows="3" maxlength="200" id="{{ section.id }}-note" name="note" placeholder="{{ ph | escape }}" data-note>{{ nv | escape }}</textarea
+          ><p class="bcartpage35__label bcartpage35__muted bcartpage35__cnt"><span data-cnt>{{ nv | size }}</span> / 200</p
+        ></div
+      ></div
+      >{%- endif -%}
+    </div
+
+    ><aside aria-label="{{ 'blko.cart_page_35.aside' | t | escape }}" class="bcartpage35__aside rm-rise" style="--d:300ms"
+      ><div class="bcartpage35__flip"
+        ><div class="bcartpage35__sh"
+          ><h2 class="bcartpage35__sumh">{{ 'blko.cart_page_35.summary' | t }}</h2
+          ><p class="bcartpage35__label bcartpage35__muted" data-count>{{ count_label }}</p
+        ></div
+        ><dl class="bcartpage35__dl"
+          ><div class="bcartpage35__dr"><dt class="bcartpage35__muted">{{ 'blko.cart_page_35.items_row' | t }}</dt><dd data-gross>{{ gross | money_without_trailing_zeros }}</dd></div
+          ><div class="bcartpage35__dr"{% if savings <= 0 %} data-off{% endif %} data-save-row><dt class="bcartpage35__muted">{{ 'blko.cart_page_35.sub_save' | t }}</dt><dd>−<span data-save>{{ savings | money_without_trailing_zeros }}</span></dd></div
+          >{%- if live -%}
+            {%- for da in cart.cart_level_discount_applications -%}
+            <div class="bcartpage35__dr"><dt class="bcartpage35__muted bcartpage35__codedt">{{ 'blko.cart_page_35.code' | t }} <span class="bcartpage35__label bcartpage35__cpill">{{ da.title | escape }}</span><button type="button" class="bcartpage35__crm rm-ul" data-code-rm>{{ 'blko.cart_page_35.remove' | t }}</button></dt><dd>−{{ da.total_allocated_amount | money_without_trailing_zeros }}</dd></div
+            >{%- endfor -%}
+          {%- else -%}
+            <div class="bcartpage35__dr" data-off data-code-row><dt class="bcartpage35__muted bcartpage35__codedt">{{ 'blko.cart_page_35.code' | t }} <span class="bcartpage35__label bcartpage35__cpill">{{ s.demo_code | escape }}</span><button type="button" class="bcartpage35__crm rm-ul" data-code-rm>{{ 'blko.cart_page_35.remove' | t }}</button></dt><dd>−<span data-disc>{{ m0 }}</span></dd></div
+          >{%- endif -%}
+          <div class="bcartpage35__dr"><dt class="bcartpage35__muted">{{ 'blko.cart_page_35.shipping' | t }}</dt><dd data-ship>{% if ship > 0 %}{{ ship | money_without_trailing_zeros }}{% else %}{{ 'blko.cart_page_35.free' | t }}{% endif %}</dd></div
+        ></dl
+
+        ><form class="bcartpage35__code" data-code-form novalidate{% if live and cart.cart_level_discount_applications.size > 0 %} data-off{% endif %}><label
+           for="{{ section.id }}-code" class="bcartpage35__label bcartpage35__muted">{{ 'blko.cart_page_35.discount' | t }}</label
+          ><div class="bcartpage35__cf"
+            ><input class="blko-ui-input bcartpage35__cin" type="text" id="{{ section.id }}-code" name="discount" placeholder="{{ s.demo_code | escape }}" autocomplete="off" data-code{% if code_bad %} aria-invalid="true" aria-describedby="{{ section.id }}-code-err"{% endif %}
+            >{%- capture ap_in -%}<span class="rm-roll"><span>{{ 'blko.cart_page_35.apply' | t }}</span></span>{%- endcapture -%}
+            {%- render 'blko-ui-button', type: 'submit', variant: 'outline', children: ap_in -%}
+          </div
+          ><p id="{{ section.id }}-code-err" role="alert" class="bcartpage35__err bcartpage35__muted" data-code-err{% unless code_bad %} data-off{% endunless %}>{% if code_bad %}{{ 'blko.cart_page_35.bad_live' | t }}{% endif %}</p
+        ></form
+
+        ><div class="bcartpage35__tot"
+          ><p class="bcartpage35__b5">{{ 'blko.cart_page_35.total' | t }} <span class="bcartpage35__tax bcartpage35__muted">{{ 'blko.cart_page_35.tax' | t }}</span></p
+          ><p aria-live="polite" class="bcartpage35__total"><span class="blko-ui-sr-only" data-total-sr>{{ total | money_without_trailing_zeros }}</span><span aria-hidden="true" data-total>{{ total | money }}</span></p
+        ></div
+
+        ><form action="{{ routes.cart_url }}" method="post" class="bcartpage35__co" data-checkout-form
+          >{%- capture co_in -%}{%- render 'blko-ui-icon', name: 'lock' -%}<span class="rm-roll"><span>{{ 'blko.cart_page_35.checkout' | t }}</span></span>{%- render 'blko-ui-icon', name: 'arrow-right' -%}{%- endcapture -%}
+          {%- render 'blko-ui-button', type: 'submit', size: 'lg', full: true, attrs: 'name="checkout"', children: co_in -%}
+        </form
+        >{%- render 'blko-ui-payment-marks', className: 'bcartpage35__pay' -%}
+        {%- if s.roast_line != blank -%}<p class="bcartpage35__label bcartpage35__muted bcartpage35__roast"><span aria-hidden="true" class="bcartpage35__dot bcartpage35__dot--2"></span>{{ s.roast_line | escape }}</p>{%- endif -%}
+      </div
+    ></aside
+  ></div
+></div
+>{%- endcapture -%}
+<div class="bcartpage35" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-rm-magnetic data-mode="{% if live %}live{% else %}demo{% endif %}"{% if real_empty %} data-is-empty{% endif %} data-m0="{{ m0 | escape }}" data-free="{{ free_c }}" data-fee="{{ fee_c }}" data-sub="{{ s.sub_pct }}" data-code-v="{{ s.demo_code | escape }}" data-code-pct="{{ s.code_pct }}" data-l-item="{{ 'blko.cart_page_35.item' | t | escape }}" data-l-items="{{ 'blko.cart_page_35.items' | t | escape }}" data-l-free="{{ 'blko.cart_page_35.free' | t | escape }}" data-l-bad="{{ 'blko.cart_page_35.bad_code' | t | replace: '[code]', s.demo_code | escape }}" data-l-none="{{ 'blko.cart_page_35.no_code' | t | escape }}"
+  >{%- render 'blko-ui-section', surface: 'bg', label: s.label, inner: 'bcartpage35__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Cart page, espresso",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "With items in the cart the lines, options, subscriptions (first selling plan group), note and discounts are the real cart. The Line blocks are the preview. Shipping is an estimate from the threshold and fee below."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Your bag"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Roast date line",
+      "default": "Next roast Mon 2 Nov · order by Sunday"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (em allowed)",
+      "default": "Your <em>bag</em>"
+    },
+    {
+      "type": "text",
+      "id": "continue_label",
+      "label": "Continue label",
+      "default": "Continue shopping"
+    },
+    {
+      "type": "url",
+      "id": "continue_link",
+      "label": "Continue link"
+    },
+    {
+      "type": "header",
+      "content": "Shipping meter"
+    },
+    {
+      "type": "number",
+      "id": "free_over",
+      "label": "Free shipping over",
+      "default": 45
+    },
+    {
+      "type": "number",
+      "id": "ship_fee",
+      "label": "Shipping fee below it",
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Lines"
+    },
+    {
+      "type": "number",
+      "id": "sub_pct",
+      "label": "Subscribe & save %",
+      "default": 15
+    },
+    {
+      "type": "text",
+      "id": "grinds",
+      "label": "Grinds (preview, comma separated)",
+      "default": "Whole bean, Espresso, Filter, French press"
+    },
+    {
+      "type": "text",
+      "id": "size_s",
+      "label": "Small size (preview)",
+      "default": "250 g"
+    },
+    {
+      "type": "text",
+      "id": "size_l",
+      "label": "Large size (preview)",
+      "default": "1 kg"
+    },
+    {
+      "type": "text",
+      "id": "cadences",
+      "label": "Cadences (preview, comma separated)",
+      "default": "1 week, 2 weeks, 4 weeks"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_gift",
+      "label": "Show gift note",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Summary"
+    },
+    {
+      "type": "text",
+      "id": "demo_code",
+      "label": "Code hint (placeholder, preview code)",
+      "default": "HALDEN10"
+    },
+    {
+      "type": "number",
+      "id": "code_pct",
+      "label": "Preview code %",
+      "default": 10
+    },
+    {
+      "type": "text",
+      "id": "roast_line",
+      "label": "Roast line",
+      "default": "Roasted Monday · ships Tuesday"
+    },
+    {
+      "type": "header",
+      "content": "Empty bag"
+    },
+    {
+      "type": "text",
+      "id": "empty_label",
+      "label": "Label",
+      "default": "0 items · nothing roasting for you yet"
+    },
+    {
+      "type": "text",
+      "id": "empty_title",
+      "label": "Heading (em allowed)",
+      "default": "Your bag is <em>empty</em>. The roaster isn’t."
+    },
+    {
+      "type": "textarea",
+      "id": "empty_text",
+      "label": "Text",
+      "default": "Fourteen single origins, five blends and a short list of teas, roasted every Monday."
+    },
+    {
+      "type": "text",
+      "id": "shop_label",
+      "label": "Button label",
+      "default": "Shop coffee"
+    },
+    {
+      "type": "url",
+      "id": "shop_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "line",
+      "name": "Line (preview)",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Name",
+          "default": "Kirinyaga AA"
+        },
+        {
+          "type": "text",
+          "id": "origin",
+          "label": "Origin line",
+          "default": "Kenya · Washed · Light"
+        },
+        {
+          "type": "number",
+          "id": "price",
+          "label": "Small size price",
+          "default": 26
+        },
+        {
+          "type": "number",
+          "id": "price_large",
+          "label": "Large size price",
+          "default": 88
+        },
+        {
+          "type": "checkbox",
+          "id": "large",
+          "label": "Large size",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "grind",
+          "label": "Grind",
+          "default": "Filter"
+        },
+        {
+          "type": "checkbox",
+          "id": "sub",
+          "label": "Subscribed",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "every",
+          "label": "Cadence",
+          "default": "2 weeks"
+        },
+        {
+          "type": "range",
+          "id": "qty",
+          "label": "Quantity",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "default": 1
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cart page, espresso",
+      "blocks": [
+        {
+          "type": "line",
+          "settings": {
+            "sub": true
+          }
+        },
+        {
+          "type": "line",
+          "settings": {
+            "title": "Night Shift Decaf",
+            "origin": "Peru · Swiss water · Medium-dark",
+            "price": 19,
+            "price_large": 65,
+            "grind": "Whole bean",
+            "every": "4 weeks"
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

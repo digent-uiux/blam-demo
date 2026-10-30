@@ -1,0 +1,244 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-image-with-text-42.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-image-with-text-42.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- capture body -%}
+  <div class="bimagewithtext42__media" data-media
+    ><div class="bimagewithtext42__photo rm-zoom" data-drift
+      >{%- if s.image != blank -%}{{ s.image | image_url: width: 900 | image_tag: alt: s.image.alt, loading: 'lazy', class: 'bimagewithtext42__img' }}{%- else -%}{{ 'lifestyle-2' | placeholder_svg_tag: 'bimagewithtext42__img' }}{%- endif -%}
+    </div
+    ><div class="bimagewithtext42__stat rm-rise" style="--d:200ms"
+      ><p class="bimagewithtext42__num"><span data-rm-count="{{ s.stat }}" data-rm-decimals="{{ s.stat_decimals }}" data-rm-suffix="{{ s.stat_suffix | escape }}">{{ s.stat }}{{ s.stat_suffix | escape }}</span></p
+      ><p class="bimagewithtext42__cap">{{ s.stat_caption | escape }}</p
+    ></div
+  ></div
+  ><div class="bimagewithtext42__copy"
+    ><p class="bimagewithtext42__label">{{ s.eyebrow | escape }}</p
+    ><h2 class="bimagewithtext42__h2"><span class="rm-mask"><span class="rm-line">{{ s.line_1 | escape }}</span></span><span class="rm-mask"><span class="rm-line" style="--d:90ms">{{ s.line_2 | escape }} <em>{{ s.line_2_em | escape }}</em></span></span><span class="rm-mask"><span class="rm-line" style="--d:180ms">{{ s.line_3 | escape }}</span></span></h2
+    >{%- if s.lead != blank -%}<p class="bimagewithtext42__lead rm-rise" style="--d:220ms">{{ s.lead | escape }}</p>{%- endif -%}
+    <ol class="bimagewithtext42__rows"
+      >{%- for b in section.blocks -%}
+      <li class="bimagewithtext42__row rm-rise" style="--d:{{ forloop.index0 | times: 90 | plus: 300 }}ms" {{ b.shopify_attributes }}
+        ><span class="bimagewithtext42__label bimagewithtext42__n">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span
+        ><span><span class="bimagewithtext42__rt">{{ b.settings.title | escape }}</span><span class="bimagewithtext42__rx">{{ b.settings.text | escape }}</span></span
+      ></li
+      >{%- endfor -%}
+    </ol
+    >{%- if s.link_label != blank -%}
+    <a href="{{ s.link | default: '#' }}" class="bimagewithtext42__link"><span class="rm-ul">{{ s.link_label | escape }}</span>{% render 'blko-ui-icon', name: 'arrow-right', className: 'rm-nudge' %}</a
+    >{%- endif -%}
+  </div
+>{%- endcapture -%}
+<div class="bimagewithtext42" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast
+  >{%- render 'blko-ui-section', surface: 'bg', label: s.label, inner: 'bimagewithtext42__grid', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Photo and stat card",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "How we buy"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "How we buy"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Heading, line 1",
+      "default": "Good coffee"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Heading, line 2",
+      "default": "starts with a"
+    },
+    {
+      "type": "text",
+      "id": "line_2_em",
+      "label": "Heading, accent word",
+      "default": "fair"
+    },
+    {
+      "type": "text",
+      "id": "line_3",
+      "label": "Heading, line 3",
+      "default": "price."
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Lead",
+      "default": "We buy fewer lots and pay more for them. Three rules keep us honest, and we publish the numbers so you can check."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo"
+    },
+    {
+      "type": "header",
+      "content": "Stat card"
+    },
+    {
+      "type": "text",
+      "id": "stat",
+      "label": "Number",
+      "default": "2.1"
+    },
+    {
+      "type": "range",
+      "id": "stat_decimals",
+      "label": "Decimals",
+      "min": 0,
+      "max": 2,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "text",
+      "id": "stat_suffix",
+      "label": "Suffix",
+      "default": "×"
+    },
+    {
+      "type": "text",
+      "id": "stat_caption",
+      "label": "Caption",
+      "default": "the commodity price, on average, paid to our farms in 2024"
+    },
+    {
+      "type": "header",
+      "content": "Link"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "Read our 2024 transparency report"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "principle",
+      "name": "Principle",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "We visit every farm"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Someone from the roastery stands on every farm we buy from, at least once every two harvests."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Photo and stat card",
+      "blocks": [
+        {
+          "type": "principle",
+          "settings": {
+            "title": "We visit every farm",
+            "text": "Someone from the roastery stands on every farm we buy from, at least once every two harvests."
+          }
+        },
+        {
+          "type": "principle",
+          "settings": {
+            "title": "We pay for the cup",
+            "text": "Prices are set by cup score, not the commodity market, and agreed before the harvest starts."
+          }
+        },
+        {
+          "type": "principle",
+          "settings": {
+            "title": "We publish every price",
+            "text": "What we paid, to whom and for how much: every lot, every year, in one open report."
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

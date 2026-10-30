@@ -1,0 +1,57 @@
+{
+  "blko_ui": {
+    "price": {
+      "from": "From",
+      "was": "Was",
+      "save": "Save"
+    },
+    "rating": {
+      "stars": "{{ value }} out of 5 stars"
+    },
+    "quantity": {
+      "label": "Quantity",
+      "decrease": "Decrease {{ label }}",
+      "increase": "Increase {{ label }}"
+    },
+    "field": {
+      "optional": "(optional)"
+    },
+    "option": {
+      "sold_out": "sold out"
+    },
+    "product": {
+      "save": "Save {{ title }}",
+      "add": "Add {{ title }} to bag",
+      "colors": "{{ count }} colours"
+    }
+  },
+  "blko": {
+    "search_results_29": {
+      "heading": "Search the shop",
+      "field_label": "Search products, stories and pages",
+      "placeholder": "Coffee, tea, gear…",
+      "clear": "Clear search",
+      "submit": "Search",
+      "showing": "Showing results for “[q]”.",
+      "did_you_mean": "Did you mean",
+      "suggestions": "Suggestions",
+      "result_types": "Result types",
+      "products": "Products",
+      "journal": "Journal",
+      "pages": "Pages",
+      "sort": "Sort",
+      "also": "Also in the <em>journal</em>",
+      "read_more": "Read more",
+      "zero": "0 results",
+      "nothing": "Nothing brewing for <em>“[q]”</em>",
+      "after": "What are you <em>after</em>?",
+      "empty_text": "Check the spelling, try a broader word, or start from one of these.",
+      "popular": "Popular searches",
+      "relevance": "Relevance",
+      "best_rated": "Best rated",
+      "price_asc": "Price, low to high",
+      "price_desc": "Price, high to low",
+      "newest": "Newest"
+    }
+  }
+}

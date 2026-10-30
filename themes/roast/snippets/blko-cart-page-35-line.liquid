@@ -1,0 +1,56 @@
+{%- comment -%}
+  One bag line. attrs: data attributes for the script (live: data-key/data-line; preview: prices and options).
+  opts: the captured option selects; every: the captured cadence options; paid/was: formatted prices (was may be blank).
+{%- endcomment -%}
+{%- assign t_qty = 'blko.cart_page_35.qty_of' | t | replace: '[name]', name -%}
+{%- assign t_dec = 'blko.cart_page_35.dec' | t | replace: '[name]', name -%}
+{%- assign t_inc = 'blko.cart_page_35.inc' | t | replace: '[name]', name -%}
+{%- assign t_rm = 'blko.cart_page_35.rm_name' | t | replace: '[name]', name -%}
+<li class="bcartpage35__li" data-line-item {{ attrs }} data-qty="{{ qty }}" data-name="{{ name | escape }}" data-l-dec="{{ t_dec | escape }}" data-l-rm="{{ t_rm | escape }}">
+  <div class="bcartpage35__clip">
+    <div class="bcartpage35__row rm-rise" style="--d:{{ d }}ms">
+      <a href="{{ href }}" class="bcartpage35__ph rm-zoom" tabindex="-1">
+        {%- if image != blank -%}{{ image | image_url: width: 400 | image_tag: class: 'bcartpage35__img', loading: 'lazy', widths: '200, 300, 400', sizes: '132px', alt: name }}{%- else -%}{{ 'product-1' | placeholder_svg_tag: 'bcartpage35__img placeholder-svg' }}{%- endif -%}
+      </a>
+      <div class="bcartpage35__copy">
+        <div class="bcartpage35__top">
+          <div class="bcartpage35__tt">
+            {%- if origin != blank -%}<p class="bcartpage35__label bcartpage35__muted">{{ origin | escape }}</p>{%- endif -%}
+            <h2 class="bcartpage35__name"><a href="{{ href }}" class="rm-ul">{{ name | escape }}</a></h2>
+          </div>
+          <p class="bcartpage35__price">
+            <span class="bcartpage35__paid" data-paid>{{ paid }}</span>
+            <s class="bcartpage35__was" data-was{% if was == blank %} data-off{% endif %}><span class="blko-ui-sr-only">{{ 'blko.cart_page_35.was' | t }} </span><span data-was-v>{{ was }}</span></s>
+          </p>
+        </div>
+        {%- if opts != blank -%}<div class="bcartpage35__opts">{{ opts }}</div>{%- endif -%}
+        {%- if has_sub -%}
+        <div class="bcartpage35__subbox{% if sub_on %} is-on{% endif %}" data-subbox>
+          {%- capture sw_label -%}<span class="bcartpage35__b5">{{ sub_label }}</span>{%- endcapture -%}
+          {%- render 'blko-ui-switch', label: sw_label, checked: sub_on, className: 'bcartpage35__sw', name: 'sub' -%}
+          <label class="bcartpage35__every">
+            <span class="bcartpage35__muted">{{ 'blko.cart_page_35.every' | t }}</span>
+            <select class="bcartpage35__esel" data-every>{{ every }}</select>
+          </label>
+        </div>
+        {%- endif -%}
+        <div class="bcartpage35__ctl">
+          <div role="group" aria-label="{{ t_qty | escape }}" class="bcartpage35__step{% if qty <= 1 %} is-last{% endif %}">
+            <button type="button" class="bcartpage35__sb" data-dec aria-label="{% if qty <= 1 %}{{ t_rm | escape }}{% else %}{{ t_dec | escape }}{% endif %}">
+              <span aria-hidden="true" class="bcartpage35__bar bcartpage35__bar--m"></span>
+              {%- render 'blko-ui-icon', name: 'trash-2', className: 'bcartpage35__bin' -%}
+            </button>
+            <span class="bcartpage35__num" aria-live="polite"><span data-num>{{ qty }}</span></span>
+            <button type="button" class="bcartpage35__sb" data-inc aria-label="{{ t_inc | escape }}"{% if qty >= max %} disabled{% endif %}>
+              <span aria-hidden="true" class="bcartpage35__bar"></span>
+              <span aria-hidden="true" class="bcartpage35__bar bcartpage35__bar--v"></span>
+            </button>
+          </div>
+          <button type="button" class="bcartpage35__rm bcartpage35__label bcartpage35__muted" data-rm>
+            {%- render 'blko-ui-icon', name: 'trash-2', size: 14, className: 'rm-nudge' -%}<span class="rm-ul">{{ 'blko.cart_page_35.remove' | t }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>

@@ -1,0 +1,604 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-article-30.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-article-30.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- liquid
+  assign live = false
+  if article != blank
+    assign live = true
+  endif
+  assign p = s.product
+  if live
+    assign words = article.content | strip_html | split: ' ' | size
+    assign mins = words | divided_by: 200 | floor | at_least: 1
+    assign read_time = mins | append: ' ' | append: s.min_read
+    assign cat = article.tags.first | default: blog.title
+    assign author = article.author
+    assign date = article.published_at | date: '%-d %b %Y'
+    assign hero = article.image | default: s.hero
+    assign share_url = shop.url | append: article.url
+    assign share_title = article.title
+  else
+    assign read_time = s.read
+    assign cat = s.cat
+    assign author = s.author
+    assign date = s.date
+    assign hero = s.hero
+    assign share_url = shop.url
+    assign share_title = s.title_1 | strip_html
+  endif
+  assign name_words = author | split: ' '
+  assign initials = ''
+  for w in name_words limit: 2
+    assign ch = w | slice: 0
+    assign initials = initials | append: ch
+  endfor
+  assign mail_href = 'mailto:?subject=' | append: share_title | append: '&body=' | append: share_url
+-%}
+{%- capture share_row -%}
+<div class="barticle30__share"
+  ><span class="barticle30__label barticle30__muted barticle30__sharel">{{ 'blko.article_30.share' | t }}</span
+  >{%- capture copy_attrs -%}data-copy data-l-copy="{{ 'blko.article_30.copy' | t }}" data-l-copied="{{ 'blko.article_30.copied' | t }}"{%- endcapture -%}
+  {%- capture copy_icons -%}<span class="barticle30__ico" data-ico-link>{% render 'blko-ui-icon', name: 'link-2', className: 'rm-nudge' %}</span><span class="barticle30__ico" data-ico-check hidden>{% render 'blko-ui-icon', name: 'check' %}</span>{%- endcapture -%}
+  {%- assign copy_label = 'blko.article_30.copy' | t -%}
+  {%- render 'blko-ui-button', variant: 'outline', size: 'icon-sm', label: copy_label, attrs: copy_attrs, children: copy_icons -%}
+  <a href="{{ mail_href | escape }}" aria-label="{{ 'blko.article_30.email' | t }}" class="barticle30__mail">{% render 'blko-ui-icon', name: 'mail', size: 16, className: 'rm-nudge' %}</a
+  >{%- capture share_attrs -%}data-share data-title="{{ share_title | escape }}"{%- endcapture -%}
+  {%- capture share_icon -%}{% render 'blko-ui-icon', name: 'share-2', className: 'rm-nudge' %}{%- endcapture -%}
+  {%- assign share_label = 'blko.article_30.more_share' | t -%}
+  {%- render 'blko-ui-button', variant: 'outline', size: 'icon-sm', label: share_label, attrs: share_attrs, children: share_icon -%}
+</div
+>{%- endcapture -%}
+{%- capture toc -%}
+  {%- unless live -%}
+    {%- assign ti = 0 -%}
+    {%- for b in section.blocks -%}
+      {%- if b.type != 'heading' -%}{%- continue -%}{%- endif -%}
+      {%- assign ti = ti | plus: 1 -%}
+      <li><a href="#{{ section.id }}-h{{ ti }}" class="barticle30__toca"{% if ti == 1 %} aria-current="location"{% endif %}><span class="barticle30__tocn">{% if ti < 10 %}0{% endif %}{{ ti }}</span>{{ b.settings.title | escape }}</a></li
+    >{%- endfor -%}
+  {%- endunless -%}
+{%- endcapture -%}
+{%- capture content -%}
+  {%- if live -%}
+    <div class="barticle30__rte" data-rte>{{ article.content }}</div
+  >{%- else -%}
+    {%- assign hi = 0 -%}
+    {%- for b in section.blocks -%}
+      {%- assign bs = b.settings -%}
+      {%- case b.type -%}
+        {%- when 'lead' -%}
+          <p class="barticle30__lead" {{ b.shopify_attributes }}>{{ bs.text | escape }}</p
+        >{%- when 'heading' -%}
+          {%- assign hi = hi | plus: 1 -%}
+          <h2 id="{{ section.id }}-h{{ hi }}" class="barticle30__h2" data-toc-target {{ b.shopify_attributes }}>{{ bs.title | escape }}</h2
+        >{%- when 'text' -%}
+          <div class="barticle30__rich" {{ b.shopify_attributes }}>{{ bs.text }}</div
+        >{%- when 'quote' -%}
+          <blockquote class="barticle30__quote" {{ b.shopify_attributes }}
+            ><p class="barticle30__qtext rm-heading">{{ bs.text }}</p
+            ><footer class="barticle30__label barticle30__muted">{{ bs.cite | escape }}</footer
+          ></blockquote
+        >{%- when 'recipe' -%}
+          <aside aria-label="{{ bs.aria | escape }}" class="barticle30__recipe" {{ b.shopify_attributes }}
+            ><div class="barticle30__rhead"
+              ><p class="barticle30__rtitle">{{ bs.title | escape }}</p
+              ><p class="barticle30__label barticle30__dim80">{{ bs.meta | escape }}</p
+            ></div
+            ><dl class="barticle30__rgrid"
+              >{%- assign rows = bs.specs | newline_to_br | split: '<br />' -%}
+              {%- for r in rows -%}
+                {%- assign kv = r | split: '|' -%}
+                {%- assign k = kv[0] | strip -%}
+                {%- if k == blank -%}{%- continue -%}{%- endif -%}
+                <div class="barticle30__rcell"><dt class="barticle30__label barticle30__dim75">{{ k | escape }}</dt><dd class="barticle30__rval">{{ kv[1] | strip | escape }}</dd></div
+              >{%- endfor -%}
+            </dl
+            ><p class="barticle30__rnote">{{ bs.note | escape }}</p
+          ></aside
+        >{%- when 'image' -%}
+          <figure class="barticle30__fig" {{ b.shopify_attributes }}
+            ><div class="rm-zoom barticle30__figimg"
+              >{%- if bs.image != blank -%}{{ bs.image | image_url: width: 1400 | image_tag: class: 'barticle30__img', loading: 'lazy', widths: '600, 1000, 1400', sizes: '(min-width: 896px) 60vw, 100vw' }}{%- else -%}{{ 'image' | placeholder_svg_tag: 'barticle30__img placeholder-svg' }}{%- endif -%}
+            </div
+            ><figcaption class="barticle30__label barticle30__muted">{{ bs.caption | escape }}</figcaption
+          ></figure
+        >{%- when 'steps' -%}
+          <ol class="barticle30__steps" {{ b.shopify_attributes }}
+            >{%- assign lines = bs.steps | newline_to_br | split: '<br />' -%}
+            {%- assign n = 0 -%}
+            {%- for l in lines -%}
+              {%- assign t = l | strip -%}
+              {%- if t == blank -%}{%- continue -%}{%- endif -%}
+              {%- assign n = n | plus: 1 -%}
+              <li class="barticle30__step"><span aria-hidden="true" class="barticle30__stepn">{% if n < 10 %}0{% endif %}{{ n }}</span><p>{{ t | escape }}</p></li
+            >{%- endfor -%}
+          </ol
+      >{%- endcase -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+{%- liquid
+  if p != blank
+    assign p_title = p.title
+    assign p_variant = p.selected_or_first_available_variant.id
+    assign p_price = p.price | money_without_trailing_zeros
+    assign p_notes = s.notes | default: p.vendor
+  else
+    assign p_title = s.p_title
+    assign p_variant = ''
+    assign p_price = s.p_price | times: 100 | money_without_trailing_zeros
+    assign p_notes = s.notes
+  endif
+-%}
+{%- capture body -%}
+  <div aria-hidden="true" class="barticle30__prog" data-prog hidden><span data-prog-fill></span></div
+  ><header class="barticle30__hero"
+    >{%- if hero != blank -%}{{ hero | image_url: width: 2000 | image_tag: class: 'barticle30__img', widths: '800, 1200, 1600, 2000', sizes: '100vw', alt: hero.alt }}{%- else -%}{{ 'lifestyle-1' | placeholder_svg_tag: 'barticle30__img placeholder-svg' }}{%- endif -%}
+    <span aria-hidden="true" class="barticle30__scrim"></span
+    ><div class="barticle30__hin"
+      ><p class="barticle30__label rm-rise barticle30__crumb"
+        >{%- assign blog_url = blog.url | default: s.journal_link | default: '#' -%}
+        <a href="{{ blog_url }}" class="rm-ul">{{ 'blko.article_30.journal' | t }}</a><span aria-hidden="true">/</span>{{ cat | escape -}}
+      </p
+      ><h1 class="barticle30__h1"
+        >{%- if live -%}
+          <span class="rm-mask"><span class="rm-line" style="--d:0ms">{{ article.title | escape }}</span></span
+        >{%- else -%}
+          {%- if s.title_1 != blank -%}<span class="rm-mask"><span class="rm-line" style="--d:0ms">{{ s.title_1 }}</span></span>{%- endif -%}
+          {%- if s.title_2 != blank -%}<span class="rm-mask"><span class="rm-line" style="--d:100ms">{{ s.title_2 }}</span></span>{%- endif -%}
+          {%- if s.title_3 != blank -%}<span class="rm-mask"><span class="rm-line" style="--d:200ms">{{ s.title_3 }}</span></span>{%- endif -%}
+        {%- endif -%}
+      </h1
+      ><div class="rm-rise barticle30__by" style="--d:320ms"
+        ><span class="barticle30__who"
+          ><span aria-hidden="true" class="barticle30__disc">{{ initials | upcase }}</span
+          ><span class="barticle30__whot"><span class="barticle30__name">{{ author | escape }}</span><span class="barticle30__dim80">{{ s.role | escape }}</span></span
+        ></span
+        ><span class="barticle30__label barticle30__dim90">{{ date | escape }}</span
+        ><span class="barticle30__label barticle30__dim90">{{ read_time | escape }}</span
+      ></div
+    ></div
+  ></header
+  ><div class="barticle30__main"
+    >{%- if s.show_toc -%}
+    <aside class="barticle30__side"
+      ><div class="barticle30__stick"
+        ><nav aria-label="{{ 'blko.article_30.on_page' | t }}" class="barticle30__nav"
+          ><p class="barticle30__label barticle30__muted">{{ 'blko.article_30.on_page' | t }}</p
+          ><ol class="barticle30__toc" data-toc>{{ toc }}</ol
+        ></nav
+        >{{ share_row -}}
+      </div
+    ></aside
+    >{%- endif -%}
+    <div class="barticle30__body" data-body
+      >{{ content -}}
+      <div class="barticle30__end"
+        ><div class="barticle30__phshare">{{ share_row }}</div
+        >{%- if s.show_shop -%}
+        <div class="barticle30__shop"
+          ><div aria-hidden="true" class="barticle30__bag"><span class="barticle30__bagline"></span><span class="barticle30__bagw">{{ s.bag_weight | escape }}</span></div
+          ><div class="barticle30__shopt"
+            ><p class="barticle30__label barticle30__dim75">{{ 'blko.article_30.shop' | t }}</p
+            ><p class="barticle30__pname">{{ p_title | escape }}</p
+            ><p class="barticle30__pnotes">{{ p_notes | escape }} · {{ p_price }}</p
+          ></div
+          >{%- capture add_attrs -%}aria-live="polite" data-add data-variant="{{ p_variant }}" data-l-added="{{ 'blko.article_30.added' | t }}" data-l-error="{{ 'blko.article_30.error' | t }}"{%- endcapture -%}
+          {%- capture add_inner -%}<span class="barticle30__ico" data-ico-plus>{% render 'blko-ui-icon', name: 'plus' %}</span><span class="barticle30__ico" data-ico-check hidden>{% render 'blko-ui-icon', name: 'check' %}</span><span class="rm-roll"><span data-add-label>{{ 'blko.article_30.add' | t }}</span></span>{%- endcapture -%}
+          {%- render 'blko-ui-button', variant: 'inverse', attrs: add_attrs, children: add_inner -%}
+        </div
+        >{%- endif -%}
+      </div
+    ></div
+  ></div
+>{%- endcapture -%}
+<div class="barticle30" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-rm-magnetic{% if s.show_progress %} data-progress{% endif %}
+  >{%- render 'blko-ui-section', surface: 'bg', bleed: true, full: true, label: s.label, className: 'rm-load', inner: 'barticle30__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Article, window hero",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "On an article page the hero, byline and body come from the article (its first tag is the category; the contents list is built from its h2s). The blocks below fill in when there's no article."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Article"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero",
+      "label": "Hero image (if the article has none)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_toc",
+      "label": "Show contents",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress",
+      "label": "Show reading progress",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "min_read",
+      "label": "Read time suffix",
+      "default": "min read"
+    },
+    {
+      "type": "text",
+      "id": "role",
+      "label": "Author role",
+      "default": "Head of coffee"
+    },
+    {
+      "type": "header",
+      "content": "Shop the beans"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shop",
+      "label": "Show product card",
+      "default": true
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "notes",
+      "label": "Notes line",
+      "default": "Kenya · blackcurrant, grapefruit, cane sugar"
+    },
+    {
+      "type": "text",
+      "id": "bag_weight",
+      "label": "Bag weight",
+      "default": "250 g"
+    },
+    {
+      "type": "text",
+      "id": "p_title",
+      "label": "Title (no product)",
+      "default": "Kiambu AA, washed"
+    },
+    {
+      "type": "number",
+      "id": "p_price",
+      "label": "Price (no product)",
+      "default": 24
+    },
+    {
+      "type": "header",
+      "content": "Without an article"
+    },
+    {
+      "type": "url",
+      "id": "journal_link",
+      "label": "Journal link"
+    },
+    {
+      "type": "text",
+      "id": "cat",
+      "label": "Category",
+      "default": "Brew guides"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Title, line 1",
+      "default": "How to dial in"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Title, line 2",
+      "default": "a <em>pour-over</em>"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Title, line 3",
+      "default": "at home"
+    },
+    {
+      "type": "text",
+      "id": "author",
+      "label": "Author",
+      "default": "Ines Arvo"
+    },
+    {
+      "type": "text",
+      "id": "date",
+      "label": "Date",
+      "default": "12 Oct 2026"
+    },
+    {
+      "type": "text",
+      "id": "read",
+      "label": "Read time",
+      "default": "9 min read"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "lead",
+      "name": "Lead",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "A good pour-over is not a secret recipe."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading (in contents)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Why dial in at all"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Every lot we roast behaves a little differently.</p>"
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "name": "Pull quote",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Quote (em allowed)",
+          "default": "Change one thing per brew. <em>Write it down.</em> That is the whole trick."
+        },
+        {
+          "type": "text",
+          "id": "cite",
+          "label": "Cite",
+          "default": "Ines Arvo, at the Halden bar"
+        }
+      ]
+    },
+    {
+      "type": "recipe",
+      "name": "Recipe card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "aria",
+          "label": "Region label",
+          "default": "Recipe card"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Base pour-over"
+        },
+        {
+          "type": "text",
+          "id": "meta",
+          "label": "Meta",
+          "default": "1 cup · cone brewer"
+        },
+        {
+          "type": "textarea",
+          "id": "specs",
+          "label": "Specs (label | value per line)",
+          "default": "Dose | 15 g\nWater | 250 g\nTemp | 94 °C\nTime | 2:45–3:15"
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Note",
+          "default": "Grind: medium-fine, like coarse sand. Water: soft, filtered, just off the boil."
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption",
+          "default": "Fig. 1 · From left: espresso, filter and press grind"
+        }
+      ]
+    },
+    {
+      "type": "steps",
+      "name": "Numbered steps",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "steps",
+          "label": "Steps (one per line)",
+          "default": "Rinse the filter.\nAdd the coffee."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Article, window hero",
+      "blocks": [
+        {
+          "type": "lead",
+          "settings": {
+            "text": "A good pour-over is not a secret recipe. It is one recipe and a habit of changing a single thing at a time until the cup tastes the way the bag says it should."
+          }
+        },
+        {
+          "type": "heading",
+          "settings": {
+            "title": "Why dial in at all"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "<p>Every lot we roast behaves a little differently. A dense, high-grown washed coffee wants a finer grind and hotter water than a soft natural from lower down. Dialling in is how you meet each bag halfway, and it takes three or four brews, not thirty.</p><p>You need a scale, a kettle you can pour slowly from, and a grinder that holds its setting. Everything else is nice to have.</p>"
+          }
+        },
+        {
+          "type": "quote",
+          "settings": {
+            "text": "Change one thing per brew. <em>Write it down.</em> That is the whole trick.",
+            "cite": "Ines Arvo, at the Halden bar"
+          }
+        },
+        {
+          "type": "heading",
+          "settings": {
+            "title": "The base recipe"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "<p>Start here with any of our filter roasts. It is a 1:16.7 ratio, a little strong on purpose, because it is easier to dilute a cup than to rescue a thin one.</p>"
+          }
+        },
+        {
+          "type": "recipe",
+          "settings": {}
+        },
+        {
+          "type": "heading",
+          "settings": {
+            "title": "Grind first, always"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "<p>If the brew drains in under two and a half minutes and tastes sharp, go finer. If it stalls past three and a half and tastes dry or bitter, go coarser. Move two clicks at a time and leave the water alone until the grind is right.</p>"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {}
+        },
+        {
+          "type": "heading",
+          "settings": {
+            "title": "The method, step by step"
+          }
+        },
+        {
+          "type": "steps",
+          "settings": {
+            "steps": "Rinse the filter with hot water and tip the water out. It warms the brewer and washes out the paper taste.\nAdd 15 g of coffee ground like coarse sand, level the bed and zero the scale.\nBloom with 40 g of water for 40 seconds. Swirl once so every ground is wet.\nPour to 150 g in slow circles by 1:15, then to 250 g by 1:45. Keep the spout low.\nGive one gentle swirl and let it drain. Aim to finish between 2:45 and 3:15."
+          }
+        },
+        {
+          "type": "heading",
+          "settings": {
+            "title": "Reading the cup"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "<p>Let it cool for five minutes before you judge it. Sour and thin means under-extracted: finer, or hotter. Bitter, dry and hollow means over-extracted: coarser, or a touch cooler. Sweet and clear with a long finish means you are done, so write the setting on the bag.</p>"
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

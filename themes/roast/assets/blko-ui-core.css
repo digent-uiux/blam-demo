@@ -1,0 +1,242 @@
+/* Port of components/ui/{section,button,badge,media,motion,trust,payment}. Every value reads the DS token with the DS
+   default as fallback, so a theme restyles it by setting the tokens. Sizes are px (Dawn sets html to 62.5%).
+   Type sizes step up at 1024px like the DS; containers step at 768px like @3xl. Fonts: render 'blko-ui-fonts'. */
+:where([class^="blko-ui-"], [class*=" blko-ui-"]), :where([class^="blko-ui-"], [class*=" blko-ui-"]) * { box-sizing: border-box; }
+.blko-ui-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.blko-ui-icon { display: block; flex-shrink: 0; }
+/* The display size as a token too (DS --text-display), so block CSS can read it; a theme may still override it. */
+:root { --blko-text-display: 40px; }
+@media (min-width: 1024px) { :root { --blko-text-display: 64px; } }
+
+/* ---- Section ---- */
+.blko-ui-section {
+  container-type: inline-size; width: 100%;
+  font-family: var(--blko-font-body, "Plus Jakarta Sans", system-ui, sans-serif);
+  font-size: var(--blko-text-body, 16px); line-height: 1.6; letter-spacing: normal; -webkit-font-smoothing: antialiased;
+}
+.blko-ui-section__inner { margin-inline: auto; }
+.blko-ui-section__inner--page { max-width: var(--blko-container-page, 1280px); }
+/* --pt / --pb: the section's padding settings (desktop px; phones 70%, so the default 80 gives the DS 56 / 80) */
+.blko-ui-section__inner--pad { padding: calc(var(--pt, 80px) * .7) 16px calc(var(--pb, 80px) * .7); }
+@container (min-width: 768px) { .blko-ui-section__inner--pad { padding: var(--pt, 80px) 32px var(--pb, 80px); } }
+
+.blko-ui-surface--bg { background: var(--blko-color-bg, #fff); color: var(--blko-color-text, #09090b); }
+.blko-ui-surface--alt { background: var(--blko-color-bg-alt, #f4f4f5); color: var(--blko-color-text, #09090b); }
+.blko-ui-surface--inverse { background: var(--blko-color-text, #09090b); color: var(--blko-color-bg, #fff); }
+.blko-ui-surface--accent { background: var(--blko-color-accent, #2563eb); color: var(--blko-color-on-color, #fff); }
+.blko-ui-surface--pop-1 { background: var(--blko-color-pop-1, #c9f23f); color: var(--blko-color-on-pop-1, #0a0d02); }
+.blko-ui-surface--pop-2 { background: var(--blko-color-pop-2, #c9f0dc); color: var(--blko-color-on-pop-2, #0b0b0c); }
+.blko-ui-surface--pop-3 { background: var(--blko-color-pop-3, #8b7bff); color: var(--blko-color-on-pop-3, #0b0b0c); }
+.blko-ui-surface--pop-4 { background: var(--blko-color-pop-4, #ff7eb6); color: var(--blko-color-on-pop-4, #0b0b0c); }
+.blko-ui-surface--soft-1 { background: color-mix(in oklab, var(--blko-color-pop-1, #c9f23f) 20%, transparent); color: var(--blko-color-text, #09090b); }
+.blko-ui-surface--soft-2 { background: color-mix(in oklab, var(--blko-color-pop-2, #c9f0dc) 35%, transparent); color: var(--blko-color-text, #09090b); }
+.blko-ui-surface--soft-3 { background: color-mix(in oklab, var(--blko-color-pop-3, #8b7bff) 15%, transparent); color: var(--blko-color-text, #09090b); }
+.blko-ui-surface--soft-4 { background: color-mix(in oklab, var(--blko-color-pop-4, #ff7eb6) 15%, transparent); color: var(--blko-color-text, #09090b); }
+/* dark = inverse with every token flipped, so shared components stay readable on it */
+.blko-ui-surface--dark { --blko-fx-bg: var(--blko-color-text, #09090b); --blko-fx-fg: var(--blko-color-bg, #fff); background: var(--blko-fx-bg); color: var(--blko-fx-fg); }
+.blko-ui-surface--dark > .blko-ui-section__inner {
+  --blko-color-bg: var(--blko-fx-bg); --blko-color-text: var(--blko-fx-fg);
+  --blko-color-bg-alt: color-mix(in oklab, var(--blko-fx-fg) 9%, var(--blko-fx-bg));
+  --blko-color-border: color-mix(in oklab, var(--blko-fx-fg) 18%, var(--blko-fx-bg));
+  --blko-color-text-muted: color-mix(in oklab, var(--blko-fx-fg) 84%, var(--blko-fx-bg));
+  --blko-color-button: var(--blko-fx-fg); --blko-color-button-text: var(--blko-fx-bg);
+  --blko-color-button-hover: color-mix(in oklab, var(--blko-fx-fg) 82%, var(--blko-fx-bg));
+  --blko-color-input-bg: var(--blko-fx-bg); --blko-color-input-text: var(--blko-fx-fg);
+  background-color: var(--blko-color-bg); color: var(--blko-color-text);
+}
+
+/* ---- Eyebrow + SectionHeading ---- */
+.blko-ui-eyebrow { margin: 0; font-size: var(--blko-text-small, 14px); line-height: 1.5; font-weight: 500; color: var(--blko-color-text-muted, #65656e); }
+.blko-ui-eyebrow--inherit { color: inherit; opacity: .84; }
+.blko-ui-heading { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; }
+.blko-ui-heading--center { flex-direction: column; align-items: center; text-align: center; }
+.blko-ui-heading__text { display: grid; gap: 12px; max-width: 736px; }
+.blko-ui-heading--center .blko-ui-heading__text { justify-items: center; }
+.blko-ui-heading__title { margin: 0; text-wrap: balance; color: inherit; }
+.blko-ui-heading__title em { font-weight: 400; font-style: italic; }
+.blko-ui-heading__lead { margin: 0; font-size: var(--blko-text-body, 16px); line-height: 1.6; text-wrap: pretty; color: var(--blko-color-text-muted, #65656e); }
+.blko-ui-heading__lead--inherit { color: inherit; opacity: .84; }
+
+/* Heading roles (headingFont) and sizes (text-h3 / h2 / h1 / display) */
+.blko-ui-font--sans { font-family: var(--blko-font-heading, "Plus Jakarta Sans", system-ui, sans-serif); font-weight: var(--blko-font-weight-heading, 600); text-transform: var(--blko-heading-transform, none); }
+.blko-ui-title--sm { font-size: var(--blko-text-h3, 22px); line-height: 1.2; letter-spacing: -.015em; }
+.blko-ui-title--md { font-size: var(--blko-text-h2, 28px); line-height: 1.15; letter-spacing: -.02em; }
+.blko-ui-title--lg { font-size: var(--blko-text-h1, 32px); line-height: 1.1; letter-spacing: -.025em; }
+.blko-ui-title--xl { font-size: var(--blko-text-display, 40px); line-height: 1.05; letter-spacing: -.03em; }
+@media (min-width: 1024px) {
+  .blko-ui-title--sm { font-size: var(--blko-text-h3, 28px); }
+  .blko-ui-title--md { font-size: var(--blko-text-h2, 36px); }
+  .blko-ui-title--lg { font-size: var(--blko-text-h1, 48px); }
+  .blko-ui-title--xl { font-size: var(--blko-text-display, 64px); }
+}
+.blko-ui-font--display { font-family: var(--blko-font-display, "Instrument Serif", Georgia, serif); font-weight: 400; letter-spacing: -.025em; text-transform: var(--blko-heading-transform, none); }
+.blko-ui-font--display em { font-style: italic; }
+.blko-ui-font--condensed { font-family: var(--blko-font-condensed, Anton, Impact, sans-serif); font-weight: 400; text-transform: uppercase; letter-spacing: 0; line-height: .95; }
+
+/* ---- Button / ButtonLink ---- */
+.blko-ui-button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap;
+  font: inherit; margin: 0; border: 0; background: none; color: inherit; text-decoration: none; cursor: pointer;
+  font-weight: var(--blko-theme-button-weight, 500); letter-spacing: var(--blko-theme-button-tracking, normal);
+  text-transform: var(--blko-theme-button-case, none);
+  transition: color .2s, background-color .2s, border-color .2s;
+}
+.blko-ui-button svg { width: 16px; height: 16px; flex-shrink: 0; }
+.blko-ui-button:focus-visible { outline: 2px solid var(--blko-color-text, #09090b); outline-offset: 2px; }
+.blko-ui-button:disabled, .blko-ui-button[aria-disabled="true"] { pointer-events: none; opacity: .45; }
+.blko-ui-button--sm, .blko-ui-button--md, .blko-ui-button--lg, .blko-ui-button--icon-sm, .blko-ui-button--icon { border-radius: var(--blko-radius-button, 8px); }
+.blko-ui-button--pill { border-radius: var(--blko-theme-radius-button, 9999px); }
+.blko-ui-button--sm { height: 36px; padding: 0 16px; font-size: var(--blko-text-small, 14px); line-height: 1.5; }
+.blko-ui-button--md { height: 44px; padding: 0 24px; font-size: var(--blko-text-button-label, 15px); line-height: 1; }
+.blko-ui-button--lg { height: 52px; padding: 0 32px; font-size: var(--blko-text-button-label, 15px); line-height: 1; }
+.blko-ui-button--icon-sm { width: 36px; height: 36px; padding: 0; }
+.blko-ui-button--icon { width: 44px; height: 44px; padding: 0; }
+.blko-ui-button--full { width: 100%; }
+.blko-ui-button--mono { font-family: var(--blko-font-mono, var(--blko-font-body, "Plus Jakarta Sans", system-ui, sans-serif)); text-transform: uppercase; font-size: var(--blko-text-label, 12px) !important; line-height: 1.4 !important; letter-spacing: .06em !important; }
+
+.blko-ui-button--primary { background: var(--blko-color-button, #18181b); color: var(--blko-color-button-text, #fff); }
+.blko-ui-button--primary:hover { background: var(--blko-color-button-hover, #3f3f46); }
+.blko-ui-button--secondary { background: var(--blko-color-bg-alt, #f4f4f5); color: var(--blko-color-text, #09090b); }
+.blko-ui-button--secondary:hover { background: var(--blko-color-border, #e4e4e7); }
+.blko-ui-button--outline { border: 1px solid var(--blko-color-text, #09090b); color: var(--blko-color-text, #09090b); }
+.blko-ui-button--outline:hover { background: var(--blko-color-text, #09090b); color: var(--blko-color-bg, #fff); }
+.blko-ui-button--ghost { color: var(--blko-color-text, #09090b); }
+.blko-ui-button--ghost:hover { background: var(--blko-color-bg-alt, #f4f4f5); }
+.blko-ui-button--inverse { background: var(--blko-color-bg, #fff); color: var(--blko-color-text, #09090b); }
+.blko-ui-button--inverse:hover { background: var(--blko-color-bg-alt, #f4f4f5); }
+.blko-ui-button--link { padding: 0; color: var(--blko-color-text, #09090b); text-decoration: underline; text-underline-offset: 4px; text-transform: none; font-size: inherit; }
+.blko-ui-button--link:hover { color: var(--blko-color-text-muted, #65656e); }
+.blko-ui-button--outline-inverse { border: 1px solid var(--blko-color-bg, #fff); color: var(--blko-color-bg, #fff); }
+.blko-ui-button--outline-inverse:hover { background: var(--blko-color-bg, #fff); color: var(--blko-color-text, #09090b); }
+.blko-ui-button--ghost-inverse { color: var(--blko-color-bg, #fff); }
+.blko-ui-button--ghost-inverse:hover { background: color-mix(in oklab, var(--blko-color-bg, #fff) 10%, transparent); }
+.blko-ui-button--inherit { border: 1px solid currentColor; color: currentColor; }
+.blko-ui-button--inherit:hover { background: color-mix(in oklab, currentColor 10%, transparent); }
+
+/* ---- ArrowLink ---- */
+.blko-ui-arrow-link {
+  display: inline-flex; justify-self: start; align-items: center; gap: 12px; height: 48px; padding: 4px 4px 4px 24px;
+  border-radius: var(--blko-theme-radius-button, 9999px); text-decoration: none;
+  font-size: var(--blko-text-button-label, 15px); line-height: 1;
+  font-weight: var(--blko-theme-button-weight, 500); letter-spacing: var(--blko-theme-button-tracking, normal); text-transform: var(--blko-theme-button-case, none);
+  background: var(--blko-color-button, #18181b); color: var(--blko-color-button-text, #fff); transition: background-color .2s;
+}
+.blko-ui-arrow-link:hover { background: var(--blko-color-button-hover, #3f3f46); }
+.blko-ui-arrow-link__icon {
+  display: grid; place-items: center; width: 40px; height: 40px; border-radius: var(--blko-theme-radius-button, 9999px);
+  background: var(--blko-color-button-text, #fff); color: var(--blko-color-button, #18181b);
+  transition: transform .2s var(--blko-ease-brand, cubic-bezier(.2, .8, .2, 1));
+}
+.blko-ui-arrow-link:hover .blko-ui-arrow-link__icon { transform: rotate(45deg); }
+.blko-ui-arrow-link--inverse { background: var(--blko-color-bg, #fff); color: var(--blko-color-text, #09090b); }
+.blko-ui-arrow-link--inverse:hover { background: var(--blko-color-bg-alt, #f4f4f5); }
+.blko-ui-arrow-link--inverse .blko-ui-arrow-link__icon { background: var(--blko-color-text, #09090b); color: var(--blko-color-bg, #fff); }
+
+/* ---- Badge ---- */
+.blko-ui-badge {
+  display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 8px; border-radius: 9999px; white-space: nowrap;
+  font-size: var(--blko-text-badge, 12px); line-height: 1; letter-spacing: .02em; font-weight: 500;
+}
+.blko-ui-badge svg { width: 12px; height: 12px; }
+.blko-ui-badge--mono { font-family: var(--blko-font-mono, var(--blko-font-body, "Plus Jakarta Sans", system-ui, sans-serif)); text-transform: uppercase; letter-spacing: .025em; }
+.blko-ui-badge--accent { background: var(--blko-color-accent, #2563eb); color: var(--blko-color-on-color, #fff); }
+.blko-ui-badge--sale { background: var(--blko-color-sale, #dc2626); color: var(--blko-color-on-color, #fff); }
+.blko-ui-badge--inverse { background: var(--blko-color-text, #09090b); color: var(--blko-color-bg, #fff); }
+.blko-ui-badge--outline { border: 1px solid var(--blko-color-border, #e4e4e7); color: var(--blko-color-text, #09090b); }
+.blko-ui-badge--muted { background: var(--blko-color-bg-alt, #f4f4f5); color: var(--blko-color-text-muted, #65656e); }
+.blko-ui-badge--success { background: color-mix(in oklab, var(--blko-color-success, #16a34a) 12%, transparent); color: var(--blko-color-success-text, #166534); }
+.blko-ui-badge--surface { background: color-mix(in oklab, var(--blko-color-bg, #fff) 90%, transparent); color: var(--blko-color-text, #09090b); box-shadow: 0 1px 2px rgb(0 0 0 / .06); }
+
+/* ---- Media + Stat ---- */
+.blko-ui-media { position: relative; overflow: hidden; background: var(--blko-color-bg-alt, #f4f4f5); }
+.blko-ui-media--rounded { border-radius: var(--blko-radius-image, 8px); }
+.blko-ui-media--square { aspect-ratio: 1; }
+.blko-ui-media--portrait { aspect-ratio: 4 / 5; }
+.blko-ui-media--tall { aspect-ratio: 3 / 4; }
+.blko-ui-media--landscape { aspect-ratio: 4 / 3; }
+.blko-ui-media--wide { aspect-ratio: 16 / 9; }
+.blko-ui-media--hero { aspect-ratio: 21 / 9; }
+.blko-ui-media__img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--blko-ease-brand, cubic-bezier(.2, .8, .2, 1)); }
+.blko-ui-media__img:hover { transform: scale(var(--blko-motion-hover-scale, 1.04)); }
+.blko-ui-media__placeholder { fill: currentColor; color: color-mix(in oklab, var(--blko-color-text, #09090b) 25%, transparent); }
+.blko-ui-media-frame { border-radius: var(--blko-radius-card, 12px); background: var(--blko-color-bg-alt, #f4f4f5); padding: 8px; }
+.blko-ui-stat { display: grid; gap: 4px; }
+.blko-ui-stat__value { font-size: var(--blko-text-h1, 32px); line-height: 1.1; letter-spacing: -.025em; font-variant-numeric: tabular-nums; }
+@media (min-width: 1024px) { .blko-ui-stat__value { font-size: var(--blko-text-h1, 48px); } }
+.blko-ui-stat__value--sans { font-family: var(--blko-font-heading, "Plus Jakarta Sans", system-ui, sans-serif); }
+.blko-ui-stat__value--display { font-family: var(--blko-font-display, "Instrument Serif", Georgia, serif); font-weight: 400; }
+.blko-ui-stat__value--condensed { font-family: var(--blko-font-condensed, Anton, Impact, sans-serif); font-weight: 400; }
+.blko-ui-stat__value--mono { font-family: var(--blko-font-mono, var(--blko-font-body, "Plus Jakarta Sans", system-ui, sans-serif)); }
+.blko-ui-stat__label { font-size: var(--blko-text-small, 14px); line-height: 1.5; }
+.blko-ui-stat__note { font-size: var(--blko-text-label, 12px); line-height: 1.4; letter-spacing: .06em; color: var(--blko-color-text-muted, #65656e); }
+
+/* ---- TrustRow ---- */
+.blko-ui-trust { margin: 0; padding: 0; list-style: none; }
+.blko-ui-trust--inline { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+.blko-ui-trust--grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.blko-ui-trust--list { display: grid; gap: 12px; }
+.blko-ui-trust__item { display: flex; gap: 12px; align-items: center; }
+.blko-ui-trust--grid .blko-ui-trust__item { flex-direction: column; align-items: stretch; }
+.blko-ui-trust__icon { display: grid; flex-shrink: 0; place-items: center; width: 32px; height: 32px; border-radius: 9999px; background: var(--blko-color-bg-alt, #f4f4f5); color: var(--blko-color-text, #09090b); }
+.blko-ui-trust--grid .blko-ui-trust__icon { width: 44px; height: 44px; }
+.blko-ui-trust__copy { display: grid; gap: 2px; }
+.blko-ui-trust__title { font-size: var(--blko-text-small, 14px); line-height: 1.5; font-weight: 500; }
+.blko-ui-trust__text { font-size: var(--blko-text-small, 14px); line-height: 1.5; color: var(--blko-color-text-muted, #65656e); }
+@container (min-width: 768px) {
+  .blko-ui-trust--grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .blko-ui-trust--grid .blko-ui-trust__item { flex-direction: row; }
+}
+
+/* ---- PaymentMarks ---- */
+.blko-ui-payment { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.blko-ui-payment__mark {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; width: 40px; height: 28px;
+  border: 1px solid var(--blko-color-border, #e4e4e7); border-radius: var(--blko-radius-sm, 4px);
+  font-size: var(--blko-text-label, 12px); line-height: 1.4; letter-spacing: .06em; color: var(--blko-color-text-muted, #65656e);
+}
+.blko-ui-payment--labels .blko-ui-payment__mark { width: auto; padding: 0 8px; }
+
+/* ---- Type scale (class doubled = (0,2,0), above a bundle's reset): Tailwind text-<name> (size + line height + letter spacing), desktop sizes from 1024px ---- */
+.blko-ui-text--display.blko-ui-text--display { font-size: var(--blko-text-display, 40px); line-height: 1.05; letter-spacing: -.03em; }
+.blko-ui-text--h1.blko-ui-text--h1 { font-size: var(--blko-text-h1, 32px); line-height: 1.1; letter-spacing: -.025em; }
+.blko-ui-text--h2.blko-ui-text--h2 { font-size: var(--blko-text-h2, 28px); line-height: 1.15; letter-spacing: -.02em; }
+.blko-ui-text--h3.blko-ui-text--h3 { font-size: var(--blko-text-h3, 22px); line-height: 1.2; letter-spacing: -.015em; }
+.blko-ui-text--h4.blko-ui-text--h4 { font-size: var(--blko-text-h4, 20px); line-height: 1.25; letter-spacing: -.01em; }
+.blko-ui-text--title.blko-ui-text--title { font-size: var(--blko-text-title, 24px); line-height: 1.2; letter-spacing: -.02em; }
+.blko-ui-text--card-title.blko-ui-text--card-title { font-size: var(--blko-text-card-title, 15px); line-height: 1.35; }
+.blko-ui-text--price.blko-ui-text--price { font-size: var(--blko-text-price, 15px); line-height: 1.3; }
+.blko-ui-text--body.blko-ui-text--body { font-size: var(--blko-text-body, 16px); line-height: 1.6; }
+.blko-ui-text--small.blko-ui-text--small { font-size: var(--blko-text-small, 14px); line-height: 1.5; }
+.blko-ui-text--label.blko-ui-text--label { font-size: var(--blko-text-label, 12px); line-height: 1.4; letter-spacing: .06em; }
+.blko-ui-text--nav.blko-ui-text--nav { font-size: var(--blko-text-nav, 14px); line-height: 1.4; }
+.blko-ui-text--button-label.blko-ui-text--button-label { font-size: var(--blko-text-button-label, 15px); line-height: 1; }
+.blko-ui-text--badge.blko-ui-text--badge { font-size: var(--blko-text-badge, 12px); line-height: 1; letter-spacing: .02em; }
+.blko-ui-text--input.blko-ui-text--input { font-size: var(--blko-text-input, 16px); line-height: 1.4; }
+@media (min-width: 1024px) {
+  .blko-ui-text--display.blko-ui-text--display { font-size: var(--blko-text-display, 64px); }
+  .blko-ui-text--h1.blko-ui-text--h1 { font-size: var(--blko-text-h1, 48px); }
+  .blko-ui-text--h2.blko-ui-text--h2 { font-size: var(--blko-text-h2, 36px); }
+  .blko-ui-text--h3.blko-ui-text--h3 { font-size: var(--blko-text-h3, 28px); }
+  .blko-ui-text--h4.blko-ui-text--h4 { font-size: var(--blko-text-h4, 22px); }
+  .blko-ui-text--title.blko-ui-text--title { font-size: var(--blko-text-title, 32px); }
+  .blko-ui-text--card-title.blko-ui-text--card-title { font-size: var(--blko-text-card-title, 16px); }
+  .blko-ui-text--price.blko-ui-text--price { font-size: var(--blko-text-price, 16px); }
+  .blko-ui-text--nav.blko-ui-text--nav { font-size: var(--blko-text-nav, 15px); }
+}
+
+/* ---- Motion (components/ui/motion.tsx + assets/blko-ui-motion.js) ----
+   Hidden only once the script has measured an element below the first screen, so server HTML, slow JS, the first
+   screen and captures are always complete. Themes tune the feel through --motion-*. */
+@keyframes blko-ui-reveal { from { opacity: 0; translate: 0 var(--blko-motion-distance, 28px); } }
+html.blko-ui-motion [data-reveal][data-pending],
+html.blko-ui-motion [data-reveal-group][data-pending] > * { visibility: hidden; }
+html.blko-ui-motion [data-reveal][data-shown],
+html.blko-ui-motion [data-reveal-group][data-shown] > * { animation: blko-ui-reveal var(--blko-motion-duration, 700ms) var(--blko-motion-ease, cubic-bezier(.2, .7, .2, 1)) backwards; }
+html.blko-ui-motion [data-reveal-group] > :nth-child(2) { animation-delay: calc(var(--blko-motion-stagger, 80ms) * 1); }
+html.blko-ui-motion [data-reveal-group] > :nth-child(3) { animation-delay: calc(var(--blko-motion-stagger, 80ms) * 2); }
+html.blko-ui-motion [data-reveal-group] > :nth-child(4) { animation-delay: calc(var(--blko-motion-stagger, 80ms) * 3); }
+html.blko-ui-motion [data-reveal-group] > :nth-child(5) { animation-delay: calc(var(--blko-motion-stagger, 80ms) * 4); }
+html.blko-ui-motion [data-reveal-group] > :nth-child(n+6) { animation-delay: calc(var(--blko-motion-stagger, 80ms) * 5); }
+@media (prefers-reduced-motion: reduce) {
+  html.blko-ui-motion [data-reveal], html.blko-ui-motion [data-reveal-group] > * { visibility: visible !important; animation: none !important; }
+}

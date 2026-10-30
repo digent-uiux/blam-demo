@@ -1,0 +1,67 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer-30": {
+      "type": "blko-footer-30",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "column-1": {
+          "type": "column",
+          "settings": {
+            "title": "Shop",
+            "links": "Coffee\nTea & matcha\nThe roast club\nBrewing gear\nGift cards"
+          }
+        },
+        "column-2": {
+          "type": "column",
+          "settings": {
+            "title": "Learn",
+            "links": "Brew guides\nOur farms\nRoast calendar\nThe journal"
+          }
+        },
+        "column-3": {
+          "type": "column",
+          "settings": {
+            "title": "Help",
+            "links": "Shipping\nReturns\nOrder status\nWholesale\nContact"
+          }
+        },
+        "social-4": {
+          "type": "social",
+          "settings": {
+            "icon": "camera",
+            "label": "Photos"
+          }
+        },
+        "social-5": {
+          "type": "social",
+          "settings": {
+            "icon": "play",
+            "label": "Videos"
+          }
+        },
+        "social-6": {
+          "type": "social",
+          "settings": {
+            "icon": "headphones",
+            "label": "Podcast"
+          }
+        }
+      },
+      "block_order": [
+        "column-1",
+        "column-2",
+        "column-3",
+        "social-4",
+        "social-5",
+        "social-6"
+      ]
+    }
+  },
+  "order": [
+    "footer-30"
+  ]
+}

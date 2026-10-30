@@ -1,0 +1,69 @@
+{
+  "blko_ui": {
+    "price": {
+      "from": "From",
+      "was": "Was",
+      "save": "Save"
+    },
+    "rating": {
+      "stars": "{{ value }} out of 5 stars"
+    },
+    "quantity": {
+      "label": "Quantity",
+      "decrease": "Decrease {{ label }}",
+      "increase": "Increase {{ label }}"
+    },
+    "field": {
+      "optional": "(optional)"
+    },
+    "option": {
+      "sold_out": "sold out"
+    },
+    "product": {
+      "save": "Save {{ title }}",
+      "add": "Add {{ title }} to bag",
+      "colors": "{{ count }} colours"
+    }
+  },
+  "blko": {
+    "account_34": {
+      "account": "Account",
+      "orders": "Orders",
+      "subscription": "Subscription",
+      "addresses": "Addresses",
+      "details": "Details",
+      "sign_out": "Sign out",
+      "all_orders": "All orders",
+      "order": "Order",
+      "date": "Date",
+      "items": "Items",
+      "total": "Total",
+      "status": "Status",
+      "action": "Action",
+      "reorder": "Reorder",
+      "added": "Added again",
+      "no_orders": "No orders yet. Your first bag will show up here.",
+      "default": "Default",
+      "edit": "Edit",
+      "make_default": "Make default",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email",
+      "save": "Save details",
+      "meter": "Beans towards a free bag",
+      "beans": "Beans earned",
+      "active": "Active",
+      "paused": "Paused",
+      "your_sub": "Your subscription",
+      "next": "Next roast",
+      "on_hold": "On hold",
+      "every": "Deliver every",
+      "weeks": "[n] weeks",
+      "skip": "Skip next",
+      "pause": "Pause",
+      "resume": "Resume",
+      "undo": "Undo skip",
+      "sub_label": "Active subscription"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{%- comment -%}A text-only row of blko-blog-94 (the "load more" list): cat, read, title, href, d, attrs.{%- endcomment -%}
+<li class="rm-rise bblog94__rowli" style="--d:{{ d }}ms" {{ attrs }}>
+  <a href="{{ href }}" class="bblog94__row">
+    <p class="bblog94__label bblog94__muted" data-r-meta>{{ cat | escape }} · {{ read | escape }}</p>
+    <h3 class="bblog94__h3 bblog94__t-row"><span class="rm-ul" data-r-title>{{ title | escape }}</span></h3>
+    {%- render 'blko-ui-icon', name: 'arrow-up-right', size: 20, className: 'rm-nudge bblog94__rowico' -%}
+  </a>
+</li>

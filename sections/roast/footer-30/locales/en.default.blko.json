@@ -1,0 +1,23 @@
+{
+  "blko_ui": {
+    "payment": {
+      "label": "Payment methods we accept",
+      "card": "Card",
+      "wallet": "Wallet",
+      "pay_later": "Pay later",
+      "bank": "Bank",
+      "gift_card": "Gift card"
+    }
+  },
+  "blko": {
+    "footer_30": {
+      "footer": "Footer",
+      "follow": "Follow us",
+      "email": "Email address",
+      "subscribe": "Subscribe",
+      "subscribed": "Subscribed",
+      "done": "You're in. See you on Friday.",
+      "error": "Please enter a valid email address."
+    }
+  }
+}

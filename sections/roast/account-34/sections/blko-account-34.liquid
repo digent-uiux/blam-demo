@@ -1,0 +1,573 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-account-34.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-ui-commerce.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-commerce.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-account-34.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- comment -%}
+  Signed in: the customer's name, real orders (Reorder adds the order's variants with /cart/add.js) and addresses.
+  Signed out (theme editor, previews): the order and address blocks. The subscription card and beans meter are
+  settings (subscription and loyalty apps own that data).
+{%- endcomment -%}
+{%- liquid
+  assign first_name = s.name
+  assign last_name = s.last_name
+  assign email = s.email
+  if customer
+    assign first_name = customer.first_name | default: customer.name
+    assign last_name = customer.last_name
+    assign email = customer.email
+  endif
+  assign k = 'a34-' | append: section.id
+  assign pct = s.beans | times: 100.0 | divided_by: s.goal
+  assign left = s.goal | minus: s.beans
+  assign goal_fmt = s.goal
+  if s.goal >= 1000
+    assign th = s.goal | divided_by: 1000
+    assign rest = s.goal | modulo: 1000 | prepend: '00' | slice: -3, 3
+    assign goal_fmt = th | append: ',' | append: rest
+  endif
+  assign t_first = 'blko.account_34.first_name' | t
+  assign t_last = 'blko.account_34.last_name' | t
+  assign t_email = 'blko.account_34.email' | t
+  assign id_first = k | append: '-first'
+  assign id_last = k | append: '-last'
+  assign id_mail = k | append: '-mail'
+  assign order_count = 0
+  if customer
+    assign order_count = customer.orders_count
+  else
+    for b in section.blocks
+      if b.type == 'order'
+        assign order_count = order_count | plus: 1
+      endif
+    endfor
+  endif
+-%}
+{%- capture body -%}
+  <header class="baccount34__head"
+    ><div class="baccount34__hi"
+      ><p class="baccount34__label baccount34__muted rm-rise">{{ s.eyebrow | escape }}</p
+      ><h1 class="baccount34__h1"><span class="rm-mask"><span class="rm-line">{{ s.greeting | escape }} <em>{{ first_name | escape }}</em></span></span></h1
+    ></div
+    >{%- if s.show_loyalty -%}
+    <div class="baccount34__meter rm-rise" style="--d:160ms"
+      ><div class="baccount34__mrow"
+        ><p class="baccount34__label baccount34__muted">{{ 'blko.account_34.beans' | t }}</p
+        ><p class="baccount34__beans"><span data-rm-count="{{ s.beans }}">{{ s.beans }}</span><span class="baccount34__muted"> / {{ goal_fmt }}</span></p
+      ></div
+      ><div role="progressbar" aria-label="{{ 'blko.account_34.meter' | t }}" aria-valuemin="0" aria-valuemax="{{ s.goal }}" aria-valuenow="{{ s.beans }}" class="baccount34__track"><span style="width:{{ pct }}%"></span></div
+      ><p class="baccount34__small baccount34__muted">{{ s.loyalty_text | replace: '[n]', left | escape }}</p
+    ></div
+    >{%- endif -%}
+  </header
+
+  ><div class="baccount34__body" data-rm-magnetic
+    ><nav aria-label="{{ 'blko.account_34.account' | t }}" class="baccount34__navwrap"
+      ><div class="baccount34__nav" data-nav
+        ><span aria-hidden="true" class="baccount34__ind" data-ind></span
+        >{%- assign panels = 'orders,subscription,addresses,details' | split: ',' -%}
+        {%- for p in panels -%}
+        {%- assign key = 'blko.account_34.' | append: p -%}
+        <button type="button" class="baccount34__navbtn{% if forloop.first %} is-on{% endif %}"{% if forloop.first %} aria-current="page"{% endif %} data-panel-btn="{{ p }}">{{ key | t }}{% if p == 'orders' %}<span class="baccount34__label baccount34__tiny">{{ order_count }}</span>{% endif %}</button
+        >{%- endfor -%}
+        <a href="{{ routes.account_logout_url }}" class="baccount34__out">{% render 'blko-ui-icon', name: 'log-out', className: 'rm-nudge' %}<span class="rm-ul">{{ 'blko.account_34.sign_out' | t }}</span></a
+      ></div
+    ></nav
+
+    ><div class="baccount34__main"
+      >{%- if s.show_subscription -%}
+      <article aria-label="{{ 'blko.account_34.sub_label' | t }}" class="baccount34__sub rm-rise" style="--d:220ms" data-sub data-base="{{ s.next_date }}"
+        ><div class="baccount34__subimg rm-zoom"
+          >{%- if s.sub_image != blank -%}{{ s.sub_image | image_url: width: 900 | image_tag: alt: s.sub_image.alt, class: 'baccount34__img' }}{%- else -%}{{ 'product-1' | placeholder_svg_tag: 'baccount34__img' }}{%- endif -%}
+          <span class="baccount34__label baccount34__state" data-state data-active="{{ 'blko.account_34.active' | t | escape }}" data-paused="{{ 'blko.account_34.paused' | t | escape }}">{{ 'blko.account_34.active' | t }}</span
+        ></div
+        ><div class="baccount34__subbody"
+          ><div class="baccount34__subtop"
+            ><div class="baccount34__g1"
+              ><p class="baccount34__label baccount34__o80">{{ 'blko.account_34.your_sub' | t }}</p
+              ><h2 class="baccount34__h2">{{ s.sub_name | escape }} <em>{{ s.sub_name_em | escape }}</em></h2
+              ><p class="baccount34__small baccount34__o85">{{ s.sub_line | escape }}</p
+            ></div
+            ><div class="baccount34__g1 baccount34__nextbox" data-nextbox
+              ><p class="baccount34__label baccount34__o80">{{ 'blko.account_34.next' | t }}</p
+              ><p class="baccount34__h2 baccount34__next" aria-live="polite" data-next data-hold="{{ 'blko.account_34.on_hold' | t | escape }}">{{ s.next_date | date: '%a %-d %b' }}</p
+            ></div
+          ></div
+          ><div class="baccount34__g2"
+            ><p class="baccount34__label baccount34__o80" id="{{ k }}-cad">{{ 'blko.account_34.every' | t }}</p
+            ><div role="radiogroup" aria-labelledby="{{ k }}-cad" class="baccount34__seg"
+              ><span aria-hidden="true" class="baccount34__segpill" data-segpill></span
+              >{%- for w in (2..4) -%}
+              <button type="button" role="radio" aria-checked="{% if w == 2 %}true{% else %}false{% endif %}" class="baccount34__segbtn" data-weeks="{{ w }}">{{ 'blko.account_34.weeks' | t | replace: '[n]', w }}</button
+              >{%- endfor -%}
+            </div
+          ></div
+          ><div class="baccount34__subbtns"
+            >{%- capture lbl -%}{% render 'blko-ui-icon', name: 'skip-forward' %}<span class="rm-roll"><span>{{ 'blko.account_34.skip' | t }}</span></span>{%- endcapture -%}
+            {%- render 'blko-ui-button', variant: 'inverse', children: lbl, attrs: 'data-skip' -%}
+            {%- capture lbl -%}<span data-pause-ic>{% render 'blko-ui-icon', name: 'pause' %}</span><span data-play-ic hidden>{% render 'blko-ui-icon', name: 'play' %}</span><span class="rm-roll"><span data-pause-lbl data-l-pause="{{ 'blko.account_34.pause' | t | escape }}" data-l-resume="{{ 'blko.account_34.resume' | t | escape }}">{{ 'blko.account_34.pause' | t }}</span></span>{%- endcapture -%}
+            {%- render 'blko-ui-button', variant: 'inherit', children: lbl, attrs: 'aria-pressed="false" data-pause' -%}
+            <button type="button" class="baccount34__undo" data-undo hidden>{% render 'blko-ui-icon', name: 'rotate-ccw', className: 'rm-nudge' %}<span class="rm-ul">{{ 'blko.account_34.undo' | t }}</span></button
+          ></div
+        ></div
+      ></article
+      >{%- endif -%}
+
+      {%- comment -%} Orders {%- endcomment -%}
+      <div class="baccount34__panel" role="region" aria-label="{{ 'blko.account_34.orders' | t }}" data-panel="orders"
+        ><div class="baccount34__ph"><h2 class="baccount34__h2">{{ 'blko.account_34.orders' | t }}</h2><a href="{{ routes.account_url }}" class="baccount34__small baccount34__med"><span class="rm-ul">{{ 'blko.account_34.all_orders' | t }}</span></a></div
+        ><div class="baccount34__ledger" data-money="{{ shop.money_format | escape }}"
+          ><div class="baccount34__label baccount34__muted baccount34__thead"><span>{{ 'blko.account_34.order' | t }}</span><span>{{ 'blko.account_34.date' | t }}</span><span>{{ 'blko.account_34.items' | t }}</span><span>{{ 'blko.account_34.total' | t }}</span><span>{{ 'blko.account_34.status' | t }}</span><span class="baccount34__sr">{{ 'blko.account_34.action' | t }}</span></div
+          >{%- capture reorder_lbl -%}<span class="rm-roll"><span data-ro-lbl data-done="{{ 'blko.account_34.added' | t | escape }}">{{ 'blko.account_34.reorder' | t }}</span></span>{%- endcapture -%}
+          {%- if customer -%}
+            {%- for order in customer.orders limit: 4 -%}
+            {%- liquid
+              assign items = order.line_items | map: 'title' | join: ', '
+              assign qty = order.line_items | map: 'quantity' | sum
+              capture ids
+                for li in order.line_items
+                  if li.variant_id
+                    echo li.variant_id | append: ':' | append: li.quantity
+                    unless forloop.last
+                      echo ','
+                    endunless
+                  endif
+                endfor
+              endcapture
+              case order.fulfillment_status
+                when 'fulfilled'
+                  assign tone = 'pop-3'
+                when 'unfulfilled', 'partial'
+                  assign tone = 'pop-2'
+                else
+                  assign tone = 'alt'
+              endcase
+              assign attrs = 'data-reorder="' | append: ids | append: '" data-qty="' | append: qty | append: '"'
+            -%}
+            <div class="baccount34__orow"
+              ><a href="{{ order.customer_url }}" class="baccount34__ono"><span class="rm-ul">{{ order.name }}</span></a
+              ><span class="baccount34__small baccount34__muted">{{ order.created_at | date: '%-d %b %Y' }}</span
+              ><span class="baccount34__small baccount34__items">{{ items | escape }}</span
+              ><span class="baccount34__small baccount34__med baccount34__num">{{ order.total_price | money }}</span
+              ><span><span class="baccount34__label baccount34__pill baccount34__pill--{{ tone }}">{{ order.fulfillment_status_label }}</span></span
+              >{%- render 'blko-ui-button', variant: 'outline', size: 'sm', children: reorder_lbl, className: 'baccount34__ro', attrs: attrs -%}
+            </div
+            >{%- else -%}
+            <p class="baccount34__small baccount34__muted baccount34__empty">{{ 'blko.account_34.no_orders' | t }}</p
+            >{%- endfor -%}
+          {%- else -%}
+            {%- for b in section.blocks -%}
+            {%- if b.type != 'order' -%}{%- continue -%}{%- endif -%}
+            {%- liquid
+              assign bs = b.settings
+              assign tone = 'alt'
+              if bs.status == 'roasting'
+                assign tone = 'pop-2'
+              elsif bs.status == 'shipped'
+                assign tone = 'pop-3'
+              endif
+              assign total = bs.total | times: 100
+              assign attrs = 'data-reorder="" data-qty="' | append: bs.qty | append: '"'
+            -%}
+            <div class="baccount34__orow" {{ b.shopify_attributes }}
+              ><a href="{{ routes.account_url }}" class="baccount34__ono"><span class="rm-ul">{{ bs.number | escape }}</span></a
+              ><span class="baccount34__small baccount34__muted">{{ bs.date | escape }}</span
+              ><span class="baccount34__small baccount34__items">{{ bs.items | escape }}</span
+              ><span class="baccount34__small baccount34__med baccount34__num">{{ total | money_without_trailing_zeros }}</span
+              ><span><span class="baccount34__label baccount34__pill baccount34__pill--{{ tone }}">{{ bs.status | capitalize }}</span></span
+              >{%- render 'blko-ui-button', variant: 'outline', size: 'sm', children: reorder_lbl, className: 'baccount34__ro', attrs: attrs -%}
+            </div
+            >{%- endfor -%}
+          {%- endif -%}
+        </div
+      ></div
+
+      >{%- comment -%} Subscription preferences {%- endcomment -%}
+      <div class="baccount34__panel" role="region" aria-label="{{ 'blko.account_34.subscription' | t }}" data-panel="subscription" hidden
+        ><div class="baccount34__ph"><h2 class="baccount34__h2">{{ 'blko.account_34.subscription' | t }}</h2></div
+        ><dl class="baccount34__prefs"
+          >{%- assign prefs = s.prefs | newline_to_br | split: '<br />' -%}
+          {%- for r in prefs -%}{%- assign kv = r | strip | split: '|' -%}{%- if kv.size > 1 -%}
+          <div><dt class="baccount34__label baccount34__muted">{{ kv[0] | strip | escape }}</dt><dd class="baccount34__small baccount34__med"{% if kv[1] contains '[cadence]' %} data-cadence data-tpl="{{ kv[1] | strip | escape }}"{% endif %}>{{ kv[1] | strip | replace: '[cadence]', '2' | escape }}</dd></div
+          >{%- endif -%}{%- endfor -%}
+        </dl
+      ></div
+
+      >{%- comment -%} Addresses {%- endcomment -%}
+      <div class="baccount34__panel" role="region" aria-label="{{ 'blko.account_34.addresses' | t }}" data-panel="addresses" hidden
+        ><div class="baccount34__ph"><h2 class="baccount34__h2">{{ 'blko.account_34.addresses' | t }}</h2></div
+        ><div class="baccount34__addrs"
+          >{%- if customer -%}
+            {%- for a in customer.addresses -%}
+            {%- assign is_def = false -%}{%- if a.id == customer.default_address.id -%}{%- assign is_def = true -%}{%- endif -%}
+            <div class="baccount34__addr"
+              ><div class="baccount34__arow"><p class="baccount34__at">{{ a.city | default: a.address1 | escape }}</p>{%- if is_def -%}<span class="baccount34__label baccount34__def">{{ 'blko.account_34.default' | t }}</span>{%- endif -%}</div
+              ><address class="baccount34__small baccount34__muted">{{ a | format_address }}</address
+              ><div class="baccount34__alinks baccount34__small baccount34__med"><a href="{{ routes.account_addresses_url }}"><span class="rm-ul">{{ 'blko.account_34.edit' | t }}</span></a>{%- unless is_def -%}<a href="{{ routes.account_addresses_url }}"><span class="rm-ul">{{ 'blko.account_34.make_default' | t }}</span></a>{%- endunless -%}</div
+            ></div
+            >{%- endfor -%}
+          {%- else -%}
+            {%- for b in section.blocks -%}
+            {%- if b.type != 'address' -%}{%- continue -%}{%- endif -%}
+            <div class="baccount34__addr" {{ b.shopify_attributes }}
+              ><div class="baccount34__arow"><p class="baccount34__at">{{ b.settings.title | escape }}</p>{%- if b.settings.is_default -%}<span class="baccount34__label baccount34__def">{{ 'blko.account_34.default' | t }}</span>{%- endif -%}</div
+              ><address class="baccount34__small baccount34__muted">{%- assign ls = b.settings.lines | newline_to_br | split: '<br />' -%}{%- for l in ls -%}<span>{{ l | strip | escape }}</span>{%- endfor -%}</address
+              ><div class="baccount34__alinks baccount34__small baccount34__med"><a href="{{ routes.account_addresses_url }}"><span class="rm-ul">{{ 'blko.account_34.edit' | t }}</span></a>{%- unless b.settings.is_default -%}<a href="{{ routes.account_addresses_url }}"><span class="rm-ul">{{ 'blko.account_34.make_default' | t }}</span></a>{%- endunless -%}</div
+            ></div
+            >{%- endfor -%}
+          {%- endif -%}
+        </div
+      ></div
+
+      >{%- comment -%} Details: Shopify has no storefront form for profile edits, so this shows the details and links to the account page. {%- endcomment -%}
+      <div class="baccount34__panel" role="region" aria-label="{{ 'blko.account_34.details' | t }}" data-panel="details" hidden
+        ><div class="baccount34__ph"><h2 class="baccount34__h2">{{ 'blko.account_34.details' | t }}</h2></div
+        ><form action="{{ routes.account_url }}" method="get" class="baccount34__details" data-details
+          >{%- capture c -%}{%- render 'blko-ui-input', id: id_first, value: first_name, autocomplete: 'given-name' -%}{%- endcapture -%}
+          {%- render 'blko-ui-field', id: id_first, label: t_first, children: c -%}
+          {%- capture c -%}{%- render 'blko-ui-input', id: id_last, value: last_name, autocomplete: 'family-name' -%}{%- endcapture -%}
+          {%- render 'blko-ui-field', id: id_last, label: t_last, children: c -%}
+          {%- capture c -%}{%- render 'blko-ui-input', id: id_mail, type: 'email', value: email, autocomplete: 'email' -%}{%- endcapture -%}
+          {%- render 'blko-ui-field', id: id_mail, label: t_email, className: 'baccount34__span2', children: c -%}
+          <div class="baccount34__span2"
+            >{%- capture lbl -%}<span class="rm-roll"><span>{{ 'blko.account_34.save' | t }}</span></span>{%- endcapture -%}
+            {%- render 'blko-ui-button', type: 'submit', children: lbl, iconAfter: 'arrow-right' -%}
+          </div
+        ></form
+      ></div
+    ></div
+  ></div
+>{%- endcapture -%}
+<div class="baccount34" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast
+  >{%- render 'blko-ui-section', surface: 'bg', label: s.label, className: 'rm-load', inner: 'baccount34__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Account, roast club",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Signed-in customers see their own name, orders and addresses. The order and address blocks are the preview shown when nobody is signed in."
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Your account"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Member since 2023 · Roast club"
+    },
+    {
+      "type": "text",
+      "id": "greeting",
+      "label": "Greeting",
+      "default": "Morning,"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Preview first name",
+      "default": "Mara"
+    },
+    {
+      "type": "text",
+      "id": "last_name",
+      "label": "Preview last name",
+      "default": "Lind"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Preview email",
+      "default": "mara@example.com"
+    },
+    {
+      "type": "header",
+      "content": "Beans meter"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_loyalty",
+      "label": "Show beans meter",
+      "default": true
+    },
+    {
+      "type": "number",
+      "id": "beans",
+      "label": "Beans earned",
+      "default": 640
+    },
+    {
+      "type": "number",
+      "id": "goal",
+      "label": "Beans for a free bag",
+      "default": 1000
+    },
+    {
+      "type": "text",
+      "id": "loyalty_text",
+      "label": "Meter text",
+      "default": "[n] beans to a free 250 g bag. You earn 1 bean per $1.",
+      "info": "[n] = beans left"
+    },
+    {
+      "type": "header",
+      "content": "Subscription card"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subscription",
+      "label": "Show subscription card",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "sub_image",
+      "label": "Photo"
+    },
+    {
+      "type": "text",
+      "id": "sub_name",
+      "label": "Coffee",
+      "default": "House"
+    },
+    {
+      "type": "text",
+      "id": "sub_name_em",
+      "label": "Coffee, accent word",
+      "default": "Espresso"
+    },
+    {
+      "type": "text",
+      "id": "sub_line",
+      "label": "Details line",
+      "default": "1 kg · whole bean · $42 a delivery (15% off)"
+    },
+    {
+      "type": "text",
+      "id": "next_date",
+      "label": "Next roast date",
+      "default": "2026-11-02",
+      "info": "YYYY-MM-DD"
+    },
+    {
+      "type": "textarea",
+      "id": "prefs",
+      "label": "Preferences",
+      "default": "Coffee | House Espresso, medium dark\nGrind | Whole bean\nBag size | 1 kg\nCadence | Every [cadence] weeks\nShips to | Home · 14 Alder Row\nCard | Card ending 4021",
+      "info": "One per line: label | value. [cadence] follows the picked weeks."
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "order",
+      "name": "Order (preview)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Number",
+          "default": "#H-20418"
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Date",
+          "default": "26 Oct 2026"
+        },
+        {
+          "type": "text",
+          "id": "items",
+          "label": "Items",
+          "default": "House Espresso 1 kg"
+        },
+        {
+          "type": "number",
+          "id": "qty",
+          "label": "Quantity",
+          "default": 1
+        },
+        {
+          "type": "number",
+          "id": "total",
+          "label": "Total",
+          "default": 42
+        },
+        {
+          "type": "select",
+          "id": "status",
+          "label": "Status",
+          "default": "delivered",
+          "options": [
+            {
+              "value": "roasting",
+              "label": "Roasting"
+            },
+            {
+              "value": "shipped",
+              "label": "Shipped"
+            },
+            {
+              "value": "delivered",
+              "label": "Delivered"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "address",
+      "name": "Address (preview)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Home"
+        },
+        {
+          "type": "textarea",
+          "id": "lines",
+          "label": "Lines",
+          "default": "Mara Lind\n14 Alder Row\nLeeds LS6 2QP"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_default",
+          "label": "Default",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Account, roast club",
+      "blocks": [
+        {
+          "type": "order",
+          "settings": {
+            "number": "#H-20418",
+            "date": "26 Oct 2026",
+            "items": "House Espresso 1 kg, Kiambu AA 250 g",
+            "qty": 2,
+            "total": 66,
+            "status": "roasting"
+          }
+        },
+        {
+          "type": "order",
+          "settings": {
+            "number": "#H-20175",
+            "date": "12 Oct 2026",
+            "items": "House Espresso 1 kg",
+            "qty": 1,
+            "total": 42,
+            "status": "shipped"
+          }
+        },
+        {
+          "type": "order",
+          "settings": {
+            "number": "#H-19802",
+            "date": "28 Sep 2026",
+            "items": "Ruby Oolong 50 g, Clay Teapot 350 ml",
+            "qty": 2,
+            "total": 92,
+            "status": "delivered"
+          }
+        },
+        {
+          "type": "order",
+          "settings": {
+            "number": "#H-19433",
+            "date": "14 Sep 2026",
+            "items": "Guji Natural 250 g ×2",
+            "qty": 2,
+            "total": 48,
+            "status": "delivered"
+          }
+        },
+        {
+          "type": "address",
+          "settings": {
+            "title": "Home",
+            "lines": "Mara Lind\n14 Alder Row\nLeeds LS6 2QP",
+            "is_default": true
+          }
+        },
+        {
+          "type": "address",
+          "settings": {
+            "title": "Studio",
+            "lines": "Mara Lind\nUnit 3, Mill Yard\nLeeds LS9 8DT",
+            "is_default": false
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

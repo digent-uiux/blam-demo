@@ -1,0 +1,25 @@
+{
+  "blko": {
+    "cart": {
+      "product": "Product",
+      "quantity": "Quantity",
+      "subtotal": "Subtotal",
+      "total": "Total"
+    },
+    "customer": {
+      "back_to_account": "Back to account",
+      "billing": "Billing address",
+      "cancelled": "Cancelled on {{ date }}.",
+      "fulfilled_on": "Fulfilled on {{ date }}",
+      "fulfillment": "Fulfillment",
+      "order_title": "Order {{ name }}",
+      "payment": "Payment",
+      "placed_on": "Placed on {{ date }}",
+      "price": "Price",
+      "shipping": "Shipping",
+      "shipping_address": "Shipping address",
+      "tax": "Tax",
+      "track": "Track shipment"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{%- comment -%}
+  DS token names (themes/gen-css.mjs) for block bundles from liquid/blocks/. Colours, fonts, radii and type follow the
+  theme settings; shadows, motion, border width and the small radii are the Roast manifest values.
+  Written by the theme-shell helper; regenerate instead of editing.
+{%- endcomment -%}
+<style>
+  .blko-theme, .blko-scheme {
+    --color-footer-bg: {{ settings.color_schemes['scheme-5'].settings.background }}; --color-footer-text: {{ settings.color_schemes['scheme-5'].settings.text }};
+    --color-announcement-bg: {{ settings.color_schemes['scheme-4'].settings.background }}; --color-announcement-text: {{ settings.color_schemes['scheme-4'].settings.text }};
+  }
+  .blko-theme {
+    --color-pop-1: {{ settings.color_schemes['scheme-3'].settings.background }}; --color-on-pop-1: {{ settings.color_schemes['scheme-3'].settings.text }};
+    --color-pop-2: {{ settings.color_schemes['scheme-7'].settings.background }}; --color-on-pop-2: {{ settings.color_schemes['scheme-7'].settings.text }};
+    --color-pop-3: {{ settings.color_schemes['scheme-8'].settings.background }}; --color-on-pop-3: {{ settings.color_schemes['scheme-8'].settings.text }};
+    --color-pop-4: {{ settings.color_schemes['scheme-9'].settings.background }}; --color-on-pop-4: {{ settings.color_schemes['scheme-9'].settings.text }};
+    --color-on-color: #ffffff;
+    {%- comment -%} DS: rgb(0 0 0 / .5), .7 on dark presets (gen-css DARK_STATUS); one snippet serves every preset. {%- endcomment -%}
+    {%- assign blko_bg = settings.color_schemes['scheme-1'].settings.background | color_brightness %}
+    --color-overlay: rgb(0 0 0 / {% if blko_bg < 128 %}.7{% else %}.5{% endif %});
+    --font-display: var(--font-heading); --font-condensed: var(--font-heading); --font-mono: var(--font-body);
+    --font-weight-heading: var(--font-heading-weight);
+    --radius-sm: 4px; --radius-base: 8px;
+    {%- comment -%} The core setting says "40 makes pill buttons" but emits 40px; DS pills are 999px. {%- endcomment -%}
+    {%- if settings.radius_button >= 40 %}--radius-button: 999px;{% endif %}
+    --theme-radius-button: var(--radius-button);
+    --radius-panel: calc(var(--radius-card) * 2);
+    --container-page: var(--blko-page, 1280px);
+    --shadow-sm: 0 1px 2px rgb(27 20 17 / 0.06); --shadow-md: 0 18px 40px -18px rgb(27 20 17 / 0.35); --theme-border-width: 1px;
+    --theme-heading-tracking: var(--heading-tracking); --theme-heading-case: var(--heading-case);
+    --heading-style: var(--heading-italic); --heading-transform: var(--heading-case);
+    --theme-button-case: var(--button-case); --theme-button-tracking: var(--button-tracking); --theme-button-weight: var(--button-weight);
+    --motion-duration: 700ms; --motion-ease: cubic-bezier(.22,1,.36,1); --motion-distance: 28px;
+    --motion-stagger: 70ms; --motion-hover-scale: 1.04;
+  }
+  .blko-theme, .blko-scheme, [class*="color-scheme-"], .blko-section--dark {
+    --blko-color-accent: var(--color-accent); --blko-color-announcement-bg: var(--color-announcement-bg); --blko-color-announcement-text: var(--color-announcement-text); --blko-color-bg: var(--color-bg); --blko-color-bg-alt: var(--color-bg-alt); --blko-color-border: var(--color-border); --blko-color-button: var(--color-button); --blko-color-button-hover: var(--color-button-hover); --blko-color-button-text: var(--color-button-text); --blko-color-footer-bg: var(--color-footer-bg); --blko-color-footer-text: var(--color-footer-text); --blko-color-input-bg: var(--color-input-bg); --blko-color-input-text: var(--color-input-text); --blko-color-on-color: var(--color-on-color); --blko-color-on-pop-1: var(--color-on-pop-1); --blko-color-on-pop-2: var(--color-on-pop-2); --blko-color-on-pop-3: var(--color-on-pop-3); --blko-color-on-pop-4: var(--color-on-pop-4); --blko-color-overlay: var(--color-overlay); --blko-color-pop-1: var(--color-pop-1); --blko-color-pop-2: var(--color-pop-2); --blko-color-pop-3: var(--color-pop-3); --blko-color-pop-4: var(--color-pop-4); --blko-color-sale: var(--color-sale); --blko-color-text: var(--color-text); --blko-color-text-muted: var(--color-text-muted); --blko-container-page: var(--container-page); --blko-font-body: var(--font-body); --blko-font-condensed: var(--font-condensed); --blko-font-display: var(--font-display); --blko-font-heading: var(--font-heading); --blko-font-mono: var(--font-mono); --blko-font-weight-heading: var(--font-weight-heading); --blko-heading-style: var(--heading-style); --blko-heading-transform: var(--heading-transform); --blko-motion-distance: var(--motion-distance); --blko-motion-duration: var(--motion-duration); --blko-motion-ease: var(--motion-ease); --blko-motion-hover-scale: var(--motion-hover-scale); --blko-motion-stagger: var(--motion-stagger); --blko-radius-base: var(--radius-base); --blko-radius-button: var(--radius-button); --blko-radius-card: var(--radius-card); --blko-radius-image: var(--radius-image); --blko-radius-panel: var(--radius-panel); --blko-radius-sm: var(--radius-sm); --blko-shadow-md: var(--shadow-md); --blko-shadow-sm: var(--shadow-sm); --blko-theme-border-width: var(--theme-border-width); --blko-theme-button-case: var(--theme-button-case); --blko-theme-button-tracking: var(--theme-button-tracking); --blko-theme-button-weight: var(--theme-button-weight); --blko-theme-heading-case: var(--theme-heading-case); --blko-theme-heading-tracking: var(--theme-heading-tracking); --blko-theme-radius-button: var(--theme-radius-button);
+  }
+  .blko-theme {
+    --blko-color-black: #000; --blko-color-chart-1: #2a78d6; --blko-color-chart-2: #eb6834; --blko-color-chart-3: #1baf7a; --blko-color-chart-4: #eda100; --blko-color-chart-5: #e87ba4; --blko-color-error: #dc2626; --blko-color-error-text: #b91c1c; --blko-color-info: #2563eb; --blko-color-info-text: #1d4ed8; --blko-color-on-image: #ffffff; --blko-color-on-pop-1-muted: color-mix(in oklab, var(--blko-color-on-pop-1) 84%, var(--blko-color-pop-1)); --blko-color-on-pop-2-muted: color-mix(in oklab, var(--blko-color-on-pop-2) 84%, var(--blko-color-pop-2)); --blko-color-on-pop-3-muted: color-mix(in oklab, var(--blko-color-on-pop-3) 84%, var(--blko-color-pop-3)); --blko-color-on-pop-4-muted: color-mix(in oklab, var(--blko-color-on-pop-4) 84%, var(--blko-color-pop-4)); --blko-color-success: #16a34a; --blko-color-success-text: #166534; --blko-color-warning: #d97706; --blko-color-warning-text: #92400e; --blko-color-white: #fff; --blko-ease-brand: cubic-bezier(.2, .8, .2, 1); --blko-font-code: ui-monospace, "SFMono-Regular", Menlo, monospace; --blko-font-weight-bold: 700; --blko-font-weight-light: 300; --blko-font-weight-medium: 500; --blko-font-weight-normal: 400; --blko-font-weight-semibold: 600; --blko-radius-full: 9999px; --blko-text-badge: 12px; --blko-text-button-label: 15px; --blko-text-card-title: 15px; --blko-text-input: 16px; --blko-text-nav: 14px; --blko-text-price: 15px; --blko-text-title: 24px;
+  }
+  @media (min-width: 1024px) { .blko-theme { --blko-text-card-title: 16px; --blko-text-nav: 15px; --blko-text-price: 16px; --blko-text-title: 32px; } }
+</style>

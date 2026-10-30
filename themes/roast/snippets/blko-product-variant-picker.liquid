@@ -1,0 +1,89 @@
+{%- comment -%}
+  Variant picker block of blko-main-product: buttons, dropdowns or swatches (option value swatches, else buttons).
+  blko-product.js reads [data-blko-options] / [data-blko-option] to keep the variant, price, media and URL in sync.
+
+  Accepts:
+  - product: {Object}
+  - block: {Object} the variant_picker block
+  - section_id: {String}
+{%- endcomment -%}
+{%- unless product.has_only_default_variant -%}
+  <div
+    class="blko-pdp__block blko-pdp__options blko-pdp__options--{{ block.settings.picker_type }}"
+    data-blko-options
+    {{ block.shopify_attributes }}
+  >
+    {%- for option in product.options_with_values -%}
+      {%- assign option_index = forloop.index0 -%}
+      {%- if block.settings.picker_type == 'dropdown' -%}
+        {%- assign select_id = 'BlkoOpt-' | append: section_id | append: '-' | append: option_index -%}
+        <div class="blko-pdp__option" data-blko-option="{{ option_index }}">
+          <label class="blko-small blko-medium blko-pdp__legend" for="{{ select_id }}">{{ option.name | escape }}</label>
+          <span class="blko-select-wrap"><select class="blko-select" id="{{ select_id }}" name="options[{{ option.name | escape }}]">
+            {%- for value in option.values -%}
+              <option
+                value="{{ value | escape }}"
+                data-label="{{ value | escape }}"
+                {% if value == option.selected_value %}
+                  selected
+                {% endif %}
+              >
+                {{- value | escape -}}
+                {%- unless value.available %} - {{ 'blko.products.unavailable' | t }}{% endunless -%}
+              </option>
+            {%- endfor -%}
+          </select>{%- render 'blko-icon', name: 'chevron-down', size: 16 -%}</span>
+        </div>
+      {%- else -%}
+        <fieldset class="blko-pdp__option" data-blko-option="{{ option_index }}">
+          <legend class="blko-small blko-pdp__legend">
+            <span class="blko-medium">{{ option.name | escape }}:</span>
+            <span class="blko-muted" data-blko-option-value>{{ option.selected_value | escape }}</span>
+          </legend>
+          <div class="blko-pdp__chips">
+            {%- for value in option.values -%}
+              {%- liquid
+                assign input_id = 'BlkoOpt-' | append: section_id | append: '-' | append: option_index | append: '-' | append: forloop.index0
+                assign use_swatch = false
+                if block.settings.picker_type == 'swatch' and value.swatch != blank
+                  assign use_swatch = true
+                endif
+              -%}
+              <input
+                type="radio"
+                class="blko-visually-hidden blko-pdp__radio"
+                id="{{ input_id }}"
+                name="{{ section_id }}-option-{{ option_index }}"
+                value="{{ value | escape }}"
+                {% if value == option.selected_value %}
+                  checked
+                {% endif %}
+              >
+              {%- if use_swatch -%}
+                {%- liquid
+                  if value.swatch.image
+                    assign swatch_bg = value.swatch.image | image_url: width: 80 | prepend: 'url(' | append: ')'
+                  else
+                    assign swatch_bg = value.swatch.color
+                  endif
+                -%}
+                <label
+                  class="blko-pdp__swatch{% unless value.available %} is-unavailable{% endunless %}"
+                  for="{{ input_id }}"
+                  style="--blko-swatch: {{ swatch_bg }};"
+                  title="{{ value | escape }}"
+                >
+                  <span class="blko-visually-hidden">{{ value | escape }}</span>
+                </label>
+              {%- else -%}
+                <label class="blko-chip{% unless value.available %} is-unavailable{% endunless %}" for="{{ input_id }}">
+                  {{- value | escape -}}
+                </label>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </fieldset>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+{%- endunless -%}

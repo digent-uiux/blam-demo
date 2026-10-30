@@ -1,0 +1,13 @@
+{
+  "blko": {
+    "blog_94": {
+      "feature": "Feature",
+      "read_more": "Read more",
+      "read": "Read",
+      "showing": "Showing [shown] of [total]",
+      "min_read": "min read",
+      "done": "All caught up for now",
+      "more": "Load more stories"
+    }
+  }
+}

@@ -1,0 +1,593 @@
+{
+  "current": "Default",
+  "presets": {
+    "Default": {
+      "logo_width": 140,
+      "logo_text": "Roast",
+      "page_width": 1280,
+      "section_spacing": 0,
+      "page_color_scheme": "scheme-1",
+      "card_ratio": "4/5",
+      "card_show_rating": true,
+      "card_show_vendor": false,
+      "font_heading": "syne_n8",
+      "font_body": "ibm_plex_sans_n4",
+      "heading_italic": false,
+      "heading_case": "none",
+      "heading_tracking": -3.5,
+      "type_scale": 100,
+      "button_case": "none",
+      "button_tracking": 0,
+      "button_weight": "600",
+      "radius_button": 40,
+      "radius_card": 14,
+      "radius_image": 10,
+      "radius_input": 4,
+      "color_sale": "#a3361f",
+      "color_input_bg": "#fbf8f3",
+      "color_input_text": "#1b1411",
+      "color_schemes": {
+        "scheme-1": {
+          "settings": {
+            "background": "#f3eee6",
+            "background_alt": "#e9e1d5",
+            "text": "#1b1411",
+            "text_muted": "#5f5148",
+            "border": "#d9cdbd",
+            "accent": "#8e4322",
+            "button": "#1b1411",
+            "button_label": "#f3eee6",
+            "button_hover": "#3a2a22"
+          }
+        },
+        "scheme-2": {
+          "settings": {
+            "background": "#e9e1d5",
+            "background_alt": "#d9cdbd",
+            "text": "#1b1411",
+            "text_muted": "#5f5148",
+            "border": "#d9cdbd",
+            "accent": "#8e4322",
+            "button": "#1b1411",
+            "button_label": "#f3eee6",
+            "button_hover": "#3a2a22"
+          }
+        },
+        "scheme-3": {
+          "settings": {
+            "background": "#2a1d17",
+            "background_alt": "#c8693a",
+            "text": "#f3eee6",
+            "text_muted": "#c1bab2",
+            "border": "#5c514b",
+            "accent": "#f3eee6",
+            "button": "#f3eee6",
+            "button_label": "#2a1d17",
+            "button_hover": "#cbc4bd"
+          }
+        },
+        "scheme-4": {
+          "settings": {
+            "background": "#1b1411",
+            "background_alt": "#2b241f",
+            "text": "#e9d9bf",
+            "text_muted": "#b6a894",
+            "border": "#443b34",
+            "accent": "#e9d9bf",
+            "button": "#e9d9bf",
+            "button_label": "#1b1411",
+            "button_hover": "#cabba5"
+          }
+        },
+        "scheme-5": {
+          "settings": {
+            "background": "#1b1411",
+            "background_alt": "#2c2521",
+            "text": "#efe6d8",
+            "text_muted": "#afa79c",
+            "border": "#413a35",
+            "accent": "#8e4322",
+            "button": "#efe6d8",
+            "button_label": "#1b1411",
+            "button_hover": "#cfc6ba"
+          }
+        },
+        "scheme-6": {
+          "settings": {
+            "background": "#ffffff",
+            "background_alt": "#e9e1d5",
+            "text": "#1b1411",
+            "text_muted": "#5f5148",
+            "border": "#d9cdbd",
+            "accent": "#8e4322",
+            "button": "#1b1411",
+            "button_label": "#f3eee6",
+            "button_hover": "#3a2a22"
+          }
+        },
+        "scheme-7": {
+          "settings": {
+            "background": "#c8693a",
+            "background_alt": "#3e5a3a",
+            "text": "#1b1411",
+            "text_muted": "#46291b",
+            "border": "#9d5430",
+            "accent": "#1b1411",
+            "button": "#1b1411",
+            "button_label": "#c8693a",
+            "button_hover": "#3e2519"
+          }
+        },
+        "scheme-8": {
+          "settings": {
+            "background": "#3e5a3a",
+            "background_alt": "#7a2618",
+            "text": "#eef0e2",
+            "text_muted": "#c2cab8",
+            "border": "#6a8064",
+            "accent": "#eef0e2",
+            "button": "#eef0e2",
+            "button_label": "#3e5a3a",
+            "button_hover": "#cbd2c0"
+          }
+        },
+        "scheme-9": {
+          "settings": {
+            "background": "#7a2618",
+            "background_alt": "#2a1d17",
+            "text": "#f6e7d6",
+            "text_muted": "#d7b7a6",
+            "border": "#995648",
+            "accent": "#f6e7d6",
+            "button": "#f6e7d6",
+            "button_label": "#7a2618",
+            "button_hover": "#ddc0b0"
+          }
+        }
+      },
+      "font_source": "theme",
+      "theme_font_pair": "default"
+    },
+    "Matcha": {
+      "logo_width": 140,
+      "logo_text": "Roast",
+      "page_width": 1280,
+      "section_spacing": 0,
+      "page_color_scheme": "scheme-1",
+      "card_ratio": "4/5",
+      "card_show_rating": true,
+      "card_show_vendor": false,
+      "font_heading": "syne_n8",
+      "font_body": "ibm_plex_sans_n4",
+      "heading_italic": false,
+      "heading_case": "none",
+      "heading_tracking": -3.5,
+      "type_scale": 100,
+      "button_case": "none",
+      "button_tracking": 0,
+      "button_weight": "600",
+      "radius_button": 40,
+      "radius_card": 14,
+      "radius_image": 10,
+      "radius_input": 4,
+      "color_sale": "#9b2c1f",
+      "color_input_bg": "#fafaf5",
+      "color_input_text": "#18201a",
+      "color_schemes": {
+        "scheme-1": {
+          "settings": {
+            "background": "#f1f1ea",
+            "background_alt": "#e3e5d8",
+            "text": "#18201a",
+            "text_muted": "#4e5a50",
+            "border": "#d2d6c4",
+            "accent": "#2f4a35",
+            "button": "#2f4a35",
+            "button_label": "#f1f1ea",
+            "button_hover": "#243a29"
+          }
+        },
+        "scheme-2": {
+          "settings": {
+            "background": "#e3e5d8",
+            "background_alt": "#d2d6c4",
+            "text": "#18201a",
+            "text_muted": "#4e5a50",
+            "border": "#d2d6c4",
+            "accent": "#2f4a35",
+            "button": "#2f4a35",
+            "button_label": "#f1f1ea",
+            "button_hover": "#243a29"
+          }
+        },
+        "scheme-3": {
+          "settings": {
+            "background": "#22301f",
+            "background_alt": "#8fa66a",
+            "text": "#f1f1ea",
+            "text_muted": "#bdc1b7",
+            "border": "#566052",
+            "accent": "#f1f1ea",
+            "button": "#f1f1ea",
+            "button_label": "#22301f",
+            "button_hover": "#c8cac1"
+          }
+        },
+        "scheme-4": {
+          "settings": {
+            "background": "#2f4a35",
+            "background_alt": "#3d5642",
+            "text": "#e3e5d8",
+            "text_muted": "#b6beaf",
+            "border": "#536956",
+            "accent": "#e3e5d8",
+            "button": "#e3e5d8",
+            "button_label": "#2f4a35",
+            "button_hover": "#c8cec0"
+          }
+        },
+        "scheme-5": {
+          "settings": {
+            "background": "#18201a",
+            "background_alt": "#29302a",
+            "text": "#e8eadf",
+            "text_muted": "#aaada4",
+            "border": "#3d443d",
+            "accent": "#2f4a35",
+            "button": "#e8eadf",
+            "button_label": "#18201a",
+            "button_hover": "#c9ccc1"
+          }
+        },
+        "scheme-6": {
+          "settings": {
+            "background": "#ffffff",
+            "background_alt": "#e3e5d8",
+            "text": "#18201a",
+            "text_muted": "#4e5a50",
+            "border": "#d2d6c4",
+            "accent": "#2f4a35",
+            "button": "#2f4a35",
+            "button_label": "#f1f1ea",
+            "button_hover": "#243a29"
+          }
+        },
+        "scheme-7": {
+          "settings": {
+            "background": "#8fa66a",
+            "background_alt": "#2f4a35",
+            "text": "#18201a",
+            "text_muted": "#36422e",
+            "border": "#718456",
+            "accent": "#18201a",
+            "button": "#18201a",
+            "button_label": "#8fa66a",
+            "button_hover": "#303b2a"
+          }
+        },
+        "scheme-8": {
+          "settings": {
+            "background": "#2f4a35",
+            "background_alt": "#6e3a24",
+            "text": "#eef0e2",
+            "text_muted": "#bec6b7",
+            "border": "#5f7460",
+            "accent": "#eef0e2",
+            "button": "#eef0e2",
+            "button_label": "#2f4a35",
+            "button_hover": "#c8cfbf"
+          }
+        },
+        "scheme-9": {
+          "settings": {
+            "background": "#6e3a24",
+            "background_alt": "#22301f",
+            "text": "#f6ead8",
+            "text_muted": "#d4beab",
+            "border": "#906651",
+            "accent": "#f6ead8",
+            "button": "#f6ead8",
+            "button_label": "#6e3a24",
+            "button_hover": "#dbc7b4"
+          }
+        }
+      },
+      "font_source": "theme",
+      "theme_font_pair": "matcha"
+    },
+    "Clay": {
+      "logo_width": 140,
+      "logo_text": "Roast",
+      "page_width": 1280,
+      "section_spacing": 0,
+      "page_color_scheme": "scheme-1",
+      "card_ratio": "4/5",
+      "card_show_rating": true,
+      "card_show_vendor": false,
+      "font_heading": "syne_n8",
+      "font_body": "ibm_plex_sans_n4",
+      "heading_italic": false,
+      "heading_case": "none",
+      "heading_tracking": -3.5,
+      "type_scale": 100,
+      "button_case": "none",
+      "button_tracking": 0,
+      "button_weight": "600",
+      "radius_button": 40,
+      "radius_card": 14,
+      "radius_image": 10,
+      "radius_input": 4,
+      "color_sale": "#a3361f",
+      "color_input_bg": "#fffaf2",
+      "color_input_text": "#24150d",
+      "color_schemes": {
+        "scheme-1": {
+          "settings": {
+            "background": "#f6efe4",
+            "background_alt": "#efe2cf",
+            "text": "#24150d",
+            "text_muted": "#6a5242",
+            "border": "#e2cfb6",
+            "accent": "#9c4521",
+            "button": "#9c4521",
+            "button_label": "#ffffff",
+            "button_hover": "#7f3719"
+          }
+        },
+        "scheme-2": {
+          "settings": {
+            "background": "#efe2cf",
+            "background_alt": "#e2cfb6",
+            "text": "#24150d",
+            "text_muted": "#6a5242",
+            "border": "#e2cfb6",
+            "accent": "#9c4521",
+            "button": "#9c4521",
+            "button_label": "#ffffff",
+            "button_hover": "#7f3719"
+          }
+        },
+        "scheme-3": {
+          "settings": {
+            "background": "#3a2116",
+            "background_alt": "#d98a5b",
+            "text": "#f6efe4",
+            "text_muted": "#c7bcb0",
+            "border": "#69544a",
+            "accent": "#f6efe4",
+            "button": "#f6efe4",
+            "button_label": "#3a2116",
+            "button_hover": "#d0c6bb"
+          }
+        },
+        "scheme-4": {
+          "settings": {
+            "background": "#9c4521",
+            "background_alt": "#a45331",
+            "text": "#fff3e3",
+            "text_muted": "#e6c8b2",
+            "border": "#b06848",
+            "accent": "#fff3e3",
+            "button": "#fff3e3",
+            "button_label": "#9c4521",
+            "button_hover": "#f0d9c6"
+          }
+        },
+        "scheme-5": {
+          "settings": {
+            "background": "#24150d",
+            "background_alt": "#35261e",
+            "text": "#f6efe4",
+            "text_muted": "#b7aea4",
+            "border": "#4a3c34",
+            "accent": "#9c4521",
+            "button": "#f6efe4",
+            "button_label": "#24150d",
+            "button_hover": "#d6cec4"
+          }
+        },
+        "scheme-6": {
+          "settings": {
+            "background": "#ffffff",
+            "background_alt": "#efe2cf",
+            "text": "#24150d",
+            "text_muted": "#6a5242",
+            "border": "#e2cfb6",
+            "accent": "#9c4521",
+            "button": "#9c4521",
+            "button_label": "#ffffff",
+            "button_hover": "#7f3719"
+          }
+        },
+        "scheme-7": {
+          "settings": {
+            "background": "#d98a5b",
+            "background_alt": "#4a5a36",
+            "text": "#24150d",
+            "text_muted": "#513220",
+            "border": "#ac6d48",
+            "accent": "#24150d",
+            "button": "#24150d",
+            "button_label": "#d98a5b",
+            "button_hover": "#482c1d"
+          }
+        },
+        "scheme-8": {
+          "settings": {
+            "background": "#4a5a36",
+            "background_alt": "#8a2c18",
+            "text": "#f1eedf",
+            "text_muted": "#c7c9b5",
+            "border": "#747f60",
+            "accent": "#f1eedf",
+            "button": "#f1eedf",
+            "button_label": "#4a5a36",
+            "button_hover": "#d0d0bd"
+          }
+        },
+        "scheme-9": {
+          "settings": {
+            "background": "#8a2c18",
+            "background_alt": "#3a2116",
+            "text": "#fbecd9",
+            "text_muted": "#dfbca9",
+            "border": "#a65c48",
+            "accent": "#fbecd9",
+            "button": "#fbecd9",
+            "button_label": "#8a2c18",
+            "button_hover": "#e4c6b2"
+          }
+        }
+      },
+      "font_source": "theme",
+      "theme_font_pair": "clay"
+    },
+    "Night roast": {
+      "logo_width": 140,
+      "logo_text": "Roast",
+      "page_width": 1280,
+      "section_spacing": 0,
+      "page_color_scheme": "scheme-1",
+      "card_ratio": "4/5",
+      "card_show_rating": true,
+      "card_show_vendor": false,
+      "font_heading": "syne_n8",
+      "font_body": "ibm_plex_sans_n4",
+      "heading_italic": false,
+      "heading_case": "none",
+      "heading_tracking": -3.5,
+      "type_scale": 100,
+      "button_case": "none",
+      "button_tracking": 0,
+      "button_weight": "600",
+      "radius_button": 40,
+      "radius_card": 14,
+      "radius_image": 10,
+      "radius_input": 4,
+      "color_sale": "#ff8f7a",
+      "color_input_bg": "#221915",
+      "color_input_text": "#f0e6d8",
+      "color_schemes": {
+        "scheme-1": {
+          "settings": {
+            "background": "#16100d",
+            "background_alt": "#221915",
+            "text": "#f0e6d8",
+            "text_muted": "#b9a998",
+            "border": "#3a2c24",
+            "accent": "#d08a5c",
+            "button": "#d08a5c",
+            "button_label": "#16100d",
+            "button_hover": "#e09d70"
+          }
+        },
+        "scheme-2": {
+          "settings": {
+            "background": "#221915",
+            "background_alt": "#3a2c24",
+            "text": "#f0e6d8",
+            "text_muted": "#b9a998",
+            "border": "#3a2c24",
+            "accent": "#d08a5c",
+            "button": "#d08a5c",
+            "button_label": "#16100d",
+            "button_hover": "#e09d70"
+          }
+        },
+        "scheme-3": {
+          "settings": {
+            "background": "#3a2a22",
+            "background_alt": "#d08a5c",
+            "text": "#f0e6d8",
+            "text_muted": "#c2b7aa",
+            "border": "#685950",
+            "accent": "#f0e6d8",
+            "button": "#f0e6d8",
+            "button_label": "#3a2a22",
+            "button_hover": "#ccc0b4"
+          }
+        },
+        "scheme-4": {
+          "settings": {
+            "background": "#d08a5c",
+            "background_alt": "#c18056",
+            "text": "#16100d",
+            "text_muted": "#442e21",
+            "border": "#ab724c",
+            "accent": "#16100d",
+            "button": "#16100d",
+            "button_label": "#d08a5c",
+            "button_hover": "#322219"
+          }
+        },
+        "scheme-5": {
+          "settings": {
+            "background": "#0d0907",
+            "background_alt": "#1f1b18",
+            "text": "#f0e6d8",
+            "text_muted": "#aca499",
+            "border": "#36312d",
+            "accent": "#f0e6d8",
+            "button": "#f0e6d8",
+            "button_label": "#0d0907",
+            "button_hover": "#cec5b9"
+          }
+        },
+        "scheme-6": {
+          "settings": {
+            "background": "#ffffff",
+            "background_alt": "#f2f2f2",
+            "text": "#111111",
+            "text_muted": "#555555",
+            "border": "#dddddd",
+            "accent": "#111111",
+            "button": "#111111",
+            "button_label": "#ffffff",
+            "button_hover": "#333333"
+          }
+        },
+        "scheme-7": {
+          "settings": {
+            "background": "#d08a5c",
+            "background_alt": "#4f6946",
+            "text": "#16100d",
+            "text_muted": "#442e21",
+            "border": "#a26c48",
+            "accent": "#16100d",
+            "button": "#16100d",
+            "button_label": "#d08a5c",
+            "button_hover": "#3b281d"
+          }
+        },
+        "scheme-8": {
+          "settings": {
+            "background": "#4f6946",
+            "background_alt": "#9c3320",
+            "text": "#f0e6d8",
+            "text_muted": "#c8c7b4",
+            "border": "#77886a",
+            "accent": "#f0e6d8",
+            "button": "#f0e6d8",
+            "button_label": "#4f6946",
+            "button_hover": "#d0cdbb"
+          }
+        },
+        "scheme-9": {
+          "settings": {
+            "background": "#9c3320",
+            "background_alt": "#3a2a22",
+            "text": "#f6e7d6",
+            "text_muted": "#e0baa8",
+            "border": "#b2604e",
+            "accent": "#f6e7d6",
+            "button": "#f6e7d6",
+            "button_label": "#9c3320",
+            "button_hover": "#e4c3b2"
+          }
+        }
+      },
+      "font_source": "theme",
+      "theme_font_pair": "night"
+    }
+  }
+}

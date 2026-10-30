@@ -1,0 +1,471 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-recommendations-69.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-ui-commerce.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-commerce.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-recommendations-69.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- liquid
+  assign has_recs = false
+  if recommendations.performed and recommendations.products_count > 0
+    assign has_recs = true
+    assign recs = recommendations.products
+  endif
+  assign off = s.discount
+  assign this_cents = s.this_price | times: 100 | round
+  assign this_name = s.this_name
+  assign this_variant = ''
+  if product != blank
+    assign this_cents = product.price
+    assign this_name = product.title
+    assign this_variant = product.selected_or_first_available_variant.id
+  endif
+  assign extra_cents = s.extra_price | times: 100 | round
+  assign extra_name = s.extra_name
+  assign extra_variant = ''
+  if s.extra_product != blank
+    assign extra_cents = s.extra_product.price
+    assign extra_name = s.extra_product.title
+    assign extra_variant = s.extra_product.selected_or_first_available_variant.id
+  endif
+-%}
+{%- capture cards -%}
+  {%- if has_recs -%}
+    {%- for p in recs limit: 3 -%}
+    <div class="rm-rise brecommendations69__step brecommendations69__step--{{ forloop.index }}" style="--d:{{ forloop.index0 | times: 100 | plus: 140 }}ms"
+      >{%- render 'blko-ui-product-card', product: p, vendor: p.vendor, ratio: 'portrait', quickAdd: true, wishlist: true -%}
+    </div
+    >{%- endfor -%}
+  {%- else -%}
+    {%- for b in section.blocks limit: 3 -%}
+      {%- assign d = b.settings -%}
+      {%- assign badge = nil -%}{%- if d.label != blank -%}{%- assign badge = d -%}{%- endif -%}
+    <div class="rm-rise brecommendations69__step brecommendations69__step--{{ forloop.index }}" style="--d:{{ forloop.index0 | times: 100 | plus: 140 }}ms" {{ b.shopify_attributes }}
+      >{%- if d.product != blank -%}
+        {%- render 'blko-ui-product-card', product: d.product, vendor: d.vendor, rating: d, badge: badge, ratio: 'portrait', quickAdd: true, wishlist: true -%}
+      {%- else -%}
+        {%- render 'blko-ui-product-card', title: d.title, vendor: d.vendor, image: d.image, price: d.price, rating: d, badge: badge, ratio: 'portrait', quickAdd: true, wishlist: true -%}
+      {%- endif -%}
+    </div
+    >{%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+{%- capture rows -%}
+  {%- assign n_items = 0 -%}{%- assign sub = 0 -%}
+  {%- for i in (0..4) -%}
+    {%- liquid
+      assign locked = false
+      assign show = true
+      assign vid = ''
+      if i == 0
+        assign nm = this_name | append: s.this_size
+        assign note = s.this_note
+        assign c = this_cents
+        assign vid = this_variant
+        assign locked = true
+      elsif i == 4
+        assign nm = extra_name
+        assign note = s.extra_note
+        assign c = extra_cents
+        assign vid = extra_variant
+        if nm == blank
+          assign show = false
+        endif
+      else
+        assign k = i | minus: 1
+        if has_recs
+          assign p = recs[k]
+          if p == blank
+            assign show = false
+          else
+            assign nm = p.title
+            assign note = p.type
+            assign c = p.price
+            assign vid = p.selected_or_first_available_variant.id
+          endif
+        else
+          assign b = section.blocks[k]
+          if b == blank
+            assign show = false
+          else
+            assign nm = b.settings.bundle_name | default: b.settings.title
+            assign note = b.settings.note
+            assign c = b.settings.price | times: 100 | round
+            if b.settings.product != blank
+              assign nm = b.settings.product.title
+              assign c = b.settings.product.price
+              assign vid = b.settings.product.selected_or_first_available_variant.id
+            endif
+          endif
+        endif
+      endif
+    -%}
+    {%- if show -%}
+      {%- assign n_items = n_items | plus: 1 -%}{%- assign sub = sub | plus: c -%}
+    <label class="rm-rise brecommendations69__row{% if locked %} is-locked{% endif %}" style="--d:{{ i | times: 70 | plus: 260 }}ms"
+      ><input type="checkbox" class="blko-ui-sr-only" checked{% if locked %} disabled{% endif %} data-item data-cents="{{ c }}" data-variant="{{ vid }}"
+      ><span aria-hidden="true" class="brecommendations69__box">{%- if locked -%}{% render 'blko-ui-icon', name: 'lock', size: 12, stroke: 2.5 %}{%- else -%}<span class="brecommendations69__check">{% render 'blko-ui-icon', name: 'check', size: 14, stroke: 3 %}</span>{%- endif -%}</span
+      ><span class="brecommendations69__item"><span class="brecommendations69__name">{{ nm | escape }}</span><span class="brecommendations69__label brecommendations69__dim7">{{ note | escape }}</span></span
+      ><span class="brecommendations69__price">{%- render 'blko-ui-money', amount: c, cents: true -%}</span
+    ></label
+    >{%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- liquid
+  assign save = 0
+  if n_items >= 2
+    assign save = sub | times: off | divided_by: 100.0 | round
+  endif
+  assign total = sub | minus: save
+-%}
+{%- capture body -%}
+  <div class="brecommendations69__left"
+    ><div class="brecommendations69__titles"
+      ><p class="brecommendations69__label rm-rise brecommendations69__muted brecommendations69__kicker"><span aria-hidden="true" class="brecommendations69__dot"></span>{{ s.eyebrow | escape }}</p
+      ><h2 class="brecommendations69__h2"><span class="rm-mask"><span class="rm-line" style="--d:0ms">{{ s.heading | escape }}</span></span><span class="rm-mask"><span class="rm-line" style="--d:90ms"><em>{{ s.accent | escape }}</em></span></span></h2
+    ></div
+    ><div class="brecommendations69__cards" data-cards>{{ cards }}</div
+  ></div
+  ><div class="brecommendations69__right"
+    ><span aria-hidden="true" class="brecommendations69__label brecommendations69__off">-{{ off }}%</span
+    ><div class="rm-rise brecommendations69__panel" style="--d:200ms"
+      ><div class="brecommendations69__phead"
+        ><p class="brecommendations69__label brecommendations69__dim8">{{ s.hint | escape }}</p
+        ><h3 class="brecommendations69__h3">{{ s.panel_heading | escape }} <em>{{ s.panel_accent | escape }}</em></h3
+      ></div
+      ><fieldset class="brecommendations69__set"
+        ><legend class="blko-ui-sr-only">{{ 'blko.recommendations_69.items' | t }}</legend
+        >{{ rows -}}
+      </fieldset
+      ><dl class="brecommendations69__sums" aria-live="polite"
+        ><div class="brecommendations69__sum"><dt class="brecommendations69__dim8">{{ 'blko.recommendations_69.subtotal' | t }} · <span data-count>{{ n_items }}</span> {{ 'blko.recommendations_69.items_word' | t }}</dt><dd class="brecommendations69__tab" data-sub>{{ sub | money }}</dd></div
+        ><div class="brecommendations69__sum"><dt class="brecommendations69__dim8">{{ 'blko.recommendations_69.saving' | t }}</dt><dd class="brecommendations69__tab" data-save>{% if save > 0 %}-{{ save | money }}{% else %}{{ 'blko.recommendations_69.one_more' | t }}{% endif %}</dd></div
+        ><div class="brecommendations69__sum brecommendations69__sum--total"><dt class="brecommendations69__label">{{ 'blko.recommendations_69.total' | t }}</dt><dd class="brecommendations69__total" data-total>{{ total | money }}</dd></div
+      ></dl
+      >{%- capture add -%}<span data-add-on hidden>{% render 'blko-ui-icon', name: 'check', size: 16 %}</span><span class="rm-roll"><span data-add-label>{{ 'blko.recommendations_69.add' | t }}</span></span><span data-add-off>{% render 'blko-ui-icon', name: 'arrow-right', size: 16 %}</span>{%- endcapture -%}
+      {%- render 'blko-ui-button', variant: 'inverse', size: 'lg', full: true, className: 'brecommendations69__add', attrs: 'data-add', children: add -%}
+      <p class="brecommendations69__small brecommendations69__dim8" data-note>{{ s.note | escape }}</p
+    ></div
+  ></div
+>{%- endcapture -%}
+<div class="brecommendations69" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-rm-magnetic data-off="{{ off }}" data-money="{{ shop.money_format | escape }}" data-added="{{ 'blko.recommendations_69.added' | t }}" data-one-more="{{ 'blko.recommendations_69.one_more' | t }}" data-error="{{ 'blko.recommendations_69.error' | t }}"{% if product != blank and has_recs == false and s.auto %} data-recs="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=3&intent=complementary"{% endif %}
+  >{%- render 'blko-ui-section', surface: 'alt', label: s.label, inner: 'brecommendations69__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Recommendations, bundle",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "On a product page the cards come from Shopify's complementary product recommendations when there are any; the cards below fill in otherwise."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Brew it alongside"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Pairs with Guji Natural"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Brew it"
+    },
+    {
+      "type": "text",
+      "id": "accent",
+      "label": "Heading, accent line",
+      "default": "alongside"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto",
+      "label": "Use product recommendations",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Bundle"
+    },
+    {
+      "type": "range",
+      "id": "discount",
+      "label": "Bundle discount",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 10,
+      "info": "Shown as a saving; set up a matching automatic discount in Shopify."
+    },
+    {
+      "type": "text",
+      "id": "hint",
+      "label": "Hint",
+      "default": "Bundle · tick two or more"
+    },
+    {
+      "type": "text",
+      "id": "panel_heading",
+      "label": "Panel heading",
+      "default": "Build a bundle,"
+    },
+    {
+      "type": "text",
+      "id": "panel_accent",
+      "label": "Panel heading accent",
+      "default": "save 10%"
+    },
+    {
+      "type": "text",
+      "id": "this_name",
+      "label": "This product (no product)",
+      "default": "Guji Natural"
+    },
+    {
+      "type": "text",
+      "id": "this_size",
+      "label": "This product size suffix",
+      "default": " · 250 g"
+    },
+    {
+      "type": "number",
+      "id": "this_price",
+      "label": "This product price (no product)",
+      "default": 24
+    },
+    {
+      "type": "text",
+      "id": "this_note",
+      "label": "This product note",
+      "default": "This bag"
+    },
+    {
+      "type": "product",
+      "id": "extra_product",
+      "label": "Extra product"
+    },
+    {
+      "type": "text",
+      "id": "extra_name",
+      "label": "Extra name (no product)",
+      "default": "Glass server · 600 ml"
+    },
+    {
+      "type": "number",
+      "id": "extra_price",
+      "label": "Extra price (no product)",
+      "default": 36
+    },
+    {
+      "type": "text",
+      "id": "extra_note",
+      "label": "Extra note",
+      "default": "Gear"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Footnote",
+      "default": "Ground to order, roasted together, one box. Free shipping over $45."
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title (no product)",
+          "default": "Bensa Washed"
+        },
+        {
+          "type": "text",
+          "id": "vendor",
+          "label": "Origin line",
+          "default": "Ethiopia · Filter"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (no product)"
+        },
+        {
+          "type": "number",
+          "id": "price",
+          "label": "Price (no product)",
+          "default": 26
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Rating",
+          "default": "4.9"
+        },
+        {
+          "type": "number",
+          "id": "count",
+          "label": "Review count",
+          "default": 88
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Badge"
+        },
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Badge tone",
+          "options": [
+            {
+              "value": "surface",
+              "label": "Surface"
+            },
+            {
+              "value": "accent",
+              "label": "Accent"
+            },
+            {
+              "value": "sale",
+              "label": "Sale"
+            }
+          ],
+          "default": "surface"
+        },
+        {
+          "type": "text",
+          "id": "bundle_name",
+          "label": "Name in the bundle",
+          "default": "Bensa Washed · 250 g"
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Note in the bundle",
+          "default": "A clean contrast"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Recommendations, bundle",
+      "blocks": [
+        {
+          "type": "card",
+          "settings": {
+            "title": "Ember Espresso Blend",
+            "vendor": "Brazil · Colombia · Espresso",
+            "price": 22,
+            "value": "4.8",
+            "count": 341,
+            "label": "Bestseller",
+            "bundle_name": "Ember Espresso Blend · 250 g",
+            "note": "For milk drinks"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Bensa Washed",
+            "vendor": "Ethiopia · Filter",
+            "price": 26,
+            "value": "4.9",
+            "count": 88,
+            "bundle_name": "Bensa Washed · 250 g",
+            "note": "A clean contrast"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Shade-Grown Matcha, 30 g",
+            "vendor": "Japan · Ceremonial tea",
+            "price": 28,
+            "value": "4.7",
+            "count": 126,
+            "label": "Tea",
+            "bundle_name": "Shade-Grown Matcha · 30 g",
+            "note": "The afternoon cup"
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

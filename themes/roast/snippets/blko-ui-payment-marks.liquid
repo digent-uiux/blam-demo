@@ -1,0 +1,31 @@
+{%- comment -%}
+  PaymentMarks(labels, className): components/ui/payment.tsx. Generic method chips (no brand logos): card, wallet, pay
+  later, bank, gift card. labels: show the words next to the icons (else the words are screen-reader only).
+{%- endcomment -%}
+<ul aria-label="{{ 'blko_ui.payment.label' | t }}" class="blko-ui-payment{% if labels %} blko-ui-payment--labels{% endif %}{% if className != blank %} {{ className }}{% endif %}">
+  {%- assign word = 'blko_ui.payment.card' | t -%}
+  <li title="{{ word | escape }}" class="blko-ui-payment__mark">
+    {%- render 'blko-ui-icon', name: 'credit-card' -%}
+    {%- if labels -%}{{ word }}{%- else -%}<span class="blko-ui-sr-only">{{ word }}</span>{%- endif -%}
+  </li>
+  {%- assign word = 'blko_ui.payment.wallet' | t -%}
+  <li title="{{ word | escape }}" class="blko-ui-payment__mark">
+    {%- render 'blko-ui-icon', name: 'wallet' -%}
+    {%- if labels -%}{{ word }}{%- else -%}<span class="blko-ui-sr-only">{{ word }}</span>{%- endif -%}
+  </li>
+  {%- assign word = 'blko_ui.payment.pay_later' | t -%}
+  <li title="{{ word | escape }}" class="blko-ui-payment__mark">
+    {%- render 'blko-ui-icon', name: 'calendar-clock' -%}
+    {%- if labels -%}{{ word }}{%- else -%}<span class="blko-ui-sr-only">{{ word }}</span>{%- endif -%}
+  </li>
+  {%- assign word = 'blko_ui.payment.bank' | t -%}
+  <li title="{{ word | escape }}" class="blko-ui-payment__mark">
+    {%- render 'blko-ui-icon', name: 'landmark' -%}
+    {%- if labels -%}{{ word }}{%- else -%}<span class="blko-ui-sr-only">{{ word }}</span>{%- endif -%}
+  </li>
+  {%- assign word = 'blko_ui.payment.gift_card' | t -%}
+  <li title="{{ word | escape }}" class="blko-ui-payment__mark">
+    {%- render 'blko-ui-icon', name: 'gift' -%}
+    {%- if labels -%}{{ word }}{%- else -%}<span class="blko-ui-sr-only">{{ word }}</span>{%- endif -%}
+  </li>
+</ul>

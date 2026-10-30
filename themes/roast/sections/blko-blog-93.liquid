@@ -1,0 +1,273 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-blog-93.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-blog-93.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- comment -%}
+  Halden "Brew guides" (roast): espresso band, four tall photo panels in one row; the open one takes three shares and shows
+  its copy, the others keep a number and a vertical title. Hover / focus opens a panel (JS). Static: the first one open.
+  With a blog picked, its four newest articles (first tag = category, read time from the word count); otherwise the
+  guide blocks. Phones: stacked 16:10 cards.
+{%- endcomment -%}
+{%- liquid
+  assign src = blogs[s.blog]
+  assign more = s.link | default: routes.blogs_url
+  if src != blank and src.articles_count > 0
+    assign more = s.link | default: src.url
+  endif
+  assign read_label = s.read_label
+-%}
+{%- capture body -%}
+<header class="bblog93__head"
+  ><div class="bblog93__htext"
+    >{%- if s.eyebrow != blank -%}<p class="rm-rise bblog93__label bblog93__eyebrow">{{ s.eyebrow | escape }}</p>{%- endif -%}
+    <h2 class="bblog93__title"
+      ><span class="rm-mask"><span class="rm-line">{{ s.line_1 }}</span></span
+      >{%- if s.line_2 != blank -%}<span class="rm-mask"><span class="rm-line" style="--d:110ms">{{ s.line_2 }}</span></span>{%- endif -%}
+    </h2
+  ></div
+  >{%- if s.link_label != blank -%}
+  <a href="{{ more }}" class="bblog93__all"><span class="rm-ul">{{ s.link_label | escape }}</span><span aria-hidden="true" class="bblog93__ring">{%- render 'blko-ui-icon', name: 'arrow-right', className: 'rm-nudge' -%}</span></a
+  >{%- endif -%}
+</header
+><ol class="bblog93__panels" style="--h:{{ s.height }}px" data-panels
+  >{%- if src != blank and src.articles_count > 0 -%}
+    {%- for a in src.articles limit: 4 -%}
+      {%- capture n -%}{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}{%- endcapture -%}
+      {%- assign words = a.content | strip_html | split: ' ' | size -%}
+      {%- assign mins = words | divided_by: 200 | at_least: 1 -%}
+      {%- assign read = 'blko.blog_93.min_read' | t: n: mins -%}
+      {%- assign cat = a.tags.first | default: src.title -%}
+      {%- assign d = forloop.index0 | times: 90 -%}
+      {%- assign ex = a.excerpt | default: a.content | strip_html | truncatewords: 22 -%}
+      {%- render 'blko-blog-93-panel', n: n, on: forloop.first, image: a.image, alt: a.title, category: cat, read: read, title: a.title, excerpt: ex, url: a.url, read_label: read_label, d: d -%}
+    {%- endfor -%}
+  {%- else -%}
+    {%- for b in section.blocks limit: 4 -%}
+      {%- capture n -%}{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}{%- endcapture -%}
+      {%- assign d = forloop.index0 | times: 90 -%}
+      {%- assign url = b.settings.link | default: more -%}
+      {%- render 'blko-blog-93-panel', n: n, on: forloop.first, image: b.settings.image, alt: b.settings.alt, category: b.settings.category, read: b.settings.read, title: b.settings.title, excerpt: b.settings.excerpt, url: url, read_label: read_label, d: d, attrs: b.shopify_attributes -%}
+    {%- endfor -%}
+  {%- endif -%}
+</ol
+>{%- endcapture -%}
+<div class="bblog93" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-bblog93
+  >{%- render 'blko-ui-section', surface: 'dark', label: s.label, inner: 'bblog93__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Blog 93 - Guide panels",
+  "tag": "div",
+  "class": "blko-bundle",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Brew guides"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The journal · 4 new this month"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Heading line 1",
+      "default": "Brew guides,"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Heading line 2 (wrap a word in <em>)",
+      "default": "from the <em>bar</em>"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog",
+      "info": "Its four newest articles. While empty, the guide blocks show."
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "Link label",
+      "default": "All guides"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "read_label",
+      "label": "Panel link label",
+      "default": "Read the guide"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Panel height (desktop)",
+      "min": 400,
+      "max": 720,
+      "step": 20,
+      "unit": "px",
+      "default": 560
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "guide",
+      "name": "Guide",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Image alt",
+          "default": "A cup of coffee on a wooden table"
+        },
+        {
+          "type": "text",
+          "id": "category",
+          "label": "Category",
+          "default": "Filter"
+        },
+        {
+          "type": "text",
+          "id": "read",
+          "label": "Read time",
+          "default": "8 min read"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Pour-over at home: one recipe, three adjustments"
+        },
+        {
+          "type": "textarea",
+          "id": "excerpt",
+          "label": "Excerpt",
+          "default": "Start at 15 grams to 250 of water, then change one thing at a time: grind, pour speed, temperature."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog 93 - Guide panels",
+      "blocks": [
+        {
+          "type": "guide",
+          "settings": {
+            "category": "Filter",
+            "read": "8 min read",
+            "title": "Pour-over at home: one recipe, three adjustments",
+            "excerpt": "Start at 15 grams to 250 of water, then change one thing at a time: grind, pour speed, temperature.",
+            "alt": "A cup of coffee on a wooden table, beans scattered beside it"
+          }
+        },
+        {
+          "type": "guide",
+          "settings": {
+            "category": "Espresso",
+            "read": "6 min read",
+            "title": "Dialling in a new bag in five shots",
+            "excerpt": "Dose, yield, time: the order we change them in, and what a sour or bitter shot is telling you.",
+            "alt": "An iced drink in a tall glass"
+          }
+        },
+        {
+          "type": "guide",
+          "settings": {
+            "category": "Cold brew",
+            "read": "4 min read",
+            "title": "The overnight cold brew ratio we keep coming back to",
+            "excerpt": "A coarse grind, one to eight, sixteen hours in the fridge. Then dilute to taste over ice.",
+            "alt": "A freshly made coffee in a cup"
+          }
+        },
+        {
+          "type": "guide",
+          "settings": {
+            "category": "Basics",
+            "read": "3 min read",
+            "title": "How to store beans so the last cup tastes like the first",
+            "excerpt": "Air, light, heat and moisture, in that order. Why the freezer helps, and when it doesn't.",
+            "alt": "A milk coffee with latte art, close up"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

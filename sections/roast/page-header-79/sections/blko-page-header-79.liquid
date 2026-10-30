@@ -1,0 +1,185 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-page-header-79.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- capture body -%}
+  <div class="bpageheader79__left"
+    ><nav aria-label="{{ 'blko.page_header_79.breadcrumb' | t }}" class="bpageheader79__label bpageheader79__crumbs"
+      ><ol><li><a href="{{ routes.root_url }}" class="rm-ul">{{ 'blko.page_header_79.home' | t }}</a></li><li aria-hidden="true">/</li><li aria-current="page">{{ s.crumb | escape }}</li></ol
+    ></nav
+    ><h1 class="bpageheader79__h1"><span class="rm-mask"><span class="rm-line">{{ s.line_1 | escape }}</span></span><span class="rm-mask"><span class="rm-line" style="--d:110ms"><em>{{ s.line_2 | escape }}</em></span></span></h1
+    >{%- if s.lead != blank -%}<p class="rm-rise bpageheader79__lead" style="--d:300ms">{{ s.lead | escape }}</p>{%- endif -%}
+  </div
+  ><div class="bpageheader79__right"
+    >{%- if s.open_text != blank -%}<p class="bpageheader79__label rm-rise bpageheader79__open" style="--d:200ms"><span aria-hidden="true" class="bpageheader79__dot"></span>{{ s.open_text | escape }}</p>{%- endif -%}
+    <ul class="bpageheader79__rows"
+      >{%- for b in section.blocks -%}
+      <li class="rm-rise" style="--d:{{ forloop.index0 | times: 80 | plus: 280 }}ms" {{ b.shopify_attributes }}
+        ><a href="{{ b.settings.link | default: '#' }}" class="bpageheader79__row"
+          ><span><span class="bpageheader79__rowlabel">{{ b.settings.label | escape }}</span><span class="bpageheader79__label bpageheader79__detail">{{ b.settings.detail | escape }}</span></span
+          ><span aria-hidden="true" class="bpageheader79__circle">{%- render 'blko-ui-icon', name: 'arrow-up-right' -%}</span
+        ></a
+      ></li
+      >{%- endfor -%}
+    </ul
+  ></div
+>{%- endcapture -%}
+<div class="bpageheader79" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast
+  >{%- render 'blko-ui-section', surface: 'pop-3', label: s.label, className: 'rm-load', inner: 'bpageheader79__grid', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Page header, contact",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Contact"
+    },
+    {
+      "type": "text",
+      "id": "crumb",
+      "label": "Breadcrumb page",
+      "default": "Contact"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Heading, line 1",
+      "default": "Come say"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Heading, line 2 (accent)",
+      "default": "hello."
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Lead",
+      "default": "Orders, wholesale, a grind that isn’t working for you: a real person at the roastery reads every message."
+    },
+    {
+      "type": "text",
+      "id": "open_text",
+      "label": "Open-hours line",
+      "default": "The bar is open · closes 6 pm"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Contact row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Write to us"
+        },
+        {
+          "type": "text",
+          "id": "detail",
+          "label": "Detail",
+          "default": "hello@halden.coffee · replies within a day"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page header, contact",
+      "blocks": [
+        {
+          "type": "row",
+          "settings": {
+            "label": "Write to us",
+            "detail": "hello@halden.coffee · replies within a day"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Call the bar",
+            "detail": "+1 (415) 555 0142 · 8 am – 6 pm"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Visit us",
+            "detail": "Pier 7, Harbour district"
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

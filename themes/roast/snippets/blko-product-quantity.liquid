@@ -1,0 +1,49 @@
+{%- comment -%}
+  Quantity stepper for the product page (quantity block of blko-main-product).
+
+  Accepts:
+  - block: {Object} the quantity block (for shopify_attributes)
+  - variant: {Object} current variant (quantity rules)
+  - form_id: {String} id of the product form the input belongs to
+  - input_id: {String} id for the input
+  - show_label: {Boolean} print a visible label above the stepper
+  - standalone: {Boolean} rendered as its own row in the info column
+{%- endcomment -%}
+{%- liquid
+  assign q_min = variant.quantity_rule.min | default: 1
+  assign q_step = variant.quantity_rule.increment | default: 1
+  assign q_max = variant.quantity_rule.max
+-%}
+<div
+  class="blko-pdp__qty-wrap{% if standalone %} blko-pdp__block{% endif %}"
+  {{ block.shopify_attributes }}
+>
+  <label
+    class="{% if show_label %}blko-small blko-medium blko-pdp__qty-label{% else %}blko-visually-hidden{% endif %}"
+    for="{{ input_id }}"
+  >
+    {{- 'blko.product.quantity' | t -}}
+  </label>
+  <div class="blko-pdp__qty" role="group" aria-label="{{ 'blko.product.quantity' | t }}">
+    <button type="button" class="blko-pdp__qty-btn" data-blko-qty="-1" aria-label="{{ 'blko.product.decrease' | t }}">
+      {%- render 'blko-icon', name: 'minus' -%}
+    </button>
+    <input
+      class="blko-pdp__qty-input"
+      type="number"
+      id="{{ input_id }}"
+      name="quantity"
+      value="{{ q_min }}"
+      min="{{ q_min }}"
+      step="{{ q_step }}"
+      {% if q_max != blank %}
+        max="{{ q_max }}"
+      {% endif %}
+      inputmode="numeric"
+      form="{{ form_id }}"
+    >
+    <button type="button" class="blko-pdp__qty-btn" data-blko-qty="1" aria-label="{{ 'blko.product.increase' | t }}">
+      {%- render 'blko-icon', name: 'plus' -%}
+    </button>
+  </div>
+</div>

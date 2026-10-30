@@ -1,0 +1,6 @@
+{%- comment -%}Field(id, label, hint?, error?, optional, children, className). Capture children and pass id, describedBy and invalid to the control, as in TSX. label/hint/error are trusted captured HTML.{%- endcomment -%}
+<div class="blko-ui-field {{ className }}">
+  <label for="{{ id | escape }}" class="blko-ui-label">{{ label }}{% if optional %}<span class="blko-ui-field__optional"> {{ 'blko_ui.field.optional' | t }}</span>{% endif %}</label>
+  {{ children }}
+  {% if error != blank %}<p id="{{ id | escape }}-error" role="alert" class="blko-ui-field__error">{{ error }}</p>{% elsif hint != blank %}<p id="{{ id | escape }}-hint" class="blko-ui-field__hint">{{ hint }}</p>{% endif %}
+</div>

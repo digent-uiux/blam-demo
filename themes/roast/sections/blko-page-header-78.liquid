@@ -1,0 +1,210 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-page-header-78.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-page-header-78.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+<section class="bpageheader78" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast aria-label="{{ s.label | escape }}"
+  ><div class="bpageheader78__bg"
+    >{%- if s.image != blank -%}{{ s.image | image_url: width: 2000 | image_tag: alt: s.image.alt, fetchpriority: 'high', class: 'bpageheader78__img', data-parallax: '' }}{%- else -%}{{ 'lifestyle-2' | placeholder_svg_tag: 'bpageheader78__img' }}{%- endif -%}
+    <span aria-hidden="true" class="bpageheader78__scrim"></span
+  ></div
+  ><div class="bpageheader78__inner rm-load"
+    ><nav aria-label="{{ 'blko.page_header_78.breadcrumb' | t }}" class="bpageheader78__label bpageheader78__crumbs rm-rise" style="--d:500ms"
+      ><ol
+        ><li><a href="{{ routes.root_url }}" class="rm-ul">{{ 'blko.page_header_78.home' | t }}</a></li
+        ><li aria-hidden="true">/</li
+        ><li aria-current="page">{{ page.title | default: s.current | escape }}</li
+      ></ol
+    ></nav
+    ><div class="bpageheader78__grid"
+      ><div class="bpageheader78__main"
+        ><p class="bpageheader78__label bpageheader78__eyebrow rm-rise" style="--d:80ms"><span aria-hidden="true" class="bpageheader78__dot"></span>{{ s.eyebrow | escape }}</p
+        ><h1 class="bpageheader78__h1"
+          ><span class="rm-mask"><span class="rm-line">{{ s.line_1 | escape }}</span></span
+          ><span class="rm-mask"><span class="rm-line" style="--d:110ms"><em>{{ s.line_2_em | escape }}</em> {{ s.line_2 | escape }}</span></span
+          ><span class="rm-mask"><span class="rm-line" style="--d:220ms">{{ s.line_3 | escape }}</span></span
+        ></h1
+      ></div
+      ><div class="bpageheader78__side"
+        >{%- if s.lead != blank -%}<p class="bpageheader78__lead rm-rise" style="--d:420ms">{{ s.lead | escape }}</p>{%- endif -%}
+        {%- if section.blocks.size > 0 -%}
+        <dl class="bpageheader78__facts rm-rise" style="--d:540ms"
+          >{%- for b in section.blocks -%}
+          <div class="bpageheader78__fact" {{ b.shopify_attributes }}><dt class="bpageheader78__label">{{ b.settings.key | escape }}</dt><dd>{{ b.settings.value | escape }}</dd></div
+          >{%- endfor -%}
+        </dl
+        >{%- endif -%}
+      </div
+    ></div
+  ></div
+></section
+
+>
+
+{% schema %}
+{
+  "name": "Page header, story photo",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Our story"
+    },
+    {
+      "type": "text",
+      "id": "current",
+      "label": "Breadcrumb page name",
+      "default": "Our story",
+      "info": "Used when the page has no title."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Our story · since 2014"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Heading, line 1",
+      "default": "We roast"
+    },
+    {
+      "type": "text",
+      "id": "line_2_em",
+      "label": "Heading, accent word",
+      "default": "slowly,"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Heading, line 2",
+      "default": "on"
+    },
+    {
+      "type": "text",
+      "id": "line_3",
+      "label": "Heading, line 3",
+      "default": "purpose."
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Lead",
+      "default": "Halden started as a cart at the Saturday market with a borrowed grinder. Ten years on we still roast one batch at a time and taste every one before it ships."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "fact",
+      "name": "Fact",
+      "settings": [
+        {
+          "type": "text",
+          "id": "key",
+          "label": "Label",
+          "default": "Origins"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "14 this season"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [
+    {
+      "name": "Page header, story photo",
+      "blocks": [
+        {
+          "type": "fact",
+          "settings": {
+            "key": "Roasted in",
+            "value": "the harbour district"
+          }
+        },
+        {
+          "type": "fact",
+          "settings": {
+            "key": "Origins",
+            "value": "14 this season"
+          }
+        },
+        {
+          "type": "fact",
+          "settings": {
+            "key": "One drum",
+            "value": "15 kg, every Monday"
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

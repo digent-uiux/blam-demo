@@ -1,0 +1,436 @@
+{
+  "sections": {
+    "collection-banner-89": {
+      "type": "blko-collection-banner-89",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "sub-1": {
+          "type": "sub",
+          "settings": {
+            "label": "All coffee",
+            "count": 24
+          }
+        },
+        "sub-2": {
+          "type": "sub",
+          "settings": {
+            "label": "Espresso",
+            "count": 7
+          }
+        },
+        "sub-3": {
+          "type": "sub",
+          "settings": {
+            "label": "Filter",
+            "count": 11
+          }
+        },
+        "sub-4": {
+          "type": "sub",
+          "settings": {
+            "label": "Decaf",
+            "count": 3
+          }
+        },
+        "sub-5": {
+          "type": "sub",
+          "settings": {
+            "label": "Blends",
+            "count": 5
+          }
+        },
+        "sub-6": {
+          "type": "sub",
+          "settings": {
+            "label": "Single origin",
+            "count": 19
+          }
+        }
+      },
+      "block_order": [
+        "sub-1",
+        "sub-2",
+        "sub-3",
+        "sub-4",
+        "sub-5",
+        "sub-6"
+      ]
+    },
+    "filter-bar-31": {
+      "type": "blko-filter-bar-31",
+      "settings": {
+        "tokens": "theme"
+      }
+    },
+    "collection-grid-49": {
+      "type": "blko-collection-grid-49",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "tile-1": {
+          "type": "tile",
+          "settings": {}
+        },
+        "product-2": {
+          "type": "product",
+          "settings": {
+            "title": "Guji Natural",
+            "origin": "Ethiopia",
+            "process": "Natural",
+            "roast": 1,
+            "price": 24,
+            "value": "4.9",
+            "count": 212,
+            "fresh": 2,
+            "label": "New lot",
+            "tone": "surface"
+          }
+        },
+        "product-3": {
+          "type": "product",
+          "settings": {
+            "title": "Kirinyaga AA",
+            "origin": "Kenya",
+            "process": "Washed",
+            "roast": 1,
+            "price": 26,
+            "value": "4.8",
+            "count": 141,
+            "fresh": 9
+          }
+        },
+        "product-4": {
+          "type": "product",
+          "settings": {
+            "title": "Halden House Espresso",
+            "origin": "Brazil",
+            "process": "Natural",
+            "roast": 4,
+            "price": 21,
+            "value": "4.8",
+            "count": 388,
+            "fresh": 20,
+            "label": "Bestseller",
+            "tone": "inverse"
+          }
+        },
+        "product-5": {
+          "type": "product",
+          "settings": {
+            "title": "Huila Pink Bourbon",
+            "origin": "Colombia",
+            "process": "Washed",
+            "roast": 2,
+            "price": 22,
+            "value": "4.8",
+            "count": 164,
+            "fresh": 6
+          }
+        },
+        "product-6": {
+          "type": "product",
+          "settings": {
+            "title": "Finca Rosa",
+            "origin": "Guatemala",
+            "process": "Honey",
+            "roast": 3,
+            "price": 23,
+            "value": "4.7",
+            "count": 92,
+            "fresh": 4,
+            "label": "Low stock",
+            "tone": "sale"
+          }
+        },
+        "product-7": {
+          "type": "product",
+          "settings": {
+            "title": "Night Shift Decaf",
+            "origin": "Peru",
+            "process": "Washed",
+            "roast": 4,
+            "price": 19,
+            "value": "4.7",
+            "count": 98,
+            "fresh": 14
+          }
+        },
+        "product-8": {
+          "type": "product",
+          "settings": {
+            "title": "Nyamasheke Red Bourbon",
+            "origin": "Rwanda",
+            "process": "Washed",
+            "roast": 2,
+            "price": 25,
+            "value": "4.9",
+            "count": 57,
+            "fresh": 1,
+            "label": "New lot",
+            "tone": "surface"
+          }
+        },
+        "product-9": {
+          "type": "product",
+          "settings": {
+            "title": "Gayo Highlands",
+            "origin": "Indonesia",
+            "process": "Anaerobic",
+            "roast": 5,
+            "price": 22,
+            "value": "4.6",
+            "count": 73,
+            "fresh": 11
+          }
+        },
+        "product-10": {
+          "type": "product",
+          "settings": {
+            "title": "Bensa Anaerobic",
+            "origin": "Ethiopia",
+            "process": "Anaerobic",
+            "roast": 2,
+            "price": 32,
+            "value": "4.9",
+            "count": 44,
+            "fresh": 3,
+            "label": "Limited",
+            "tone": "inverse"
+          }
+        },
+        "product-11": {
+          "type": "product",
+          "settings": {
+            "title": "Cerrado Honey",
+            "origin": "Brazil",
+            "process": "Honey",
+            "roast": 4,
+            "price": 18,
+            "value": "4.5",
+            "count": 120,
+            "fresh": 18
+          }
+        },
+        "product-12": {
+          "type": "product",
+          "settings": {
+            "title": "Nariño Supremo",
+            "origin": "Colombia",
+            "process": "Washed",
+            "roast": 3,
+            "price": 20,
+            "value": "4.6",
+            "count": 88,
+            "fresh": 15
+          }
+        },
+        "product-13": {
+          "type": "product",
+          "settings": {
+            "title": "Dark Room Blend",
+            "origin": "Indonesia",
+            "process": "Washed",
+            "roast": 5,
+            "price": 19,
+            "value": "4.6",
+            "count": 205,
+            "fresh": 22
+          }
+        },
+        "product-14": {
+          "type": "product",
+          "settings": {
+            "title": "Kochere Washed",
+            "origin": "Ethiopia",
+            "process": "Washed",
+            "roast": 1,
+            "price": 25,
+            "value": "4.8",
+            "count": 133,
+            "fresh": 8
+          }
+        },
+        "product-15": {
+          "type": "product",
+          "settings": {
+            "title": "Antigua Pastores",
+            "origin": "Guatemala",
+            "process": "Washed",
+            "roast": 3,
+            "price": 22,
+            "value": "4.7",
+            "count": 61,
+            "fresh": 12
+          }
+        },
+        "product-16": {
+          "type": "product",
+          "settings": {
+            "title": "Nyeri Peaberry",
+            "origin": "Kenya",
+            "process": "Washed",
+            "roast": 1,
+            "price": 29,
+            "value": "4.9",
+            "count": 39,
+            "fresh": 5,
+            "label": "Low stock",
+            "tone": "sale"
+          }
+        },
+        "product-17": {
+          "type": "product",
+          "settings": {
+            "title": "Cajamarca Organic",
+            "origin": "Peru",
+            "process": "Washed",
+            "roast": 3,
+            "price": 20,
+            "value": "4.5",
+            "count": 77,
+            "fresh": 16
+          }
+        },
+        "product-18": {
+          "type": "product",
+          "settings": {
+            "title": "Huye Mountain Natural",
+            "origin": "Rwanda",
+            "process": "Natural",
+            "roast": 2,
+            "price": 27,
+            "value": "4.8",
+            "count": 33,
+            "fresh": 7
+          }
+        },
+        "product-19": {
+          "type": "product",
+          "settings": {
+            "title": "Mogiana Sweet Blend",
+            "origin": "Brazil",
+            "process": "Natural",
+            "roast": 4,
+            "price": 19,
+            "value": "4.6",
+            "count": 156,
+            "fresh": 19
+          }
+        },
+        "product-20": {
+          "type": "product",
+          "settings": {
+            "title": "Morning Ritual Blend",
+            "origin": "Colombia",
+            "process": "Washed",
+            "roast": 3,
+            "price": 18,
+            "value": "4.5",
+            "count": 241,
+            "fresh": 23
+          }
+        },
+        "product-21": {
+          "type": "product",
+          "settings": {
+            "title": "Sugarcane Decaf",
+            "origin": "Colombia",
+            "process": "Washed",
+            "roast": 3,
+            "price": 21,
+            "value": "4.7",
+            "count": 66,
+            "fresh": 13
+          }
+        },
+        "product-22": {
+          "type": "product",
+          "settings": {
+            "title": "Jampit Estate",
+            "origin": "Indonesia",
+            "process": "Honey",
+            "roast": 4,
+            "price": 23,
+            "value": "4.5",
+            "count": 28,
+            "fresh": 10
+          }
+        },
+        "product-23": {
+          "type": "product",
+          "settings": {
+            "title": "Low Tide Decaf",
+            "origin": "Brazil",
+            "process": "Natural",
+            "roast": 5,
+            "price": 18,
+            "value": "4.4",
+            "count": 51,
+            "fresh": 21
+          }
+        },
+        "product-24": {
+          "type": "product",
+          "settings": {
+            "title": "Ristretto Club Blend",
+            "origin": "Brazil",
+            "process": "Natural",
+            "roast": 5,
+            "price": 20,
+            "value": "4.7",
+            "count": 174,
+            "fresh": 17
+          }
+        },
+        "product-25": {
+          "type": "product",
+          "settings": {
+            "title": "Gakenke Honey",
+            "origin": "Rwanda",
+            "process": "Honey",
+            "roast": 2,
+            "price": 26,
+            "value": "4.8",
+            "count": 22,
+            "fresh": 24
+          }
+        }
+      },
+      "block_order": [
+        "tile-1",
+        "product-2",
+        "product-3",
+        "product-4",
+        "product-5",
+        "product-6",
+        "product-7",
+        "product-8",
+        "product-9",
+        "product-10",
+        "product-11",
+        "product-12",
+        "product-13",
+        "product-14",
+        "product-15",
+        "product-16",
+        "product-17",
+        "product-18",
+        "product-19",
+        "product-20",
+        "product-21",
+        "product-22",
+        "product-23",
+        "product-24",
+        "product-25"
+      ]
+    }
+  },
+  "order": [
+    "collection-banner-89",
+    "filter-bar-31",
+    "collection-grid-49"
+  ]
+}

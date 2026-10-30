@@ -1,0 +1,56 @@
+{
+  "blko_ui": {
+    "price": {
+      "from": "From",
+      "was": "Was",
+      "save": "Save"
+    },
+    "rating": {
+      "stars": "{{ value }} out of 5 stars"
+    },
+    "quantity": {
+      "label": "Quantity",
+      "decrease": "Decrease {{ label }}",
+      "increase": "Increase {{ label }}"
+    },
+    "field": {
+      "optional": "(optional)"
+    },
+    "option": {
+      "sold_out": "sold out"
+    },
+    "product": {
+      "save": "Save {{ title }}",
+      "add": "Add {{ title }} to bag",
+      "colors": "{{ count }} colours"
+    }
+  },
+  "blko": {
+    "product_detail_41": {
+      "photos": "Product photos",
+      "show_photo": "Show photo {{ n }}: {{ note }}",
+      "choose_photo": "Choose photo",
+      "photo": "Photo {{ n }}: {{ note }}",
+      "note": "Note",
+      "notes": "Tasting notes",
+      "breadcrumb": "Breadcrumb",
+      "home": "Home",
+      "reviews": "Read reviews",
+      "out_of": "{{ v }} out of 5",
+      "grind": "Grind",
+      "size": "Size",
+      "purchase": "Purchase",
+      "one_time": "One-time purchase",
+      "subscribe": "Subscribe & save {{ pct }}%",
+      "deliver": "Deliver",
+      "was": "Was",
+      "add": "Add to bag",
+      "added": "Added to bag",
+      "sold_out": "Sold out",
+      "error": "Could not add to bag",
+      "save": "Save to wishlist",
+      "saved": "Saved to wishlist",
+      "subscribe_short": "subscribe"
+    }
+  }
+}

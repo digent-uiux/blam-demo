@@ -1,0 +1,744 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-search-results-29.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-ui-commerce.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-commerce.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-search-results-29.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- liquid
+  assign live = false
+  if request.page_type == 'search'
+    assign live = true
+  endif
+  if live
+    assign q = search.terms
+  else
+    assign q = s.demo_q
+  endif
+  assign qd = q | strip | downcase
+  assign show_dym = false
+  if s.dym_from != blank and qd == s.dym_from
+    assign show_dym = true
+  endif
+  assign n_products = 0
+  assign n_stories = 0
+  assign n_pages = 0
+-%}
+{%- capture product_cards -%}
+  {%- if live -%}
+    {%- if search.performed -%}
+    {%- paginate search.results by s.per_page -%}
+      {%- for item in search.results -%}
+        {%- if item.object_type != 'product' -%}{%- continue -%}{%- endif -%}
+        {%- assign d = n_products | times: 80 -%}
+        {%- assign ratio = 'portrait' -%}
+        {%- if n_products == 0 -%}{%- assign ratio = 'square' -%}{%- endif -%}
+        <div class="rm-rise bsearchresults29__cell" style="--d:{{ d }}ms" data-card data-i="{{ n_products }}" data-price="{{ item.price }}" data-rating="0" data-keys="{{ item.title | downcase | escape }}"
+          >{%- render 'blko-ui-product-card', product: item, vendor: item.vendor, ratio: ratio, quickAdd: true, wishlist: true -%}
+        </div
+        >{%- assign n_products = n_products | plus: 1 -%}
+      {%- endfor -%}
+      {%- capture live_stories -%}
+        {%- for item in search.results -%}
+          {%- if item.object_type != 'article' -%}{%- continue -%}{%- endif -%}
+          {%- assign n_stories = n_stories | plus: 1 -%}
+          {%- assign words = item.content | strip_html | split: ' ' | size -%}
+          {%- assign mins = words | divided_by: 200 | floor | at_least: 1 -%}
+          {%- assign rd = mins | append: ' ' | append: s.min_read -%}
+          {%- assign cat = item.tags.first | default: item.blog.title -%}
+          {%- assign dek = item.excerpt_or_content | strip_html | truncatewords: 22 -%}
+          <li data-story data-cat="{{ cat | escape }}" data-read="{{ rd | escape }}" data-title="{{ item.title | escape }}" data-dek="{{ dek | escape }}" data-href="{{ item.url }}" data-keys=""></li
+        >{%- endfor -%}
+      {%- endcapture -%}
+      {%- capture live_pages -%}
+        {%- for item in search.results -%}
+          {%- if item.object_type != 'page' -%}{%- continue -%}{%- endif -%}
+          {%- assign n_pages = n_pages | plus: 1 -%}
+          {%- assign dek = item.content | strip_html | truncatewords: 22 -%}
+          <li data-page data-cat="{{ s.page_cat | escape }}" data-title="{{ item.title | escape }}" data-dek="{{ dek | escape }}" data-href="{{ item.url }}" data-keys=""></li
+        >{%- endfor -%}
+      {%- endcapture -%}
+    {%- endpaginate -%}
+    {%- endif -%}
+  {%- else -%}
+    {%- for b in section.blocks -%}
+      {%- if b.type != 'product' -%}{%- continue -%}{%- endif -%}
+      {%- assign bs = b.settings -%}
+      {%- assign d = n_products | times: 80 -%}
+      {%- assign ratio = 'portrait' -%}
+      {%- if n_products == 0 -%}{%- assign ratio = 'square' -%}{%- endif -%}
+      {%- assign cents = bs.price | times: 100 -%}
+      {%- capture keys -%}{{ bs.title }} {{ bs.keys }}{%- endcapture -%}
+      <div class="rm-rise bsearchresults29__cell" style="--d:{{ d }}ms" data-card data-i="{{ n_products }}" data-price="{{ cents }}" data-rating="{{ bs.value }}" data-keys="{{ keys | downcase | escape }}" {{ b.shopify_attributes }}
+        >{%- if bs.product != blank and bs.label != blank -%}
+          {%- render 'blko-ui-product-card', product: bs.product, title: bs.title, vendor: bs.vendor, image: bs.image, rating: bs, badge: bs, ratio: ratio, quickAdd: true, wishlist: true -%}
+        {%- elsif bs.product != blank -%}
+          {%- render 'blko-ui-product-card', product: bs.product, title: bs.title, vendor: bs.vendor, image: bs.image, rating: bs, ratio: ratio, quickAdd: true, wishlist: true -%}
+        {%- elsif bs.label != blank -%}
+          {%- render 'blko-ui-product-card', title: bs.title, vendor: bs.vendor, image: bs.image, price: bs.price, rating: bs, badge: bs, ratio: ratio, quickAdd: true, wishlist: true -%}
+        {%- else -%}
+          {%- render 'blko-ui-product-card', title: bs.title, vendor: bs.vendor, image: bs.image, price: bs.price, rating: bs, ratio: ratio, quickAdd: true, wishlist: true -%}
+        {%- endif -%}
+      </div
+      >{%- assign n_products = n_products | plus: 1 -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+{%- comment -%} Stories and pages as data rows; rendered below in their two layouts. {%- endcomment -%}
+{%- capture story_rows -%}
+  {%- if live -%}{{ live_stories }}{%- else -%}
+    {%- for b in section.blocks -%}
+      {%- if b.type != 'story' -%}{%- continue -%}{%- endif -%}
+      {%- assign bs = b.settings -%}
+      {%- assign kd = bs.keys | downcase -%}
+      {%- if kd contains qd and qd != blank -%}{%- assign n_stories = n_stories | plus: 1 -%}{%- endif -%}
+      <li data-story data-cat="{{ bs.cat | escape }}" data-read="{{ bs.read | escape }}" data-title="{{ bs.title | escape }}" data-dek="{{ bs.dek | escape }}" data-href="{{ bs.link | default: '#' }}" data-keys="{{ kd | escape }}"></li
+    >{%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+{%- capture page_rows -%}
+  {%- if live -%}{{ live_pages }}{%- else -%}
+    {%- for b in section.blocks -%}
+      {%- if b.type != 'page' -%}{%- continue -%}{%- endif -%}
+      {%- assign bs = b.settings -%}
+      {%- assign kd = bs.keys | downcase -%}
+      {%- if kd contains qd and qd != blank -%}{%- assign n_pages = n_pages | plus: 1 -%}{%- endif -%}
+      <li data-page data-cat="{{ bs.cat | escape }}" data-title="{{ bs.title | escape }}" data-dek="{{ bs.dek | escape }}" data-href="{{ bs.link | default: '#' }}" data-keys="{{ kd | escape }}"></li
+    >{%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+{%- liquid
+  assign n_all = n_products | plus: n_stories | plus: n_pages
+  assign is_empty = false
+  if n_all == 0
+    assign is_empty = true
+  endif
+  assign q_esc = q | strip | escape
+  if live
+    assign search_url = routes.search_url
+  else
+    assign search_url = routes.search_url | default: '/search'
+  endif
+-%}
+{%- capture body -%}
+  <div class="bsearchresults29__field"
+    ><h1 class="bsearchresults29__label bsearchresults29__muted"><span class="rm-mask"><span class="rm-line" style="--d:0ms">{{ 'blko.search_results_29.heading' | t }}</span></span></h1
+    ><form role="search" action="{{ search_url }}" method="get" class="bsearchresults29__form" data-form
+      ><label for="bsearchresults29-q-{{ section.id }}" class="bsearchresults29__sr">{{ 'blko.search_results_29.field_label' | t }}</label
+      >{%- render 'blko-ui-icon', name: 'search', className: 'bsearchresults29__sico' -%}
+      <input id="bsearchresults29-q-{{ section.id }}" type="search" name="q" value="{{ q_esc }}" placeholder="{{ 'blko.search_results_29.placeholder' | t }}" autocomplete="off" class="bsearchresults29__input" data-q
+      ><input type="hidden" name="options[prefix]" value="last"
+      ><button type="button" aria-label="{{ 'blko.search_results_29.clear' | t }}" class="bsearchresults29__clear" data-clear{% if q_esc == blank %} hidden{% endif %}>{%- render 'blko-ui-icon', name: 'x', size: 16, className: 'rm-nudge' -%}</button
+      ><button type="submit" aria-label="{{ 'blko.search_results_29.submit' | t }}" class="bsearchresults29__go">{%- render 'blko-ui-icon', name: 'arrow-right', size: 16, className: 'rm-nudge' -%}</button
+    ></form
+    ><div class="rm-rise bsearchresults29__sugg" style="--d:120ms" data-sugg{% if is_empty %} hidden{% endif %}
+      >{%- capture showing -%}{{ 'blko.search_results_29.showing' | t }}{%- endcapture -%}
+      {%- assign showing_parts = showing | split: '[q]' -%}
+      <p class="bsearchresults29__small bsearchresults29__muted">{{ showing_parts[0] }}<span data-qtext>{{ q | strip | escape }}</span>{{ showing_parts[1] }}<span data-dym{% unless show_dym %} hidden{% endunless %}> {{ 'blko.search_results_29.did_you_mean' | t }} <a href="{{ search_url }}?q={{ s.dym_to | url_encode }}" data-term="{{ s.dym_to | escape }}" class="rm-ul bsearchresults29__dym">{{ s.dym_to | escape }}</a>?</span></p
+      ><div class="bsearchresults29__chips bsearchresults29__chips--row" role="group" aria-label="{{ 'blko.search_results_29.suggestions' | t }}"
+        >{%- for b in section.blocks -%}
+          {%- if b.type != 'chip' -%}{%- continue -%}{%- endif -%}
+          <a href="{{ search_url }}?q={{ b.settings.term | url_encode }}" data-term="{{ b.settings.term | escape }}" class="bsearchresults29__chip" {{ b.shopify_attributes }}>{{ b.settings.term | escape }}</a
+        >{%- endfor -%}
+      </div
+    ></div
+  ></div
+
+  ><div class="rm-rise bsearchresults29__empty" data-empty{% unless is_empty %} hidden{% endunless %}
+    ><div class="bsearchresults29__ecopy"
+      ><p class="bsearchresults29__label bsearchresults29__muted">{{ 'blko.search_results_29.zero' | t }}</p
+      >{%- capture nothing -%}{{ 'blko.search_results_29.nothing' | t }}{%- endcapture -%}
+      {%- assign nothing_parts = nothing | split: '[q]' -%}
+      <h2 class="bsearchresults29__eh2"><span data-e-q{% if q_esc == blank %} hidden{% endif %}>{{ nothing_parts[0] }}<span data-qtext>{{ q | strip | escape }}</span>{{ nothing_parts[1] }}</span><span data-e-none{% if q_esc != blank %} hidden{% endif %}>{{ 'blko.search_results_29.after' | t }}</span></h2
+      ><p class="bsearchresults29__etext">{{ 'blko.search_results_29.empty_text' | t }}</p
+    ></div
+    ><div class="bsearchresults29__eside"
+      ><div class="bsearchresults29__chips bsearchresults29__chips--wrap" role="group" aria-label="{{ 'blko.search_results_29.popular' | t }}"
+        >{%- for b in section.blocks -%}
+          {%- if b.type != 'popular' -%}{%- continue -%}{%- endif -%}
+          <a href="{{ search_url }}?q={{ b.settings.term | url_encode }}" data-term="{{ b.settings.term | escape }}" class="bsearchresults29__chip" {{ b.shopify_attributes }}>{{ b.settings.term | escape }}</a
+        >{%- endfor -%}
+      </div
+      >{%- assign empty_href = s.empty_link | default: routes.all_products_collection_url | default: '#' -%}
+      {%- capture empty_label -%}<span class="rm-roll"><span>{{ s.empty_label | escape }}</span></span>{%- endcapture -%}
+      {%- render 'blko-ui-button', href: empty_href, iconAfter: 'arrow-right', className: 'bsearchresults29__ebtn', children: empty_label -%}
+    </div
+  ></div
+
+  ><div class="bsearchresults29__results" data-results{% if is_empty %} hidden{% endif %}
+    ><div class="bsearchresults29__bar"
+      ><div role="tablist" aria-label="{{ 'blko.search_results_29.result_types' | t }}" class="bsearchresults29__tabs" data-tabs
+        ><span aria-hidden="true" class="bsearchresults29__ind" data-ind></span
+        >{%- assign tab_names = 'products,journal,pages' | split: ',' -%}
+        {%- for t in tab_names -%}
+          {%- liquid
+            case t
+              when 'products'
+                assign n = n_products
+              when 'journal'
+                assign n = n_stories
+              else
+                assign n = n_pages
+            endcase
+            assign key = 'blko.search_results_29.' | append: t
+          -%}
+          <button type="button" role="tab" id="bsearchresults29-tab{{ forloop.index0 }}-{{ section.id }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="bsearchresults29-panel{{ forloop.index0 }}-{{ section.id }}" class="bsearchresults29__tab" data-tab="{{ forloop.index0 }}"{% if n == 0 %} disabled{% endif %}>{{ key | t }}<span class="bsearchresults29__label bsearchresults29__n" data-n>{{ n }}</span></button
+        >{%- endfor -%}
+      </div
+      ><div class="bsearchresults29__sort" data-sortbox
+        >{%- capture sid -%}bsearchresults29-sort-{{ section.id }}{%- endcapture -%}
+        {%- capture sort_label -%}{{ 'blko.search_results_29.sort' | t }}{%- endcapture -%}
+        {%- render 'blko-ui-label', htmlFor: sid, className: 'bsearchresults29__muted', children: sort_label -%}
+        {%- capture opts -%}
+          {%- if live and search.sort_options.size > 0 -%}
+            {%- for o in search.sort_options -%}<option value="{{ o.value }}"{% if o.value == search.sort_by %} selected{% endif %}>{{ o.name }}</option>{%- endfor -%}
+          {%- else -%}
+            <option value="relevance" selected>{{ 'blko.search_results_29.relevance' | t }}</option><option value="rating">{{ 'blko.search_results_29.best_rated' | t }}</option><option value="price-ascending">{{ 'blko.search_results_29.price_asc' | t }}</option><option value="price-descending">{{ 'blko.search_results_29.price_desc' | t }}</option><option value="newest">{{ 'blko.search_results_29.newest' | t }}</option
+          >{%- endif -%}
+        {%- endcapture -%}
+        {%- render 'blko-ui-select', id: sid, className: 'bsearchresults29__select', children: opts -%}
+      </div
+    ></div
+
+    ><div class="bsearchresults29__panel" id="bsearchresults29-panel0-{{ section.id }}" role="tabpanel" aria-labelledby="bsearchresults29-tab0-{{ section.id }}" data-panel="0"
+      ><div class="bsearchresults29__grid{% if n_products > 2 %} has-lead{% endif %}" data-grid>{{ product_cards }}</div
+      ><div class="bsearchresults29__also" data-also{% if n_stories == 0 %} hidden{% endif %}
+        ><h2 class="bsearchresults29__h2">{{ 'blko.search_results_29.also' | t }}</h2
+        ><ul class="bsearchresults29__alist" data-alist
+          >{%- assign rows = story_rows | split: '<li data-story ' -%}
+          {%- for r in rows -%}
+            {%- if r == blank -%}{%- continue -%}{%- endif -%}
+            {%- assign kpart = r | split: 'data-keys="' | last | split: '"' | first -%}
+            {%- assign t_title = r | split: 'data-title="' | last | split: '"' | first -%}
+            {%- assign t_cat = r | split: 'data-cat="' | last | split: '"' | first -%}
+            {%- assign t_read = r | split: 'data-read="' | last | split: '"' | first -%}
+            {%- assign t_href = r | split: 'data-href="' | last | split: '"' | first -%}
+            {%- assign on = true -%}
+            {%- unless live -%}{%- unless kpart contains qd -%}{%- assign on = false -%}{%- endunless -%}{%- endunless -%}
+            <li class="bsearchresults29__ali" data-s-keys="{{ kpart }}"{% unless on %} hidden{% endunless %}
+              ><a href="{{ t_href }}" class="bsearchresults29__arow"
+                ><span class="bsearchresults29__acopy"><span class="bsearchresults29__label bsearchresults29__muted">{{ t_cat }} · {{ t_read }}</span><span class="bsearchresults29__atitle"><span class="rm-ul">{{ t_title }}</span></span></span
+                >{%- render 'blko-ui-icon', name: 'arrow-up-right', size: 20, className: 'rm-nudge bsearchresults29__aico' -%}
+              </a
+            ></li
+          >{%- endfor -%}
+        </ul
+      ></div
+    ></div
+    ><div class="bsearchresults29__panel" id="bsearchresults29-panel1-{{ section.id }}" role="tabpanel" aria-labelledby="bsearchresults29-tab1-{{ section.id }}" data-panel="1" hidden
+      ><ul class="bsearchresults29__jlist"
+        >{%- assign si = 0 -%}
+        {%- for r in rows -%}
+          {%- if r == blank -%}{%- continue -%}{%- endif -%}
+          {%- assign kpart = r | split: 'data-keys="' | last | split: '"' | first -%}
+          {%- assign t_title = r | split: 'data-title="' | last | split: '"' | first -%}
+          {%- assign t_cat = r | split: 'data-cat="' | last | split: '"' | first -%}
+          {%- assign t_read = r | split: 'data-read="' | last | split: '"' | first -%}
+          {%- assign t_dek = r | split: 'data-dek="' | last | split: '"' | first -%}
+          {%- assign t_href = r | split: 'data-href="' | last | split: '"' | first -%}
+          {%- assign d = si | times: 90 -%}
+          {%- assign si = si | plus: 1 -%}
+          <li class="rm-rise bsearchresults29__jli" style="--d:{{ d }}ms" data-s-keys="{{ kpart }}"
+            ><a href="{{ t_href }}" class="bsearchresults29__jrow"
+              ><span class="bsearchresults29__label bsearchresults29__muted bsearchresults29__jmeta">{{ t_cat }} · {{ t_read }}</span
+              ><span class="bsearchresults29__jcopy"><span class="bsearchresults29__jtitle"><span class="rm-ul">{{ t_title }}</span></span><span class="bsearchresults29__jdek">{{ t_dek }}</span></span
+              ><span class="bsearchresults29__jmore">{{ 'blko.search_results_29.read_more' | t }} {% render 'blko-ui-icon', name: 'arrow-right', size: 16, className: 'rm-nudge' %}</span
+            ></a
+          ></li
+        >{%- endfor -%}
+      </ul
+    ></div
+    ><div class="bsearchresults29__panel" id="bsearchresults29-panel2-{{ section.id }}" role="tabpanel" aria-labelledby="bsearchresults29-tab2-{{ section.id }}" data-panel="2" hidden
+      >{%- assign prow = page_rows | split: '<li data-page ' -%}
+      {%- for r in prow -%}
+        {%- if r == blank -%}{%- continue -%}{%- endif -%}
+        {%- assign kpart = r | split: 'data-keys="' | last | split: '"' | first -%}
+        {%- assign t_title = r | split: 'data-title="' | last | split: '"' | first -%}
+        {%- assign t_cat = r | split: 'data-cat="' | last | split: '"' | first -%}
+        {%- assign t_dek = r | split: 'data-dek="' | last | split: '"' | first -%}
+        {%- assign t_href = r | split: 'data-href="' | last | split: '"' | first -%}
+        <a href="{{ t_href }}" class="rm-rise bsearchresults29__page" data-s-keys="{{ kpart }}"
+          ><span class="bsearchresults29__label bsearchresults29__muted">{{ t_cat }}</span
+          ><span class="bsearchresults29__ptitle"><span class="rm-ul">{{ t_title }}</span></span
+          ><span class="bsearchresults29__small bsearchresults29__muted">{{ t_dek }}</span
+        ></a
+      >{%- endfor -%}
+    </div
+  ></div
+>{%- endcapture -%}
+<div class="bsearchresults29" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-rm-magnetic data-mode="{% if live %}live{% else %}demo{% endif %}" data-dym-from="{{ s.dym_from | escape }}"
+  >{%- render 'blko-ui-section', surface: 'bg', label: s.label, className: 'rm-load', inner: 'bsearchresults29__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Search, Syne field",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "On the search page this shows the shopper's query and its results (products, journal articles, pages) in tabs, with Shopify's sort options. The product, story and page blocks fill in elsewhere, filtered as you type."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Search results"
+    },
+    {
+      "type": "range",
+      "id": "per_page",
+      "label": "Results per page",
+      "min": 6,
+      "max": 48,
+      "step": 6,
+      "default": 24
+    },
+    {
+      "type": "text",
+      "id": "min_read",
+      "label": "Read time suffix",
+      "default": "min read"
+    },
+    {
+      "type": "text",
+      "id": "page_cat",
+      "label": "Page eyebrow",
+      "default": "Page · Help"
+    },
+    {
+      "type": "text",
+      "id": "dym_from",
+      "label": "Did you mean: for the query",
+      "default": "tea"
+    },
+    {
+      "type": "text",
+      "id": "dym_to",
+      "label": "Did you mean: suggestion",
+      "default": "teapot"
+    },
+    {
+      "type": "header",
+      "content": "Empty state"
+    },
+    {
+      "type": "text",
+      "id": "empty_label",
+      "label": "Button label",
+      "default": "Shop all coffee"
+    },
+    {
+      "type": "url",
+      "id": "empty_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Outside the search page"
+    },
+    {
+      "type": "text",
+      "id": "demo_q",
+      "label": "Sample query",
+      "default": "tea"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "chip",
+      "name": "Suggestion chip",
+      "settings": [
+        {
+          "type": "text",
+          "id": "term",
+          "label": "Term",
+          "default": "matcha"
+        }
+      ]
+    },
+    {
+      "type": "popular",
+      "name": "Popular search",
+      "settings": [
+        {
+          "type": "text",
+          "id": "term",
+          "label": "Term",
+          "default": "tea"
+        }
+      ]
+    },
+    {
+      "type": "product",
+      "name": "Product (sample)",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Assam Breakfast"
+        },
+        {
+          "type": "text",
+          "id": "vendor",
+          "label": "Vendor line",
+          "default": "India · Black tea · 100 g"
+        },
+        {
+          "type": "number",
+          "id": "price",
+          "label": "Price",
+          "default": 14
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Rating",
+          "default": "4.7"
+        },
+        {
+          "type": "number",
+          "id": "count",
+          "label": "Review count",
+          "default": 208
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Badge"
+        },
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Badge tone",
+          "default": "surface",
+          "options": [
+            {
+              "value": "surface",
+              "label": "Surface"
+            },
+            {
+              "value": "accent",
+              "label": "Accent"
+            },
+            {
+              "value": "sale",
+              "label": "Sale"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "keys",
+          "label": "Search keywords",
+          "default": "tea black breakfast milk loose leaf"
+        }
+      ]
+    },
+    {
+      "type": "story",
+      "name": "Journal story (sample)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "cat",
+          "label": "Category",
+          "default": "Tea"
+        },
+        {
+          "type": "text",
+          "id": "read",
+          "label": "Read time",
+          "default": "6 min read"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Brewing outside: a flask, a leaf, a cold morning"
+        },
+        {
+          "type": "text",
+          "id": "dek",
+          "label": "Dek",
+          "default": "Grandpa-style tea for walks."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "keys",
+          "label": "Search keywords",
+          "default": "tea oolong leaf"
+        }
+      ]
+    },
+    {
+      "type": "page",
+      "name": "Page (sample)",
+      "settings": [
+        {
+          "type": "text",
+          "id": "cat",
+          "label": "Eyebrow",
+          "default": "Page · Help"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Tea brewing and shipping help"
+        },
+        {
+          "type": "text",
+          "id": "dek",
+          "label": "Dek",
+          "default": "Water temperatures, steep times, and how we pack loose leaf so it arrives fresh."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "keys",
+          "label": "Search keywords",
+          "default": "tea brewing guide help"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Search, Syne field",
+      "blocks": [
+        {
+          "type": "chip",
+          "settings": {
+            "term": "matcha"
+          }
+        },
+        {
+          "type": "chip",
+          "settings": {
+            "term": "oolong"
+          }
+        },
+        {
+          "type": "chip",
+          "settings": {
+            "term": "teapot"
+          }
+        },
+        {
+          "type": "chip",
+          "settings": {
+            "term": "cold brew"
+          }
+        },
+        {
+          "type": "chip",
+          "settings": {
+            "term": "gift"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "term": "tea"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "term": "green tea"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "term": "loose leaf"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "term": "oolong"
+          }
+        },
+        {
+          "type": "popular",
+          "settings": {
+            "term": "teapot"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "Sencha Asahi, first flush",
+            "vendor": "Japan · Green tea · 50 g",
+            "price": 18,
+            "value": "4.8",
+            "count": 126,
+            "keys": "green tea sencha loose leaf",
+            "label": "New harvest",
+            "tone": "surface"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "Assam Breakfast",
+            "vendor": "India · Black tea · 100 g",
+            "price": 14,
+            "value": "4.7",
+            "count": 208,
+            "keys": "tea black breakfast milk loose leaf"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "Ruby Oolong, spring lot",
+            "vendor": "Taiwan · Oolong · 50 g",
+            "price": 28,
+            "value": "4.9",
+            "count": 64,
+            "keys": "tea oolong loose leaf"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "Clay Teapot, 350 ml",
+            "vendor": "Brew gear · Hand thrown",
+            "price": 64,
+            "value": "4.8",
+            "count": 41,
+            "keys": "tea teapot gear gift clay"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "Hibiscus Cold Brew Bags",
+            "vendor": "Herbal · 12 bags",
+            "price": 16,
+            "value": "4.6",
+            "count": 87,
+            "keys": "tea cold brew iced herbal hibiscus"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "Hojicha Latte Powder",
+            "vendor": "Japan · Roasted green tea · 80 g",
+            "price": 22,
+            "value": "4.7",
+            "count": 112,
+            "keys": "tea latte hojicha matcha powder gift"
+          }
+        },
+        {
+          "type": "story",
+          "settings": {
+            "cat": "Tea",
+            "read": "6 min read",
+            "title": "Brewing outside: a flask, a leaf, a cold morning",
+            "dek": "Grandpa-style tea for walks, and which leaves can sit in the water all day.",
+            "keys": "tea oolong leaf"
+          }
+        },
+        {
+          "type": "story",
+          "settings": {
+            "cat": "Tea",
+            "read": "5 min read",
+            "title": "Why we rest our oolong for a week before it ships",
+            "dek": "Fresh off the roaster, it tastes of the pan. Seven days later, it tastes of the mountain.",
+            "keys": "tea oolong leaf"
+          }
+        },
+        {
+          "type": "page",
+          "settings": {}
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

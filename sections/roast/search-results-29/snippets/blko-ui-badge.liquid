@@ -1,0 +1,9 @@
+{%- comment -%}
+  Badge(tone='inverse', mono, children, icon, className): components/ui/badge.tsx.
+  - tone: accent (new) | sale (discount) | inverse (bestseller) | outline | muted | success | surface
+  - mono: mono uppercase label chip (SKU, step, edition); icon: Lucide name drawn at 12px before the label
+{%- endcomment -%}
+<span class="blko-ui-badge blko-ui-badge--{{ tone | default: 'inverse' }}{% if mono %} blko-ui-badge--mono{% endif %}{% if className != blank %} {{ className }}{% endif %}">
+  {%- if icon != blank -%}{% render 'blko-ui-icon', name: icon, size: 12 %}{%- endif -%}
+  {{- children -}}
+</span>

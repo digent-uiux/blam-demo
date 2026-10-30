@@ -1,0 +1,266 @@
+{%- assign s = section.settings -%}
+{{ 'blko-customer.css' | asset_url | stylesheet_tag }}
+<div class="blko-section blko-scheme color-{{ s.color_scheme }} blko-account blko-account--panel-{{ s.panel_style }}" style="--blko-pt: {{ s.padding_top }}px; --blko-pb: {{ s.padding_bottom }}px;">
+  <div class="blko-container">
+    {%- capture body -%}
+      <div class="blko-account__head">
+        <div class="blko-heading-row__text">
+          {%- if s.heading != blank -%}<h1 class="blko-{{ s.heading_size }}">{{ s.heading | escape }}</h1>{%- endif -%}
+          {%- if s.show_welcome -%}
+            {%- assign display_name = customer.first_name | default: customer.email -%}
+            <p class="blko-muted">{{ 'blko.customer.welcome' | t: name: display_name }}</p>
+          {%- endif -%}
+          {%- if s.text != blank -%}<div class="blko-rte blko-account__intro">{{ s.text }}</div>{%- endif -%}
+        </div>
+        <a href="{{ routes.account_logout_url }}" class="blko-btn blko-btn--outline blko-btn--sm">{{ 'blko.customer.log_out' | t }}</a>
+      </div>
+    {%- endcapture -%}
+    {%- render 'blko-account-shell', section: section, body: body, fallback: 'account' -%}
+    <div class="blko-account__layout">
+      <div>
+        <h2 class="blko-h3">{{ 'blko.customer.orders' | t }}</h2>
+        {%- paginate customer.orders by s.orders_per_page -%}
+          {%- if customer.orders.size > 0 -%}
+            <div class="blko-account__table-wrap">
+              <table class="blko-account__table">
+                <caption class="blko-visually-hidden">{{ 'blko.customer.orders' | t }}</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">{{ 'blko.customer.order' | t }}</th>
+                    <th scope="col">{{ 'blko.customer.date' | t }}</th>
+                    {%- if s.show_payment -%}<th scope="col">{{ 'blko.customer.payment' | t }}</th>{%- endif -%}
+                    {%- if s.show_fulfillment -%}<th scope="col">{{ 'blko.customer.fulfillment' | t }}</th>{%- endif -%}
+                    <th scope="col" class="blko-account__num">{{ 'blko.cart.total' | t }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {%- for order in customer.orders -%}
+                    <tr>
+                      <td><a href="{{ order.customer_url }}" aria-label="{{ 'blko.customer.view_order' | t: name: order.name }}">{{ order.name }}</a></td>
+                      <td>{{ order.created_at | time_tag: format: 'date' }}</td>
+                      {%- if s.show_payment -%}<td>{{ order.financial_status_label }}</td>{%- endif -%}
+                      {%- if s.show_fulfillment -%}<td>{{ order.fulfillment_status_label }}</td>{%- endif -%}
+                      <td class="blko-account__num">{{ order.total_net_amount | money_with_currency }}</td>
+                    </tr>
+                  {%- endfor -%}
+                </tbody>
+              </table>
+            </div>
+            {%- render 'blko-pagination', paginate: paginate -%}
+          {%- else -%}
+            {%- if s.empty_text != blank -%}
+              <div class="blko-rte blko-muted">{{ s.empty_text }}</div>
+            {%- else -%}
+              <p class="blko-muted">{{ 'blko.customer.no_orders' | t }}</p>
+            {%- endif -%}
+            {%- if s.empty_button_label != blank -%}
+              <p><a href="{{ s.empty_button_link | default: routes.all_products_collection_url }}" class="blko-btn blko-btn--primary">{{ s.empty_button_label | escape }}</a></p>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+      {%- if s.show_address -%}
+        <aside class="blko-account__panel" aria-labelledby="BlkoAccountAddress">
+          <h2 id="BlkoAccountAddress" class="blko-h4">{{ 'blko.customer.default_address' | t }}</h2>
+          {%- if customer.default_address -%}
+            <address class="blko-account__address blko-small">{{ customer.default_address | format_address }}</address>
+          {%- else -%}
+            <p class="blko-small blko-muted">{{ 'blko.customer.no_address' | t }}</p>
+          {%- endif -%}
+          <a href="{{ routes.account_addresses_url }}" class="blko-text-link">{{ 'blko.customer.manage_addresses' | t: count: customer.addresses_count }}{% render 'blko-icon', name: 'arrow-right' %}</a>
+        </aside>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Customer account",
+  "tag": "section",
+  "class": "blko-main-account",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your account"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        {
+          "value": "h1",
+          "label": "Large"
+        },
+        {
+          "value": "h2",
+          "label": "Medium"
+        },
+        {
+          "value": "h3",
+          "label": "Small"
+        }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Intro text"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "center",
+          "label": "Centered"
+        },
+        {
+          "value": "split",
+          "label": "Side by side with image"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Side image"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "header",
+      "content": "Orders"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_welcome",
+      "label": "Show welcome line",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "orders_per_page",
+      "label": "Orders per page",
+      "min": 5,
+      "max": 50,
+      "step": 5,
+      "default": 20
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment",
+      "label": "Show payment status",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_fulfillment",
+      "label": "Show fulfillment status",
+      "default": true
+    },
+    {
+      "type": "richtext",
+      "id": "empty_text",
+      "label": "Text when there are no orders",
+      "default": "<p>You haven’t placed any orders yet.</p>"
+    },
+    {
+      "type": "text",
+      "id": "empty_button_label",
+      "label": "Button label",
+      "default": "Continue shopping"
+    },
+    {
+      "type": "url",
+      "id": "empty_button_link",
+      "label": "Button link",
+      "info": "Defaults to all products."
+    },
+    {
+      "type": "header",
+      "content": "Side panel"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_address",
+      "label": "Show default address",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "panel_style",
+      "label": "Side panel style",
+      "options": [
+        {
+          "value": "tint",
+          "label": "Tinted panel"
+        },
+        {
+          "value": "outline",
+          "label": "Outlined"
+        },
+        {
+          "value": "plain",
+          "label": "Plain"
+        }
+      ],
+      "default": "tint"
+    }
+  ]
+}
+{% endschema %}

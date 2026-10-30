@@ -1,0 +1,47 @@
+{%- layout none -%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>{{ 'blko.gift_card.title' | t: value: gift_card.initial_value | money }} &ndash; {{ shop.name }}</title>
+    {% render 'blko-theme-styles' %}
+    {{ 'blko-theme.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>
+    {{ content_for_header }}
+  </head>
+  <body class="blko-theme blko-scheme color-{{ settings.page_color_scheme }}">
+    <main class="blko-section blko-gift">
+      <div class="blko-container blko-gift__inner">
+        <p class="blko-label blko-muted">{{ settings.logo_text | default: shop.name | escape }}</p>
+        <h1 class="blko-h2">{{ 'blko.gift_card.heading' | t }}</h1>
+        <p class="blko-h3">{{ gift_card.balance | money }}</p>
+        {%- if gift_card.expired or gift_card.enabled == false -%}
+          <p class="blko-badge">{% if gift_card.expired %}{{ 'blko.gift_card.expired' | t }}{% else %}{{ 'blko.gift_card.disabled' | t }}{% endif %}</p>
+        {%- endif -%}
+        <p class="blko-body">{{ 'blko.gift_card.code' | t }}</p>
+        <p class="blko-gift__code">{{ gift_card.code | format_code }}</p>
+        <div id="BlkoGiftQr" class="blko-gift__qr" data-identifier="{{ gift_card.qr_identifier }}"></div>
+        <div class="blko-gift__actions">
+          <a href="{{ shop.url }}" class="blko-btn blko-btn--primary">{{ 'blko.gift_card.shop' | t }}</a>
+          {%- if gift_card.pass_url -%}
+            <a href="{{ gift_card.pass_url }}" class="blko-btn blko-btn--outline">{{ 'blko.gift_card.wallet' | t }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+    </main>
+    <style>
+      .blko-gift__inner { display: grid; justify-items: center; gap: 1rem; max-width: 32rem; text-align: center; }
+      .blko-gift__code { padding: .75rem 1.25rem; border: 1px dashed var(--color-border, #d6d1c0); font-family: ui-monospace, monospace; font-size: 1.125rem; letter-spacing: .08em; }
+      .blko-gift__qr img, .blko-gift__qr canvas { margin-inline: auto; }
+      .blko-gift__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; }
+    </style>
+    <script>
+      window.addEventListener('load', function () {
+        var el = document.getElementById('BlkoGiftQr');
+        if (el && window.QRCode) new QRCode(el, { text: el.dataset.identifier, width: 120, height: 120 });
+      });
+    </script>
+  </body>
+</html>

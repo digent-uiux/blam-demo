@@ -1,0 +1,184 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-header-39.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-header-39.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- comment -%}
+  Halden header (roast): sticky espresso row (72px; 56px with a hairline once scrolled; hides on the way down, back on the
+  way up, motion only). Wordmark + copper dot over a mono tagline, the menu with an underline sweep (current page kept),
+  a "Next roast" line, search, account and the bag (.rm-cart / .rm-count: wiggles and bumps on blkoRoast.ping()).
+  Below 1024px: burger, wordmark, bag; the burger opens a full sheet with big links. Escape closes it.
+{%- endcomment -%}
+{%- liquid
+  assign menu = linklists[s.menu]
+  assign has_menu = false
+  if menu != blank and menu.links.size > 0
+    assign has_menu = true
+  endif
+  assign brand = s.brand | default: shop.name
+  assign demo = s.demo_links | newline_to_br | split: '<br />'
+  assign count = cart.item_count
+  assign uid = 'h39-' | append: section.id
+-%}
+<div class="bheader39" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-bheader39
+><header class="bheader39__h" data-h
+  ><div class="bheader39__flip"
+    ><div class="bheader39__row"
+      ><a href="{{ routes.root_url }}" aria-label="{{ brand | escape }} {{ s.tagline | escape }}, {{ 'blko.header_39.home' | t | escape }}" class="bheader39__brand"
+        ><span class="bheader39__word">{{ brand | escape }}<span aria-hidden="true" class="bheader39__dot"></span></span
+        >{%- if s.tagline != blank -%}<span aria-hidden="true" class="bheader39__label bheader39__tag">{{ s.tagline | escape }}</span>{%- endif -%}
+      </a
+      ><button type="button" class="bheader39__burger" aria-label="{{ 'blko.header_39.open' | t | escape }}" aria-expanded="false" aria-controls="{{ uid }}-sheet" data-burger data-open-label="{{ 'blko.header_39.open' | t | escape }}" data-close-label="{{ 'blko.header_39.close' | t | escape }}"><span aria-hidden="true"></span><span aria-hidden="true"></span></button
+      ><nav aria-label="{{ 'blko.header_39.main' | t | escape }}" class="bheader39__nav"
+        ><ul class="bheader39__list"
+          >{%- if has_menu -%}
+            {%- for l in menu.links -%}<li><a href="{{ l.url }}" class="bheader39__link"{% if l.current %} aria-current="page"{% endif %}><span class="rm-ul">{{ l.title | escape }}</span></a></li>{%- endfor -%}
+          {%- else -%}
+            {%- for d in demo -%}{%- assign nm = d | split: '|' | first | strip -%}{%- if nm != blank -%}<li><a href="{{ routes.all_products_collection_url }}" class="bheader39__link"{% if forloop.first %} aria-current="page"{% endif %}><span class="rm-ul">{{ nm | escape }}</span></a></li>{%- endif -%}{%- endfor -%}
+          {%- endif -%}
+        </ul
+      ></nav
+      ><div class="bheader39__icons"
+        >{%- if s.roast_line != blank -%}<p class="bheader39__label bheader39__next"><span aria-hidden="true" class="bheader39__pip"></span>{{ s.roast_line | escape }}</p>{%- endif -%}
+        <a href="{{ routes.search_url }}" aria-label="{{ 'blko.header_39.search' | t | escape }}" class="bheader39__ico bheader39__ico--wide">{%- render 'blko-ui-icon', name: 'search', size: 20, className: 'rm-nudge' -%}</a
+        ><a href="{{ routes.account_url }}" aria-label="{{ 'blko.header_39.account' | t | escape }}" class="bheader39__ico bheader39__ico--wide">{%- render 'blko-ui-icon', name: 'user', size: 20, className: 'rm-nudge' -%}</a
+        ><a href="{{ routes.cart_url }}" aria-label="{{ 'blko.header_39.bag' | t: count: count | escape }}" class="bheader39__ico rm-cart" data-bag
+          >{%- render 'blko-ui-icon', name: 'shopping-bag', size: 20 -%}
+          <span aria-hidden="true" class="rm-count bheader39__count"{% if count == 0 %} hidden{% endif %}>{{ count }}</span
+        ></a
+      ></div
+    ></div
+
+    ><div id="{{ uid }}-sheet" class="bheader39__sheet" data-sheet
+      ><nav aria-label="{{ 'blko.header_39.menu' | t | escape }}" class="bheader39__snav"
+        ><ul class="bheader39__slist"
+          >{%- assign notes = s.demo_links | newline_to_br | split: '<br />' -%}
+          {%- if has_menu -%}
+            {%- for l in menu.links -%}
+              {%- assign nt = notes[forloop.index0] | split: '|' | last | strip -%}
+              {%- if notes[forloop.index0] contains '|' -%}{%- else -%}{%- assign nt = '' -%}{%- endif -%}
+              <li class="bheader39__item" style="--d:{{ forloop.index0 | times: 60 | plus: 80 }}ms"><a href="{{ l.url }}" class="bheader39__sa" data-close><span><span class="bheader39__sname">{{ l.title | escape }}</span>{%- if nt != blank -%}<span class="bheader39__label bheader39__snote">{{ nt | escape }}</span>{%- endif -%}</span>{%- render 'blko-ui-icon', name: 'arrow-up-right', size: 20, className: 'rm-nudge bheader39__sarr' -%}</a></li
+            >{%- endfor -%}
+          {%- else -%}
+            {%- for d in demo -%}
+              {%- assign parts = d | split: '|' -%}{%- assign nm = parts[0] | strip -%}{%- assign nt = parts[1] | strip -%}
+              {%- if nm != blank -%}
+              <li class="bheader39__item" style="--d:{{ forloop.index0 | times: 60 | plus: 80 }}ms"><a href="{{ routes.all_products_collection_url }}" class="bheader39__sa" data-close><span><span class="bheader39__sname">{{ nm | escape }}</span>{%- if nt != blank -%}<span class="bheader39__label bheader39__snote">{{ nt | escape }}</span>{%- endif -%}</span>{%- render 'blko-ui-icon', name: 'arrow-up-right', size: 20, className: 'rm-nudge bheader39__sarr' -%}</a></li
+              >{%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        </ul
+        ><div class="bheader39__item bheader39__sfoot" style="--d:420ms"
+          ><a href="{{ routes.search_url }}" class="bheader39__sbtn" data-close>{%- render 'blko-ui-icon', name: 'search', size: 16 -%}{{ 'blko.header_39.search' | t }}</a
+          ><a href="{{ routes.account_url }}" class="bheader39__sbtn" data-close>{%- render 'blko-ui-icon', name: 'user', size: 16 -%}{{ 'blko.header_39.sign_in' | t }}</a
+          >{%- if s.sheet_line != blank -%}<p class="bheader39__label bheader39__sline"><span aria-hidden="true" class="bheader39__pip"></span>{{ s.sheet_line | escape }}</p>{%- endif -%}
+        </div
+      ></nav
+    ></div
+  ></div
+></header
+></div
+
+>
+
+{% schema %}
+{
+  "name": "Header 39 - Roast bar",
+  "tag": "div",
+  "class": "blko-bundle",
+  "settings": [
+    {
+      "type": "text",
+      "id": "brand",
+      "label": "Wordmark (blank = store name)",
+      "default": "Halden"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Roasters · since 2014"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "textarea",
+      "id": "demo_links",
+      "label": "Demo links (Name | note per line)",
+      "info": "Shown while the menu is empty. The notes also label the menu's links in the phone sheet, by position.",
+      "default": "Coffee | 14 single origins\nTea & matcha | Leaf, whisked, iced\nSubscriptions | Fresh every 2–6 weeks\nBrew gear | Kettles, drippers, grinders\nBrew guides | Recipes from the bar"
+    },
+    {
+      "type": "text",
+      "id": "roast_line",
+      "label": "Roast line (wide screens)",
+      "default": "Next roast Mon"
+    },
+    {
+      "type": "text",
+      "id": "sheet_line",
+      "label": "Phone sheet line",
+      "default": "Next roast Monday · free shipping over $45"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header 39 - Roast bar"
+    }
+  ]
+}
+{% endschema %}

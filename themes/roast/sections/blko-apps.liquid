@@ -1,0 +1,32 @@
+{%- comment -%} Apps: a slot for app blocks, inside the theme's spacing and color scheme. {%- endcomment -%}
+<div
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-apps"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px;"
+>
+  <div class="{% if section.settings.container %}blko-container {% endif %}blko-apps__inner">
+    {%- for block in section.blocks -%}
+      <div class="blko-apps__block" {{ block.shopify_attributes }}>{% render block %}</div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-apps__inner { display: grid; gap: 2rem; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Apps",
+  "tag": "section",
+  "class": "blko-apps-section",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 40 },
+    { "type": "header", "content": "Layout" },
+    { "type": "checkbox", "id": "container", "label": "Keep within page width", "default": true }
+  ],
+  "blocks": [{ "type": "@app" }],
+  "presets": [{ "name": "Apps" }]
+}
+{% endschema %}

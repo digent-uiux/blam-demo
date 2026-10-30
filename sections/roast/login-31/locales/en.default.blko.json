@@ -1,0 +1,46 @@
+{
+  "blko_ui": {
+    "price": {
+      "from": "From",
+      "was": "Was",
+      "save": "Save"
+    },
+    "rating": {
+      "stars": "{{ value }} out of 5 stars"
+    },
+    "quantity": {
+      "label": "Quantity",
+      "decrease": "Decrease {{ label }}",
+      "increase": "Increase {{ label }}"
+    },
+    "field": {
+      "optional": "(optional)"
+    },
+    "option": {
+      "sold_out": "sold out"
+    },
+    "product": {
+      "save": "Save {{ title }}",
+      "add": "Add {{ title }} to bag",
+      "colors": "{{ count }} colours"
+    }
+  },
+  "blko": {
+    "login_31": {
+      "account": "Account",
+      "sign_in": "Sign in",
+      "create": "Create account",
+      "email": "Email",
+      "password": "Password",
+      "first_name": "First name",
+      "remember": "Remember me",
+      "forgot": "Forgot password?",
+      "notes": "Send me roast notes",
+      "notes_hint": "One email a week with new lots. Unsubscribe any time.",
+      "show": "Show password",
+      "hide": "Hide password",
+      "signing": "Signed in. Brewing your account…",
+      "created": "Account created. Welcome to the club."
+    }
+  }
+}

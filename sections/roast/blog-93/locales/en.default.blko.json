@@ -1,0 +1,8 @@
+{
+  "blko": {
+    "blog_93": {
+      "min_read": "{{ n }} min read",
+      "read": "Read the guide"
+    }
+  }
+}

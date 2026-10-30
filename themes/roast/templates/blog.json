@@ -1,0 +1,172 @@
+{
+  "sections": {
+    "page-header-77": {
+      "type": "blko-page-header-77",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "tab-1": {
+          "type": "tab",
+          "settings": {
+            "label": "All",
+            "count": 38
+          }
+        },
+        "tab-2": {
+          "type": "tab",
+          "settings": {
+            "label": "Brew guides",
+            "count": 14
+          }
+        },
+        "tab-3": {
+          "type": "tab",
+          "settings": {
+            "label": "Origins",
+            "count": 9
+          }
+        },
+        "tab-4": {
+          "type": "tab",
+          "settings": {
+            "label": "Tea",
+            "count": 8
+          }
+        },
+        "tab-5": {
+          "type": "tab",
+          "settings": {
+            "label": "Notes from the bar",
+            "count": 7
+          }
+        }
+      },
+      "block_order": [
+        "tab-1",
+        "tab-2",
+        "tab-3",
+        "tab-4",
+        "tab-5"
+      ]
+    },
+    "blog-94": {
+      "type": "blko-blog-94",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "story-1": {
+          "type": "story",
+          "settings": {
+            "cat": "Brew guides",
+            "read": "9 min read",
+            "title": "One table, four milks: what each does to a washed Kenyan",
+            "dek": "Oat, whole, almond, and barista soy, steamed side by side and tasted blind by the whole bar team.",
+            "delay": 0
+          }
+        },
+        "story-2": {
+          "type": "story",
+          "settings": {
+            "cat": "Notes from the bar",
+            "read": "4 min read",
+            "title": "Our cold brew finally made it onto the menu",
+            "dek": "Eighteen hours, a coarse grind and a splash of milk over ice.",
+            "delay": 90
+          }
+        },
+        "story-3": {
+          "type": "story",
+          "settings": {
+            "cat": "Brew guides",
+            "read": "3 min read",
+            "title": "Latte art for a wobbly hand",
+            "dek": "Pour high, then drop close.",
+            "delay": 170
+          }
+        },
+        "story-4": {
+          "type": "story",
+          "settings": {
+            "cat": "Origins",
+            "read": "11 min read",
+            "title": "Ten days in Hambela, at the washing station",
+            "dek": "“The cherries come in after dark, so the whole station works by headlamp.”",
+            "delay": 60
+          }
+        },
+        "story-5": {
+          "type": "story",
+          "settings": {
+            "cat": "Notes from the bar",
+            "read": "5 min read",
+            "title": "What we bake to go with a natural Ethiopian",
+            "dek": "Brown butter, orange zest, not too much sugar.",
+            "delay": 140
+          }
+        },
+        "story-6": {
+          "type": "story",
+          "settings": {
+            "cat": "Tea",
+            "read": "6 min read",
+            "title": "Brewing outside: a flask, a leaf, a cold morning",
+            "dek": "Grandpa-style tea for walks.",
+            "delay": 220
+          }
+        },
+        "story-7": {
+          "type": "story",
+          "settings": {
+            "cat": "Brew guides",
+            "read": "7 min read",
+            "title": "Flat white or cortado? A field guide to small milk drinks",
+            "dek": "Ratios, cup sizes and why the texture matters more than the name.",
+            "delay": 80
+          }
+        },
+        "more-8": {
+          "type": "more",
+          "settings": {
+            "cat": "Tea",
+            "read": "5 min read",
+            "title": "Why we rest our oolong for a week before it ships"
+          }
+        },
+        "more-9": {
+          "type": "more",
+          "settings": {
+            "cat": "Origins",
+            "read": "8 min read",
+            "title": "Meet the Huila cooperative behind our pink bourbon"
+          }
+        },
+        "more-10": {
+          "type": "more",
+          "settings": {
+            "cat": "Brew guides",
+            "read": "4 min read",
+            "title": "Grinding for a French press without the sludge"
+          }
+        }
+      },
+      "block_order": [
+        "story-1",
+        "story-2",
+        "story-3",
+        "story-4",
+        "story-5",
+        "story-6",
+        "story-7",
+        "more-8",
+        "more-9",
+        "more-10"
+      ]
+    }
+  },
+  "order": [
+    "page-header-77",
+    "blog-94"
+  ]
+}

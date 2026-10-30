@@ -1,0 +1,241 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-product-story-60.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-product-story-60.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- capture body -%}
+  <div class="bproductstory60__band" data-band
+    ><div class="bproductstory60__frame" data-frame style="clip-path:inset(0% 0% 0% round 0px)"
+      >{%- if s.image != blank -%}
+        {{ s.image | image_url: width: 2000 | image_tag: class: 'bproductstory60__img', loading: 'lazy', widths: '800, 1200, 1600, 2000', sizes: '100vw', alt: s.image.alt -}}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'bproductstory60__img placeholder-svg' -}}
+      {%- endif -%}
+      <span aria-hidden="true" class="bproductstory60__scrim"></span
+      >{%- if s.coords != blank -%}<span class="bproductstory60__label bproductstory60__coords">{{ s.coords | escape }}</span>{%- endif -%}
+      <div class="bproductstory60__over"
+        ><div class="bproductstory60__overin"
+          ><p class="bproductstory60__label rm-rise bproductstory60__eyebrow">{{ s.eyebrow | escape }}</p
+          ><h2 class="bproductstory60__h2"><span class="rm-mask"><span class="rm-line" style="--d:0ms">{{ s.heading | escape }}</span></span><span class="rm-mask"><span class="rm-line" style="--d:90ms"><em>{{ s.accent | escape }}</em></span></span></h2
+        ></div
+      ></div
+    ></div
+  ></div
+  ><div class="bproductstory60__phone"
+    ><p class="bproductstory60__label bproductstory60__dim8">{{ s.eyebrow | escape }}</p
+    ><h2 class="bproductstory60__h2m">{{ s.heading | escape }} <em>{{ s.accent | escape }}</em></h2
+  ></div
+  ><div class="bproductstory60__row"
+    ><dl class="bproductstory60__facts"
+      >{%- for b in section.blocks limit: 3 -%}
+      <div class="rm-rise bproductstory60__fact bproductstory60__fact--{{ forloop.index }}" style="--d:{{ forloop.index0 | times: 110 | plus: 120 }}ms" {{ b.shopify_attributes }}
+        ><dt class="bproductstory60__label bproductstory60__dim75">{{ b.settings.key | escape }}</dt
+        ><dd class="rm-heading bproductstory60__fig">{{ b.settings.value | escape }}{%- if b.settings.unit != blank -%}<em class="bproductstory60__unit">{{ b.settings.unit | escape }}</em>{%- endif -%}</dd
+        ><dd class="bproductstory60__note">{{ b.settings.note | escape }}</dd
+      ></div
+      >{%- endfor -%}
+    </dl
+    ><div class="bproductstory60__side"
+      ><p class="rm-rise bproductstory60__para" style="--d:300ms">{{ s.paragraph | escape }}</p
+      >{%- if s.signature != blank -%}<p class="bproductstory60__label rm-rise bproductstory60__dim7" style="--d:380ms">{{ s.signature | escape }}</p>{%- endif -%}
+      {%- if s.link_text != blank -%}
+      <a href="{{ s.link | default: '#' }}" class="rm-rise bproductstory60__link" style="--d:440ms"><span class="rm-ul">{{ s.link_text | escape }}</span>{%- render 'blko-ui-icon', name: 'arrow-right', size: 16, className: 'rm-nudge' -%}</a
+      >{%- endif -%}
+    </div
+  ></div
+>{%- endcapture -%}
+<div class="bproductstory60" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast
+  >{%- render 'blko-ui-section', surface: 'dark', bleed: true, full: true, label: s.label, inner: 'bproductstory60__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Product story, origin",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Origin: Hambela washing station"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Origin · Guji, Ethiopia"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "From the Hambela"
+    },
+    {
+      "type": "text",
+      "id": "accent",
+      "label": "Heading, accent line",
+      "default": "washing station"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "coords",
+      "label": "Coordinates tag",
+      "default": "6.08° N · 38.72° E"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph",
+      "label": "Paragraph",
+      "default": "Six hundred and forty smallholders deliver ripe cherry to Hambela each morning in the season. Abebe Tadesse and his team float out the light fruit, then lay the rest whole on raised beds for three weeks, turning it every hour so it dries slow and even. That patience is the blueberry in your cup."
+    },
+    {
+      "type": "text",
+      "id": "signature",
+      "label": "Signed line",
+      "default": "Our fourth harvest with Hambela · paid $4.10 / lb FOB"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link label",
+      "default": "Read our story"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "max_blocks": 3,
+  "blocks": [
+    {
+      "type": "fact",
+      "name": "Fact",
+      "settings": [
+        {
+          "type": "text",
+          "id": "key",
+          "label": "Key",
+          "default": "Altitude"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value",
+          "default": "2,100"
+        },
+        {
+          "type": "text",
+          "id": "unit",
+          "label": "Unit",
+          "default": "m"
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Note",
+          "default": "Hambela Wamena, Guji zone"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product story, origin",
+      "blocks": [
+        {
+          "type": "fact",
+          "settings": {
+            "key": "Altitude",
+            "value": "2,100",
+            "unit": "m",
+            "note": "Hambela Wamena, Guji zone"
+          }
+        },
+        {
+          "type": "fact",
+          "settings": {
+            "key": "Variety",
+            "value": "74158",
+            "unit": "",
+            "note": "Heirloom selections, JARC"
+          }
+        },
+        {
+          "type": "fact",
+          "settings": {
+            "key": "Process",
+            "value": "21",
+            "unit": "days",
+            "note": "Natural, on raised beds"
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

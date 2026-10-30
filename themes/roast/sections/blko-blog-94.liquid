@@ -1,0 +1,409 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-blog-94.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-blog-94.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- liquid
+  assign kinds = 'feature,land,small,text,four3,tall,wide' | split: ','
+  assign src = blog
+  if src == blank and s.blog != blank
+    assign src = s.blog
+  endif
+  assign live = false
+  if src != blank and src.articles_count > 0
+    assign live = true
+  endif
+-%}
+{%- liquid
+  assign s_feature = ''
+  assign s_land = ''
+  assign s_small = ''
+  assign s_text = ''
+  assign s_four3 = ''
+  assign s_tall = ''
+  assign s_wide = ''
+  assign next_url = ''
+  assign shown = s.shown
+  assign total = s.total
+-%}
+{%- if live -%}
+  {%- paginate src.articles by 7 -%}
+    {%- for a in src.articles -%}
+      {%- liquid
+        assign k = kinds[forloop.index0]
+        assign words = a.content | strip_html | split: ' ' | size
+        assign mins = words | divided_by: 200 | floor | at_least: 1
+        assign rd = mins | append: ' ' | append: s.min_read
+        assign cat = a.tags.first | default: src.title
+        assign dek = a.excerpt_or_content | strip_html | truncatewords: 24
+        assign d = forloop.index0 | times: 80
+      -%}
+      {%- capture one -%}{%- render 'blko-blog-94-card', kind: k, cat: cat, read: rd, title: a.title, dek: dek, image: a.image, href: a.url, d: d, attrs: '' -%}{%- endcapture -%}
+      {%- case k -%}
+        {%- when 'feature' -%}{%- assign s_feature = one -%}
+        {%- when 'land' -%}{%- assign s_land = one -%}
+        {%- when 'small' -%}{%- assign s_small = one -%}
+        {%- when 'text' -%}{%- assign s_text = one -%}
+        {%- when 'four3' -%}{%- assign s_four3 = one -%}
+        {%- when 'tall' -%}{%- assign s_tall = one -%}
+        {%- when 'wide' -%}{%- assign s_wide = one -%}
+      {%- endcase -%}
+    {%- endfor -%}
+    {%- assign shown = paginate.current_offset | plus: src.articles.size -%}
+    {%- assign total = paginate.items -%}
+    {%- if paginate.next -%}{%- assign next_url = paginate.next.url -%}{%- endif -%}
+  {%- endpaginate -%}
+{%- else -%}
+  {%- assign si = 0 -%}
+  {%- for b in section.blocks -%}
+    {%- if b.type != 'story' -%}{%- continue -%}{%- endif -%}
+    {%- assign k = kinds[si] -%}
+    {%- if k == blank -%}{%- break -%}{%- endif -%}
+    {%- assign href = b.settings.link | default: '#' -%}
+    {%- capture one -%}{%- render 'blko-blog-94-card', kind: k, cat: b.settings.cat, read: b.settings.read, title: b.settings.title, dek: b.settings.dek, image: b.settings.image, href: href, d: b.settings.delay, attrs: b.shopify_attributes -%}{%- endcapture -%}
+    {%- case k -%}
+      {%- when 'feature' -%}{%- assign s_feature = one -%}
+      {%- when 'land' -%}{%- assign s_land = one -%}
+      {%- when 'small' -%}{%- assign s_small = one -%}
+      {%- when 'text' -%}{%- assign s_text = one -%}
+      {%- when 'four3' -%}{%- assign s_four3 = one -%}
+      {%- when 'tall' -%}{%- assign s_tall = one -%}
+      {%- when 'wide' -%}{%- assign s_wide = one -%}
+    {%- endcase -%}
+    {%- assign si = si | plus: 1 -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- capture body -%}
+  <div class="bblog94__band1"
+    >{{ s_feature -}}
+    <div class="bblog94__side">{{ s_land }}{{ s_small }}</div
+  ></div
+  ><div class="bblog94__band2">{{ s_text }}{{ s_four3 }}{{ s_tall }}</div
+  >{{ s_wide -}}
+  <ul class="bblog94__rows" data-rows hidden
+    >{%- unless live -%}
+      {%- assign ri = 0 -%}
+      {%- for b in section.blocks -%}
+        {%- if b.type != 'more' -%}{%- continue -%}{%- endif -%}
+        {%- assign href = b.settings.link | default: '#' -%}
+        {%- render 'blko-blog-94-row', cat: b.settings.cat, read: b.settings.read, title: b.settings.title, href: href, d: ri, attrs: b.shopify_attributes -%}
+        {%- assign ri = ri | plus: 90 -%}
+      {%- endfor -%}
+    {%- endunless -%}
+  </ul
+  ><template data-row-tpl>{%- render 'blko-blog-94-row', cat: '', read: '', title: '', href: '#', d: 0, attrs: '' -%}</template
+  >{%- liquid
+    assign pct = 0
+    if total > 0
+      assign pct = shown | times: 100.0 | divided_by: total
+    endif
+    assign showing = 'blko.blog_94.showing' | t
+    assign showing = showing | replace: '[shown]', shown | replace: '[total]', total
+  -%}
+  <div class="bblog94__foot"
+    ><div class="bblog94__count"
+      ><p class="bblog94__label bblog94__muted" aria-live="polite" data-showing>{{ showing }}</p
+      ><span aria-hidden="true" class="bblog94__bar"><span data-fill style="width:{{ pct }}%"></span></span
+    ></div
+    >{%- capture more_label -%}<span class="rm-roll"><span data-more-label>{{ 'blko.blog_94.more' | t }}</span></span>{%- endcapture -%}
+    {%- capture more_attrs -%}data-more{% if live and next_url == blank %} disabled{% endif %}{%- endcapture -%}
+    {%- render 'blko-ui-button', variant: 'outline', iconAfter: 'arrow-right', attrs: more_attrs, children: more_label -%}
+  </div
+>{%- endcapture -%}
+<div class="bblog94" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-rm-magnetic data-count="{{ shown }}" data-total="{{ total }}" data-next="{{ next_url }}" data-more-shown="{{ s.more_shown }}" data-l-showing="{{ 'blko.blog_94.showing' | t }}" data-l-done="{{ 'blko.blog_94.done' | t }}"
+  >{%- render 'blko-ui-section', surface: 'bg', label: s.label, inner: 'bblog94__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Blog, magazine grid",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "On a blog page the newest articles fill the seven slots (the first is the feature, the fourth is the text card), 7 per page; Load more appends the next page as a list. The stories below fill in when there's no blog."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Journal articles"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog (outside a blog page)"
+    },
+    {
+      "type": "text",
+      "id": "min_read",
+      "label": "Read time suffix",
+      "default": "min read"
+    },
+    {
+      "type": "header",
+      "content": "Without a blog"
+    },
+    {
+      "type": "number",
+      "id": "shown",
+      "label": "Shown count",
+      "default": 6
+    },
+    {
+      "type": "number",
+      "id": "more_shown",
+      "label": "Shown count after load more",
+      "default": 9
+    },
+    {
+      "type": "number",
+      "id": "total",
+      "label": "Total count",
+      "default": 38
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "story",
+      "name": "Story (no blog)",
+      "limit": 7,
+      "settings": [
+        {
+          "type": "text",
+          "id": "cat",
+          "label": "Category",
+          "default": "Brew guides"
+        },
+        {
+          "type": "text",
+          "id": "read",
+          "label": "Read time",
+          "default": "4 min read"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Latte art for a wobbly hand"
+        },
+        {
+          "type": "textarea",
+          "id": "dek",
+          "label": "Dek",
+          "default": "Pour high, then drop close."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "range",
+          "id": "delay",
+          "label": "Reveal delay",
+          "min": 0,
+          "max": 400,
+          "step": 10,
+          "unit": "ms",
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "more",
+      "name": "Load-more story (no blog)",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "cat",
+          "label": "Category",
+          "default": "Tea"
+        },
+        {
+          "type": "text",
+          "id": "read",
+          "label": "Read time",
+          "default": "5 min read"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Why we rest our oolong for a week before it ships"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog, magazine grid",
+      "blocks": [
+        {
+          "type": "story",
+          "settings": {
+            "cat": "Brew guides",
+            "read": "9 min read",
+            "title": "One table, four milks: what each does to a washed Kenyan",
+            "dek": "Oat, whole, almond, and barista soy, steamed side by side and tasted blind by the whole bar team.",
+            "delay": 0
+          }
+        },
+        {
+          "type": "story",
+          "settings": {
+            "cat": "Notes from the bar",
+            "read": "4 min read",
+            "title": "Our cold brew finally made it onto the menu",
+            "dek": "Eighteen hours, a coarse grind and a splash of milk over ice.",
+            "delay": 90
+          }
+        },
+        {
+          "type": "story",
+          "settings": {
+            "cat": "Brew guides",
+            "read": "3 min read",
+            "title": "Latte art for a wobbly hand",
+            "dek": "Pour high, then drop close.",
+            "delay": 170
+          }
+        },
+        {
+          "type": "story",
+          "settings": {
+            "cat": "Origins",
+            "read": "11 min read",
+            "title": "Ten days in Hambela, at the washing station",
+            "dek": "“The cherries come in after dark, so the whole station works by headlamp.”",
+            "delay": 60
+          }
+        },
+        {
+          "type": "story",
+          "settings": {
+            "cat": "Notes from the bar",
+            "read": "5 min read",
+            "title": "What we bake to go with a natural Ethiopian",
+            "dek": "Brown butter, orange zest, not too much sugar.",
+            "delay": 140
+          }
+        },
+        {
+          "type": "story",
+          "settings": {
+            "cat": "Tea",
+            "read": "6 min read",
+            "title": "Brewing outside: a flask, a leaf, a cold morning",
+            "dek": "Grandpa-style tea for walks.",
+            "delay": 220
+          }
+        },
+        {
+          "type": "story",
+          "settings": {
+            "cat": "Brew guides",
+            "read": "7 min read",
+            "title": "Flat white or cortado? A field guide to small milk drinks",
+            "dek": "Ratios, cup sizes and why the texture matters more than the name.",
+            "delay": 80
+          }
+        },
+        {
+          "type": "more",
+          "settings": {
+            "cat": "Tea",
+            "read": "5 min read",
+            "title": "Why we rest our oolong for a week before it ships"
+          }
+        },
+        {
+          "type": "more",
+          "settings": {
+            "cat": "Origins",
+            "read": "8 min read",
+            "title": "Meet the Huila cooperative behind our pink bourbon"
+          }
+        },
+        {
+          "type": "more",
+          "settings": {
+            "cat": "Brew guides",
+            "read": "4 min read",
+            "title": "Grinding for a French press without the sludge"
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

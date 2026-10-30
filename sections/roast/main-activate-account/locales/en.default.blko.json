@@ -1,0 +1,10 @@
+{
+  "blko": {
+    "customer": {
+      "activate_submit": "Activate account",
+      "decline": "Decline invitation",
+      "password": "Password",
+      "password_confirm": "Confirm password"
+    }
+  }
+}

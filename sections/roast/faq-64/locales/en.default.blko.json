@@ -1,0 +1,14 @@
+{
+  "blko": {
+    "faq_64": {
+      "search_label": "Search the questions",
+      "clear": "Clear search",
+      "count_all": "[n] questions in [t] topics",
+      "count_one": "1 answer for “[q]”",
+      "count_many": "[n] answers for “[q]”",
+      "none": "Nothing matches that yet.",
+      "none_link": "Write to the bar",
+      "none_after": "and we’ll answer, then add it here."
+    }
+  }
+}

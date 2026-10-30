@@ -1,0 +1,447 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-subscription-07.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-subscription-07.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- comment -%}
+  Halden "The roast club" (roast): full-bleed photo half (slow scroll parallax, motion only) with a spinning "-15%" badge
+  on the seam, and a builder on roast red: cadence segmented control (cadence blocks), bags stepper, roast-style chips,
+  price per delivery (tweens), CTA, perks. With a product picked, the CTA adds it to the cart (quantity = bags, and the
+  selling plan at the cadence's position in its first plan group when it has one) and pings the header cart.
+  Static: every 2 weeks, 2 bags, the default style.
+{%- endcomment -%}
+{%- liquid
+  assign p = all_products[s.product]
+  assign per_bag = s.price | times: 100
+  if p != blank
+    assign per_bag = p.selected_or_first_available_variant.price
+  endif
+  assign cads = section.blocks | where: 'type', 'cadence'
+  assign styles = section.blocks | where: 'type', 'style'
+  assign perks = section.blocks | where: 'type', 'perk'
+  assign bags = s.bags
+  assign off = 0
+  for c in cads
+    if forloop.first
+      assign off = c.settings.off
+    endif
+  endfor
+  assign full = per_bag | times: bags
+  assign keep = 100 | minus: off
+  assign total = full | times: keep | divided_by: 100.0 | round
+  assign first_style = ''
+  for st in styles
+    if forloop.index == s.style_index
+      assign first_style = st.settings.label
+    endif
+  endfor
+  if first_style == blank and styles.size > 0
+    assign first_style = styles.first.settings.label
+  endif
+  assign uid = 'sub07-' | append: section.id
+-%}
+{%- capture body -%}
+<div class="bsubscription07__media"
+  ><div class="bsubscription07__frame" data-frame
+    >{%- if s.image != blank -%}
+      {{ s.image | image_url: width: 1600 | image_tag: alt: s.alt, loading: 'lazy', widths: '600, 900, 1200, 1600', class: 'bsubscription07__img', data-img: '' -}}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'bsubscription07__img' -}}
+    {%- endif -%}
+    <span aria-hidden="true" class="bsubscription07__shade"></span
+    >{%- if s.caption != blank -%}<span class="bsubscription07__label bsubscription07__cap">{{ s.caption | escape }}</span>{%- endif -%}
+  </div
+  >{%- if s.badge != blank -%}
+  <div aria-hidden="true" class="bsubscription07__badge"
+    ><div class="bsubscription07__disc"
+      ><svg viewBox="0 0 100 100" class="bsubscription07__ring"
+        ><defs><path id="{{ uid }}-arc" d="M50,50 m-39,0 a39,39 0 1,1 78,0 a39,39 0 1,1 -78,0" /></defs
+        ><text class="bsubscription07__rt"><textPath href="#{{ uid }}-arc">{{ s.ring | escape }}</textPath></text
+      ></svg
+      ><span class="bsubscription07__pct">{{ s.badge | escape }}</span
+    ></div
+  ></div
+  >{%- endif -%}
+</div
+><div class="bsubscription07__side"
+  ><div class="bsubscription07__box"
+    ><div class="bsubscription07__intro"
+      >{%- if s.eyebrow != blank -%}<p class="bsubscription07__label rm-rise bsubscription07__o8">{{ s.eyebrow | escape }}</p>{%- endif -%}
+      <h2 class="bsubscription07__title"><span class="rm-mask"><span class="rm-line">{{ s.heading }}</span></span></h2
+      >{%- if s.lead != blank -%}<p class="rm-rise bsubscription07__lead" style="--d:80ms">{{ s.lead | escape }}</p>{%- endif -%}
+    </div
+    ><div class="bsubscription07__builder" data-builder data-per="{{ per_bag }}" data-bags="{{ bags }}" data-fmt="{{ shop.money_format | strip_html | escape }}"{% if p != blank %} data-variant="{{ p.selected_or_first_available_variant.id }}"{% endif %}
+      >{%- if p != blank and p.selling_plan_groups.size > 0 -%}
+        <script type="application/json" data-plans>[{% for sp in p.selling_plan_groups.first.selling_plans %}{{ sp.id }}{% unless forloop.last %},{% endunless %}{% endfor %}]</script
+      >{%- endif -%}
+      {%- if cads.size > 0 -%}
+      <fieldset class="rm-rise bsubscription07__fs" style="--d:120ms"
+        ><legend class="bsubscription07__label bsubscription07__o8 bsubscription07__legend">{{ s.cadence_label | escape }}</legend
+        ><div role="radiogroup" aria-label="{{ 'blko.subscription_07.cadence' | t | escape }}" class="bsubscription07__seg" style="--n:{{ cads.size }};--i:0" data-seg
+          ><span aria-hidden="true" class="bsubscription07__ind"></span
+          >{%- for c in cads -%}
+            <button type="button" role="radio" class="bsubscription07__opt" aria-checked="{% if forloop.first %}true{% else %}false{% endif %}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" data-off="{{ c.settings.off }}" data-weeks="{{ c.settings.weeks }}" {{ c.shopify_attributes }}
+              ><span class="bsubscription07__short">{{ 'blko.subscription_07.weeks' | t: n: c.settings.weeks }}</span><span class="bsubscription07__long">{{ 'blko.subscription_07.every' | t: n: c.settings.weeks }}</span
+            ></button
+          >{%- endfor -%}
+        </div
+      ></fieldset
+      >{%- endif -%}
+      <div class="rm-rise bsubscription07__pair" style="--d:180ms"
+        ><div class="bsubscription07__grp"
+          ><span id="{{ uid }}-bags" class="bsubscription07__label bsubscription07__o8">{{ s.bags_label | escape }}</span
+          ><div role="group" aria-labelledby="{{ uid }}-bags" class="bsubscription07__step"
+            ><button type="button" class="bsubscription07__sb" aria-label="{{ 'blko.subscription_07.fewer' | t | escape }}" data-step="-1"{% if bags <= 1 %} disabled{% endif %}>{%- render 'blko-ui-icon', name: 'minus', size: 14 -%}</button
+            ><span aria-live="polite" class="bsubscription07__qty" data-qty>{{ bags }}</span
+            ><button type="button" class="bsubscription07__sb" aria-label="{{ 'blko.subscription_07.more' | t | escape }}" data-step="1"{% if bags >= 4 %} disabled{% endif %}>{%- render 'blko-ui-icon', name: 'plus', size: 14 -%}</button
+          ></div
+        ></div
+        >{%- if styles.size > 0 -%}
+        <div class="bsubscription07__grp"
+          ><span id="{{ uid }}-style" class="bsubscription07__label bsubscription07__o8">{{ s.style_label | escape }}</span
+          ><div role="group" aria-labelledby="{{ uid }}-style" class="bsubscription07__chips"
+            >{%- for st in styles -%}
+              <button type="button" class="bsubscription07__chip" aria-pressed="{% if st.settings.label == first_style %}true{% else %}false{% endif %}" data-style="{{ st.settings.label | escape }}" {{ st.shopify_attributes }}>{{ st.settings.label | escape }}</button
+            >{%- endfor -%}
+          </div
+        ></div
+        >{%- endif -%}
+      </div
+      ><div class="rm-rise bsubscription07__buy" style="--d:240ms"
+        ><div class="bsubscription07__pr"
+          ><span class="bsubscription07__label bsubscription07__o8">{{ s.per_label | escape }} · <span data-style-out>{{ first_style | escape }}</span></span
+          ><p class="bsubscription07__prow"
+            ><span class="bsubscription07__total" aria-hidden="true" data-total>{%- render 'blko-ui-money', amount: total, cents: true -%}</span
+            ><span class="blko-ui-sr-only" aria-live="polite" data-sr></span
+            ><s class="bsubscription07__was"><span class="blko-ui-sr-only">{{ 'blko.subscription_07.was' | t }} </span><span data-full>{%- render 'blko-ui-money', amount: full, cents: true -%}</span></s
+            ><span class="bsubscription07__label bsubscription07__save" data-save>{{ 'blko.subscription_07.save' | t: n: off }}</span
+          ></p
+        ></div
+        >{%- capture lbl -%}<span class="rm-roll"><span>{{ s.button | escape }}</span></span>{%- endcapture -%}
+        {%- render 'blko-ui-button', variant: 'inverse', size: 'lg', children: lbl, iconAfter: 'arrow-right', attrs: 'data-add' -%}
+      </div
+      ><p class="bsubscription07__err" role="alert" data-err hidden>{{ 'blko.subscription_07.error' | t }}</p
+      >{%- if perks.size > 0 -%}
+      <ul class="bsubscription07__perks"
+        >{%- for k in perks -%}
+          <li class="rm-rise bsubscription07__perk" style="--d:{{ forloop.index0 | times: 70 | plus: 300 }}ms" {{ k.shopify_attributes }}
+            ><span class="bsubscription07__tick">{%- render 'blko-ui-icon', name: 'check', size: 12, stroke: 3, className: 'bsubscription07__check' -%}</span
+            ><span class="bsubscription07__o9">{{ k.settings.text | escape }}</span
+          ></li
+        >{%- endfor -%}
+      </ul
+      >{%- endif -%}
+    </div
+  ></div
+></div
+>{%- endcapture -%}
+<div class="bsubscription07" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-bsubscription07 data-rm-magnetic
+  >{%- render 'blko-ui-section', surface: 'pop-4', bleed: true, full: true, label: s.label, inner: 'bsubscription07__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Subscription 07",
+  "tag": "div",
+  "class": "blko-bundle",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "The roast club"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Subscribe & save up to 15%"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading (wrap a word in <em>)",
+      "default": "The roast <em>club</em>"
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Lead",
+      "default": "Fresh coffee on your rhythm. Choose how often, how much and how you like it; we roast it the week it ships."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "alt",
+      "label": "Image alt",
+      "default": "A portafilter, tamper and ground coffee laid flat on a dark surface"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Photo caption",
+      "default": "Members since 2019 · 4,800 cups a week"
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Badge",
+      "default": "-15%"
+    },
+    {
+      "type": "text",
+      "id": "ring",
+      "label": "Badge ring text",
+      "default": "Roast club · first box · roast club · first box · "
+    },
+    {
+      "type": "header",
+      "content": "Builder"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Subscription product",
+      "info": "The CTA adds it (quantity = bags) with the selling plan at the cadence's position in its first plan group."
+    },
+    {
+      "type": "number",
+      "id": "price",
+      "label": "Price per bag (while no product)",
+      "default": 21
+    },
+    {
+      "type": "range",
+      "id": "bags",
+      "label": "Bags to start with",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "style_index",
+      "label": "Roast style selected first",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "text",
+      "id": "cadence_label",
+      "label": "Cadence label",
+      "default": "Delivery"
+    },
+    {
+      "type": "text",
+      "id": "bags_label",
+      "label": "Bags label",
+      "default": "Bags · 250 g"
+    },
+    {
+      "type": "text",
+      "id": "style_label",
+      "label": "Style label",
+      "default": "Roast style"
+    },
+    {
+      "type": "text",
+      "id": "per_label",
+      "label": "Price label",
+      "default": "Per delivery"
+    },
+    {
+      "type": "text",
+      "id": "button",
+      "label": "Button label",
+      "default": "Start my subscription"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "cadence",
+      "name": "Cadence",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "number",
+          "id": "weeks",
+          "label": "Every (weeks)",
+          "default": 2
+        },
+        {
+          "type": "range",
+          "id": "off",
+          "label": "Discount",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "unit": "%",
+          "default": 15
+        }
+      ]
+    },
+    {
+      "type": "style",
+      "name": "Roast style",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Balanced"
+        }
+      ]
+    },
+    {
+      "type": "perk",
+      "name": "Perk",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Skip, swap or pause any time"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Subscription 07",
+      "blocks": [
+        {
+          "type": "cadence",
+          "settings": {
+            "weeks": 2,
+            "off": 15
+          }
+        },
+        {
+          "type": "cadence",
+          "settings": {
+            "weeks": 4,
+            "off": 10
+          }
+        },
+        {
+          "type": "cadence",
+          "settings": {
+            "weeks": 6,
+            "off": 5
+          }
+        },
+        {
+          "type": "style",
+          "settings": {
+            "label": "Bright"
+          }
+        },
+        {
+          "type": "style",
+          "settings": {
+            "label": "Balanced"
+          }
+        },
+        {
+          "type": "style",
+          "settings": {
+            "label": "Rich"
+          }
+        },
+        {
+          "type": "style",
+          "settings": {
+            "label": "Roaster's choice"
+          }
+        },
+        {
+          "type": "perk",
+          "settings": {
+            "text": "Roasted to order, at your door within 72 hours"
+          }
+        },
+        {
+          "type": "perk",
+          "settings": {
+            "text": "Skip, swap or pause any time"
+          }
+        },
+        {
+          "type": "perk",
+          "settings": {
+            "text": "Free shipping on every delivery"
+          }
+        },
+        {
+          "type": "perk",
+          "settings": {
+            "text": "First pick of micro-lots"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

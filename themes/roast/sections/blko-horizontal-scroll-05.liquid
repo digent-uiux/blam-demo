@@ -1,0 +1,223 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-horizontal-scroll-05.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-horizontal-scroll-05.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- capture body -%}
+  <div class="bhorizontalscroll05__band" data-band
+    ><div class="bhorizontalscroll05__stage" data-stage
+      ><div class="bhorizontalscroll05__track" data-track
+        ><div class="bhorizontalscroll05__intro"
+          ><div
+            ><p class="bhorizontalscroll05__label">{{ s.eyebrow | escape }}</p
+            ><h2 class="bhorizontalscroll05__h2"><span class="rm-mask"><span class="rm-line">{{ s.line_1 | escape }}</span></span><span class="rm-mask"><span class="rm-line" style="--d:90ms">{{ s.line_2 | escape }} <em>{{ s.line_2_em | escape }}</em></span></span><span class="rm-mask"><span class="rm-line" style="--d:180ms">{{ s.line_3 | escape }}</span></span></h2
+            >{%- if s.lead != blank -%}<p class="bhorizontalscroll05__lead">{{ s.lead | escape }}</p>{%- endif -%}
+          </div
+          ><p class="bhorizontalscroll05__label bhorizontalscroll05__cue"><span data-cue data-keep="{{ 'blko.horizontal_scroll_05.keep' | t | escape }}">{{ 'blko.horizontal_scroll_05.swipe' | t }}</span> {% render 'blko-ui-icon', name: 'arrow-right', className: 'rm-nudge' %}</p
+        ></div
+        >{%- for b in section.blocks -%}
+        <article class="bhorizontalscroll05__ch{% cycle '', ' bhorizontalscroll05__ch--flip' %}" data-ch {{ b.shopify_attributes }}
+          ><div class="bhorizontalscroll05__photo"
+            >{%- if b.settings.image != blank -%}{{ b.settings.image | image_url: width: 900 | image_tag: alt: b.settings.image.alt, loading: 'lazy', class: 'bhorizontalscroll05__img', data-img: '' }}{%- else -%}{{ 'lifestyle-1' | placeholder_svg_tag: 'bhorizontalscroll05__img' }}{%- endif -%}
+          </div
+          ><div
+            ><p class="bhorizontalscroll05__year">{{ b.settings.year | escape }}</p
+            ><h3 class="bhorizontalscroll05__h3">{{ b.settings.title | escape }}</h3
+            ><p class="bhorizontalscroll05__text">{{ b.settings.text | escape }}</p
+          ></div
+        ></article
+        >{%- endfor -%}
+        <span aria-hidden="true" class="bhorizontalscroll05__end"></span
+      ></div
+      ><div class="bhorizontalscroll05__scale"
+        ><div class="bhorizontalscroll05__rule"><span data-fill></span></div
+        ><ol class="bhorizontalscroll05__years"
+          >{%- for b in section.blocks -%}<li class="bhorizontalscroll05__label" data-yr>{{ b.settings.year | escape }}</li>{%- endfor -%}
+        </ol
+      ></div
+    ></div
+  ></div
+>{%- endcapture -%}
+<div class="bhorizontalscroll05" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast
+  >{%- render 'blko-ui-section', surface: 'pop-4', bleed: true, full: true, label: s.label, children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Sideways story",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Our story in chapters"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Our story"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Heading, line 1",
+      "default": "Ten years"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Heading, line 2",
+      "default": "in"
+    },
+    {
+      "type": "text",
+      "id": "line_2_em",
+      "label": "Heading, accent word",
+      "default": "four"
+    },
+    {
+      "type": "text",
+      "id": "line_3",
+      "label": "Heading, line 3",
+      "default": "chapters."
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Lead",
+      "default": "From a market cart to a roastery in a boat shed, and still one batch at a time."
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "chapter",
+      "name": "Chapter",
+      "settings": [
+        {
+          "type": "text",
+          "id": "year",
+          "label": "Year",
+          "default": "2014"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "A cart and a borrowed grinder"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "Saturdays at the harbour market: one brewer, two origins and a queue that kept getting longer."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Sideways story",
+      "blocks": [
+        {
+          "type": "chapter",
+          "settings": {
+            "year": "2014",
+            "title": "A cart and a borrowed grinder",
+            "text": "Saturdays at the harbour market: one brewer, two origins and a queue that kept getting longer."
+          }
+        },
+        {
+          "type": "chapter",
+          "settings": {
+            "year": "2017",
+            "title": "Our first bar",
+            "text": "Twelve seats on Kiln Street, a slow bar for filter and a wall of beans you could smell from the pavement."
+          }
+        },
+        {
+          "type": "chapter",
+          "settings": {
+            "year": "2020",
+            "title": "A roastery of our own",
+            "text": "A 15 kg drum in an old boat shed. We started buying direct and publishing every price we pay."
+          }
+        },
+        {
+          "type": "chapter",
+          "settings": {
+            "year": "2024",
+            "title": "Tea joins the bar",
+            "text": "Whole-leaf teas from three gardens, whisked matcha and the same small-batch care as the coffee."
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

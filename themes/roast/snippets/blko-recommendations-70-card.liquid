@@ -1,0 +1,21 @@
+{%- comment -%}One add-on card of blko-recommendations-70: i, title, kicker, line, cents, image, href, variant, attrs.{%- endcomment -%}
+{%- assign add_label = 'blko.recommendations_70.add' | t | replace: '[title]', title -%}
+<li class="rm-rise brecommendations70__slide" style="--d:{{ i | times: 110 | plus: 200 }}ms" {{ attrs }}>
+  <article class="rm-zoom brecommendations70__card">
+    <div class="brecommendations70__photo">
+      {%- if image != blank -%}{{ image | image_url: width: 500 | image_tag: class: 'brecommendations70__img', loading: 'lazy', draggable: 'false', widths: '250, 500', sizes: '170px', alt: image.alt | default: title }}{%- else -%}{{ 'product-2' | placeholder_svg_tag: 'brecommendations70__img placeholder-svg' }}{%- endif -%}
+    </div>
+    <div class="brecommendations70__body">
+      <div class="brecommendations70__copy">
+        <p class="brecommendations70__label brecommendations70__muted">{{ kicker | escape }}</p>
+        <h3 class="brecommendations70__h3"><a href="{{ href }}" draggable="false" class="rm-ul">{{ title | escape }}</a></h3>
+        <p class="brecommendations70__line">{{ line | escape }}</p>
+      </div>
+      <div class="brecommendations70__foot">
+        <span class="brecommendations70__price">{%- render 'blko-ui-money', amount: cents, cents: true -%}</span>
+        <button type="button" aria-label="{{ add_label | escape }}" class="brecommendations70__add" data-add data-variant="{{ variant }}" data-title="{{ title | escape }}">{%- render 'blko-ui-icon', name: 'plus', size: 16, className: 'brecommendations70__plus' -%}{%- render 'blko-ui-icon', name: 'check', size: 16, className: 'brecommendations70__check' -%}</button>
+      </div>
+      <p aria-live="polite" class="blko-ui-sr-only" data-live></p>
+    </div>
+  </article>
+</li>

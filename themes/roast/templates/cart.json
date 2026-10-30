@@ -1,0 +1,77 @@
+{
+  "sections": {
+    "cart-page-35": {
+      "type": "blko-cart-page-35",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "line-1": {
+          "type": "line",
+          "settings": {
+            "sub": true
+          }
+        },
+        "line-2": {
+          "type": "line",
+          "settings": {
+            "title": "Night Shift Decaf",
+            "origin": "Peru · Swiss water · Medium-dark",
+            "price": 19,
+            "price_large": 65,
+            "grind": "Whole bean",
+            "every": "4 weeks"
+          }
+        }
+      },
+      "block_order": [
+        "line-1",
+        "line-2"
+      ]
+    },
+    "recommendations-70": {
+      "type": "blko-recommendations-70",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "card-1": {
+          "type": "card",
+          "settings": {
+            "kicker": "Bar gear",
+            "title": "Stacking bar cups, set of 4",
+            "line": "Speckled stoneware, 180 ml, made to nest.",
+            "price": 38
+          }
+        },
+        "card-2": {
+          "type": "card",
+          "settings": {
+            "kicker": "Tea kit",
+            "title": "Ceremonial matcha kit",
+            "line": "30 g Uji matcha, a bamboo whisk and a bowl.",
+            "price": 64
+          }
+        },
+        "card-3": {
+          "type": "card",
+          "settings": {
+            "kicker": "Loose leaf",
+            "title": "Loose tea sampler, 6 jars",
+            "line": "Black, green, oolong and three tisanes, 25 g each.",
+            "price": 28
+          }
+        }
+      },
+      "block_order": [
+        "card-1",
+        "card-2",
+        "card-3"
+      ]
+    }
+  },
+  "order": [
+    "cart-page-35",
+    "recommendations-70"
+  ]
+}

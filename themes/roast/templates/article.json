@@ -1,0 +1,153 @@
+{
+  "sections": {
+    "article-30": {
+      "type": "blko-article-30",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "lead-1": {
+          "type": "lead",
+          "settings": {
+            "text": "A good pour-over is not a secret recipe. It is one recipe and a habit of changing a single thing at a time until the cup tastes the way the bag says it should."
+          }
+        },
+        "heading-2": {
+          "type": "heading",
+          "settings": {
+            "title": "Why dial in at all"
+          }
+        },
+        "text-3": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Every lot we roast behaves a little differently. A dense, high-grown washed coffee wants a finer grind and hotter water than a soft natural from lower down. Dialling in is how you meet each bag halfway, and it takes three or four brews, not thirty.</p><p>You need a scale, a kettle you can pour slowly from, and a grinder that holds its setting. Everything else is nice to have.</p>"
+          }
+        },
+        "quote-4": {
+          "type": "quote",
+          "settings": {
+            "text": "Change one thing per brew. <em>Write it down.</em> That is the whole trick.",
+            "cite": "Ines Arvo, at the Halden bar"
+          }
+        },
+        "heading-5": {
+          "type": "heading",
+          "settings": {
+            "title": "The base recipe"
+          }
+        },
+        "text-6": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Start here with any of our filter roasts. It is a 1:16.7 ratio, a little strong on purpose, because it is easier to dilute a cup than to rescue a thin one.</p>"
+          }
+        },
+        "recipe-7": {
+          "type": "recipe",
+          "settings": {}
+        },
+        "heading-8": {
+          "type": "heading",
+          "settings": {
+            "title": "Grind first, always"
+          }
+        },
+        "text-9": {
+          "type": "text",
+          "settings": {
+            "text": "<p>If the brew drains in under two and a half minutes and tastes sharp, go finer. If it stalls past three and a half and tastes dry or bitter, go coarser. Move two clicks at a time and leave the water alone until the grind is right.</p>"
+          }
+        },
+        "image-10": {
+          "type": "image",
+          "settings": {}
+        },
+        "heading-11": {
+          "type": "heading",
+          "settings": {
+            "title": "The method, step by step"
+          }
+        },
+        "steps-12": {
+          "type": "steps",
+          "settings": {
+            "steps": "Rinse the filter with hot water and tip the water out. It warms the brewer and washes out the paper taste.\nAdd 15 g of coffee ground like coarse sand, level the bed and zero the scale.\nBloom with 40 g of water for 40 seconds. Swirl once so every ground is wet.\nPour to 150 g in slow circles by 1:15, then to 250 g by 1:45. Keep the spout low.\nGive one gentle swirl and let it drain. Aim to finish between 2:45 and 3:15."
+          }
+        },
+        "heading-13": {
+          "type": "heading",
+          "settings": {
+            "title": "Reading the cup"
+          }
+        },
+        "text-14": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Let it cool for five minutes before you judge it. Sour and thin means under-extracted: finer, or hotter. Bitter, dry and hollow means over-extracted: coarser, or a touch cooler. Sweet and clear with a long finish means you are done, so write the setting on the bag.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "lead-1",
+        "heading-2",
+        "text-3",
+        "quote-4",
+        "heading-5",
+        "text-6",
+        "recipe-7",
+        "heading-8",
+        "text-9",
+        "image-10",
+        "heading-11",
+        "steps-12",
+        "heading-13",
+        "text-14"
+      ]
+    },
+    "blog-95": {
+      "type": "blko-blog-95",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "post-1": {
+          "type": "post",
+          "settings": {
+            "cat": "Brew guides",
+            "read": "6 min read",
+            "title": "Keeping a brew journal that you will actually use",
+            "dek": "Four columns, one notebook, and the window seat where we write them up."
+          }
+        },
+        "post-2": {
+          "type": "post",
+          "settings": {
+            "cat": "Notes from the bar",
+            "read": "4 min read",
+            "title": "Milk drinks with a light roast, without losing the fruit",
+            "dek": "Smaller cups, cooler milk, and a ristretto that leans sweet."
+          }
+        },
+        "post-3": {
+          "type": "post",
+          "settings": {
+            "cat": "Origins",
+            "read": "8 min read",
+            "title": "Black, on a plate of leaves: tasting our new Sumatra",
+            "dek": "Cedar, dark chocolate, and a finish that lasts as long as the conversation."
+          }
+        }
+      },
+      "block_order": [
+        "post-1",
+        "post-2",
+        "post-3"
+      ]
+    }
+  },
+  "order": [
+    "article-30",
+    "blog-95"
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "sections": {
+    "account-34": {
+      "type": "blko-account-34",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "order-1": {
+          "type": "order",
+          "settings": {
+            "number": "#H-20418",
+            "date": "26 Oct 2026",
+            "items": "House Espresso 1 kg, Kiambu AA 250 g",
+            "qty": 2,
+            "total": 66,
+            "status": "roasting"
+          }
+        },
+        "order-2": {
+          "type": "order",
+          "settings": {
+            "number": "#H-20175",
+            "date": "12 Oct 2026",
+            "items": "House Espresso 1 kg",
+            "qty": 1,
+            "total": 42,
+            "status": "shipped"
+          }
+        },
+        "order-3": {
+          "type": "order",
+          "settings": {
+            "number": "#H-19802",
+            "date": "28 Sep 2026",
+            "items": "Ruby Oolong 50 g, Clay Teapot 350 ml",
+            "qty": 2,
+            "total": 92,
+            "status": "delivered"
+          }
+        },
+        "order-4": {
+          "type": "order",
+          "settings": {
+            "number": "#H-19433",
+            "date": "14 Sep 2026",
+            "items": "Guji Natural 250 g ×2",
+            "qty": 2,
+            "total": 48,
+            "status": "delivered"
+          }
+        },
+        "address-5": {
+          "type": "address",
+          "settings": {
+            "title": "Home",
+            "lines": "Mara Lind\n14 Alder Row\nLeeds LS6 2QP",
+            "is_default": true
+          }
+        },
+        "address-6": {
+          "type": "address",
+          "settings": {
+            "title": "Studio",
+            "lines": "Mara Lind\nUnit 3, Mill Yard\nLeeds LS9 8DT",
+            "is_default": false
+          }
+        }
+      },
+      "block_order": [
+        "order-1",
+        "order-2",
+        "order-3",
+        "order-4",
+        "address-5",
+        "address-6"
+      ]
+    }
+  },
+  "order": [
+    "account-34"
+  ]
+}

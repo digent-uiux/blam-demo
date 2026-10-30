@@ -1,0 +1,183 @@
+{%- comment -%} Search page: form, results (products as cards, articles/pages as rows), pagination, empty state. {%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign columns = s.columns_desktop | default: 4
+  assign columns_tablet = columns
+  if columns_tablet > 3
+    assign columns_tablet = 3
+  endif
+  assign columns_mobile = s.columns_mobile | default: '2' | plus: 0
+  assign vw_desktop = 100 | divided_by: columns
+  assign vw_tablet = 100 | divided_by: columns_tablet
+  assign vw_mobile = 100 | divided_by: columns_mobile
+  assign placeholder = s.placeholder
+  if placeholder == blank
+    assign placeholder = 'blko.search.placeholder' | t
+  endif
+  assign card_sizes = '(min-width: 1024px) ' | append: vw_desktop | append: 'vw, (min-width: 750px) ' | append: vw_tablet | append: 'vw, ' | append: vw_mobile | append: 'vw'
+-%}
+{%- paginate search.results by s.per_page -%}
+  <div
+    class="blko-section blko-scheme color-{{ s.color_scheme }} blko-search{% unless s.show_price %} blko-search--no-price{% endunless %}"
+    style="--blko-pt: {{ s.padding_top }}px; --blko-pb: {{ s.padding_bottom }}px; --blko-cols: {{ columns }}; --blko-cols-t: {{ columns_tablet }}; --blko-cols-m: {{ columns_mobile }};"
+  >
+    <div class="blko-container">
+      {%- if s.heading != blank -%}
+        <h1 class="blko-{{ s.heading_size }}">{{ s.heading | escape }}</h1>
+      {%- endif -%}
+      {%- if s.show_form -%}
+        <form action="{{ routes.search_url }}" method="get" role="search" class="blko-search__form">
+          <label for="BlkoSearchInput-{{ section.id }}" class="blko-visually-hidden">{{ 'blko.search.label' | t }}</label>
+          <div class="blko-field-row">
+            <input id="BlkoSearchInput-{{ section.id }}" class="blko-input" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ placeholder | escape }}" autocomplete="off">
+            <input type="hidden" name="options[prefix]" value="last">
+            <button type="submit" class="blko-btn blko-btn--primary">{% render 'blko-icon', name: 'search' %}{{ 'blko.search.submit' | t }}</button>
+          </div>
+        </form>
+      {%- endif -%}
+
+      {%- if search.performed -%}
+        {%- if search.results_count > 0 -%}
+          <p class="blko-small blko-muted blko-search__count" role="status">
+            {{- 'blko.search.results_count' | t: count: search.results_count, terms: search.terms -}}
+          </p>
+          {%- liquid
+            assign products = search.results | where: 'object_type', 'product'
+            assign others = ''
+            if s.show_articles and s.show_pages
+              assign articles = search.results | where: 'object_type', 'article'
+              assign pages = search.results | where: 'object_type', 'page'
+              assign others = articles | concat: pages
+            elsif s.show_articles
+              assign others = search.results | where: 'object_type', 'article'
+            elsif s.show_pages
+              assign others = search.results | where: 'object_type', 'page'
+            endif
+          -%}
+          {%- if products.size > 0 -%}
+            <ul class="blko-product-grid blko-search__products" role="list">
+              {%- for item in products -%}
+                <li>
+                  {%- render 'blko-product-card',
+                    product: item,
+                    quick_add: s.quick_add,
+                    show_rating: s.show_rating,
+                    show_vendor: s.show_vendor,
+                    sizes: card_sizes
+                  -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- if others.size > 0 -%}
+            <ul class="blko-list-reset blko-divided blko-divided--edges blko-search__rows">
+              {%- for item in others -%}
+                <li>
+                  <a href="{{ item.url }}" class="blko-search__row">
+                    <span class="blko-label blko-muted">
+                      {%- if item.object_type == 'article' -%}{{ 'blko.search.article' | t }}{%- else -%}{{ 'blko.search.page' | t }}{%- endif -%}
+                    </span>
+                    <span class="blko-medium">{{ item.title | escape }}</span>
+                    {%- if s.show_excerpt -%}
+                      <span class="blko-small blko-muted">{{ item.content | strip_html | truncatewords: 24 }}</span>
+                    {%- endif -%}
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- render 'blko-pagination', paginate: paginate -%}
+        {%- else -%}
+          <div class="blko-search__empty" role="status">
+            {%- if s.empty_heading != blank -%}<h2 class="blko-h3">{{ s.empty_heading | escape }}</h2>{%- endif -%}
+            {%- assign terms = search.terms | escape -%}
+            {%- if s.empty_text != blank -%}
+              <p class="blko-small blko-muted">{{ s.empty_text | escape | replace: '[terms]', terms }}</p>
+            {%- else -%}
+              <p class="blko-small blko-muted">{{ 'blko.search.no_results' | t: terms: search.terms }}</p>
+            {%- endif -%}
+            {%- if s.empty_button_label != blank -%}
+              <p><a href="{{ s.empty_button_link | default: routes.all_products_collection_url }}" class="blko-btn blko-btn--outline">{{ s.empty_button_label | escape }}</a></p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- elsif s.intro != blank -%}
+        <div class="blko-rte blko-body blko-muted blko-search__intro">{{ s.intro }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endpaginate -%}
+
+{% stylesheet %}
+  .blko-search__form { max-width: 40rem; margin-top: 1.5rem; }
+  .blko-search__count { margin: 1.5rem 0 2rem; }
+  .blko-search__products { grid-template-columns: repeat(var(--blko-cols-m, 2), minmax(0, 1fr)); }
+  @media (min-width: 750px) { .blko-search__products { grid-template-columns: repeat(var(--blko-cols-t, 3), minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .blko-search__products { grid-template-columns: repeat(var(--blko-cols, 4), minmax(0, 1fr)); } }
+  .blko-search--no-price .blko-search__products .blko-price { display: none; }
+  .blko-search__rows { margin-top: 3rem; }
+  .blko-search__row { display: grid; gap: .25rem; padding-block: 1.25rem; text-decoration: none; }
+  .blko-search__row:hover .blko-medium { text-decoration: underline; text-underline-offset: 3px; }
+  .blko-search__empty { display: grid; gap: 1rem; justify-items: start; margin-top: 1.5rem; }
+  .blko-search__intro { max-width: 40rem; margin-top: 1.5rem; }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Search results",
+  "tag": "section",
+  "class": "blko-main-search",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Heading" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Search" },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h1", "label": "Large" },
+        { "value": "h2", "label": "Medium" },
+        { "value": "h3", "label": "Small" }
+      ],
+      "default": "h2"
+    },
+    { "type": "checkbox", "id": "show_form", "label": "Show search form", "default": true },
+    { "type": "text", "id": "placeholder", "label": "Search placeholder", "default": "Search products, articles and pages" },
+    { "type": "richtext", "id": "intro", "label": "Text before a search" },
+    { "type": "header", "content": "Results" },
+    { "type": "range", "id": "per_page", "label": "Results per page", "min": 4, "max": 48, "step": 4, "default": 24 },
+    { "type": "range", "id": "columns_desktop", "label": "Columns on desktop", "min": 2, "max": 5, "step": 1, "default": 4 },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    { "type": "checkbox", "id": "show_price", "label": "Show price", "default": true },
+    { "type": "checkbox", "id": "show_vendor", "label": "Show vendor", "default": false },
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating", "default": true },
+    { "type": "checkbox", "id": "quick_add", "label": "Show add to bag on cards", "default": false },
+    { "type": "checkbox", "id": "show_articles", "label": "Show articles", "default": true },
+    { "type": "checkbox", "id": "show_pages", "label": "Show pages", "default": true },
+    { "type": "checkbox", "id": "show_excerpt", "label": "Show article and page excerpt", "default": true },
+    { "type": "header", "content": "No results" },
+    { "type": "text", "id": "empty_heading", "label": "Heading" },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "Text",
+      "info": "[terms] shows the search words.",
+      "default": "No results for “[terms]”. Check the spelling or try a different word."
+    },
+    { "type": "text", "id": "empty_button_label", "label": "Button label", "default": "Browse all products" },
+    { "type": "url", "id": "empty_button_link", "label": "Button link", "info": "Defaults to all products." }
+  ]
+}
+{% endschema %}

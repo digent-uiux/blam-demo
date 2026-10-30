@@ -1,0 +1,45 @@
+{
+  "blko_ui": {
+    "price": {
+      "from": "From",
+      "was": "Was",
+      "save": "Save"
+    },
+    "rating": {
+      "stars": "{{ value }} out of 5 stars"
+    },
+    "quantity": {
+      "label": "Quantity",
+      "decrease": "Decrease {{ label }}",
+      "increase": "Increase {{ label }}"
+    },
+    "field": {
+      "optional": "(optional)"
+    },
+    "option": {
+      "sold_out": "sold out"
+    },
+    "product": {
+      "save": "Save {{ title }}",
+      "add": "Add {{ title }} to bag",
+      "colors": "{{ count }} colours"
+    }
+  },
+  "blko": {
+    "collection_grid_49": {
+      "products": "Products",
+      "zero": "0 roasts",
+      "empty_title": "Nothing in <em>that</em> roast yet.",
+      "empty_text": "Try another origin or widen the price. New lots land every Monday.",
+      "clear": "Clear filters",
+      "showing": "Showing",
+      "of": "of",
+      "load_more": "Load more",
+      "all": "That’s every roast",
+      "pagination": "Pagination",
+      "prev": "Previous page",
+      "next": "Next page",
+      "page": "Page [n]"
+    }
+  }
+}

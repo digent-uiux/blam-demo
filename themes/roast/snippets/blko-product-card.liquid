@@ -1,0 +1,65 @@
+{%- comment -%}
+  Product card used by every product row and grid. One image ratio (theme setting), title, optional rating, price.
+  Renders the demo card (blko-demo-card) when product is blank (Theme Editor previews, empty collections).
+
+  Accepts:
+  - product: {Object} product
+  - quick_add: {Boolean} show an add-to-bag form pinned to the bottom (single-variant products only, else "Choose options")
+  - show_rating: {Boolean} defaults to the theme setting
+  - show_vendor: {Boolean} defaults to the theme setting
+  - sizes: {String} image sizes attribute
+  - placeholder_index: {Number} 1–6, used when product is blank
+{%- endcomment -%}
+{%- liquid
+  assign show_rating = show_rating | default: settings.card_show_rating, allow_false: true
+  assign show_vendor = show_vendor | default: settings.card_show_vendor, allow_false: true
+  assign sizes = sizes | default: '(min-width: 1024px) 25vw, 50vw'
+-%}
+{%- if product == blank -%}
+  {%- render 'blko-demo-card', index: placeholder_index, quick_add: quick_add, show_rating: show_rating, action_style: action_style, sizes: sizes -%}
+{%- else -%}
+<div class="blko-card">
+  {%- if product != blank -%}
+    {%- liquid
+      assign image = product.featured_media.preview_image
+      assign image_alt = image.alt | default: product.title | escape
+      assign on_sale = false
+      if product.compare_at_price > product.price
+        assign on_sale = true
+      endif
+    -%}
+    <div class="blko-media blko-media--card blko-card__media">
+      {%- if image -%}
+        {{ image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: sizes, widths: '360, 540, 720, 900', alt: image_alt }}
+      {%- else -%}
+        {%- render 'blko-demo-card', index: 1, part: 'image', sizes: sizes -%}
+      {%- endif -%}
+    </div>
+    {%- if product.available == false -%}
+      <span class="blko-badge blko-card__badge">{{ 'blko.products.sold_out' | t }}</span>
+    {%- elsif on_sale -%}
+      <span class="blko-badge blko-badge--sale blko-card__badge">{{ 'blko.products.sale' | t }}</span>
+    {%- endif -%}
+    <div class="blko-card__info">
+      {%- if show_vendor -%}<p class="blko-card__vendor">{{ product.vendor | escape }}</p>{%- endif -%}
+      <h3 class="blko-card__title"><a href="{{ product.url }}">{{ product.title | escape }}</a></h3>
+      {%- if show_rating and product.metafields.reviews.rating.value != blank -%}
+        {%- render 'blko-rating', value: product.metafields.reviews.rating.value.rating, count: product.metafields.reviews.rating_count, size: 'xs' -%}
+      {%- endif -%}
+      {%- render 'blko-price', product: product -%}
+    </div>
+    {%- if quick_add -%}
+      <div class="blko-card__action">
+        {%- if product.has_only_default_variant and product.available -%}
+          {%- form 'product', product -%}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <button type="submit" class="blko-btn blko-btn--outline blko-btn--sm blko-btn--full">{{ 'blko.products.add_to_cart' | t }}</button>
+          {%- endform -%}
+        {%- else -%}
+          <a href="{{ product.url }}" class="blko-btn blko-btn--outline blko-btn--sm blko-btn--full">{{ 'blko.products.choose_options' | t }}</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+{%- endif -%}

@@ -1,0 +1,7 @@
+{%- comment -%}Switch(label, checked/defaultChecked, disabled, className), with a native checkbox and CSS-only thumb.{%- endcomment -%}
+{%- assign is_checked = checked | default: defaultChecked, allow_false: true -%}
+<label class="blko-ui-switch {{ className }}">
+  <span>{{ label }}</span>
+  <input type="checkbox" role="switch" class="blko-ui-sr-only"{% if id != blank %} id="{{ id | escape }}"{% endif %}{% if name != blank %} name="{{ name | escape }}"{% endif %}{% if value != nil %} value="{{ value | escape }}"{% endif %}{% if is_checked %} checked{% endif %}{% if disabled %} disabled{% endif %}>
+  <span class="blko-ui-switch__track" aria-hidden="true"></span>
+</label>

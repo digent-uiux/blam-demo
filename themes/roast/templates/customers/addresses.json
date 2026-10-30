@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "blko-main-addresses",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

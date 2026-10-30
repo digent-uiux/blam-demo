@@ -1,0 +1,62 @@
+{%- comment -%}
+  Complementary products block of blko-main-product. Rendered empty and hidden first; blko-recommendations.js fetches
+  this section from the product recommendations endpoint (intent=complementary) and swaps the list in.
+
+  Accepts:
+  - product: {Object}
+  - block: {Object} the complementary block
+  - section_id: {String}
+{%- endcomment -%}
+{%- liquid
+  assign comp_url = blank
+  if recommendations.performed != true and product != blank
+    assign comp_url = routes.product_recommendations_url | append: '?section_id=' | append: section_id | append: '&product_id=' | append: product.id | append: '&limit=' | append: block.settings.limit | append: '&intent=complementary'
+  endif
+-%}
+<blko-recommendations
+  class="blko-pdp__block blko-pdp__comp"
+  {% if comp_url != blank %}
+    data-url="{{ comp_url }}"
+  {% endif %}
+  {% unless recommendations.performed and recommendations.products_count > 0 %}
+    hidden
+  {% endunless %}
+  {{ block.shopify_attributes }}
+>
+  {%- if recommendations.performed and recommendations.products_count > 0 -%}
+    {%- if block.settings.heading != blank -%}
+      <h2 class="blko-body blko-medium">{{ block.settings.heading | escape }}</h2>
+    {%- endif -%}
+    <ul class="blko-list-reset blko-divided blko-divided--edges" role="list" data-blko-recommendations-list>
+      {%- for item in recommendations.products limit: block.settings.limit -%}
+        <li class="blko-pdp__comp-item">
+          <a class="blko-media blko-media--square" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+            {%- if item.featured_media -%}
+              {{ item.featured_media.preview_image | image_url: width: 160 | image_tag: loading: 'lazy', widths: '80, 160', sizes: '64px', alt: '' }}
+            {%- else -%}
+              {%- assign demo_index = forloop.index -%}{%- render 'blko-demo-card', index: demo_index, part: 'image', sizes: '64px' -%}
+            {%- endif -%}
+          </a>
+          <div class="blko-pdp__comp-info">
+            <a class="blko-small blko-medium" href="{{ item.url }}">{{ item.title | escape }}</a>
+            {%- render 'blko-price', product: item -%}
+          </div>
+          {%- if item.has_only_default_variant and item.available -%}
+            {%- form 'product', item, class: 'blko-pdp__comp-form' -%}
+              <input type="hidden" name="id" value="{{ item.selected_or_first_available_variant.id }}">
+              <button type="submit" class="blko-btn blko-btn--outline blko-btn--sm">
+                {{- 'blko.recommendations.add' | t -}}
+                <span class="blko-visually-hidden">{{ item.title | escape }}</span>
+              </button>
+            {%- endform -%}
+          {%- else -%}
+            <a class="blko-btn blko-btn--outline blko-btn--sm" href="{{ item.url }}">
+              {{- 'blko.recommendations.view' | t -}}
+              <span class="blko-visually-hidden">{{ item.title | escape }}</span>
+            </a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+</blko-recommendations>

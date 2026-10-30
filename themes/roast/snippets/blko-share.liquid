@@ -1,0 +1,37 @@
+{%- comment -%}
+  Share links (no JS): Facebook, X, Pinterest, email.
+
+  Accepts:
+  - url: {String} absolute URL to share
+  - title: {String} title of the shared item
+  - image: {Object} optional image for Pinterest
+{%- endcomment -%}
+{%- liquid
+  assign share_url = url | url_encode
+  assign share_title = title | url_encode
+-%}
+<div class="blko-share">
+  <span class="blko-small blko-muted blko-share__label">{% render 'blko-icon', name: 'share' %}{{ 'blko.share.label' | t }}</span>
+  <ul class="blko-list-reset blko-share__list" role="list">
+    <li>
+      <a class="blko-btn blko-btn--outline blko-btn--sm blko-btn--icon" href="https://www.facebook.com/sharer/sharer.php?u={{ share_url }}" target="_blank" rel="noopener" aria-label="{{ 'blko.share.facebook' | t }}">
+        {%- render 'blko-icon', name: 'facebook' -%}
+      </a>
+    </li>
+    <li>
+      <a class="blko-btn blko-btn--outline blko-btn--sm blko-btn--icon" href="https://x.com/intent/post?text={{ share_title }}&amp;url={{ share_url }}" target="_blank" rel="noopener" aria-label="{{ 'blko.share.x' | t }}">
+        {%- render 'blko-icon', name: 'x' -%}
+      </a>
+    </li>
+    <li>
+      <a class="blko-btn blko-btn--outline blko-btn--sm blko-btn--icon" href="https://pinterest.com/pin/create/button/?url={{ share_url }}&amp;description={{ share_title }}{% if image %}&amp;media={{ image | image_url: width: 1200 | prepend: 'https:' | url_encode }}{% endif %}" target="_blank" rel="noopener" aria-label="{{ 'blko.share.pinterest' | t }}">
+        {%- render 'blko-icon', name: 'pinterest' -%}
+      </a>
+    </li>
+    <li>
+      <a class="blko-btn blko-btn--outline blko-btn--sm blko-btn--icon" href="mailto:?subject={{ share_title }}&amp;body={{ share_url }}" aria-label="{{ 'blko.share.email' | t }}">
+        {%- render 'blko-icon', name: 'arrow-up-right' -%}
+      </a>
+    </li>
+  </ul>
+</div>

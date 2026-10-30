@@ -1,0 +1,238 @@
+{%- comment -%} Tabbed product grid: underline tablist, each tab block = label + collection, cards with add to bag. {%- endcomment -%}
+{%- liquid
+  assign cols_d = section.settings.columns_desktop
+  case cols_d
+    when 1 or 2 or 3
+      assign cols_t = cols_d
+    when 4
+      assign cols_t = 2
+    else
+      assign cols_t = 3
+  endcase
+  assign cols_m = section.settings.columns_mobile | plus: 0
+  assign card_vw = 100 | divided_by: cols_d
+  assign card_vw_m = 100 | divided_by: cols_m
+  assign card_sizes = '(min-width: 1024px) ' | append: card_vw | append: 'vw, ' | append: card_vw_m | append: 'vw'
+  assign tab_blocks = section.blocks | where: 'type', 'tab'
+-%}
+<script src="{{ 'blko-tabs.js' | asset_url }}" defer="defer"></script>
+<div
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-ftabs"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px; --blko-cols-d: {{ cols_d }}; --blko-cols-t: {{ cols_t }}; --blko-cols-m: {{ cols_m }};{% if section.settings.card_ratio != 'theme' %} --card-ratio: {{ section.settings.card_ratio }};{% endif %}"
+>
+  <div class="blko-container blko-ftabs__inner{% if section.settings.alignment == 'center' %} blko-ftabs__inner--center{% endif %}">
+    {%- if section.settings.heading != blank or section.settings.text != blank -%}
+      <div class="blko-ftabs__head">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="{{ section.settings.heading_size }} blko-ftabs__title">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.text != blank -%}
+          <div class="blko-body blko-muted blko-pretty blko-rte">{{ section.settings.text }}</div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <blko-tabs class="blko-ftabs__tabs">
+      <div class="blko-ftabs__list" role="tablist" aria-label="{{ section.settings.tabs_label | escape }}">
+        {%- for block in tab_blocks -%}
+          <button
+            type="button"
+            role="tab"
+            class="blko-ftabs__tab"
+            id="BlkoTab-{{ section.id }}-{{ forloop.index }}"
+            aria-controls="BlkoPanel-{{ section.id }}-{{ forloop.index }}"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+            {{ block.shopify_attributes }}
+          >
+            {{- block.settings.label | escape -}}
+          </button>
+        {%- endfor -%}
+      </div>
+      {%- for block in tab_blocks -%}
+        {%- liquid
+          assign tab_collection = block.settings.collection
+          assign tab_offset = forloop.index0 | times: section.settings.products_to_show
+        -%}
+        <div
+          role="tabpanel"
+          class="blko-ftabs__panel"
+          id="BlkoPanel-{{ section.id }}-{{ forloop.index }}"
+          aria-labelledby="BlkoTab-{{ section.id }}-{{ forloop.index }}"
+          tabindex="0"
+          {% unless forloop.first %}
+            hidden
+          {% endunless %}
+        >
+          <ul class="blko-product-grid blko-ftabs__grid" role="list">
+            {%- if block.settings.source == 'products' and block.settings.products != blank -%}
+              {%- for product in block.settings.products limit: section.settings.products_to_show -%}
+                <li>
+                  {%- render 'blko-product-card',
+                    product: product,
+                    quick_add: section.settings.quick_add,
+                    show_rating: section.settings.show_rating,
+                    sizes: card_sizes
+                  -%}
+                </li>
+              {%- endfor -%}
+            {%- elsif block.settings.source != 'products' and tab_collection != blank and tab_collection.products_count > 0 -%}
+              {%- for product in tab_collection.products limit: section.settings.products_to_show -%}
+                <li>
+                  {%- render 'blko-product-card',
+                    product: product,
+                    quick_add: section.settings.quick_add,
+                    show_rating: section.settings.show_rating,
+                    sizes: card_sizes
+                  -%}
+                </li>
+              {%- endfor -%}
+            {%- else -%}
+              {%- for i in (1..section.settings.products_to_show) -%}
+                {%- assign demo_index = i | plus: tab_offset -%}
+                <li>{% render 'blko-demo-card', index: demo_index, show_rating: section.settings.show_rating, sizes: card_sizes %}</li>
+              {%- endfor -%}
+            {%- endif -%}
+          </ul>
+          {%- if block.settings.link_label != blank -%}
+            {%- liquid
+              assign tab_url = block.settings.link_url
+              if tab_url == blank
+                if tab_collection != blank
+                  assign tab_url = tab_collection.url
+                else
+                  assign tab_url = routes.all_products_collection_url
+                endif
+              endif
+            -%}
+            <div class="blko-ftabs__footer">
+              <a class="blko-btn blko-btn--{{ section.settings.button_style }}" href="{{ tab_url }}">{{ block.settings.link_label | escape }}</a>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </blko-tabs>
+    {%- for block in section.blocks -%}
+      {%- if block.type == '@app' -%}
+        <div class="blko-ftabs__app" {{ block.shopify_attributes }}>{% render block %}</div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-ftabs { --card-ratio: 1/1; }
+  .blko-ftabs__inner { display: grid; gap: 1.5rem; }
+  .blko-ftabs__head { display: grid; gap: .75rem; max-width: 46rem; }
+  .blko-ftabs__inner--center .blko-ftabs__head { justify-self: center; justify-items: center; text-align: center; }
+  .blko-ftabs__tabs { display: grid; gap: 2rem; }
+  .blko-ftabs__list { display: flex; gap: 1.5rem; max-width: 100%; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--color-border, #d6d1c0); }
+  .blko-ftabs__inner--center .blko-ftabs__list { justify-content: center; }
+  .blko-ftabs__tab { flex-shrink: 0; height: 44px; margin-bottom: -1px; padding: 0; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--color-text-muted, #59625b); font-size: var(--blko-text-small); font-weight: 500; white-space: nowrap; cursor: pointer; transition: color .2s, border-color .2s; }
+  .blko-ftabs__tab:hover, .blko-ftabs__tab[aria-selected="true"] { color: var(--color-text, #262f29); }
+  .blko-ftabs__tab[aria-selected="true"] { border-bottom-color: var(--color-text, #262f29); }
+  .blko-ftabs__panel:focus-visible { outline-offset: 4px; }
+  .blko-ftabs .blko-ftabs__grid { gap: 2rem .75rem; grid-template-columns: repeat(var(--blko-cols-m, 2), minmax(0, 1fr)); }
+  .blko-ftabs__footer { display: flex; justify-content: center; margin-top: 2.5rem; }
+  @media (min-width: 750px) { .blko-ftabs .blko-ftabs__grid { grid-template-columns: repeat(var(--blko-cols-t, 2), minmax(0, 1fr)); } }
+  @media (min-width: 1024px) {
+    .blko-ftabs__inner { gap: 2rem; }
+    .blko-ftabs__title.blko-h3 { font-size: var(--blko-text-h2); }
+    .blko-ftabs .blko-ftabs__grid { column-gap: 1.25rem; grid-template-columns: repeat(var(--blko-cols-d, 4), minmax(0, 1fr)); }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Featured tabs",
+  "tag": "section",
+  "class": "blko-ftabs-section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "paragraph", "content": "Pick products in each Tab block on the left: a collection or a hand-picked list." },
+    { "type": "header", "content": "Heading" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Shop the routine" },
+    {
+      "type": "select", "id": "heading_size", "label": "Heading size", "default": "blko-h3",
+      "options": [
+        { "value": "blko-h3", "label": "Medium" },
+        { "value": "blko-h2", "label": "Large" },
+        { "value": "blko-h1", "label": "Extra large" }
+      ]
+    },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    {
+      "type": "select", "id": "alignment", "label": "Heading and tabs alignment", "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ]
+    },
+    { "type": "text", "id": "tabs_label", "label": "Tab list label (screen readers)", "default": "Product sets" },
+    { "type": "header", "content": "Products" },
+    { "type": "range", "id": "products_to_show", "label": "Products per tab", "min": 2, "max": 24, "step": 1, "default": 4 },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "columns_desktop", "label": "Columns on desktop", "min": 1, "max": 6, "step": 1, "default": 4 },
+    {
+      "type": "select", "id": "columns_mobile", "label": "Columns on mobile", "default": "2",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ]
+    },
+    { "type": "header", "content": "Product card" },
+    {
+      "type": "select", "id": "card_ratio", "label": "Image ratio", "default": "1/1",
+      "options": [
+        { "value": "theme", "label": "Theme default" },
+        { "value": "1/1", "label": "Square" },
+        { "value": "4/5", "label": "Portrait" },
+        { "value": "3/4", "label": "Tall" },
+        { "value": "4/3", "label": "Landscape" }
+      ]
+    },
+    { "type": "checkbox", "id": "quick_add", "label": "Show add to bag button", "default": true },
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating", "default": true },
+    {
+      "type": "select", "id": "button_style", "label": "Tab link button style", "default": "outline",
+      "options": [
+        { "value": "primary", "label": "Solid" },
+        { "value": "outline", "label": "Outline" }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Bestsellers" },
+        {
+          "type": "select", "id": "source", "label": "Products from", "default": "collection",
+          "options": [
+            { "value": "collection", "label": "Collection" },
+            { "value": "products", "label": "Pick products" }
+          ]
+        },
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "product_list", "id": "products", "label": "Products", "limit": 12, "info": "Used when Products from is Pick products." },
+        { "type": "text", "id": "link_label", "label": "Link label", "info": "Shown below the products. Leave blank to hide." },
+        { "type": "url", "id": "link_url", "label": "Link", "info": "Leave blank to link to the collection." }
+      ]
+    },
+    { "type": "@app" }
+  ],
+  "presets": [
+    {
+      "name": "Featured tabs",
+      "blocks": [
+        { "type": "tab", "settings": { "label": "Bestsellers" } },
+        { "type": "tab", "settings": { "label": "New" } },
+        { "type": "tab", "settings": { "label": "Sets" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

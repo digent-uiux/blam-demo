@@ -1,0 +1,373 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-faq-64.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-faq-64.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- liquid
+  assign topics = 0
+  assign total = 0
+  for b in section.blocks
+    if b.type == 'topic'
+      assign topics = topics | plus: 1
+    else
+      assign total = total | plus: 1
+    endif
+  endfor
+  assign t_count = 'blko.faq_64.count_all' | t
+  assign t_count = t_count | replace: '[n]', total | replace: '[t]', topics
+-%}
+{%- capture groups -%}
+  {%- assign gi = -1 -%}
+  {%- for b in section.blocks -%}
+    {%- if b.type == 'topic' -%}
+      {%- assign gi = gi | plus: 1 -%}
+      {%- assign rest = section.blocks | slice: forloop.index, 99 -%}
+      {%- assign n = 0 -%}
+      {%- for r in rest -%}{%- if r.type == 'topic' -%}{%- break -%}{%- endif -%}{%- assign n = n | plus: 1 -%}{%- endfor -%}
+      <div id="faq-{{ gi }}" class="bfaq64__group" data-group {{ b.shopify_attributes }}
+        ><div class="bfaq64__ghead"><h3 class="bfaq64__h3">{{ b.settings.title | escape }}</h3><span class="bfaq64__label bfaq64__muted">0{{ gi | plus: 1 }} · <span data-gcount>{{ n }}</span></span></div
+        ><ul
+        >{%- for q in rest -%}
+          {%- if q.type == 'topic' -%}{%- break -%}{%- endif -%}
+          {%- assign k = forloop.index0 -%}
+          {%- assign rid = 'faq64-' | append: section.id | append: '-' | append: gi | append: '-' | append: k -%}
+          <li class="bfaq64__item" data-item {{ q.shopify_attributes }}
+            ><h4><button type="button" class="bfaq64__q" aria-expanded="{% if k == 0 %}true{% else %}false{% endif %}" aria-controls="{{ rid }}" data-q><span data-text="{{ q.settings.question | escape }}">{{ q.settings.question | escape }}</span><span aria-hidden="true" class="rm-pm bfaq64__pm"></span></button></h4
+            ><div id="{{ rid }}" role="region" class="bfaq64__a{% if k == 0 %} is-open{% endif %}" data-a><div><p class="bfaq64__ap" data-text="{{ q.settings.answer | escape }}">{{ q.settings.answer | escape }}</p></div></div
+          ></li
+        >{%- endfor -%}
+        </ul
+      ></div
+    >{%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- capture body -%}
+  <div class="bfaq64__grid"
+    ><div class="bfaq64__main"
+      ><h2 class="bfaq64__h2"><span class="rm-mask"><span class="rm-line">{{ s.line_1 | escape }}</span></span><span class="rm-mask"><span class="rm-line" style="--d:90ms"><em>{{ s.line_2_em | escape }}</em> {{ s.line_2 | escape }}</span></span></h2
+      ><div class="bfaq64__search"
+        ><label for="faq64-q-{{ section.id }}" class="bfaq64__sr">{{ 'blko.faq_64.search_label' | t }}</label
+        >{%- render 'blko-ui-icon', name: 'search', className: 'bfaq64__sicon' -%}
+        <input id="faq64-q-{{ section.id }}" type="search" class="bfaq64__input" placeholder="{{ s.placeholder | escape }}" data-input autocomplete="off"
+        ><button type="button" class="bfaq64__clear" aria-label="{{ 'blko.faq_64.clear' | t }}" data-clear hidden>{%- render 'blko-ui-icon', name: 'x' -%}</button
+      ></div
+      ><p aria-live="polite" class="bfaq64__label bfaq64__muted bfaq64__count" data-count data-all="{{ t_count | escape }}" data-one="{{ 'blko.faq_64.count_one' | t | escape }}" data-many="{{ 'blko.faq_64.count_many' | t | escape }}">{{ t_count }}</p
+      ><p class="bfaq64__none" data-none hidden>{{ 'blko.faq_64.none' | t }} <a href="{{ s.help_link | default: '#' }}"><span class="rm-ul">{{ 'blko.faq_64.none_link' | t }}</span></a> {{ 'blko.faq_64.none_after' | t }}</p
+      >{{ groups -}}
+    </div
+    ><aside class="bfaq64__aside"
+      ><div class="bfaq64__stick"
+        ><div class="bfaq64__cap"><div class="bfaq64__card"
+          ><p class="bfaq64__label bfaq64__muted bfaq64__live"><span aria-hidden="true" class="bfaq64__dot"></span>{{ s.card_eyebrow | escape }}</p
+          ><p class="bfaq64__ctitle">{{ s.card_title | escape }} <em>{{ s.card_title_em | escape }}</em></p
+          ><p class="bfaq64__ctext">{{ s.card_text | escape }}</p
+          ><div class="bfaq64__cbtns"
+            >{%- capture lbl -%}<span class="rm-roll"><span>{{ s.button | escape }}</span></span>{%- endcapture -%}
+            {%- assign href = s.help_link | default: '#' -%}
+            {%- render 'blko-ui-button', href: href, size: 'lg', full: true, children: lbl, iconAfter: 'arrow-right' -%}
+            {%- if s.email != blank -%}<a href="mailto:{{ s.email }}" class="bfaq64__mail"><span class="rm-ul">{{ s.email | escape }}</span></a>{%- endif -%}
+          </div
+        ></div></div
+        >{%- if s.updated != blank -%}<p class="bfaq64__label bfaq64__muted bfaq64__upd">{{ s.updated | escape }}</p>{%- endif -%}
+      </div
+    ></aside
+  ></div
+>{%- endcapture -%}
+<div class="bfaq64" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-rm-magnetic
+  >{%- render 'blko-ui-section', surface: 'bg', label: s.label, children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "FAQ, live filter",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Frequently asked questions"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Heading, line 1",
+      "default": "Everything"
+    },
+    {
+      "type": "text",
+      "id": "line_2_em",
+      "label": "Heading, accent word",
+      "default": "people"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Heading, line 2",
+      "default": "ask us."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Search placeholder",
+      "default": "Search: grind, pause, shipping…"
+    },
+    {
+      "type": "header",
+      "content": "Help card"
+    },
+    {
+      "type": "text",
+      "id": "card_eyebrow",
+      "label": "Eyebrow",
+      "default": "The bar is answering"
+    },
+    {
+      "type": "text",
+      "id": "card_title",
+      "label": "Title",
+      "default": "Still stuck? Ask a"
+    },
+    {
+      "type": "text",
+      "id": "card_title_em",
+      "label": "Title, accent word",
+      "default": "human."
+    },
+    {
+      "type": "textarea",
+      "id": "card_text",
+      "label": "Text",
+      "default": "Chat 8 am – 6 pm on weekdays, or email any time. We reply within four hours."
+    },
+    {
+      "type": "text",
+      "id": "button",
+      "label": "Button label",
+      "default": "Contact the bar"
+    },
+    {
+      "type": "url",
+      "id": "help_link",
+      "label": "Contact link"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email",
+      "default": "hello@halden.coffee"
+    },
+    {
+      "type": "text",
+      "id": "updated",
+      "label": "Last updated line",
+      "default": "Last updated 26 Oct"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "topic",
+      "name": "Topic",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Topic",
+          "default": "Orders & shipping"
+        }
+      ]
+    },
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "When will my coffee ship?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "We roast on Mondays and ship on Tuesdays. Order by Sunday 6 pm and your beans leave the roastery the day after roasting."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ, live filter",
+      "blocks": [
+        {
+          "type": "topic",
+          "settings": {
+            "title": "Orders & shipping"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "When will my coffee ship?",
+            "answer": "We roast on Mondays and ship on Tuesdays. Order by Sunday 6 pm and your beans leave the roastery the day after roasting."
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "How much is shipping?",
+            "answer": "Free over $45 within the country. Below that it is a flat $5.50, tracked, and usually arrives in two to three days."
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Do you ship abroad?",
+            "answer": "Yes, to most of Europe and North America. Rates and duties show at checkout before you pay."
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Can I change or cancel an order?",
+            "answer": "Until Sunday 6 pm, yes: reply to your confirmation email or write to the bar. After that it is already in the roaster."
+          }
+        },
+        {
+          "type": "topic",
+          "settings": {
+            "title": "Subscriptions"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "How do I pause or skip a delivery?",
+            "answer": "From your account, under Subscription: skip the next bag, pause for up to three months, or change the cadence at any time."
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Can I switch coffees between deliveries?",
+            "answer": "Yes. Pick a new roast before the Sunday cut-off and the next bag follows it. The 15% club price stays."
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Is there a minimum commitment?",
+            "answer": "No. Cancel whenever you like; we only ask for a one-line reason so we can get better."
+          }
+        },
+        {
+          "type": "topic",
+          "settings": {
+            "title": "Brewing"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Whole bean or ground?",
+            "answer": "Whole bean keeps its aroma longest. If you have no grinder, pick your brewer at checkout and we grind it on the day it ships."
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "How long do the beans stay fresh?",
+            "answer": "Best between 7 and 40 days after the roast date printed on the bag. Keep them sealed, cool and out of the light."
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "What ratio should I start with?",
+            "answer": "1:16 for filter (15 g to 240 g of water at 94 °C) and 1:2 for espresso. Each bag carries its own recipe card."
+          }
+        },
+        {
+          "type": "topic",
+          "settings": {
+            "title": "Wholesale"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Do you supply cafés and offices?",
+            "answer": "Yes, from 5 kg a week. We include barista training, a brew audit and the same Monday roast."
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Can I visit the roastery first?",
+            "answer": "Of course. Book a cupping on a Saturday morning at Pier 7 and taste the current lots with our head roaster."
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

@@ -1,0 +1,457 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-featured-products-59.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-ui-commerce.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-commerce.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-featured-products-59.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- comment -%}
+  Halden "This week's roasts" (roast): heading + filter chips (sliding pill), a tall "Roaster's pick" tile on a green-tea
+  block (slow parallax, motion only), four product cards in two staggered columns, a footer line + button. Chips filter
+  the cards by tag (a product's tags, or the card's demo tags). Quick add posts the card's variant to /cart/add.js and
+  pings the header cart.
+{%- endcomment -%}
+{%- liquid
+  assign chips = s.chips | split: ','
+  assign pick = all_products[s.pick_product]
+  assign pick_url = s.pick_link | default: routes.all_products_collection_url
+  if pick != blank
+    assign pick_url = pick.url
+  endif
+  assign pick_img = s.pick_image
+  if pick_img == blank and pick != blank
+    assign pick_img = pick.featured_image
+  endif
+  assign cards = section.blocks | where: 'type', 'card'
+-%}
+{%- capture body -%}
+<div class="bfeaturedproducts59__head"
+  ><div class="bfeaturedproducts59__ht"
+    >{%- if s.date_line != blank -%}<p class="bfeaturedproducts59__label rm-rise bfeaturedproducts59__date"><span aria-hidden="true" class="bfeaturedproducts59__dot"></span>{{ s.date_line | escape }}</p>{%- endif -%}
+    <h2 class="bfeaturedproducts59__title"
+      ><span class="rm-mask"><span class="rm-line">{{ s.line_1 }}</span></span
+      >{%- if s.line_2 != blank -%}<span class="rm-mask"><span class="rm-line" style="--d:90ms">{{ s.line_2 }}</span></span>{%- endif -%}
+    </h2
+  ></div
+  >{%- if s.chips != blank -%}
+  <div role="group" aria-label="{{ 'blko.featured_products_59.filter' | t | escape }}" class="bfeaturedproducts59__bar" data-bar
+    ><span aria-hidden="true" class="bfeaturedproducts59__pill" data-pill hidden></span
+    >{%- for c in chips -%}
+      {%- assign cl = c | strip -%}
+      <button type="button" class="bfeaturedproducts59__chip" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" data-chip="{% unless forloop.first %}{{ cl | downcase | escape }}{% endunless %}">{{ cl | escape }}</button
+    >{%- endfor -%}
+  </div
+  >{%- endif -%}
+</div
+
+><div class="bfeaturedproducts59__main"
+  ><div class="bfeaturedproducts59__pickwrap"
+    ><span aria-hidden="true" class="bfeaturedproducts59__block"></span
+    ><a href="{{ pick_url }}" class="rm-rise bfeaturedproducts59__pick" data-pick
+      >{%- if pick_img != blank -%}
+        {{ pick_img | image_url: width: 1100 | image_tag: alt: s.pick_alt, loading: 'lazy', widths: '400, 700, 1100', class: 'bfeaturedproducts59__pimg' -}}
+      {%- else -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'bfeaturedproducts59__pimg' -}}
+      {%- endif -%}
+      <span aria-hidden="true" class="bfeaturedproducts59__shade"></span
+      ><div class="bfeaturedproducts59__ptop"
+        ><span class="bfeaturedproducts59__label bfeaturedproducts59__tag">{{ s.pick_tag | escape }}</span
+        ><span class="bfeaturedproducts59__label bfeaturedproducts59__rd">{{ s.pick_date | escape | newline_to_br }}</span
+      ></div
+      ><div class="bfeaturedproducts59__pbot"
+        ><h3 class="bfeaturedproducts59__ph">{{ s.pick_title }}</h3
+        ><dl class="bfeaturedproducts59__dl"
+          >{%- if s.k1 != blank -%}<div><dt class="bfeaturedproducts59__label">{{ s.k1 | escape }}</dt><dd>{{ s.v1 | escape }}</dd></div>{%- endif -%}
+          {%- if s.k2 != blank -%}<div><dt class="bfeaturedproducts59__label">{{ s.k2 | escape }}</dt><dd>{{ s.v2 | escape }}</dd></div>{%- endif -%}
+          {%- if s.k3 != blank -%}<div><dt class="bfeaturedproducts59__label">{{ s.k3 | escape }}</dt><dd>{{ s.v3 | escape }}</dd></div>{%- endif -%}
+        </dl
+        ><span class="bfeaturedproducts59__plink"><span class="rm-ul">{{ s.pick_link_label | escape }}</span>{%- render 'blko-ui-icon', name: 'arrow-right', className: 'rm-nudge' -%}</span
+      ></div
+    ></a
+  ></div
+
+  ><div class="bfeaturedproducts59__cards" data-cards
+    >{%- for i in (0..1) -%}
+    <div class="bfeaturedproducts59__col bfeaturedproducts59__col--{{ i }}" data-col="{{ i }}"
+      >{%- for b in cards limit: 4 -%}
+        {%- assign m = forloop.index0 | modulo: 2 -%}
+        {%- if m != i -%}{%- continue -%}{%- endif -%}
+        {%- liquid
+          assign d = b.settings
+          assign badge = nil
+          if d.label != blank
+            assign badge = d
+          endif
+          assign tags = d.tags | downcase
+          if d.product != blank
+            assign tags = d.product.tags | join: ',' | downcase
+          endif
+          assign dl = forloop.index0 | times: 90 | plus: 140
+        -%}
+        <div class="rm-rise bfeaturedproducts59__card" style="--d:{{ dl }}ms" data-tags=",{{ tags | split: ',' | join: ',' | remove: ' ' }}," {{ b.shopify_attributes }}
+          >{%- if d.product != blank -%}
+            {%- render 'blko-ui-product-card', product: d.product, vendor: d.vendor, rating: d, badge: badge, ratio: 'portrait', quickAdd: true, wishlist: true -%}
+          {%- else -%}
+            {%- render 'blko-ui-product-card', title: d.title, vendor: d.vendor, image: d.image, alt: d.alt, price: d.price, rating: d, badge: badge, ratio: 'portrait', quickAdd: true, wishlist: true -%}
+          {%- endif -%}
+        </div
+      >{%- endfor -%}
+    </div
+    >{%- endfor -%}
+  </div
+></div
+
+><div class="bfeaturedproducts59__foot"
+  >{%- if s.note != blank -%}<p class="bfeaturedproducts59__note">{{ s.note | escape }}</p>{%- endif -%}
+  {%- if s.button != blank -%}
+    {%- capture lbl -%}<span class="rm-roll"><span>{{ s.button | escape }}</span></span>{%- endcapture -%}
+    {%- assign href = s.button_link | default: routes.all_products_collection_url -%}
+    {%- render 'blko-ui-button', variant: 'outline', href: href, children: lbl, iconAfter: 'arrow-right' -%}
+  {%- endif -%}
+</div
+>{%- endcapture -%}
+<div class="bfeaturedproducts59" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-bfeaturedproducts59 data-rm-magnetic
+  >{%- render 'blko-ui-section', surface: 'bg', label: s.label, inner: 'bfeaturedproducts59__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Featured products 59",
+  "tag": "div",
+  "class": "blko-bundle",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "This week's roasts"
+    },
+    {
+      "type": "text",
+      "id": "date_line",
+      "label": "Roast-date line",
+      "default": "Roasted Mon 26 Oct · shipped by Wed 28"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Heading line 1",
+      "default": "This week’s"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Heading line 2 (wrap a word in <em>)",
+      "default": "<em>roasts</em> →"
+    },
+    {
+      "type": "text",
+      "id": "chips",
+      "label": "Filter chips (comma separated; first = all)",
+      "default": "All, Espresso, Filter, Decaf, Tea",
+      "info": "A chip shows the cards whose product (or demo) tags include it."
+    },
+    {
+      "type": "header",
+      "content": "Roaster's pick"
+    },
+    {
+      "type": "product",
+      "id": "pick_product",
+      "label": "Product"
+    },
+    {
+      "type": "image_picker",
+      "id": "pick_image",
+      "label": "Image (blank = product image)"
+    },
+    {
+      "type": "text",
+      "id": "pick_alt",
+      "label": "Image alt",
+      "default": "A latte with a rosetta in a white cup, from above, on a round weathered wooden table"
+    },
+    {
+      "type": "text",
+      "id": "pick_tag",
+      "label": "Tag",
+      "default": "Roaster’s pick"
+    },
+    {
+      "type": "textarea",
+      "id": "pick_date",
+      "label": "Corner line",
+      "default": "Roast date\nMon 26 Oct"
+    },
+    {
+      "type": "text",
+      "id": "pick_title",
+      "label": "Title (wrap a word in <em>)",
+      "default": "Halden House <em>Espresso</em>"
+    },
+    {
+      "type": "text",
+      "id": "k1",
+      "label": "Fact 1 label",
+      "default": "Notes"
+    },
+    {
+      "type": "text",
+      "id": "v1",
+      "label": "Fact 1",
+      "default": "Cocoa, cherry, panela"
+    },
+    {
+      "type": "text",
+      "id": "k2",
+      "label": "Fact 2 label",
+      "default": "Roast"
+    },
+    {
+      "type": "text",
+      "id": "v2",
+      "label": "Fact 2",
+      "default": "Medium dark"
+    },
+    {
+      "type": "text",
+      "id": "k3",
+      "label": "Fact 3 label",
+      "default": "Origin"
+    },
+    {
+      "type": "text",
+      "id": "v3",
+      "label": "Fact 3",
+      "default": "Brazil · Ethiopia"
+    },
+    {
+      "type": "text",
+      "id": "pick_link_label",
+      "label": "Link label",
+      "default": "Shop the blend · $21"
+    },
+    {
+      "type": "url",
+      "id": "pick_link",
+      "label": "Link (no product)"
+    },
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Note",
+      "default": "Every bag is roasted to order in batches of 12 kg. Whole bean or ground for your brewer."
+    },
+    {
+      "type": "text",
+      "id": "button",
+      "label": "Button label",
+      "default": "Shop all coffee"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Product",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title (no product)",
+          "default": "Guji Natural"
+        },
+        {
+          "type": "text",
+          "id": "vendor",
+          "label": "Origin line",
+          "default": "Ethiopia · Filter"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image (no product)"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Image alt (no product)",
+          "default": "Freshly roasted coffee beans in a bag on a counter"
+        },
+        {
+          "type": "number",
+          "id": "price",
+          "label": "Price (no product)",
+          "default": 24
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Rating",
+          "default": "4.9"
+        },
+        {
+          "type": "number",
+          "id": "count",
+          "label": "Review count",
+          "default": 212
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Badge"
+        },
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Badge tone",
+          "options": [
+            {
+              "value": "surface",
+              "label": "Surface"
+            },
+            {
+              "value": "accent",
+              "label": "Accent"
+            },
+            {
+              "value": "sale",
+              "label": "Sale"
+            }
+          ],
+          "default": "surface"
+        },
+        {
+          "type": "text",
+          "id": "tags",
+          "label": "Filter tags (no product, comma separated)",
+          "default": "Filter"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured products 59",
+      "blocks": [
+        {
+          "type": "card",
+          "settings": {
+            "title": "Guji Natural",
+            "vendor": "Ethiopia · Filter",
+            "price": 24,
+            "value": "4.9",
+            "count": 212,
+            "label": "New lot",
+            "tags": "Filter",
+            "alt": "Freshly roasted coffee beans in a bag on a counter"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Huila Pink Bourbon",
+            "vendor": "Colombia · Espresso",
+            "price": 22,
+            "value": "4.8",
+            "count": 164,
+            "tags": "Espresso, Filter",
+            "alt": "A cup of coffee with latte art beside scattered roasted beans"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Night Shift Decaf",
+            "vendor": "Peru · Swiss water",
+            "price": 19,
+            "value": "4.7",
+            "count": 98,
+            "tags": "Decaf, Espresso",
+            "alt": "A small cup of dark coffee on a saucer from above"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "title": "Yunnan Gold Black Tea",
+            "vendor": "China · Loose leaf",
+            "price": 26,
+            "value": "4.9",
+            "count": 73,
+            "tags": "Tea",
+            "alt": "Loose leaf tea in a small dish on a wooden table"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

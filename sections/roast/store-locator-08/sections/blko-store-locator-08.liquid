@@ -1,0 +1,265 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-store-locator-08.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-store-locator-08.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- comment -%} Hours: 7 lines Mon..Sun, "7-18" (24h) or "closed". The script works out today and open-now. {%- endcomment -%}
+{%- assign days = 'Mon,Tue,Wed,Thu,Fri,Sat,Sun' | split: ',' -%}
+{%- assign jsdays = '1,2,3,4,5,6,0' | split: ',' -%}
+{%- capture body -%}
+  <div class="bstorelocator08__top"
+    ><div
+      ><p class="bstorelocator08__label bstorelocator08__muted">{{ s.eyebrow | escape }}</p
+      ><h2 class="bstorelocator08__h2"><span class="rm-mask"><span class="rm-line">{{ s.line_1 | escape }}</span></span><span class="rm-mask"><span class="rm-line" style="--d:90ms"><em>{{ s.line_2_em | escape }}</em> {{ s.line_2 | escape }}</span></span></h2
+    ></div
+    >{%- if s.route_label != blank -%}
+    <div aria-hidden="true" class="bstorelocator08__route"
+      ><svg viewBox="0 0 200 40"><circle cx="6" cy="30" r="5" class="bstorelocator08__pin2"/><path class="bstorelocator08__line" d="M6 30 C 50 0, 90 40, 130 14 S 180 8, 194 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 5"/><circle cx="194" cy="12" r="5" class="bstorelocator08__pin1"/></svg
+      ><span class="bstorelocator08__label bstorelocator08__muted">{{ s.route_label | escape }}</span
+    ></div
+    >{%- endif -%}
+  </div
+  ><div hidden data-i18n data-closed="{{ 'blko.store_locator_08.closed' | t | escape }}" data-closed-today="{{ 'blko.store_locator_08.closed_today' | t | escape }}" data-open-now="{{ 'blko.store_locator_08.open_now' | t | escape }}" data-closed-now="{{ 'blko.store_locator_08.closed_now' | t | escape }}"></div
+  ><div role="tablist" aria-label="{{ 'blko.store_locator_08.locations' | t }}" class="bstorelocator08__tabs" data-tabs
+    >{%- for b in section.blocks -%}
+    <button type="button" role="tab" id="sl08-t-{{ section.id }}-{{ forloop.index }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="sl08-p-{{ section.id }}-{{ forloop.index }}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" class="bstorelocator08__tab" data-tab {{ b.shopify_attributes }}
+      ><span class="bstorelocator08__tname">{{ b.settings.name | escape }}</span
+      ><span class="bstorelocator08__label bstorelocator08__muted">{{ b.settings.area | escape }}</span
+    ></button
+    >{%- endfor -%}
+    <span aria-hidden="true" class="bstorelocator08__bar" data-bar></span
+  ></div
+  >{%- for b in section.blocks -%}
+  {%- assign bs = b.settings -%}
+  {%- assign hrs = bs.hours | newline_to_br | split: '<br />' -%}
+  <div id="sl08-p-{{ section.id }}-{{ forloop.index }}" role="tabpanel" aria-labelledby="sl08-t-{{ section.id }}-{{ forloop.index }}" class="bstorelocator08__panel" data-panel{% unless forloop.first %} hidden{% endunless %}
+    ><div class="bstorelocator08__photo rm-zoom" data-anim="wipe"
+      >{%- if bs.image != blank -%}{{ bs.image | image_url: width: 1200 | image_tag: alt: bs.image.alt, loading: 'lazy', class: 'bstorelocator08__img' }}{%- else -%}{{ 'image' | placeholder_svg_tag: 'bstorelocator08__img' }}{%- endif -%}
+    </div
+    ><div class="bstorelocator08__copy" data-anim="in"
+      ><p class="bstorelocator08__status"><span aria-hidden="true" class="bstorelocator08__dot" data-dot></span><span data-status>{{ 'blko.store_locator_08.open_today' | t }}</span></p
+      ><p class="bstorelocator08__addr">{{ bs.address | escape }}</p
+      ><table class="bstorelocator08__table"
+        ><caption class="bstorelocator08__label bstorelocator08__muted">{{ 'blko.store_locator_08.hours' | t }}</caption
+        ><tbody
+          >{%- for d in days -%}
+          {%- assign i = forloop.index0 -%}
+          {%- assign h = hrs[i] | strip | downcase -%}
+          {%- assign hp = h | split: '-' -%}
+          <tr data-day="{{ jsdays[i] }}" data-open="{% if hp.size > 1 %}{{ hp[0] | strip }}{% endif %}" data-close="{% if hp.size > 1 %}{{ hp[1] | strip }}{% endif %}"><th
+             scope="row">{{ d }}<span class="bstorelocator08__today" data-today hidden>{{ 'blko.store_locator_08.today' | t }}</span></th
+            ><td data-range>{{ 'blko.store_locator_08.closed' | t }}</td
+          ></tr
+          >{%- endfor -%}
+        </tbody
+      ></table
+      >{%- assign sv = bs.services | split: ',' -%}
+      {%- if sv.size > 0 -%}
+      <ul class="bstorelocator08__chips" aria-label="{{ 'blko.store_locator_08.at_bar' | t }}"
+        >{%- for x in sv -%}<li>{{ x | strip | escape }}</li>{%- endfor -%}
+      </ul
+      >{%- endif -%}
+      <div class="bstorelocator08__ctas"
+        >{%- capture lbl -%}<span class="rm-roll"><span>{{ 'blko.store_locator_08.directions' | t }}</span></span>{%- endcapture -%}
+        {%- assign dir = bs.directions_link | default: '#' -%}
+        {%- render 'blko-ui-button', href: dir, size: 'lg', children: lbl, iconAfter: 'arrow-up-right' -%}
+        {%- assign tel = bs.phone | remove: ' ' | remove: '(' | remove: ')' | remove: '-' -%}
+        {%- capture call -%}{%- render 'blko-ui-icon', name: 'phone', className: 'rm-nudge' -%}<span class="rm-roll"><span>{{ 'blko.store_locator_08.call' | t }}</span></span>{%- endcapture -%}
+        {%- assign telhref = 'tel:' | append: tel -%}
+        {%- render 'blko-ui-button', href: telhref, size: 'lg', variant: 'outline', children: call -%}
+      </div
+    ></div
+  ></div
+  >{%- endfor -%}
+{%- endcapture -%}
+<div class="bstorelocator08" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-rm-magnetic
+  >{%- render 'blko-ui-section', surface: 'dark', label: s.label, children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Store locator, two bars",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Our two bars"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Visit us"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Heading, line 1",
+      "default": "Two bars,"
+    },
+    {
+      "type": "text",
+      "id": "line_2_em",
+      "label": "Heading, accent word",
+      "default": "one"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Heading, line 2",
+      "default": "roaster."
+    },
+    {
+      "type": "text",
+      "id": "route_label",
+      "label": "Route label",
+      "default": "12 min walk"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "location",
+      "name": "Location",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Pier 7 Roastery"
+        },
+        {
+          "type": "text",
+          "id": "area",
+          "label": "Area",
+          "default": "Harbour district"
+        },
+        {
+          "type": "text",
+          "id": "address",
+          "label": "Address",
+          "default": "Pier 7, Boat Shed 3, Harbour district"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone",
+          "default": "+1 (415) 555 0142"
+        },
+        {
+          "type": "textarea",
+          "id": "hours",
+          "label": "Hours, Mon to Sun",
+          "default": "7-18\n7-18\n7-18\n7-18\n7-19\n8-19\n9-16",
+          "info": "7 lines, Monday first: 24h open-close like 7-18, or closed."
+        },
+        {
+          "type": "text",
+          "id": "services",
+          "label": "Services, comma separated",
+          "default": "Watch the roast, Cupping Saturdays, Bean refills"
+        },
+        {
+          "type": "url",
+          "id": "directions_link",
+          "label": "Directions link"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Store locator, two bars",
+      "blocks": [
+        {
+          "type": "location",
+          "settings": {
+            "name": "Pier 7 Roastery",
+            "area": "Harbour district",
+            "address": "Pier 7, Boat Shed 3, Harbour district",
+            "phone": "+1 (415) 555 0142",
+            "hours": "7-18\n7-18\n7-18\n7-18\n7-19\n8-19\n9-16",
+            "services": "Watch the roast, Cupping Saturdays, Bean refills"
+          }
+        },
+        {
+          "type": "location",
+          "settings": {
+            "name": "Kiln Street Bar",
+            "area": "Old town",
+            "address": "48 Kiln Street, Old town",
+            "phone": "+1 (415) 555 0177",
+            "hours": "7-17\n7-17\n7-17\n7-17\n7-17\n8-15\nclosed",
+            "services": "Slow bar, Tea flights, Brew classes"
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

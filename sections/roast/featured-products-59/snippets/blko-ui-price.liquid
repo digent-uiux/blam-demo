@@ -1,0 +1,18 @@
+{%- comment -%}Price(amount, compareAt, from, size='md', showSave, className). Major units by default; cents:true for Shopify amounts.{%- endcomment -%}
+{%- liquid
+  assign price_size = size | default: 'md'
+  assign sale = false
+  if compareAt != blank and compareAt > amount
+    assign sale = true
+  endif
+-%}
+<span class="blko-ui-price blko-ui-price--{{ price_size }} {{ className }}">
+  <span class="blko-ui-price__amount{% if sale %} blko-ui-price__sale{% endif %}">{% if from %}<span class="blko-ui-price__from">{{ 'blko_ui.price.from' | t }} </span>{% endif %}{% render 'blko-ui-money', amount: amount, cents: cents %}</span>
+  {%- if sale -%}
+    <s class="blko-ui-price__compare"><span class="blko-ui-sr-only">{{ 'blko_ui.price.was' | t }} </span>{% render 'blko-ui-money', amount: compareAt, cents: cents %}</s>
+    {%- if showSave -%}
+      {%- assign saving = amount | times: 1.0 | divided_by: compareAt | times: 100 | minus: 100 | times: -1 | round -%}
+      <span class="blko-ui-price__saving">{{ 'blko_ui.price.save' | t }} {{ saving }}%</span>
+    {%- endif -%}
+  {%- endif -%}
+</span>

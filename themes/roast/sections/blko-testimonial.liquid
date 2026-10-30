@@ -1,0 +1,172 @@
+{%- comment -%}
+  Editorial review: rating line, then one or more quote blocks (quote, author with avatar, the product they bought),
+  and a link to all reviews.
+{%- endcomment -%}
+<div
+  class="blko-section blko-scheme color-{{ section.settings.color_scheme }} blko-testi blko-testi--quote-{{ section.settings.quote_size }}"
+  style="--blko-pt: {{ section.settings.padding_top }}px; --blko-pb: {{ section.settings.padding_bottom }}px;"
+>
+  <div class="blko-container blko-testi__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="{% if section.settings.show_heading %}blko-h2{% else %}blko-visually-hidden{% endif %}">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.show_rating -%}
+      <div class="blko-testi__rating">
+        {%- render 'blko-rating', value: section.settings.rating, count: section.settings.rating_count -%}
+      </div>
+    {%- endif -%}
+    {%- for block in section.blocks -%}
+      {%- assign featured_product = block.settings.product -%}
+      <figure class="blko-testi__figure" {{ block.shopify_attributes }}>
+        {%- if block.settings.quote != blank -%}
+          <blockquote class="blko-testi__quote">“{{ block.settings.quote | escape }}”</blockquote>
+        {%- endif -%}
+        <div class="blko-testi__meta">
+          {%- if block.settings.author != blank -%}
+            <figcaption class="blko-testi__author">
+              {%- if block.settings.show_avatar -%}
+                <span class="blko-testi__avatar">
+                  {%- if block.settings.avatar != blank -%}
+                    {{ block.settings.avatar | image_url: width: 160 | image_tag: loading: 'lazy', width: 56, height: 56, alt: '' }}
+                  {%- else -%}
+                    {%- render 'blko-fallback-image', name: 'avatar', sizes: '56px' -%}
+                  {%- endif -%}
+                </span>
+              {%- endif -%}
+              <span class="blko-testi__who blko-small">
+                <span class="blko-body blko-medium">{{ block.settings.author | escape }}</span>
+                {%- if block.settings.author_detail != blank -%}
+                  <span class="blko-muted">{{ block.settings.author_detail | escape }}</span>
+                {%- endif -%}
+              </span>
+            </figcaption>
+          {%- endif -%}
+          {%- if block.settings.show_product -%}
+            {%- if featured_product != blank -%}
+              <a href="{{ featured_product.url }}" class="blko-testi__product">
+                <span class="blko-testi__thumb">
+                  {%- if featured_product.featured_media -%}
+                    {{ featured_product.featured_media.preview_image | image_url: width: 200 | image_tag: loading: 'lazy', width: 56, height: 56, alt: featured_product.featured_media.preview_image.alt | default: featured_product.title }}
+                  {%- else -%}
+                    {%- render 'blko-demo-card', index: 1, part: 'image', sizes: '56px' -%}
+                  {%- endif -%}
+                </span>
+                <span class="blko-testi__pinfo blko-small">
+                  <span class="blko-medium blko-testi__pname">{{ featured_product.title | escape }}</span>
+                  {%- render 'blko-price', product: featured_product -%}
+                </span>
+              </a>
+            {%- else -%}
+              <div class="blko-testi__product">
+                {%- assign demo_index = forloop.index -%}
+                <span class="blko-testi__thumb">{%- render 'blko-demo-card', index: demo_index, part: 'image', sizes: '56px' -%}</span>
+                <span class="blko-testi__pinfo blko-small">
+                  <span class="blko-medium">{%- render 'blko-demo-card', index: demo_index, part: 'title' -%}</span>
+                  {% render 'blko-demo-card', index: demo_index, part: 'price' %}
+                </span>
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+          {%- if forloop.last and section.settings.button_label != blank -%}
+            <a href="{{ section.settings.button_link | default: routes.root_url }}" class="blko-testi__arrow">
+              {{- section.settings.button_label | escape -}}
+              <span class="blko-testi__arrow-icon">{% render 'blko-icon', name: 'arrow-up-right' %}</span>
+            </a>
+          {%- endif -%}
+        </div>
+      </figure>
+    {%- endfor -%}
+    {%- if section.blocks.size == 0 and section.settings.button_label != blank -%}
+      <a href="{{ section.settings.button_link | default: routes.root_url }}" class="blko-testi__arrow">
+        {{- section.settings.button_label | escape -}}
+        <span class="blko-testi__arrow-icon">{% render 'blko-icon', name: 'arrow-up-right' %}</span>
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .blko-testi__inner { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; }
+  .blko-testi__rating { padding-bottom: 1rem; border-bottom: 1px solid var(--color-border, #d6d1c0); font-size: var(--blko-text-small); color: var(--color-text-muted, #59625b); }
+  .blko-testi__figure { display: grid; gap: 2.5rem; margin: 0; }
+  .blko-testi__figure + .blko-testi__figure { padding-top: 2.5rem; border-top: 1px solid var(--color-border, #d6d1c0); }
+  .blko-testi__quote { max-width: 42rem; font-size: var(--blko-text-h4); line-height: 1.35; font-weight: 400; text-wrap: balance; }
+  .blko-testi--quote-large .blko-testi__quote { max-width: 52rem; font-family: var(--font-heading, Georgia, serif); font-size: var(--blko-text-h2); line-height: 1.15; }
+  .blko-testi__meta { display: grid; gap: 1.5rem; }
+  .blko-testi__author { display: flex; align-items: center; gap: 1rem; }
+  .blko-testi__avatar, .blko-testi__thumb { flex-shrink: 0; width: 56px; height: 56px; overflow: hidden; background: var(--color-bg-alt, #e4e0cc); }
+  .blko-testi__avatar { border-radius: 999px; }
+  .blko-testi__thumb { border-radius: var(--radius-image, 0); }
+  .blko-testi__avatar > *, .blko-testi__thumb > * { width: 100%; height: 100%; object-fit: cover; }
+  .blko-testi__who, .blko-testi__pinfo { display: grid; }
+  .blko-testi__product { justify-self: start; display: flex; align-items: center; gap: .75rem; padding: .5rem 1.25rem .5rem .5rem; border: 1px solid var(--color-border, #d6d1c0); border-radius: var(--radius-card, 0); text-decoration: none; transition: border-color .2s; }
+  a.blko-testi__product:hover { border-color: var(--color-text, #262f29); }
+  a.blko-testi__product:hover .blko-testi__pname { text-decoration: underline; text-underline-offset: 4px; }
+  .blko-testi__pinfo .blko-price { font-size: var(--blko-text-small); }
+  .blko-testi__arrow { justify-self: start; display: inline-flex; align-items: center; gap: .75rem; height: 48px; padding: .25rem .25rem .25rem 1.5rem; border-radius: 999px; background: var(--color-button, #262f29); color: var(--color-button-text, #f6f2ea); font-size: var(--blko-text-button); font-weight: var(--button-weight, 500); text-transform: var(--button-case, none); letter-spacing: var(--button-tracking, 0); text-decoration: none; transition: background-color .2s; }
+  .blko-testi__arrow:hover { background: var(--color-button-hover, #3d4a41); }
+  .blko-testi__arrow-icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 999px; background: var(--color-button-text, #f6f2ea); color: var(--color-button, #262f29); transition: transform .2s; }
+  .blko-testi__arrow-icon svg { width: 1rem; height: 1rem; }
+  .blko-testi__arrow:hover .blko-testi__arrow-icon { transform: rotate(45deg); }
+  @media (min-width: 1024px) {
+    .blko-testi__inner { gap: 3.5rem; }
+    .blko-testi__figure + .blko-testi__figure { padding-top: 3.5rem; }
+    .blko-testi__meta { grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 2.5rem; }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Testimonial",
+  "tag": "section",
+  "class": "blko-testi-section",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "header", "content": "Heading" },
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "What customers say" },
+    { "type": "checkbox", "id": "show_heading", "label": "Show heading", "default": false, "info": "Off keeps it for screen readers only." },
+    { "type": "header", "content": "Rating" },
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating line", "default": true },
+    { "type": "text", "id": "rating", "label": "Average rating", "default": "4.9" },
+    { "type": "text", "id": "rating_count", "label": "Review count", "default": "2,140" },
+    { "type": "header", "content": "Layout" },
+    {
+      "type": "select",
+      "id": "quote_size",
+      "label": "Quote size",
+      "options": [
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large, heading font" }
+      ],
+      "default": "medium"
+    },
+    { "type": "header", "content": "Button" },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Read all reviews", "info": "Leave empty to hide." },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Quote",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "Three drops at night and my skin looks rested by morning. Even better after a month." },
+        { "type": "text", "id": "author", "label": "Author", "default": "Hannah Moore" },
+        { "type": "text", "id": "author_detail", "label": "Author detail", "default": "Combination skin" },
+        { "type": "checkbox", "id": "show_avatar", "label": "Show author photo", "default": true },
+        { "type": "image_picker", "id": "avatar", "label": "Author photo" },
+        { "type": "checkbox", "id": "show_product", "label": "Show product", "default": true },
+        { "type": "product", "id": "product", "label": "Product", "info": "Shows a sample card until a product is picked." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonial",
+      "blocks": [{ "type": "quote" }]
+    }
+  ]
+}
+{% endschema %}

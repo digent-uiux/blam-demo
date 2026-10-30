@@ -1,0 +1,226 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-newsletter-55.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-ui-commerce.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-commerce.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-newsletter-55.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- comment -%}
+  Halden "Roast notes" (roast): copper band, a tall photo on the right breaking out above the band (clip-reveal while it
+  scrolls in, motion only), the copy and a native customer form on the left. Posted: the button turns into a check.
+{%- endcomment -%}
+{%- assign uid = 'nl55-' | append: section.id -%}
+{%- capture body -%}
+<div class="bnewsletter55__grid"
+  ><div class="bnewsletter55__photo{% if s.overlap %} bnewsletter55__photo--out{% endif %}" data-photo
+    ><div class="bnewsletter55__clip" data-clip
+      >{%- if s.image != blank -%}
+        {{ s.image | image_url: width: 1100 | image_tag: alt: s.alt, loading: 'lazy', widths: '400, 600, 800, 1100', class: 'bnewsletter55__img' -}}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'bnewsletter55__img' -}}
+      {%- endif -%}
+      {%- if s.tag != blank -%}<span class="bnewsletter55__label bnewsletter55__tag">{{ s.tag | escape }}</span>{%- endif -%}
+    </div
+  ></div
+  ><div class="bnewsletter55__copy"
+    >{%- if s.eyebrow != blank -%}<p class="rm-rise bnewsletter55__label bnewsletter55__eyebrow">{{ s.eyebrow | escape }}</p>{%- endif -%}
+    <h2 class="bnewsletter55__title"
+      ><span class="rm-mask"><span class="rm-line">{{ s.line_1 }}</span></span
+      >{%- if s.line_2 != blank -%}<span class="rm-mask"><span class="rm-line" style="--d:110ms">{{ s.line_2 }}</span></span>{%- endif -%}
+    </h2
+    >{%- if s.text != blank -%}<p class="rm-rise bnewsletter55__text" style="--d:160ms">{{ s.text | escape }}</p>{%- endif -%}
+    {%- assign notes = s.notes | split: ',' -%}
+    {%- if s.notes != blank -%}
+    <ul class="rm-rise bnewsletter55__notes" style="--d:220ms"
+      >{%- for n in notes -%}<li class="bnewsletter55__label bnewsletter55__note"><span aria-hidden="true" class="bnewsletter55__dot"></span>{{ n | strip | escape }}</li>{%- endfor -%}
+    </ul
+    >{%- endif -%}
+    {%- form 'customer', id: uid, class: 'rm-rise bnewsletter55__form', style: '--d:280ms' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter"
+      >{%- assign eid = uid | append: '-email' -%}
+      {%- assign fid = uid | append: '-fine' -%}
+      <label for="{{ eid }}" class="bnewsletter55__label">{{ s.form_label | escape }}</label
+      ><div class="bnewsletter55__row"
+        ><div class="bnewsletter55__field"
+          >{%- render 'blko-ui-input', id: eid, type: 'email', name: 'contact[email]', required: true, autocomplete: 'email', placeholder: s.placeholder, describedBy: fid, invalid: form.errors, disabled: form.posted_successfully?, className: 'bnewsletter55__input' -%}
+          <span aria-hidden="true" class="bnewsletter55__ink"></span
+        ></div
+        >{%- if form.posted_successfully? -%}
+          {%- capture lbl -%}{% render 'blko-ui-icon', name: 'check', className: 'rm-draw' %}{{ s.done_label | escape }}{%- endcapture -%}
+          {%- render 'blko-ui-button', type: 'submit', size: 'lg', children: lbl, attrs: 'disabled', className: 'bnewsletter55__btn' -%}
+        {%- else -%}
+          {%- capture lbl -%}<span class="rm-roll"><span>{{ s.button | escape }}</span></span>{%- endcapture -%}
+          {%- render 'blko-ui-button', type: 'submit', size: 'lg', children: lbl, iconAfter: 'arrow-right', className: 'bnewsletter55__btn' -%}
+        {%- endif -%}
+      </div
+      ><p id="{{ fid }}" class="bnewsletter55__fine" aria-live="polite">{% if form.posted_successfully? %}{{ s.done_text | escape }}{% elsif form.errors %}{{ 'blko.newsletter_55.error' | t }}{% else %}{{ s.fine | escape }}{% endif %}</p
+    >{%- endform -%}
+  </div
+></div
+>{%- endcapture -%}
+<div class="bnewsletter55" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-bnewsletter55 data-rm-magnetic
+  >{%- render 'blko-ui-section', surface: 'pop-2', label: s.label, className: 'bnewsletter55__sec', style: '', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Newsletter 55 - Copper",
+  "tag": "div",
+  "class": "blko-bundle",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Roast notes newsletter"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "The letter"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Heading line 1",
+      "default": "Roast notes,"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Heading line 2 (wrap a word in <em>)",
+      "default": "straight from the <em>drum</em>"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "What we are roasting next, the farms behind it, and one recipe worth trying this week. Short enough to read before the kettle boils."
+    },
+    {
+      "type": "text",
+      "id": "notes",
+      "label": "Notes (comma separated)",
+      "default": "Every other Friday, New lots before the shop, One click to leave"
+    },
+    {
+      "type": "text",
+      "id": "form_label",
+      "label": "Field label",
+      "default": "Email address"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder",
+      "default": "you@example.com"
+    },
+    {
+      "type": "text",
+      "id": "button",
+      "label": "Button label",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "done_label",
+      "label": "Success button label",
+      "default": "You’re in"
+    },
+    {
+      "type": "text",
+      "id": "done_text",
+      "label": "Success line",
+      "default": "Thanks. The next letter goes out on Friday."
+    },
+    {
+      "type": "text",
+      "id": "fine",
+      "label": "Fine print",
+      "default": "Sent from the roastery. Unsubscribe any time."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "alt",
+      "label": "Image alt",
+      "default": "A plain ceramic cup on a cream background"
+    },
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "Photo tag",
+      "default": "Issue 61 · Friday"
+    },
+    {
+      "type": "checkbox",
+      "id": "overlap",
+      "label": "Photo breaks out above the band",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter 55 - Copper"
+    }
+  ]
+}
+{% endschema %}

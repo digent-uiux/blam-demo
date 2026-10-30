@@ -1,0 +1,6 @@
+{%- comment -%}Stars(value, size='sm', tone='default', className). Lucide Star, filled, strokeWidth=0, clipped partial stars.{%- endcomment -%}
+{%- assign stars_percent = value | divided_by: 5.0 | times: 100 -%}
+<span role="img" aria-label="{{ 'blko_ui.rating.stars' | t: value: value | escape }}" class="blko-ui-stars blko-ui-stars--{{ size | default: 'sm' }}{% if tone == 'inherit' %} blko-ui-stars--inherit{% endif %} {{ className }}">
+  <span class="blko-ui-stars__row blko-ui-stars__off" aria-hidden="true">{%- for i in (1..5) -%}{% render 'blko-ui-icon', name: 'star', stroke: 0 %}{%- endfor -%}</span>
+  <span class="blko-ui-stars__clip" style="width: {{ stars_percent }}%" aria-hidden="true"><span class="blko-ui-stars__row blko-ui-stars__on">{%- for i in (1..5) -%}{% render 'blko-ui-icon', name: 'star', stroke: 0 %}{%- endfor -%}</span></span>
+</span>

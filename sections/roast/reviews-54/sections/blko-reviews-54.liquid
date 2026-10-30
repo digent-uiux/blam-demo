@@ -1,0 +1,492 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-reviews-54.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-ui-commerce.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-commerce.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-reviews-54.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- liquid
+  assign total = s.n5 | plus: s.n4 | plus: s.n3 | plus: s.n2 | plus: s.n1
+  assign n_reviews = 0
+  for b in section.blocks
+    if b.type == 'review'
+      assign n_reviews = n_reviews | plus: 1
+    endif
+  endfor
+  assign score = s.score | plus: 0
+  assign write_href = s.write_link | default: '#'
+-%}
+{%- capture body -%}
+  <div class="breviews54__sumcol"
+    ><div class="breviews54__sum"
+      ><p class="breviews54__label rm-rise breviews54__muted breviews54__kicker"><span aria-hidden="true" class="breviews54__dot"></span>{{ s.eyebrow | escape }}</p
+      ><div class="breviews54__scorerow"
+        ><p class="breviews54__score" aria-label="{{ 'blko.reviews_54.average' | t | replace: '[score]', s.score }}"><span aria-hidden="true" data-rm-count="{{ s.score }}" data-rm-decimals="1">{{ s.score }}</span></p
+        ><div class="breviews54__scoremeta"
+          >{%- render 'blko-ui-stars', value: score, size: 'md' -%}
+          <p class="breviews54__small breviews54__muted"><span class="breviews54__strong">{{ total }}</span> {{ 'blko.reviews_54.reviews' | t }} · {{ s.recommend | escape }}</p
+        ></div
+      ></div
+      ><ul class="breviews54__bars" aria-label="{{ 'blko.reviews_54.breakdown' | t }}"
+        >{%- for k in (1..5) -%}
+          {%- liquid
+            assign star = 6 | minus: k
+            assign key = 'n' | append: star
+            assign n = s[key]
+            assign pct = 0
+            if total > 0
+              assign pct = n | times: 100.0 | divided_by: total | round
+            endif
+          -%}
+        <li class="breviews54__bar"><span class="breviews54__tab">{{ star }} ★<span class="blko-ui-sr-only"> {{ 'blko.reviews_54.stars' | t }}</span></span><span class="breviews54__track"><span class="breviews54__fill" style="width:{{ pct }}%;transition-delay:{{ forloop.index0 | times: 110 | plus: 200 }}ms"></span></span><span class="breviews54__tab breviews54__muted breviews54__right">{{ n }}</span></li
+        >{%- endfor -%}
+      </ul
+      ><div class="breviews54__acts"
+        >{%- capture write -%}{% render 'blko-ui-icon', name: 'pen-line', size: 16 %}<span class="rm-roll"><span>{{ s.write_text | escape }}</span></span>{%- endcapture -%}
+        {%- render 'blko-ui-button', size: 'lg', href: write_href, children: write -%}
+        {%- if s.guide_text != blank -%}<a href="{{ s.guide_link | default: '#' }}" class="rm-ul breviews54__small breviews54__medium">{{ s.guide_text | escape }}</a>{%- endif -%}
+      </div
+    ></div
+  ></div
+  ><div class="breviews54__main"
+    ><div class="breviews54__top"
+      ><h2 class="breviews54__h2"><span class="rm-mask"><span class="rm-line" style="--d:0ms">{{ s.heading | escape }}</span></span><span class="rm-mask"><span class="rm-line" style="--d:90ms"><em>{{ s.accent | escape }}</em></span></span></h2
+      ><ul class="breviews54__cloud" aria-label="{{ 'blko.reviews_54.tags' | t }}"
+        >{%- assign ti = 0 -%}
+        {%- for b in section.blocks -%}
+          {%- if b.type != 'tag' -%}{%- continue -%}{%- endif -%}
+          {%- liquid
+            assign size = 'sm'
+            if b.settings.share >= 55
+              assign size = 'big'
+            elsif b.settings.share >= 30
+              assign size = 'mid'
+            endif
+            assign tone = 'line'
+            if ti == 0
+              assign tone = 'p2'
+            elsif ti == 1
+              assign tone = 'p3'
+            endif
+          -%}
+        <li class="rm-rise" style="--d:{{ ti | times: 60 | plus: 80 }}ms" {{ b.shopify_attributes }}><span class="breviews54__tag breviews54__tag--{{ tone }} breviews54__tag--{{ size }}">{{ b.settings.label | escape }}<span class="breviews54__pct">{{ b.settings.share }}%</span></span></li
+          >{%- assign ti = ti | plus: 1 -%}
+        {%- endfor -%}
+      </ul
+    ></div
+    ><div class="breviews54__bar2"
+      ><p class="breviews54__small breviews54__muted">{{ 'blko.reviews_54.showing' | t }} {{ n_reviews }} {{ 'blko.reviews_54.of' | t }} {{ total }}</p
+      ><div class="breviews54__sort"
+        ><label for="breviews54-sort-{{ section.id }}" class="breviews54__label breviews54__muted">{{ 'blko.reviews_54.sort' | t }}</label
+        >{%- capture opts -%}<option value="helpful" selected>{{ 'blko.reviews_54.most_helpful' | t }}</option><option value="newest">{{ 'blko.reviews_54.newest' | t }}</option><option value="rating">{{ 'blko.reviews_54.highest' | t }}</option>{%- endcapture -%}
+        {%- capture sid -%}breviews54-sort-{{ section.id }}{%- endcapture -%}
+        {%- render 'blko-ui-select', id: sid, className: 'breviews54__select', children: opts -%}
+      </div
+    ></div
+    ><div class="breviews54__mason" data-mason
+      >{%- for c in (1..2) -%}
+      <div class="breviews54__col breviews54__col--{{ c }}" data-col
+        >{%- assign ri = 0 -%}
+        {%- for b in section.blocks -%}
+          {%- if b.type != 'review' -%}{%- continue -%}{%- endif -%}
+          {%- assign side = ri | modulo: 2 | plus: 1 -%}
+          {%- if side == c -%}
+        <article class="rm-rise breviews54__card{% if b.settings.dark %} breviews54__card--dark{% endif %}" style="--d:{{ ri | times: 100 | plus: 160 }}ms" data-card data-stars="{{ b.settings.stars }}" data-helpful="{{ b.settings.helpful }}" data-date="{{ b.settings.date | escape }}" {{ b.shopify_attributes }}
+          ><div class="breviews54__cardtop"
+            >{%- if b.settings.dark -%}{%- render 'blko-ui-stars', value: b.settings.stars, tone: 'inherit' -%}{%- else -%}{%- render 'blko-ui-stars', value: b.settings.stars -%}{%- endif -%}
+            <span class="breviews54__label breviews54__dim7">{{ b.settings.date | escape }}</span
+          ></div
+          ><h3 class="breviews54__h3">{{ b.settings.title | escape }}</h3
+          ><p class="breviews54__body">{{ b.settings.body | escape }}</p
+          ><div class="breviews54__foot"
+            ><div class="breviews54__who"
+              ><p class="breviews54__name">{{ b.settings.name | escape }}<span class="breviews54__ver">{%- render 'blko-ui-icon', name: 'badge-check', size: 16 -%}{{ 'blko.reviews_54.verified' | t }}</span></p
+              ><p class="breviews54__label breviews54__dim7">{{ s.grind_label | escape }} · {{ b.settings.grind | escape }}</p
+            ></div
+            ><button type="button" aria-pressed="false" class="breviews54__help" data-help="{{ b.settings.helpful }}">{%- render 'blko-ui-icon', name: 'thumbs-up', size: 16, className: 'rm-nudge' -%}{{ 'blko.reviews_54.helpful' | t }} <span class="breviews54__num" data-n>{{ b.settings.helpful }}</span></button
+          ></div
+        ></article
+          >{%- endif -%}
+          {%- assign ri = ri | plus: 1 -%}
+        {%- endfor -%}
+      </div
+      >{%- endfor -%}
+    </div
+    >{%- if s.all_text != blank -%}
+    <div class="breviews54__allrow"><a href="{{ s.all_link | default: '#' }}" class="breviews54__all"><span class="rm-ul">{{ s.all_text | replace: '[count]', total | escape }}</span></a></div
+    >{%- endif -%}
+  </div
+>{%- endcapture -%}
+<div class="breviews54" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-rm-magnetic
+  >{%- render 'blko-ui-section', surface: 'bg', label: s.label, inner: 'breviews54__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Reviews, tasting cloud",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Summary"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Reviews"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Reviews · Guji Natural"
+    },
+    {
+      "type": "text",
+      "id": "score",
+      "label": "Average score",
+      "default": "4.9"
+    },
+    {
+      "type": "text",
+      "id": "recommend",
+      "label": "Recommend line",
+      "default": "97% recommend"
+    },
+    {
+      "type": "number",
+      "id": "n5",
+      "label": "5-star reviews",
+      "default": 186
+    },
+    {
+      "type": "number",
+      "id": "n4",
+      "label": "4-star reviews",
+      "default": 21
+    },
+    {
+      "type": "number",
+      "id": "n3",
+      "label": "3-star reviews",
+      "default": 4
+    },
+    {
+      "type": "number",
+      "id": "n2",
+      "label": "2-star reviews",
+      "default": 1
+    },
+    {
+      "type": "number",
+      "id": "n1",
+      "label": "1-star reviews",
+      "default": 0
+    },
+    {
+      "type": "text",
+      "id": "write_text",
+      "label": "Write button label",
+      "default": "Write a review"
+    },
+    {
+      "type": "url",
+      "id": "write_link",
+      "label": "Write button link"
+    },
+    {
+      "type": "text",
+      "id": "guide_text",
+      "label": "Guidelines link label",
+      "default": "Review guidelines"
+    },
+    {
+      "type": "url",
+      "id": "guide_link",
+      "label": "Guidelines link"
+    },
+    {
+      "type": "header",
+      "content": "Reviews"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What the cups"
+    },
+    {
+      "type": "text",
+      "id": "accent",
+      "label": "Heading, accent line",
+      "default": "tasted"
+    },
+    {
+      "type": "text",
+      "id": "grind_label",
+      "label": "Grind label",
+      "default": "Ground for"
+    },
+    {
+      "type": "text",
+      "id": "all_text",
+      "label": "All reviews link",
+      "default": "Read all [count] reviews",
+      "info": "[count] = total reviews"
+    },
+    {
+      "type": "url",
+      "id": "all_link",
+      "label": "All reviews link URL"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tag",
+      "name": "Tasting tag",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Fruity"
+        },
+        {
+          "type": "range",
+          "id": "share",
+          "label": "Share",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "default": 50
+        }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "range",
+          "id": "stars",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Blueberry muffin in a cup"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Text",
+          "default": "Third bag now. As a pour-over at 1:16 it tastes like blueberry jam on toast, then something floral once it cools."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Hedda L."
+        },
+        {
+          "type": "text",
+          "id": "grind",
+          "label": "Grind",
+          "default": "Whole bean · Cone dripper"
+        },
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Date",
+          "default": "Oct 21, 2026"
+        },
+        {
+          "type": "number",
+          "id": "helpful",
+          "label": "Helpful count",
+          "default": 12
+        },
+        {
+          "type": "checkbox",
+          "id": "dark",
+          "label": "Espresso card",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews, tasting cloud",
+      "blocks": [
+        {
+          "type": "tag",
+          "settings": {
+            "label": "Fruity",
+            "share": 82
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "label": "Sweet",
+            "share": 64
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "label": "Blueberry",
+            "share": 58
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "label": "Floral",
+            "share": 41
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "label": "Juicy",
+            "share": 37
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "label": "Chocolate",
+            "share": 29
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "label": "Winey",
+            "share": 18
+          }
+        },
+        {
+          "type": "tag",
+          "settings": {
+            "label": "Tea-like",
+            "share": 12
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "name": "Hedda L.",
+            "title": "Blueberry muffin in a cup",
+            "body": "Third bag now. As a pour-over at 1:16 it tastes like blueberry jam on toast, then something floral once it cools. Rest it a week; it's quiet the first few days.",
+            "grind": "Whole bean · Cone dripper",
+            "date": "Oct 21, 2026",
+            "helpful": 48
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "name": "Tomás R.",
+            "title": "The one that made me buy a grinder",
+            "body": "I didn't believe the notes until I tried it side by side with a supermarket bag. Sweet, juicy, no bitterness at all.",
+            "grind": "Filter grind · Glass brewer",
+            "date": "Oct 9, 2026",
+            "helpful": 31,
+            "dark": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "stars": 4,
+            "name": "Priya S.",
+            "title": "Wild as espresso, lovely as milk drink",
+            "body": "Straight shots are a lot of fruit for me; as a flat white it's like strawberry milk. Took four shots to dial in at 18 in, 40 out.",
+            "grind": "Espresso grind",
+            "date": "Oct 17, 2026",
+            "helpful": 22
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "stars": 5,
+            "name": "Elliot H.",
+            "title": "Smells incredible when you open the bag",
+            "body": "Even the French press, which usually muddies everything, keeps the cacao and berry clear. Subscribed every 3 weeks.",
+            "grind": "French press grind",
+            "date": "Oct 26, 2026",
+            "helpful": 12
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

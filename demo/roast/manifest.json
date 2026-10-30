@@ -1,0 +1,936 @@
+[
+  {
+    "id": "account-34",
+    "kind": "section",
+    "category": "customer-account",
+    "name": "Account, roast club",
+    "description": "Account with roast-red subscription card, beans meter and order ledger.",
+    "file": "roast/sections/customer-account--account-34.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1459755486867-b55449bb39ff",
+        "page_url": "https://unsplash.com/photos/photo-1459755486867-b55449bb39ff"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "announcement-11",
+    "kind": "section",
+    "category": "announcement",
+    "name": "Announcement, rolling",
+    "description": "Rolling roast-date messages with a timer line.",
+    "file": "roast/sections/announcement--announcement-11.html",
+    "deps": [],
+    "credits": [],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "article-30",
+    "kind": "section",
+    "category": "article",
+    "name": "Article, window hero",
+    "description": "Window-light hero, sticky contents, green-tea recipe card.",
+    "file": "roast/sections/article--article-30.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1445116572660-236099ec97a0",
+        "page_url": "https://unsplash.com/photos/photo-1445116572660-236099ec97a0"
+      },
+      {
+        "photo_id": "photo-1509785307050-d4066910ec1e",
+        "page_url": "https://unsplash.com/photos/photo-1509785307050-d4066910ec1e"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "blog-93",
+    "kind": "section",
+    "category": "featured-blog-posts",
+    "name": "Blog 93 - Guide panels",
+    "description": "Four hover-expand guide panels on espresso.",
+    "file": "roast/sections/featured-blog-posts--blog-93.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1495474472287-4d71bcdd2085",
+        "page_url": "https://unsplash.com/photos/photo-1495474472287-4d71bcdd2085"
+      },
+      {
+        "photo_id": "photo-1517701604599-bb29b565090c",
+        "page_url": "https://unsplash.com/photos/photo-1517701604599-bb29b565090c"
+      },
+      {
+        "photo_id": "photo-1541167760496-1628856ab772",
+        "page_url": "https://unsplash.com/photos/photo-1541167760496-1628856ab772"
+      },
+      {
+        "photo_id": "photo-1556679343-c7306c1976bc",
+        "page_url": "https://unsplash.com/photos/photo-1556679343-c7306c1976bc"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "blog-94",
+    "kind": "section",
+    "category": "main-blog",
+    "name": "Blog, magazine grid",
+    "description": "Feature over seven columns, offset magazine grid, espresso text card.",
+    "file": "roast/sections/main-blog--blog-94.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1504753793650-d4a2b783c15e",
+        "page_url": "https://unsplash.com/photos/photo-1504753793650-d4a2b783c15e"
+      },
+      {
+        "photo_id": "photo-1507133750040-4a8f57021571",
+        "page_url": "https://unsplash.com/photos/photo-1507133750040-4a8f57021571"
+      },
+      {
+        "photo_id": "photo-1515823662972-da6a2e4d3002",
+        "page_url": "https://unsplash.com/photos/photo-1515823662972-da6a2e4d3002"
+      },
+      {
+        "photo_id": "photo-1517487881594-2787fef5ebf7",
+        "page_url": "https://unsplash.com/photos/photo-1517487881594-2787fef5ebf7"
+      },
+      {
+        "photo_id": "photo-1518057111178-44a106bad636",
+        "page_url": "https://unsplash.com/photos/photo-1518057111178-44a106bad636"
+      },
+      {
+        "photo_id": "photo-1529892485617-25f63cd7b1e9",
+        "page_url": "https://unsplash.com/photos/photo-1529892485617-25f63cd7b1e9"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "blog-95",
+    "kind": "section",
+    "category": "featured-blog-posts",
+    "name": "Blog, keep reading",
+    "description": "Keep-reading snap rail with hanging index numbers.",
+    "file": "roast/sections/featured-blog-posts--blog-95.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1494314671902-399b18174975",
+        "page_url": "https://unsplash.com/photos/photo-1494314671902-399b18174975"
+      },
+      {
+        "photo_id": "photo-1495774856032-8b90bbb32b32",
+        "page_url": "https://unsplash.com/photos/photo-1495774856032-8b90bbb32b32"
+      },
+      {
+        "photo_id": "photo-1534040385115-33dcb3acba5b",
+        "page_url": "https://unsplash.com/photos/photo-1534040385115-33dcb3acba5b"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "cart-page-35",
+    "kind": "section",
+    "category": "cart",
+    "name": "Cart page, espresso",
+    "description": "Bag with a shipping meter, subscribe toggles and an espresso summary.",
+    "file": "roast/sections/cart--cart-page-35.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1522992319-0365e5f11656",
+        "page_url": "https://unsplash.com/photos/photo-1522992319-0365e5f11656"
+      },
+      {
+        "photo_id": "photo-1610632380989-680fe40816c6",
+        "page_url": "https://unsplash.com/photos/photo-1610632380989-680fe40816c6"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "collection-banner-89",
+    "kind": "section",
+    "category": "collection-banner",
+    "name": "Collection banner, panel",
+    "description": "Roast-red band with a hanging photo panel and sub-collection pills.",
+    "file": "roast/sections/collection-banner--collection-banner-89.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1580933073521-dc49ac0d4e6a",
+        "page_url": "https://unsplash.com/photos/photo-1580933073521-dc49ac0d4e6a"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "collection-grid-49",
+    "kind": "section",
+    "category": "main-collection-product-grid",
+    "name": "Collection grid, flight",
+    "description": "Restaggering card grid with a copper flight tile and load more.",
+    "file": "roast/sections/main-collection-product-grid--collection-grid-49.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1503481766315-7a586b20f66d",
+        "page_url": "https://unsplash.com/photos/photo-1503481766315-7a586b20f66d"
+      },
+      {
+        "photo_id": "photo-1517256064527-09c73fc73e38",
+        "page_url": "https://unsplash.com/photos/photo-1517256064527-09c73fc73e38"
+      },
+      {
+        "photo_id": "photo-1525480122447-64809d765ec4",
+        "page_url": "https://unsplash.com/photos/photo-1525480122447-64809d765ec4"
+      },
+      {
+        "photo_id": "photo-1533776992670-a72f4c28235e",
+        "page_url": "https://unsplash.com/photos/photo-1533776992670-a72f4c28235e"
+      },
+      {
+        "photo_id": "photo-1551030173-122aabc4489c",
+        "page_url": "https://unsplash.com/photos/photo-1551030173-122aabc4489c"
+      },
+      {
+        "photo_id": "photo-1572442388796-11668a67e53d",
+        "page_url": "https://unsplash.com/photos/photo-1572442388796-11668a67e53d"
+      },
+      {
+        "photo_id": "photo-1580661869408-55ab23f2ca6e",
+        "page_url": "https://unsplash.com/photos/photo-1580661869408-55ab23f2ca6e"
+      },
+      {
+        "photo_id": "photo-1587080413959-06b859fb107d",
+        "page_url": "https://unsplash.com/photos/photo-1587080413959-06b859fb107d"
+      },
+      {
+        "photo_id": "photo-1593443320739-77f74939d0da",
+        "page_url": "https://unsplash.com/photos/photo-1593443320739-77f74939d0da"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "collection-list-68",
+    "kind": "section",
+    "category": "collection-list",
+    "name": "Collection list 68",
+    "description": "Bold brew rows with a cursor image trail.",
+    "file": "roast/sections/collection-list--collection-list-68.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1461023058943-07fcbe16d735",
+        "page_url": "https://unsplash.com/photos/photo-1461023058943-07fcbe16d735"
+      },
+      {
+        "photo_id": "photo-1498804103079-a6351b050096",
+        "page_url": "https://unsplash.com/photos/photo-1498804103079-a6351b050096"
+      },
+      {
+        "photo_id": "photo-1515823064-d6e0c04616a7",
+        "page_url": "https://unsplash.com/photos/photo-1515823064-d6e0c04616a7"
+      },
+      {
+        "photo_id": "photo-1519082274554-1ca37fb8abb7",
+        "page_url": "https://unsplash.com/photos/photo-1519082274554-1ca37fb8abb7"
+      },
+      {
+        "photo_id": "photo-1611854779393-1b2da9d400fe",
+        "page_url": "https://unsplash.com/photos/photo-1611854779393-1b2da9d400fe"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "collection-list-69",
+    "kind": "section",
+    "category": "collection-list",
+    "name": "Collection list 69",
+    "description": "Three offset collection tiles with sliding label plates.",
+    "file": "roast/sections/collection-list--collection-list-69.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1515442261605-65987783cb6a",
+        "page_url": "https://unsplash.com/photos/photo-1515442261605-65987783cb6a"
+      },
+      {
+        "photo_id": "photo-1524350876685-274059332603",
+        "page_url": "https://unsplash.com/photos/photo-1524350876685-274059332603"
+      },
+      {
+        "photo_id": "photo-1536256263959-770b48d82b0a",
+        "page_url": "https://unsplash.com/photos/photo-1536256263959-770b48d82b0a"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "contact-62",
+    "kind": "section",
+    "category": "contact",
+    "name": "Contact, topic form",
+    "description": "Topic-chip form beside a café photo and reply card.",
+    "file": "roast/sections/contact--contact-62.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1485182708500-e8f1f318ba72",
+        "page_url": "https://unsplash.com/photos/photo-1485182708500-e8f1f318ba72"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "counters-40",
+    "kind": "section",
+    "category": "rich-text",
+    "name": "Counters 40 - Photo band",
+    "description": "Full-bleed photo band, parallax zoom, 4-up count-up bar.",
+    "file": "roast/sections/rich-text--counters-40.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1453614512568-c4024d13c247",
+        "page_url": "https://unsplash.com/photos/photo-1453614512568-c4024d13c247"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "faq-64",
+    "kind": "section",
+    "category": "faq",
+    "name": "FAQ, live filter",
+    "description": "Live-filter accordion by topic with a sticky help card.",
+    "file": "roast/sections/faq--faq-64.html",
+    "deps": [],
+    "credits": [],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "featured-products-59",
+    "kind": "section",
+    "category": "featured-collection",
+    "name": "Featured products 59",
+    "description": "Roaster's pick on a green-tea block beside staggered cards.",
+    "file": "roast/sections/featured-collection--featured-products-59.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1447933601403-0c6688de566e",
+        "page_url": "https://unsplash.com/photos/photo-1447933601403-0c6688de566e"
+      },
+      {
+        "photo_id": "photo-1485808191679-5f86510681a2",
+        "page_url": "https://unsplash.com/photos/photo-1485808191679-5f86510681a2"
+      },
+      {
+        "photo_id": "photo-1497636577773-f1231844b336",
+        "page_url": "https://unsplash.com/photos/photo-1497636577773-f1231844b336"
+      },
+      {
+        "photo_id": "photo-1509042239860-f550ce710b93",
+        "page_url": "https://unsplash.com/photos/photo-1509042239860-f550ce710b93"
+      },
+      {
+        "photo_id": "photo-1512568400610-62da28bc8a13",
+        "page_url": "https://unsplash.com/photos/photo-1512568400610-62da28bc8a13"
+      },
+      {
+        "photo_id": "photo-1558160074-4d7d8bdf4256",
+        "page_url": "https://unsplash.com/photos/photo-1558160074-4d7d8bdf4256"
+      },
+      {
+        "photo_id": "photo-1559496417-e7f25cb247f3",
+        "page_url": "https://unsplash.com/photos/photo-1559496417-e7f25cb247f3"
+      },
+      {
+        "photo_id": "photo-1571934811356-5cc061b6821f",
+        "page_url": "https://unsplash.com/photos/photo-1571934811356-5cc061b6821f"
+      },
+      {
+        "photo_id": "photo-1610889556528-9a770e32642f",
+        "page_url": "https://unsplash.com/photos/photo-1610889556528-9a770e32642f"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "filter-bar-31",
+    "kind": "section",
+    "category": "filter-bar",
+    "name": "Filter bar, roast scale",
+    "description": "Sticky bar with a roast-level scale, popovers and popping chips.",
+    "file": "roast/sections/filter-bar--filter-bar-31.html",
+    "deps": [],
+    "credits": [],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "footer-30",
+    "kind": "section",
+    "category": "footer",
+    "name": "Footer 30 - Wordmark",
+    "description": "Asymmetric wordmark footer with a live roast line.",
+    "file": "roast/sections/footer--footer-30.html",
+    "deps": [],
+    "credits": [],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "header-39",
+    "kind": "section",
+    "category": "header",
+    "name": "Header 39 - Roast bar",
+    "description": "Sticky serif bar that shrinks and hides on scroll.",
+    "file": "roast/sections/header--header-39.html",
+    "deps": [],
+    "credits": [],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "hero-56",
+    "kind": "section",
+    "category": "hero-banner",
+    "name": "Hero 56 - Pour stage",
+    "description": "Full-bleed pour stage with a giant split headline.",
+    "file": "roast/sections/hero-banner--hero-56.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1442512595331-e89e73853f31",
+        "page_url": "https://unsplash.com/photos/photo-1442512595331-e89e73853f31"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "horizontal-scroll-05",
+    "kind": "section",
+    "category": "horizontal-scroll",
+    "name": "Sideways story",
+    "description": "Pinned sideways story, zigzag chapter panels.",
+    "file": "roast/sections/horizontal-scroll--horizontal-scroll-05.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1514066558159-fc8c737ef259",
+        "page_url": "https://unsplash.com/photos/photo-1514066558159-fc8c737ef259"
+      },
+      {
+        "photo_id": "photo-1521017432531-fbd92d768814",
+        "page_url": "https://unsplash.com/photos/photo-1521017432531-fbd92d768814"
+      },
+      {
+        "photo_id": "photo-1542181961-9590d0c79dab",
+        "page_url": "https://unsplash.com/photos/photo-1542181961-9590d0c79dab"
+      },
+      {
+        "photo_id": "photo-1554118811-1e0d58224f24",
+        "page_url": "https://unsplash.com/photos/photo-1554118811-1e0d58224f24"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "image-with-text-42",
+    "kind": "section",
+    "category": "image-with-text",
+    "name": "Photo and stat card",
+    "description": "Offset sourcing photo, copper stat card, numbered principles.",
+    "file": "roast/sections/image-with-text--image-with-text-42.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1521302080334-4bebac2763a6",
+        "page_url": "https://unsplash.com/photos/photo-1521302080334-4bebac2763a6"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "login-31",
+    "kind": "section",
+    "category": "customer-account",
+    "name": "Sign in, account toggle",
+    "description": "Espresso sign-in with sliding account toggle, loose-tea photo.",
+    "file": "roast/sections/customer-account--login-31.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1563822249548-9a72b6353cd1",
+        "page_url": "https://unsplash.com/photos/photo-1563822249548-9a72b6353cd1"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "marquee-gsap-05",
+    "kind": "section",
+    "category": "marquee-gsap",
+    "name": "Marquee GSAP 05 - Origins",
+    "description": "Origins ticker, scroll-reactive.",
+    "file": "roast/sections/marquee-gsap--marquee-gsap-05.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1442550528053-c431ecb55509",
+        "page_url": "https://unsplash.com/photos/photo-1442550528053-c431ecb55509"
+      },
+      {
+        "photo_id": "photo-1514432324607-a09d9b4aefdd",
+        "page_url": "https://unsplash.com/photos/photo-1514432324607-a09d9b4aefdd"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "newsletter-55",
+    "kind": "section",
+    "category": "newsletter",
+    "name": "Newsletter 55 - Copper",
+    "description": "Copper sign-up with a breakout clip-reveal photo.",
+    "file": "roast/sections/newsletter--newsletter-55.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1600093463592-8e36ae95ef56",
+        "page_url": "https://unsplash.com/photos/photo-1600093463592-8e36ae95ef56"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "not-found-30",
+    "kind": "section",
+    "category": "404-page",
+    "name": "404, cup zero",
+    "description": "Giant 404 with a cup for the zero, scattering beans.",
+    "file": "roast/sections/404-page--not-found-30.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1507914372368-b2b085b925a1",
+        "page_url": "https://unsplash.com/photos/photo-1507914372368-b2b085b925a1"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "page-header-77",
+    "kind": "section",
+    "category": "page-header",
+    "name": "Page header, journal",
+    "description": "Copper journal masthead, stamp and sliding category tabs.",
+    "file": "roast/sections/page-header--page-header-77.html",
+    "deps": [],
+    "credits": [],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "page-header-78",
+    "kind": "section",
+    "category": "page-header",
+    "name": "Page header, story photo",
+    "description": "Full-bleed roaster photo, story heading bottom left.",
+    "file": "roast/sections/page-header--page-header-78.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1511537190424-bbbab87ac5eb",
+        "page_url": "https://unsplash.com/photos/photo-1511537190424-bbbab87ac5eb"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "page-header-79",
+    "kind": "section",
+    "category": "page-header",
+    "name": "Page header, contact",
+    "description": "Typographic hello with three big contact rows.",
+    "file": "roast/sections/page-header--page-header-79.html",
+    "deps": [],
+    "credits": [],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "page-header-80",
+    "kind": "section",
+    "category": "page-header",
+    "name": "Page header, help",
+    "description": "Red question band with topic pills and a round photo.",
+    "file": "roast/sections/page-header--page-header-80.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1572286258217-40142c1c6a70",
+        "page_url": "https://unsplash.com/photos/photo-1572286258217-40142c1c6a70"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "product-detail-41",
+    "kind": "section",
+    "category": "main-product",
+    "name": "Product Detail 41 - Notes",
+    "description": "Sticky tasting-note gallery beside a sticky buy box.",
+    "file": "roast/sections/main-product--product-detail-41.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1497515114629-f71d768fd07c",
+        "page_url": "https://unsplash.com/photos/photo-1497515114629-f71d768fd07c"
+      },
+      {
+        "photo_id": "photo-1534778101976-62847782c213",
+        "page_url": "https://unsplash.com/photos/photo-1534778101976-62847782c213"
+      },
+      {
+        "photo_id": "photo-1587734195503-904fca47e0e9",
+        "page_url": "https://unsplash.com/photos/photo-1587734195503-904fca47e0e9"
+      },
+      {
+        "photo_id": "photo-1606791405792-1004f1718d0c",
+        "page_url": "https://unsplash.com/photos/photo-1606791405792-1004f1718d0c"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "product-story-60",
+    "kind": "section",
+    "category": "image-with-text",
+    "name": "Product story, origin",
+    "description": "Clip-reveal origin photo band with a lifted fact strip.",
+    "file": "roast/sections/image-with-text--product-story-60.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1525088553748-01d6e210e00b",
+        "page_url": "https://unsplash.com/photos/photo-1525088553748-01d6e210e00b"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "recipe-03",
+    "kind": "section",
+    "category": "recipe",
+    "name": "Recipe, brew timer",
+    "description": "Brewer tabs, spec row and a sped-up ring timer over a glass-brewer photo.",
+    "file": "roast/sections/recipe--recipe-03.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1504627298434-2119d6928e93",
+        "page_url": "https://unsplash.com/photos/photo-1504627298434-2119d6928e93"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "recommendations-69",
+    "kind": "section",
+    "category": "product-recommendations",
+    "name": "Recommendations, bundle",
+    "description": "Stepped pairing cards beside a roast-red bundle builder.",
+    "file": "roast/sections/product-recommendations--recommendations-69.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1510591509098-f4fdc6d0ff04",
+        "page_url": "https://unsplash.com/photos/photo-1510591509098-f4fdc6d0ff04"
+      },
+      {
+        "photo_id": "photo-1534687941688-651ccaafbff8",
+        "page_url": "https://unsplash.com/photos/photo-1534687941688-651ccaafbff8"
+      },
+      {
+        "photo_id": "photo-1611564494260-6f21b80af7ea",
+        "page_url": "https://unsplash.com/photos/photo-1611564494260-6f21b80af7ea"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "recommendations-70",
+    "kind": "section",
+    "category": "product-recommendations",
+    "name": "Recommendations, add-ons",
+    "description": "Copper drag rail of one-tap add-ons.",
+    "file": "roast/sections/product-recommendations--recommendations-70.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1563911892437-1feda0179e1b",
+        "page_url": "https://unsplash.com/photos/photo-1563911892437-1feda0179e1b"
+      },
+      {
+        "photo_id": "photo-1582793988951-9aed5509eb97",
+        "page_url": "https://unsplash.com/photos/photo-1582793988951-9aed5509eb97"
+      },
+      {
+        "photo_id": "photo-1587049352846-4a222e784d38",
+        "page_url": "https://unsplash.com/photos/photo-1587049352846-4a222e784d38"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "reviews-54",
+    "kind": "section",
+    "category": "reviews",
+    "name": "Reviews, tasting cloud",
+    "description": "Count-up score, tasting-tag cloud and offset review masonry.",
+    "file": "roast/sections/reviews--reviews-54.html",
+    "deps": [],
+    "credits": [],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "scroll-images-08",
+    "kind": "section",
+    "category": "scroll-images",
+    "name": "Scroll Images 08 - Cup",
+    "description": "Pinned cup, tasting notes shift the colour block.",
+    "file": "roast/sections/scroll-images--scroll-images-08.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1504630083234-14187a9df0f5",
+        "page_url": "https://unsplash.com/photos/photo-1504630083234-14187a9df0f5"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "search-results-29",
+    "kind": "section",
+    "category": "main-search",
+    "name": "Search, Syne field",
+    "description": "Syne search field, sliding result tabs, lead-card product grid.",
+    "file": "roast/sections/main-search--search-results-29.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1517959105821-eaf2591984ca",
+        "page_url": "https://unsplash.com/photos/photo-1517959105821-eaf2591984ca"
+      },
+      {
+        "photo_id": "photo-1544787219-7f47ccb76574",
+        "page_url": "https://unsplash.com/photos/photo-1544787219-7f47ccb76574"
+      },
+      {
+        "photo_id": "photo-1562447457-579fc34967fb",
+        "page_url": "https://unsplash.com/photos/photo-1562447457-579fc34967fb"
+      },
+      {
+        "photo_id": "photo-1563822249366-3efb23b8e0c9",
+        "page_url": "https://unsplash.com/photos/photo-1563822249366-3efb23b8e0c9"
+      },
+      {
+        "photo_id": "photo-1564890369478-c89ca6d9cde9",
+        "page_url": "https://unsplash.com/photos/photo-1564890369478-c89ca6d9cde9"
+      },
+      {
+        "photo_id": "photo-1597318181409-cf64d0b5d8a2",
+        "page_url": "https://unsplash.com/photos/photo-1597318181409-cf64d0b5d8a2"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "store-locator-08",
+    "kind": "section",
+    "category": "store-locator",
+    "name": "Store locator, two bars",
+    "description": "Two-bar switcher with wipe photo and live hours.",
+    "file": "roast/sections/store-locator--store-locator-08.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1508558936510-0af1e3cccbab",
+        "page_url": "https://unsplash.com/photos/photo-1508558936510-0af1e3cccbab"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "subscription-07",
+    "kind": "section",
+    "category": "subscription",
+    "name": "Subscription 07",
+    "description": "Full-bleed photo half and a builder on roast red.",
+    "file": "roast/sections/subscription--subscription-07.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1497935586351-b67a49e012bf",
+        "page_url": "https://unsplash.com/photos/photo-1497935586351-b67a49e012bf"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "team-27",
+    "kind": "section",
+    "category": "team",
+    "name": "Team, hover roster",
+    "description": "One barista photo beside a hover roster.",
+    "file": "roast/sections/team--team-27.html",
+    "deps": [],
+    "credits": [
+      {
+        "photo_id": "photo-1525610553991-2bede1a236e2",
+        "page_url": "https://unsplash.com/photos/photo-1525610553991-2bede1a236e2"
+      }
+    ],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  },
+  {
+    "id": "testimonial-42",
+    "kind": "section",
+    "category": "testimonials",
+    "name": "Testimonial 42",
+    "description": "Scroll word-fill pull quote over three offset quote cards.",
+    "file": "roast/sections/testimonials--testimonial-42.html",
+    "deps": [],
+    "credits": [],
+    "targets": {
+      "html": "ok",
+      "shopify": "ok"
+    }
+  }
+]

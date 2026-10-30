@@ -1,0 +1,18 @@
+{%- comment -%}The editorial tile of blko-collection-grid-49: t (tile block), d (delay ms).{%- endcomment -%}
+{%- assign ts = t.settings -%}
+<li class="rm-rise bcollectiongrid49__tile" style="--d:{{ d }}ms" data-tile {{ t.shopify_attributes }}>
+  <a href="{{ ts.link | default: '#' }}" class="rm-zoom bcollectiongrid49__tilea">
+    <div class="bcollectiongrid49__tphoto">
+      {%- if ts.image != blank -%}{{ ts.image | image_url: width: 900 | image_tag: class: 'bcollectiongrid49__img', loading: 'lazy', widths: '450, 700, 900', sizes: '(min-width: 768px) 25vw, 100vw' }}{%- else -%}{{ 'lifestyle-2' | placeholder_svg_tag: 'bcollectiongrid49__img placeholder-svg' }}{%- endif -%}
+      {%- if ts.tag != blank -%}<span class="bcollectiongrid49__label bcollectiongrid49__ttag">{{ ts.tag | escape }}</span>{%- endif -%}
+    </div>
+    <div class="bcollectiongrid49__tcopy">
+      <p class="bcollectiongrid49__label bcollectiongrid49__dim80">{{ ts.eyebrow | escape }}</p>
+      <div class="bcollectiongrid49__tmid">
+        <h3 class="bcollectiongrid49__th3">{{ ts.heading }}</h3>
+        <p class="bcollectiongrid49__ttext">{{ ts.text | escape }}</p>
+      </div>
+      <span class="bcollectiongrid49__tlink"><span class="rm-ul">{{ ts.link_label | escape }}</span>{% render 'blko-ui-icon', name: 'arrow-right', size: 16, className: 'rm-nudge' %}</span>
+    </div>
+  </a>
+</li>

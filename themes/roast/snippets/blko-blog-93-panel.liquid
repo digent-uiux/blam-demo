@@ -1,0 +1,23 @@
+{%- comment -%}One guide panel: n (01..), on (first = open), image, alt, category, read, title, excerpt, url, read_label, d (delay ms).{%- endcomment -%}
+<li class="bblog93__panel rm-rise"{% if on %} data-open{% endif %} data-panel style="--d:{{ d }}ms"{% if attrs != blank %} {{ attrs }}{% endif %}>
+  <a href="{{ url }}" class="bblog93__a">
+    <div class="bblog93__pic">
+      {%- if image != blank -%}
+        {{ image | image_url: width: 1100 | image_tag: alt: alt, loading: 'lazy', widths: '400, 700, 1100', class: 'bblog93__img' }}
+      {%- else -%}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'bblog93__img' }}
+      {%- endif -%}
+      <div aria-hidden="true" class="bblog93__veil bblog93__fade"></div>
+    </div>
+    <div aria-hidden="true" class="bblog93__shut bblog93__fade">
+      <span class="bblog93__label">{{ n }}</span>
+      <span class="bblog93__vt">{{ title | escape }}</span>
+    </div>
+    <div class="bblog93__open bblog93__fade">
+      <p class="bblog93__label bblog93__meta"><span class="bblog93__n">{{ n }}</span> · {{ category | escape }} · {{ read | escape }}</p>
+      <h3 class="bblog93__t"><span class="rm-ul">{{ title | escape }}</span></h3>
+      {%- if excerpt != blank -%}<p class="bblog93__ex">{{ excerpt | escape }}</p>{%- endif -%}
+      <span class="bblog93__go"><span aria-hidden="true" class="bblog93__circ">{%- render 'blko-ui-icon', name: 'arrow-up-right' -%}</span>{{ read_label | escape }}</span>
+    </div>
+  </a>
+</li>

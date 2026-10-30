@@ -1,0 +1,38 @@
+{
+  "blko_ui": {
+    "price": {
+      "from": "From",
+      "was": "Was",
+      "save": "Save"
+    },
+    "rating": {
+      "stars": "{{ value }} out of 5 stars"
+    },
+    "quantity": {
+      "label": "Quantity",
+      "decrease": "Decrease {{ label }}",
+      "increase": "Increase {{ label }}"
+    },
+    "field": {
+      "optional": "(optional)"
+    },
+    "option": {
+      "sold_out": "sold out"
+    },
+    "product": {
+      "save": "Save {{ title }}",
+      "add": "Add {{ title }} to bag",
+      "colors": "{{ count }} colours"
+    }
+  },
+  "blko": {
+    "recommendations_70": {
+      "prev": "Previous add-on",
+      "next": "Next add-on",
+      "drag": "Drag",
+      "rail": "Add-ons, scroll sideways",
+      "add": "Add [title] to bag",
+      "added": "[title] added to bag"
+    }
+  }
+}

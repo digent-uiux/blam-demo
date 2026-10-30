@@ -1,0 +1,13 @@
+{%- comment -%}Nonnegative integer formatted with en-US thousands separators, independent of store currency.{%- endcomment -%}
+{%- liquid
+  assign digits = value | round | append: '' | split: ''
+  assign length = digits.size
+  for digit in digits
+    echo digit
+    assign remaining = length | minus: forloop.index
+    assign group = remaining | modulo: 3
+    if remaining > 0 and group == 0
+      echo ','
+    endif
+  endfor
+-%}

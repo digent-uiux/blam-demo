@@ -1,0 +1,100 @@
+{%- comment -%}
+  One control of blko-filter-bar-31, rendered in the bar and again in the phone sheet.
+  part: scale | process | origins | price | sort; full (sheet layout); sfx (id suffix); sid (section id); live;
+  rf / pf / of / prf (the collection's roast, process, origin and price filters, live only); ss (section settings);
+  sort_html (option markup).
+{%- endcomment -%}
+{%- liquid
+  assign dots = '#d9b38c,#b9875a,#8a5a36,#5e3a22,#2e1c12' | split: ','
+  assign catalog = ss.catalog | newline_to_br | split: '<br />'
+-%}
+{%- case part -%}
+{%- when 'scale' -%}
+<div class="bfilterbar31__scale">
+  <span class="bfilterbar31__label bfilterbar31__muted" id="bfilterbar31-roast{{ sfx }}-{{ sid }}">{{ 'blko.filter_bar_31.roast' | t }}</span>
+  <div role="group" aria-labelledby="bfilterbar31-roast{{ sfx }}-{{ sid }}" class="bfilterbar31__seg bfilterbar31__seg--roast" data-seg-roast>
+    <span aria-hidden="true" class="bfilterbar31__ind bfilterbar31__ind--5 is-off" data-ind></span>
+    {%- if live and rf != blank -%}
+      {%- for v in rf.values limit: 5 -%}
+        {%- assign dot = dots[forloop.index0] -%}
+        <button type="button" aria-pressed="{% if v.active %}true{% else %}false{% endif %}" aria-label="{{ v.label | escape }} {{ 'blko.filter_bar_31.roast_suffix' | t }}" title="{{ v.label | escape }}" class="bfilterbar31__step" data-roast="{{ forloop.index }}" data-name="{{ v.label | escape }}" data-param="{{ v.param_name }}" data-value="{{ v.value | escape }}"><span aria-hidden="true" class="bfilterbar31__dot" style="background: {{ dot }}"></span></button>
+      {%- endfor -%}
+    {%- else -%}
+      {%- assign names = ss.roast_names | newline_to_br | split: '<br />' -%}
+      {%- for n in names limit: 5 -%}
+        {%- assign nm = n | strip -%}
+        {%- assign dot = dots[forloop.index0] -%}
+        <button type="button" aria-pressed="false" aria-label="{{ nm | escape }} {{ 'blko.filter_bar_31.roast_suffix' | t }}" title="{{ nm | escape }}" class="bfilterbar31__step" data-roast="{{ forloop.index }}" data-name="{{ nm | escape }}"><span aria-hidden="true" class="bfilterbar31__dot" style="background: {{ dot }}"></span></button>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+  <span aria-live="polite" class="bfilterbar31__label bfilterbar31__rname" data-rname>{{ 'blko.filter_bar_31.scale_hint' | t }}</span>
+</div>
+{%- when 'process' -%}
+<div class="{% if full %}bfilterbar31__fgrid{% else %}bfilterbar31__proc{% endif %}">
+  <label for="bfilterbar31-process{{ sfx }}-{{ sid }}" class="{% if full %}bfilterbar31__label bfilterbar31__muted{% else %}bfilterbar31__sr{% endif %}">{{ 'blko.filter_bar_31.process' | t }}</label>
+  {%- capture opts -%}
+    <option value="">{{ 'blko.filter_bar_31.any_process' | t }}</option>
+    {%- if live and pf != blank -%}
+      {%- for v in pf.values -%}<option value="{{ v.value | escape }}" data-param="{{ v.param_name }}"{% if v.active %} selected{% endif %}>{{ v.label | escape }}</option>{%- endfor -%}
+    {%- else -%}
+      {%- assign procs = ss.processes | split: ',' -%}
+      {%- for p in procs -%}{%- assign pv = p | strip -%}<option value="{{ pv | escape }}">{{ pv | escape }}</option>{%- endfor -%}
+    {%- endif -%}
+  {%- endcapture -%}
+  {%- capture pid -%}bfilterbar31-process{{ sfx }}-{{ sid }}{%- endcapture -%}
+  {%- render 'blko-ui-select', id: pid, className: 'bfilterbar31__pill bfilterbar31__procsel', children: opts -%}
+</div>
+{%- when 'origins' -%}
+<fieldset class="bfilterbar31__fs">
+  <legend class="bfilterbar31__label bfilterbar31__muted bfilterbar31__legend">{{ 'blko.filter_bar_31.origin' | t }}</legend>
+  {%- if live and of != blank -%}
+    {%- for v in of.values -%}
+      {%- capture lab -%}<span class="bfilterbar31__orow">{{ v.label | escape }}<span class="bfilterbar31__ocount">{{ v.count }}</span></span>{%- endcapture -%}
+      {%- render 'blko-ui-checkbox', label: lab, name: v.param_name, value: v.value, checked: v.active, className: 'bfilterbar31__ocheck' -%}
+    {%- endfor -%}
+  {%- else -%}
+    {%- assign origins = ss.origins | split: ',' -%}
+    {%- for o in origins -%}
+      {%- assign ov = o | strip -%}
+      {%- assign n = 0 -%}
+      {%- for line in catalog -%}
+        {%- assign lo = line | split: '|' | first | strip -%}
+        {%- if lo == ov -%}{%- assign n = n | plus: 1 -%}{%- endif -%}
+      {%- endfor -%}
+      {%- capture lab -%}<span class="bfilterbar31__orow">{{ ov | escape }}<span class="bfilterbar31__ocount">{{ n }}</span></span>{%- endcapture -%}
+      {%- render 'blko-ui-checkbox', label: lab, name: 'origin', value: ov, className: 'bfilterbar31__ocheck' -%}
+    {%- endfor -%}
+  {%- endif -%}
+</fieldset>
+{%- when 'price' -%}
+{%- liquid
+  if live and prf != blank
+    assign lo = 0
+    assign hi = prf.range_max | divided_by: 100.0 | ceil
+    assign vmin = prf.min_value.value | default: 0 | divided_by: 100 | floor
+    assign vmax = prf.max_value.value | default: prf.range_max | divided_by: 100.0 | ceil
+    assign pmin = prf.min_value.param_name
+    assign pmax = prf.max_value.param_name
+  else
+    assign lo = ss.price_min
+    assign hi = ss.price_max
+    assign vmin = lo
+    assign vmax = hi
+    assign pmin = ''
+    assign pmax = ''
+  endif
+-%}
+<fieldset class="bfilterbar31__fs bfilterbar31__fs--price" data-lo="{{ lo }}" data-hi="{{ hi }}">
+  <legend class="bfilterbar31__label bfilterbar31__muted bfilterbar31__legend">{{ 'blko.filter_bar_31.price_legend' | t }}</legend>
+  <label class="bfilterbar31__range"><span class="bfilterbar31__rrow"><span>{{ 'blko.filter_bar_31.from' | t }}</span><output class="bfilterbar31__out" data-out="min">{{ ss.currency }}{{ vmin }}</output></span><input type="range" min="{{ lo }}" max="{{ hi }}" step="1" value="{{ vmin }}" data-k="min" data-param="{{ pmin }}"></label>
+  <label class="bfilterbar31__range"><span class="bfilterbar31__rrow"><span>{{ 'blko.filter_bar_31.up_to' | t }}</span><output class="bfilterbar31__out" data-out="max">{{ ss.currency }}{{ vmax }}</output></span><input type="range" min="{{ lo }}" max="{{ hi }}" step="1" value="{{ vmax }}" data-k="max" data-param="{{ pmax }}"></label>
+</fieldset>
+{%- when 'sort' -%}
+<div class="{% if full %}bfilterbar31__fgrid{% else %}bfilterbar31__sortrow{% endif %}">
+  <label for="bfilterbar31-sort{{ sfx }}-{{ sid }}" class="bfilterbar31__label bfilterbar31__muted">{{ 'blko.filter_bar_31.sort' | t }}</label>
+  {%- capture sid2 -%}bfilterbar31-sort{{ sfx }}-{{ sid }}{%- endcapture -%}
+  {%- capture cls -%}bfilterbar31__pill bfilterbar31__sortsel{% unless full %} bfilterbar31__w52{% endunless %}{%- endcapture -%}
+  {%- render 'blko-ui-select', id: sid2, className: cls, children: sort_html -%}
+</div>
+{%- endcase -%}

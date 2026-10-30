@@ -1,0 +1,264 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-contact-62.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-ui-commerce.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-commerce.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-contact-62.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- capture body -%}
+  <div class="bcontact62__grid"
+    >{%- form 'contact', id: 'ContactForm-contact-62', class: 'bcontact62__form', data-form: '' -%}
+      {%- assign fid = 'c62-' | append: section.id -%}
+      <p class="bcontact62__label">{{ s.eyebrow | escape }}</p
+      ><h2 class="bcontact62__h2"><span class="rm-mask"><span class="rm-line">{{ s.line_1 | escape }}</span></span><span class="rm-mask"><span class="rm-line" style="--d:90ms"><em>{{ s.line_2_em | escape }}</em> {{ s.line_2 | escape }}</span></span></h2
+      ><fieldset class="bcontact62__fs"
+        ><legend class="bcontact62__sr">{{ 'blko.contact_62.topic' | t }}</legend
+        ><input type="hidden" name="contact[Topic]" value="{{ section.blocks.first.settings.label | escape }}" data-topic-input
+        ><div class="bcontact62__chips" data-chips
+          ><span aria-hidden="true" class="bcontact62__pill" data-pill></span
+          >{%- for b in section.blocks -%}
+          <button type="button" class="bcontact62__chip{% if forloop.first %} is-on{% endif %}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" data-chip data-label="{{ b.settings.label | escape }}" data-order="{% if b.settings.order %}1{% endif %}" {{ b.shopify_attributes }}>{{ b.settings.label | escape }}</button
+          >{%- endfor -%}
+        </div
+      ></fieldset
+      >{%- if form.posted_successfully? -%}<p class="bcontact62__ok" role="status">{{ 'blko.contact_62.sent' | t }}</p>{%- endif -%}
+      <div class="bcontact62__two"
+        >{%- assign i = fid | append: '-name' -%}{%- capture c -%}{%- render 'blko-ui-input', id: i, name: 'contact[name]', autocomplete: 'name', required: true -%}{%- endcapture -%}
+        {%- assign l = 'blko.contact_62.name' | t -%}
+        {%- render 'blko-ui-field', id: i, label: l, children: c -%}
+        {%- assign i = fid | append: '-email' -%}{%- capture c -%}{%- render 'blko-ui-input', id: i, name: 'contact[email]', type: 'email', autocomplete: 'email', required: true -%}{%- endcapture -%}
+        {%- assign l = 'blko.contact_62.email' | t -%}
+        {%- render 'blko-ui-field', id: i, label: l, children: c -%}
+      </div
+      >{%- assign first_order = section.blocks.first.settings.order -%}
+      <div class="bcontact62__collapse{% if first_order %} is-open{% endif %}" data-order-wrap><div
+        >{%- assign i = fid | append: '-order' -%}{%- capture c -%}{%- render 'blko-ui-input', id: i, name: 'contact[Order number]', placeholder: s.order_placeholder -%}{%- endcapture -%}
+        {%- assign l = 'blko.contact_62.order' | t -%}
+        {%- render 'blko-ui-field', id: i, label: l, optional: true, className: 'bcontact62__mt5', children: c -%}
+      </div></div
+      >{%- assign i = fid | append: '-msg' -%}{%- capture c -%}{%- render 'blko-ui-textarea', id: i, name: 'contact[body]', rows: 5, required: true -%}{%- endcapture -%}
+      {%- assign l = 'blko.contact_62.message' | t -%}
+      {%- render 'blko-ui-field', id: i, label: l, className: 'bcontact62__mt5', children: c -%}
+      <div class="bcontact62__foot"
+        ><p class="bcontact62__label bcontact62__muted" data-note data-tpl="{{ 'blko.contact_62.note' | t | escape }}">{{ 'blko.contact_62.note' | t | replace: '[n]', '0' }}</p
+        >{%- capture lbl -%}<span data-idle><span class="rm-roll"><span>{{ 'blko.contact_62.send' | t }}</span></span></span>{%- endcapture -%}
+        <button type="submit" class="blko-ui-button blko-ui-button--primary blko-ui-button--lg bcontact62__send" aria-live="polite" data-send><span class="bcontact62__st" data-idle-wrap>{{ lbl }}{%- render 'blko-ui-icon', name: 'arrow-right' -%}</span><span class="bcontact62__st" data-busy hidden>{%- render 'blko-ui-icon', name: 'loader-circle', className: 'bcontact62__spin' -%}{{ 'blko.contact_62.sending' | t }}</span></button
+      ></div
+    >{%- endform -%}
+    <div class="bcontact62__side"
+      ><div class="bcontact62__photo rm-zoom"
+        >{%- if s.image != blank -%}{{ s.image | image_url: width: 900 | image_tag: alt: s.image.alt, loading: 'lazy', class: 'bcontact62__img' }}{%- else -%}{{ 'image' | placeholder_svg_tag: 'bcontact62__img' }}{%- endif -%}
+      </div
+      ><div class="bcontact62__cap"><div class="bcontact62__card rm-rise" style="--d:200ms"
+        ><p class="bcontact62__label bcontact62__muted">{{ s.reply_title | escape }}</p
+        ><dl class="bcontact62__dl"
+          >{%- assign rows = s.replies | newline_to_br | split: '<br />' -%}
+          {%- for r in rows -%}{%- assign kv = r | strip | split: '|' -%}{%- if kv.size > 1 -%}
+          <div class="bcontact62__dlrow"><dt>{{ kv[0] | strip | escape }}</dt><dd>{{ kv[1] | strip | escape }}</dd></div
+          >{%- endif -%}{%- endfor -%}
+        </dl
+        ><div class="bcontact62__social"
+          ><a href="{{ s.social_link | default: '#' }}" aria-label="{{ 'blko.contact_62.social' | t }}" class="bcontact62__ic">{%- render 'blko-ui-icon', name: 'camera', className: 'rm-nudge' -%}</a
+          >{%- if s.wholesale_email != blank -%}<a href="mailto:{{ s.wholesale_email }}" class="bcontact62__mail">{%- render 'blko-ui-icon', name: 'at-sign' -%}<span class="rm-ul">{{ s.wholesale_email | escape }}</span></a>{%- endif -%}
+        </div
+      ></div></div
+    ></div
+  ></div
+>{%- endcapture -%}
+<div class="bcontact62" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-rm-magnetic
+  >{%- render 'blko-ui-section', surface: 'bg', label: s.label, children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Contact, topic form",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Send us a message"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Send a message"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Heading, line 1",
+      "default": "What can we"
+    },
+    {
+      "type": "text",
+      "id": "line_2_em",
+      "label": "Heading, accent word",
+      "default": "help"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Heading, line 2",
+      "default": "with?"
+    },
+    {
+      "type": "text",
+      "id": "order_placeholder",
+      "label": "Order number placeholder",
+      "default": "#HD-20481"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo"
+    },
+    {
+      "type": "text",
+      "id": "reply_title",
+      "label": "Reply card title",
+      "default": "We reply"
+    },
+    {
+      "type": "textarea",
+      "id": "replies",
+      "label": "Reply times",
+      "default": "Orders & subscriptions | within 4 hours\nWholesale | within 1 day\nPress | within 2 days",
+      "info": "One per line: topic | time."
+    },
+    {
+      "type": "url",
+      "id": "social_link",
+      "label": "Social link"
+    },
+    {
+      "type": "text",
+      "id": "wholesale_email",
+      "label": "Wholesale email",
+      "default": "wholesale@halden.coffee"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "topic",
+      "name": "Topic",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Orders"
+        },
+        {
+          "type": "checkbox",
+          "id": "order",
+          "label": "Ask for an order number",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact, topic form",
+      "blocks": [
+        {
+          "type": "topic",
+          "settings": {
+            "label": "Orders",
+            "order": true
+          }
+        },
+        {
+          "type": "topic",
+          "settings": {
+            "label": "Subscriptions",
+            "order": true
+          }
+        },
+        {
+          "type": "topic",
+          "settings": {
+            "label": "Wholesale",
+            "order": false
+          }
+        },
+        {
+          "type": "topic",
+          "settings": {
+            "label": "Press",
+            "order": false
+          }
+        },
+        {
+          "type": "topic",
+          "settings": {
+            "label": "Something else",
+            "order": false
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

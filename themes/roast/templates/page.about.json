@@ -1,0 +1,194 @@
+{
+  "sections": {
+    "page-header-78": {
+      "type": "blko-page-header-78",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "fact-1": {
+          "type": "fact",
+          "settings": {
+            "key": "Roasted in",
+            "value": "the harbour district"
+          }
+        },
+        "fact-2": {
+          "type": "fact",
+          "settings": {
+            "key": "Origins",
+            "value": "14 this season"
+          }
+        },
+        "fact-3": {
+          "type": "fact",
+          "settings": {
+            "key": "One drum",
+            "value": "15 kg, every Monday"
+          }
+        }
+      },
+      "block_order": [
+        "fact-1",
+        "fact-2",
+        "fact-3"
+      ]
+    },
+    "horizontal-scroll-05": {
+      "type": "blko-horizontal-scroll-05",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "chapter-1": {
+          "type": "chapter",
+          "settings": {
+            "year": "2014",
+            "title": "A cart and a borrowed grinder",
+            "text": "Saturdays at the harbour market: one brewer, two origins and a queue that kept getting longer."
+          }
+        },
+        "chapter-2": {
+          "type": "chapter",
+          "settings": {
+            "year": "2017",
+            "title": "Our first bar",
+            "text": "Twelve seats on Kiln Street, a slow bar for filter and a wall of beans you could smell from the pavement."
+          }
+        },
+        "chapter-3": {
+          "type": "chapter",
+          "settings": {
+            "year": "2020",
+            "title": "A roastery of our own",
+            "text": "A 15 kg drum in an old boat shed. We started buying direct and publishing every price we pay."
+          }
+        },
+        "chapter-4": {
+          "type": "chapter",
+          "settings": {
+            "year": "2024",
+            "title": "Tea joins the bar",
+            "text": "Whole-leaf teas from three gardens, whisked matcha and the same small-batch care as the coffee."
+          }
+        }
+      },
+      "block_order": [
+        "chapter-1",
+        "chapter-2",
+        "chapter-3",
+        "chapter-4"
+      ]
+    },
+    "image-with-text-42": {
+      "type": "blko-image-with-text-42",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "principle-1": {
+          "type": "principle",
+          "settings": {
+            "title": "We visit every farm",
+            "text": "Someone from the roastery stands on every farm we buy from, at least once every two harvests."
+          }
+        },
+        "principle-2": {
+          "type": "principle",
+          "settings": {
+            "title": "We pay for the cup",
+            "text": "Prices are set by cup score, not the commodity market, and agreed before the harvest starts."
+          }
+        },
+        "principle-3": {
+          "type": "principle",
+          "settings": {
+            "title": "We publish every price",
+            "text": "What we paid, to whom and for how much: every lot, every year, in one open report."
+          }
+        }
+      },
+      "block_order": [
+        "principle-1",
+        "principle-2",
+        "principle-3"
+      ]
+    },
+    "team-27": {
+      "type": "blko-team-27",
+      "settings": {
+        "tokens": "theme"
+      },
+      "blocks": {
+        "person-1": {
+          "type": "person",
+          "settings": {
+            "name": "Maren Oduya",
+            "role": "Head of the bar",
+            "brew": "Kenya on a cone dripper",
+            "note": "Trains every new barista and still pulls the first shot each morning."
+          }
+        },
+        "person-2": {
+          "type": "person",
+          "settings": {
+            "name": "Tomas Reyhill",
+            "role": "Head roaster",
+            "brew": "Guji, straight espresso",
+            "note": "Writes every profile and cups each batch before it is bagged."
+          }
+        },
+        "person-3": {
+          "type": "person",
+          "settings": {
+            "name": "Ines Varga",
+            "role": "Green buyer",
+            "brew": "Rwanda, press brewer",
+            "note": "Spends harvest season on the farms and sets the prices we publish."
+          }
+        },
+        "person-4": {
+          "type": "person",
+          "settings": {
+            "name": "Kofi Lindqvist",
+            "role": "Tea lead",
+            "brew": "Yunnan gold, gongfu",
+            "note": "Built the tea list from three gardens and hosts the Sunday tastings."
+          }
+        },
+        "person-5": {
+          "type": "person",
+          "settings": {
+            "name": "Ada Nakamura",
+            "role": "Wholesale",
+            "brew": "House blend, flat white",
+            "note": "Looks after the forty cafés that pour our coffee."
+          }
+        },
+        "person-6": {
+          "type": "person",
+          "settings": {
+            "name": "Sol Batista",
+            "role": "Dispatch",
+            "brew": "Decaf, French press",
+            "note": "Packs every Tuesday order by hand and writes the roast date on each bag."
+          }
+        }
+      },
+      "block_order": [
+        "person-1",
+        "person-2",
+        "person-3",
+        "person-4",
+        "person-5",
+        "person-6"
+      ]
+    }
+  },
+  "order": [
+    "page-header-78",
+    "horizontal-scroll-05",
+    "image-with-text-42",
+    "team-27"
+  ]
+}

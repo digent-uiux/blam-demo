@@ -1,0 +1,286 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-hero-56.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-hero-56.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- comment -%}
+  Halden hero (roast): the photo fills the stage edge to edge under a dark gradient; the giant two-line headline sits on
+  its lower half ("Roasted" flush left, line 2 flush right), a hairline bar with the lead and two buttons under it; top
+  left a mono roast line, top right a turning ring with a copper badge; a glass tasting card with a real quick add on the
+  right (896px up). Motion only: the frame opens from an inset, the photo settles from a zoom, lines slide out of masks,
+  the rest rises; on scroll the photo zooms and the lines drift apart; a spotlight follows a fine pointer; the ring turns.
+  Static / reduced motion: the settled stage.
+{%- endcomment -%}
+{%- liquid
+  assign p = s.product
+  assign price = s.price
+  assign vid = ''
+  if p != blank
+    assign v = p.selected_or_first_available_variant
+    assign vid = v.id
+    assign price = v.price | money_without_trailing_zeros
+  endif
+  assign pname = s.card_name
+  if p != blank
+    assign pname = p.title
+  endif
+-%}
+<section class="bhero56" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-bhero56 data-rm-magnetic aria-label="{{ s.label | escape }}"
+  ><div class="bhero56__stage rm-load" data-stage
+    ><div class="bhero56__frame"
+      >{%- if s.image != blank -%}
+        {%- capture pos -%}object-position:{{ s.image.presentation.focal_point | default: '58% 35%' }}{%- endcapture -%}
+        {{ s.image | image_url: width: 2400 | image_tag: alt: s.image.alt, fetchpriority: 'high', loading: 'eager', widths: '750, 1100, 1500, 2000, 2400', sizes: '100vw', class: 'bhero56__photo', style: pos, data-photo: '' -}}
+      {%- else -%}
+        <div class="bhero56__photo" data-photo>{{ 'lifestyle-2' | placeholder_svg_tag: 'bhero56__ph' }}</div
+      >{%- endif -%}
+      <span aria-hidden="true" class="bhero56__shade"></span
+      ><span aria-hidden="true" class="bhero56__spot"></span
+    ></div
+
+    ><div class="bhero56__in"
+      ><div class="bhero56__top"
+        ><p class="rm-rise bhero56__label bhero56__eyebrow" style="--d:500ms"
+          ><span aria-hidden="true" class="bhero56__pip"></span
+          ><span>{{ s.eyebrow | escape }}</span
+          >{%- if s.eyebrow_note != blank -%}<span aria-hidden="true" class="bhero56__dash"></span><span class="bhero56__soft">{{ s.eyebrow_note | escape }}</span>{%- endif -%}
+        </p
+        >{%- if s.ring != blank -%}
+        <div aria-hidden="true" class="rm-rise bhero56__ringwrap" style="--d:700ms"
+          ><svg viewBox="0 0 100 100" class="bhero56__ring"
+            ><defs><path id="h56c-{{ section.id }}" d="M50 50 m-40 0 a40 40 0 1 1 80 0 a40 40 0 1 1 -80 0"></path></defs
+            ><text><textPath href="#h56c-{{ section.id }}">{{ s.ring | escape }}</textPath></text
+          ></svg
+          ><span class="bhero56__badge">{{ s.badge | escape }}</span
+        ></div
+        >{%- endif -%}
+      </div
+
+      >{%- if s.show_card -%}
+      <div class="rm-rise bhero56__card" style="--d:1100ms" data-card
+        ><p class="bhero56__label bhero56__soft">{{ s.card_label | escape }}</p
+        ><p class="bhero56__notes">{{ s.card_notes }}</p
+        ><div class="bhero56__buy"
+          ><p class="bhero56__price"><span class="bhero56__strong">{{ price }}</span> <span class="bhero56__soft">· {{ s.card_size | escape }}</span></p
+          >{%- capture lbl -%}{{ pname }}, {{ s.card_size }}{%- endcapture -%}
+          <button type="button" class="bhero56__add" aria-label="{{ 'blko.hero_56.add' | t: title: lbl | escape }}" data-add="{{ vid }}" data-added-label="{{ 'blko.hero_56.added' | t | escape }}" data-error-label="{{ 'blko.hero_56.error' | t | escape }}"
+            ><span class="bhero56__plus">{%- render 'blko-ui-icon', name: 'plus', size: 16 -%}</span
+            ><span class="bhero56__ok">{%- render 'blko-ui-icon', name: 'check', size: 16, className: 'rm-draw' -%}</span
+          ></button
+        ></div
+        ><p aria-live="polite" class="bhero56__sr" data-live></p
+      ></div
+      >{%- endif -%}
+
+      <div class="bhero56__bottom"
+        ><h1 class="bhero56__title"
+          ><span class="bhero56__l1" data-l1><span class="rm-mask"><span class="rm-line">{{ s.line_1 }}</span></span></span
+          ><span class="bhero56__l2" data-l2><span class="rm-mask"><span class="rm-line" style="--d:130ms">{{ s.line_2 }}</span></span></span
+        ></h1
+        ><div class="bhero56__bar"
+          >{%- if s.text != blank -%}<p class="rm-rise bhero56__lead" style="--d:450ms">{{ s.text | escape }}</p>{%- endif -%}
+          <div class="rm-rise bhero56__ctas" style="--d:560ms"
+            >{%- if s.button_1 != blank -%}
+              {%- capture b1 -%}<span class="rm-roll"><span>{{ s.button_1 | escape }}</span></span>{%- endcapture -%}
+              {%- assign u1 = s.link_1 | default: routes.all_products_collection_url -%}
+              {%- render 'blko-ui-button', href: u1, size: 'lg', variant: 'inverse', children: b1, iconAfter: 'arrow-right' -%}
+            {%- endif -%}
+            {%- if s.button_2 != blank -%}
+              {%- capture b2 -%}<span class="rm-roll"><span>{{ s.button_2 | escape }}</span></span>{%- endcapture -%}
+              {%- assign u2 = s.link_2 | default: routes.all_products_collection_url -%}
+              {%- render 'blko-ui-button', href: u2, size: 'lg', variant: 'outline-inverse', children: b2 -%}
+            {%- endif -%}
+          </div
+        ></div
+      ></div
+    ></div
+  ></div
+></section
+
+>
+
+{% schema %}
+{
+  "name": "Hero 56 - Pour stage",
+  "tag": "div",
+  "class": "blko-bundle",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Halden roasters"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (focal point is used)"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Roast line",
+      "default": "Roast no. 214"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow_note",
+      "label": "Roast note",
+      "default": "Ethiopia · Guji · natural"
+    },
+    {
+      "type": "text",
+      "id": "ring",
+      "label": "Ring text",
+      "default": "Fresh roast every Monday · small batch · "
+    },
+    {
+      "type": "text",
+      "id": "badge",
+      "label": "Ring badge",
+      "default": "214"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Headline line 1 (wrap a word in <em>)",
+      "default": "Roasted"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Headline line 2 (flush right)",
+      "default": "<em>on</em> Monday."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Lead",
+      "default": "Fourteen single origins and a short list of whole-leaf teas, roasted in small batches every Monday and at your door by Thursday."
+    },
+    {
+      "type": "text",
+      "id": "button_1",
+      "label": "Button 1",
+      "default": "Shop coffee"
+    },
+    {
+      "type": "url",
+      "id": "link_1",
+      "label": "Button 1 link"
+    },
+    {
+      "type": "text",
+      "id": "button_2",
+      "label": "Button 2",
+      "default": "Start a subscription"
+    },
+    {
+      "type": "url",
+      "id": "link_2",
+      "label": "Button 2 link"
+    },
+    {
+      "type": "header",
+      "content": "Tasting card"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_card",
+      "label": "Show the tasting card (896px up)",
+      "default": true
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product (quick add)"
+    },
+    {
+      "type": "text",
+      "id": "card_label",
+      "label": "Card label",
+      "default": "In the cup"
+    },
+    {
+      "type": "text",
+      "id": "card_notes",
+      "label": "Notes (wrap a word in <em>)",
+      "default": "Blueberry, cacao nib, <em>jasmine</em>"
+    },
+    {
+      "type": "text",
+      "id": "card_name",
+      "label": "Name without a product",
+      "default": "Guji natural"
+    },
+    {
+      "type": "text",
+      "id": "price",
+      "label": "Price without a product",
+      "default": "$22"
+    },
+    {
+      "type": "text",
+      "id": "card_size",
+      "label": "Size",
+      "default": "250 g"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero 56 - Pour stage"
+    }
+  ]
+}
+{% endschema %}

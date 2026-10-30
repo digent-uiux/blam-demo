@@ -1,0 +1,273 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-page-header-77.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-page-header-77.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- liquid
+  assign total = s.count
+  assign search_href = s.search_link | default: routes.search_url
+-%}
+{%- capture body -%}
+  <div class="bpageheader77__top"
+    ><div class="bpageheader77__left"
+      ><p class="bpageheader77__label rm-rise bpageheader77__kicker"><span aria-hidden="true" class="bpageheader77__dot"></span>{{ s.kicker | escape }}</p
+      ><h1 class="bpageheader77__h1"><span class="rm-mask"><span class="rm-line" style="--d:0ms">{{ s.heading | escape }} <em>{{ s.accent | escape }}</em></span></span></h1
+      >{%- if s.line != blank -%}<p class="bpageheader77__label rm-rise bpageheader77__line" style="--d:140ms">{{ s.line | escape }}</p>{%- endif -%}
+    </div
+    ><div class="rm-rise bpageheader77__right" style="--d:220ms"
+      ><div class="bpageheader77__stamp"
+        ><svg viewBox="0 0 100 100" aria-hidden="true" class="bpageheader77__ring"
+          ><defs><path id="bpageheader77-c-{{ section.id }}" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs
+          ><text class="bpageheader77__ringtext"><textPath href="#bpageheader77-c-{{ section.id }}">{{ s.ring_text | escape }}</textPath></text
+        ></svg
+        ><span class="bpageheader77__num"><span class="bpageheader77__big">{{ total }}</span><span class="bpageheader77__label bpageheader77__unit">{{ s.count_label | escape }}</span></span
+      ></div
+      ><p class="bpageheader77__note"><span class="bpageheader77__label bpageheader77__issue">{{ s.issue | escape }}</span>{{ s.note | escape }}</p
+    ></div
+  ></div
+  ><div class="rm-rise bpageheader77__bottom" style="--d:300ms"
+    ><div role="group" aria-label="{{ 'blko.page_header_77.categories' | t }}" class="bpageheader77__bar" data-bar
+      ><span aria-hidden="true" class="bpageheader77__ind" data-ind hidden></span
+      >{%- for b in section.blocks -%}
+        {%- liquid
+          assign href = ''
+          if b.settings.tag != blank and blog
+            assign href = blog.url | append: '/tagged/' | append: b.settings.tag
+          endif
+          assign cnt = b.settings.count | prepend: '0' | slice: -2, 2
+          if b.settings.count > 99
+            assign cnt = b.settings.count
+          endif
+        -%}
+      <button type="button" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}" class="bpageheader77__tab"{% if href != '' %} data-href="{{ href }}"{% endif %} {{ b.shopify_attributes }}>{{ b.settings.label | escape }}<span class="bpageheader77__label bpageheader77__cnt">{{ cnt }}</span></button
+      >{%- endfor -%}
+    </div
+    >{%- if s.show_search -%}
+    <a href="{{ search_href }}" class="bpageheader77__search">{%- render 'blko-ui-icon', name: 'search', size: 16, className: 'rm-nudge' -%}<span class="rm-ul">{{ s.search_text | escape }}</span></a
+    >{%- endif -%}
+  </div
+>{%- endcapture -%}
+<div class="bpageheader77" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast
+  >{%- render 'blko-ui-section', surface: 'pop-2', label: s.label, className: 'rm-load', inner: 'bpageheader77__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Page header, journal",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "The journal"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Halden · Field notes since 2014"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The"
+    },
+    {
+      "type": "text",
+      "id": "accent",
+      "label": "Heading accent word",
+      "default": "journal"
+    },
+    {
+      "type": "textarea",
+      "id": "line",
+      "label": "Mono line",
+      "default": "Brew guides, origin trips and tea notes, written at the roaster between batches."
+    },
+    {
+      "type": "header",
+      "content": "Stamp"
+    },
+    {
+      "type": "number",
+      "id": "count",
+      "label": "Story count",
+      "default": 38
+    },
+    {
+      "type": "text",
+      "id": "count_label",
+      "label": "Count label",
+      "default": "stories"
+    },
+    {
+      "type": "text",
+      "id": "ring_text",
+      "label": "Ring text",
+      "default": "Stories · Recipes · Origins · Tea ·"
+    },
+    {
+      "type": "text",
+      "id": "issue",
+      "label": "Issue label",
+      "default": "Issue 14 · Autumn"
+    },
+    {
+      "type": "textarea",
+      "id": "note",
+      "label": "Issue note",
+      "default": "New this week: a washed Gesha from Hambela and a cold-brew oolong."
+    },
+    {
+      "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Show search link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "search_text",
+      "label": "Search link label",
+      "default": "Search the journal"
+    },
+    {
+      "type": "url",
+      "id": "search_link",
+      "label": "Search link",
+      "info": "Defaults to the store search."
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Category tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Brew guides"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Blog tag",
+          "info": "On a blog page the tab opens the posts with this tag."
+        },
+        {
+          "type": "number",
+          "id": "count",
+          "label": "Count",
+          "default": 14
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page header, journal",
+      "blocks": [
+        {
+          "type": "tab",
+          "settings": {
+            "label": "All",
+            "count": 38
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Brew guides",
+            "count": 14
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Origins",
+            "count": 9
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Tea",
+            "count": 8
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Notes from the bar",
+            "count": 7
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

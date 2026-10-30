@@ -1,0 +1,7 @@
+{%- comment -%}Checkbox(label, hint, checked/defaultChecked, disabled, className). label/hint are trusted captured HTML. Native checkbox submits name/value.{%- endcomment -%}
+{%- assign is_checked = checked | default: defaultChecked, allow_false: true -%}
+<label class="blko-ui-checkbox {{ className }}">
+  <input type="checkbox" class="blko-ui-sr-only"{% if id != blank %} id="{{ id | escape }}"{% endif %}{% if name != blank %} name="{{ name | escape }}"{% endif %}{% if value != nil %} value="{{ value | escape }}"{% endif %}{% if is_checked %} checked{% endif %}{% if disabled %} disabled{% endif %}{% if required %} required{% endif %}>
+  <span class="blko-ui-checkbox__box" aria-hidden="true">{% render 'blko-ui-icon', name: 'check', size: 14, stroke: 3 %}</span>
+  <span class="blko-ui-checkbox__copy"><span>{{ label }}</span>{% if hint != blank %}<span class="blko-ui-field__hint">{{ hint }}</span>{% endif %}</span>
+</label>

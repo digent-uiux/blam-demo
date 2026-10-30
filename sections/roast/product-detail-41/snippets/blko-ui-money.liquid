@@ -1,0 +1,13 @@
+{%- comment -%}DS money(n): amount is in major currency units. Pass cents: true for Shopify money values. Currency follows the store's money format.{%- endcomment -%}
+{%- liquid
+  assign money_amount = amount | default: 0
+  unless cents
+    assign money_amount = money_amount | times: 100 | round
+  endunless
+  assign fraction = money_amount | modulo: 100
+  if fraction == 0
+    echo money_amount | money_without_trailing_zeros
+  else
+    echo money_amount | money
+  endif
+-%}

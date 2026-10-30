@@ -1,0 +1,41 @@
+{
+  "blko_ui": {
+    "price": {
+      "from": "From",
+      "was": "Was",
+      "save": "Save"
+    },
+    "rating": {
+      "stars": "{{ value }} out of 5 stars"
+    },
+    "quantity": {
+      "label": "Quantity",
+      "decrease": "Decrease {{ label }}",
+      "increase": "Increase {{ label }}"
+    },
+    "field": {
+      "optional": "(optional)"
+    },
+    "option": {
+      "sold_out": "sold out"
+    },
+    "product": {
+      "save": "Save {{ title }}",
+      "add": "Add {{ title }} to bag",
+      "colors": "{{ count }} colours"
+    }
+  },
+  "blko": {
+    "recommendations_69": {
+      "items": "Bundle items",
+      "subtotal": "Subtotal",
+      "items_word": "items",
+      "saving": "Bundle saving",
+      "one_more": "Tick one more",
+      "total": "Bundle total",
+      "add": "Add bundle to bag",
+      "added": "Added [count] to bag",
+      "error": "Couldn't add the bundle. Try again."
+    }
+  }
+}

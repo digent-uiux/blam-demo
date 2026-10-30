@@ -1,0 +1,41 @@
+{
+  "blko_ui": {
+    "price": {
+      "from": "From",
+      "was": "Was",
+      "save": "Save"
+    },
+    "rating": {
+      "stars": "{{ value }} out of 5 stars"
+    },
+    "quantity": {
+      "label": "Quantity",
+      "decrease": "Decrease {{ label }}",
+      "increase": "Increase {{ label }}"
+    },
+    "field": {
+      "optional": "(optional)"
+    },
+    "option": {
+      "sold_out": "sold out"
+    },
+    "product": {
+      "save": "Save {{ title }}",
+      "add": "Add {{ title }} to bag",
+      "colors": "{{ count }} colours"
+    }
+  },
+  "blko": {
+    "subscription_07": {
+      "cadence": "Delivery cadence",
+      "fewer": "Fewer bags",
+      "more": "More bags",
+      "was": "Was",
+      "weeks": "{{ n }} weeks",
+      "every": "Every {{ n }} weeks",
+      "per": "{{ price }} per delivery, every {{ n }} weeks",
+      "save": "Save {{ n }}%",
+      "error": "Couldn't add to cart. Please try again."
+    }
+  }
+}

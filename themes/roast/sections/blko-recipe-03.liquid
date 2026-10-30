@@ -1,0 +1,306 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-recipe-03.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-recipe-03.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- liquid
+  assign first = section.blocks.first
+  assign t0 = first.settings.total | default: 180
+  assign m0 = t0 | divided_by: 60 | floor
+  assign s0 = t0 | modulo: 60 | prepend: '0' | slice: -2, 2
+  assign step_count = first.settings.steps | newline_to_br | split: '<br />' | size
+  assign ring_c = 339.29
+-%}
+{%- capture timer -%}
+  <div class="brecipe03__timer" data-timer
+    ><p class="brecipe03__label brecipe03__muted">{{ 'blko.recipe_03.timer' | t }} · <span data-tname>{{ first.settings.name | escape }}</span></p
+    ><div class="brecipe03__ring"
+      ><svg viewBox="0 0 120 120" aria-hidden="true" class="brecipe03__ringsvg"
+        ><circle cx="60" cy="60" r="54" fill="none" stroke="currentColor" stroke-opacity="0.12" stroke-width="6"
+        /><circle cx="60" cy="60" r="54" fill="none" stroke="var(--blko-color-pop-3, currentColor)" stroke-width="6" stroke-linecap="round" stroke-dasharray="{{ ring_c }}" stroke-dashoffset="0" class="brecipe03__arc" data-arc
+      /></svg
+      ><div class="brecipe03__read"
+        ><span role="timer" aria-live="off" class="brecipe03__clock" data-clock>{{ m0 }}:{{ s0 }}</span
+        ><span class="brecipe03__label brecipe03__muted brecipe03__stepno" data-stepno>{{ 'blko.recipe_03.step' | t }} 1 / {{ step_count }}</span
+      ></div
+    ></div
+    ><div class="brecipe03__btns"
+      >{%- capture play -%}<span data-ico-play>{% render 'blko-ui-icon', name: 'play', size: 16 %}</span><span data-ico-pause hidden>{% render 'blko-ui-icon', name: 'pause', size: 16 %}</span><span class="rm-roll"><span data-btn-label>{{ 'blko.recipe_03.start' | t }}</span></span>{%- endcapture -%}
+      {%- capture play_label -%}{{ 'blko.recipe_03.start_label' | t }}{%- endcapture -%}
+      {%- render 'blko-ui-button', label: play_label, attrs: 'data-toggle', className: 'brecipe03__go', children: play -%}
+      {%- capture reset -%}{% render 'blko-ui-icon', name: 'rotate-ccw', size: 16, className: 'rm-nudge' %}{%- endcapture -%}
+      {%- capture reset_label -%}{{ 'blko.recipe_03.reset_label' | t }}{%- endcapture -%}
+      {%- render 'blko-ui-button', variant: 'outline', size: 'icon', label: reset_label, attrs: 'data-reset', children: reset -%}
+    </div
+    >{%- if s.note != blank -%}<p class="brecipe03__note">{{ s.note | escape }}</p>{%- endif -%}
+  </div
+>{%- endcapture -%}
+{%- capture body -%}
+  <div class="brecipe03__grid" data-rm-magnetic
+    ><div class="brecipe03__left"
+      ><div class="brecipe03__titles"
+        ><p class="brecipe03__label rm-rise brecipe03__dim8">{{ s.eyebrow | escape }}</p
+        ><h2 class="brecipe03__h2"><span class="rm-mask"><span class="rm-line" style="--d:0ms">{{ s.line_1 | escape }}</span></span><span class="rm-mask"><span class="rm-line" style="--d:90ms">{{ s.line_2 | escape }} <em>{{ s.accent | escape }}</em></span></span></h2
+      ></div
+      ><div role="tablist" aria-label="{{ 'blko.recipe_03.brewer' | t }}" class="rm-rise brecipe03__tabs" style="--d:100ms" data-tabs
+        ><span aria-hidden="true" class="brecipe03__pill" data-pill hidden></span
+        >{%- for b in section.blocks -%}
+        <button type="button" role="tab" id="brecipe03-tab-{{ section.id }}-{{ forloop.index0 }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="brecipe03-panel-{{ section.id }}" tabindex="{% if forloop.first %}0{% else %}-1{% endif %}" class="brecipe03__tab" data-tab="{{ forloop.index0 }}" {{ b.shopify_attributes }}>{{ b.settings.name | escape }}</button
+        >{%- endfor -%}
+      </div
+      ><div id="brecipe03-panel-{{ section.id }}" role="tabpanel" aria-labelledby="brecipe03-tab-{{ section.id }}-0" class="brecipe03__panel" data-panel
+        >{%- for b in section.blocks -%}
+          {%- liquid
+            assign tm = b.settings.total | divided_by: 60 | floor
+            assign ts = b.settings.total | modulo: 60 | prepend: '0' | slice: -2, 2
+          -%}
+        <dl class="rm-rise brecipe03__spec" style="--d:160ms" data-spec="{{ forloop.index0 }}" data-name="{{ b.settings.name | escape }}" data-total="{{ b.settings.total }}" data-tag="{{ b.settings.ratio | escape }} · {{ b.settings.water | split: ' · ' | first | escape }}"{% unless forloop.first %} hidden{% endunless %}
+          ><div><dt class="brecipe03__label brecipe03__dim75">{{ 'blko.recipe_03.ratio' | t }}</dt><dd>{{ b.settings.ratio | escape }}</dd></div
+          ><div><dt class="brecipe03__label brecipe03__dim75">{{ 'blko.recipe_03.dose' | t }}</dt><dd>{{ b.settings.dose | escape }}</dd></div
+          ><div><dt class="brecipe03__label brecipe03__dim75">{{ 'blko.recipe_03.water' | t }}</dt><dd>{{ b.settings.water | escape }}</dd></div
+          ><div><dt class="brecipe03__label brecipe03__dim75">{{ 'blko.recipe_03.time' | t }}</dt><dd>{{ tm }}:{{ ts }}</dd></div
+        ></dl
+        >{%- endfor -%}
+        <div class="brecipe03__phone"
+          ><div class="rm-zoom brecipe03__photo"
+            >{%- if s.image != blank -%}{{ s.image | image_url: width: 1000 | image_tag: class: 'brecipe03__img', loading: 'lazy', widths: '500, 750, 1000', sizes: '100vw', alt: s.image.alt }}{%- else -%}{{ 'lifestyle-2' | placeholder_svg_tag: 'brecipe03__img placeholder-svg' }}{%- endif -%}
+          </div
+          ><div class="brecipe03__center">{{ timer }}</div
+        ></div
+        >{%- for b in section.blocks -%}
+          {%- assign lines = b.settings.steps | newline_to_br | split: '<br />' -%}
+        <ol class="brecipe03__steps" data-steps="{{ forloop.index0 }}"{% unless forloop.first %} hidden{% endunless %}
+          >{%- for line in lines -%}
+            {%- liquid
+              assign parts = line | split: '|'
+              assign at = parts.first | strip | plus: 0 | floor
+              assign txt = parts | slice: 1, 9 | join: '|' | strip
+              assign am = at | divided_by: 60 | floor
+              assign as = at | modulo: 60 | prepend: '0' | slice: -2, 2
+            -%}
+          <li class="rm-rise brecipe03__step" style="--d:{{ forloop.index0 | times: 70 | plus: 220 }}ms" data-at="{{ at }}"
+            ><span class="brecipe03__no">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span
+            ><span class="brecipe03__text">{{ txt | escape }}</span
+            ><span class="brecipe03__label brecipe03__at">{{ am }}:{{ as }}</span
+          ></li
+          >{%- endfor -%}
+        </ol
+        >{%- endfor -%}
+      </div
+    ></div
+    ><div class="brecipe03__right"
+      ><div class="rm-zoom brecipe03__edge"
+        >{%- if s.image != blank -%}{{ s.image | image_url: width: 1400 | image_tag: class: 'brecipe03__img', loading: 'lazy', widths: '700, 1000, 1400', sizes: '42vw', alt: s.image.alt }}{%- else -%}{{ 'lifestyle-2' | placeholder_svg_tag: 'brecipe03__img placeholder-svg' }}{%- endif -%}
+        <span class="brecipe03__label brecipe03__tag" data-tag>{{ first.settings.ratio | escape }} · {{ first.settings.water | split: ' · ' | first | escape }}</span
+      ></div
+      ><div class="rm-rise brecipe03__float" style="--d:300ms">{{ timer }}</div
+    ></div
+  ></div
+>{%- endcapture -%}
+<div class="brecipe03" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-tick="{{ s.tick }}" data-l-start="{{ 'blko.recipe_03.start' | t }}" data-l-pause="{{ 'blko.recipe_03.pause' | t }}" data-l-resume="{{ 'blko.recipe_03.resume' | t }}" data-l-again="{{ 'blko.recipe_03.again' | t }}" data-l-step="{{ 'blko.recipe_03.step' | t }}" data-l-enjoy="{{ 'blko.recipe_03.enjoy' | t }}" data-a-start="{{ 'blko.recipe_03.start_label' | t }}" data-a-pause="{{ 'blko.recipe_03.pause_label' | t }}" data-a-restart="{{ 'blko.recipe_03.restart_label' | t }}"
+  >{%- render 'blko-ui-section', surface: 'pop-3', bleed: true, full: true, label: s.label, inner: 'brecipe03__inner', children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Recipe, brew timer",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Brew guide"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Brew guide · Guji Natural"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Heading, line 1",
+      "default": "Three ways to"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Heading, line 2",
+      "default": "brew it"
+    },
+    {
+      "type": "text",
+      "id": "accent",
+      "label": "Heading accent word",
+      "default": "well"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "range",
+      "id": "tick",
+      "label": "Timer speed (ms per second)",
+      "min": 50,
+      "max": 1000,
+      "step": 50,
+      "unit": "ms",
+      "default": 50,
+      "info": "1000 runs in real time."
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Timer note",
+      "default": "Sped up for the demo: 1 second = 50 ms."
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brewer",
+      "name": "Brewer",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Pour-over"
+        },
+        {
+          "type": "text",
+          "id": "ratio",
+          "label": "Ratio",
+          "default": "1 : 16"
+        },
+        {
+          "type": "text",
+          "id": "dose",
+          "label": "Dose",
+          "default": "15 g · medium-fine"
+        },
+        {
+          "type": "text",
+          "id": "water",
+          "label": "Water",
+          "default": "94 °C · 240 g"
+        },
+        {
+          "type": "number",
+          "id": "total",
+          "label": "Total seconds",
+          "default": 180
+        },
+        {
+          "type": "textarea",
+          "id": "steps",
+          "label": "Steps",
+          "info": "One per line: start second | text",
+          "default": "0 | Bloom with 40 g of water and swirl the bed gently.\n40 | Pour slow spirals to 150 g, keeping off the paper.\n75 | Pause for ten seconds, then pour to 240 g.\n110 | Give one soft swirl so the bed drains flat.\n150 | Let it draw down. Done near 3:00. Pour and wait two minutes; the blueberry opens as it cools."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Recipe, brew timer",
+      "blocks": [
+        {
+          "type": "brewer",
+          "settings": {
+            "name": "Pour-over",
+            "ratio": "1 : 16",
+            "dose": "15 g · medium-fine",
+            "water": "94 °C · 240 g",
+            "total": 180,
+            "steps": "0 | Bloom with 40 g of water and swirl the bed gently.\n40 | Pour slow spirals to 150 g, keeping off the paper.\n75 | Pause for ten seconds, then pour to 240 g.\n110 | Give one soft swirl so the bed drains flat.\n150 | Let it draw down. Done near 3:00. Pour and wait two minutes; the blueberry opens as it cools."
+          }
+        },
+        {
+          "type": "brewer",
+          "settings": {
+            "name": "Press brewer",
+            "ratio": "1 : 13",
+            "dose": "17 g · fine-medium",
+            "water": "88 °C · 220 g",
+            "total": 120,
+            "steps": "0 | Set it inverted, add the coffee and pour all 220 g.\n10 | Stir three times, cap it with a rinsed filter.\n60 | Flip onto your cup at one minute.\n75 | Press slow and steady for thirty seconds.\n105 | Stop at the hiss. Top with 30 g hot water if you like it longer."
+          }
+        },
+        {
+          "type": "brewer",
+          "settings": {
+            "name": "French press",
+            "ratio": "1 : 15",
+            "dose": "30 g · coarse",
+            "water": "95 °C · 450 g",
+            "total": 240,
+            "steps": "0 | Pour all 450 g over the grounds, start the clock.\n30 | Leave the crust to form. Don't stir.\n210 | Break the crust and skim off the foam and floaters.\n230 | Set the plunger at the surface; don't push it down. Pour slow."
+          }
+        }
+      ]
+    }
+  ],
+  "class": "blko-bundle"
+}
+{% endschema %}

@@ -1,0 +1,282 @@
+{%- liquid
+  assign s = section.settings
+-%}
+{{ 'blko-ui-core.css' | asset_url | stylesheet_tag }}
+{{ 'blko-scroll-images-08.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-ui-motion.js' | asset_url }}" defer="defer"></script>
+{{ 'blko-roast-motion.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'blko-roast-motion.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'blko-scroll-images-08.js' | asset_url }}" defer="defer"></script>
+{%- render 'blko-fonts-roast', tokens: s.tokens -%}
+{%- comment -%}
+  Halden "Inside the cup" (roast): 896px up, a 12-col stage on the active note's colour block: the notes stacked big on
+  the left (active solid, the rest outlined), the cup in a circle with a 01 / 04 counter, and on the right the heading,
+  the active note's detail and copy, a progress hairline and a button. With motion the band is N screens tall and the
+  stage pins: scrolling steps through the notes, crossfades the colour, turns and breathes the cup and fills the bar;
+  clicking a note scrolls to it. Static / reduced motion / phones: one screen, first note; phones list the notes as
+  colour rows under the cup.
+{%- endcomment -%}
+{%- liquid
+  assign n = section.blocks.size
+  assign first_pop = section.blocks.first.settings.pop | default: '2'
+  assign url = s.link | default: routes.all_products_collection_url
+-%}
+{%- capture cup -%}
+  {%- if s.image != blank -%}
+    {{ s.image | image_url: width: 1000 | image_tag: alt: s.image.alt, loading: 'lazy', widths: '500, 800, 1000', class: 'bscrollimages08__img' -}}
+  {%- else -%}
+    <span class="bscrollimages08__img">{{ 'product-3' | placeholder_svg_tag }}</span
+  >{%- endif -%}
+{%- endcapture -%}
+{%- capture heading -%}<span class="rm-mask"><span class="rm-line">{{ s.line_1 }}</span></span>{%- if s.line_2 != blank -%}<span class="rm-mask"><span class="rm-line" style="--d:90ms">{{ s.line_2 }}</span></span>{%- endif -%}{%- endcapture -%}
+{%- capture btn -%}
+  {%- if s.button != blank -%}
+    {%- capture b -%}<span class="rm-roll"><span>{{ s.button | escape }}</span></span>{%- endcapture -%}
+    {%- render 'blko-ui-button', href: url, variant: 'inherit', size: 'lg', children: b, iconAfter: 'arrow-right' -%}
+  {%- endif -%}
+{%- endcapture -%}
+{%- capture body -%}
+<div class="bscrollimages08__wide"
+  ><div class="bscrollimages08__band" data-band data-n="{{ n }}"
+    ><div class="bscrollimages08__stage" data-stage data-pop="{{ first_pop }}"
+      ><div class="bscrollimages08__grid"
+        ><div class="bscrollimages08__notes"
+          >{%- if s.eyebrow != blank -%}<p class="bscrollimages08__label">{{ s.eyebrow | escape }}</p>{%- endif -%}
+          <ol class="bscrollimages08__ol"
+            >{%- for b in section.blocks -%}
+              <li {{ b.shopify_attributes }}><button type="button" class="bscrollimages08__nb" data-k="{{ forloop.index0 }}" data-pop="{{ b.settings.pop }}"{% if forloop.first %} aria-current="step"{% endif %}>{{ b.settings.name | escape }}</button></li
+            >{%- endfor -%}
+          </ol
+        ></div
+        ><div class="bscrollimages08__cupcol"
+          ><div class="bscrollimages08__cup" data-cup>{{ cup }}</div
+          ><p aria-hidden="true" class="bscrollimages08__label bscrollimages08__count"><span data-cur>01</span> / {% if n < 10 %}0{% endif %}{{ n }}</p
+        ></div
+        ><div class="bscrollimages08__copy"
+          ><h2 class="bscrollimages08__h">{{ heading }}</h2
+          ><div class="bscrollimages08__panes"
+            >{%- for b in section.blocks -%}
+              <div class="bscrollimages08__pane" data-pane{% unless forloop.first %} hidden{% endunless %}
+                ><p class="bscrollimages08__label">{{ b.settings.detail | escape }}</p
+                ><p class="bscrollimages08__text">{{ b.settings.copy | escape }}</p
+              ></div
+            >{%- endfor -%}
+          </div
+          ><span aria-hidden="true" class="bscrollimages08__bar"><span data-fill></span></span
+          ><div class="bscrollimages08__cta">{{ btn }}</div
+        ></div
+      ></div
+    ></div
+  ></div
+></div
+><div class="bscrollimages08__narrow"
+  >{%- if s.eyebrow != blank -%}<p class="bscrollimages08__label">{{ s.eyebrow | escape }}</p>{%- endif -%}
+  <h2 class="bscrollimages08__mh">{{ heading }}</h2
+  ><div class="bscrollimages08__mcup">{{ cup }}</div
+  ><ol class="bscrollimages08__rows"
+    >{%- for b in section.blocks -%}
+      <li class="rm-rise bscrollimages08__row" data-pop="{{ b.settings.pop }}" style="--d:{{ forloop.index0 | times: 70 }}ms"
+        ><p class="bscrollimages08__rn">{{ b.settings.name | escape }}</p
+        ><p class="bscrollimages08__rc">{{ b.settings.copy | escape }}</p
+        ><p class="bscrollimages08__label bscrollimages08__rd">{{ b.settings.detail | escape }}</p
+      ></li
+    >{%- endfor -%}
+  </ol
+  ><div class="bscrollimages08__cta">{{ btn }}</div
+></div
+>{%- endcapture -%}
+<div class="bscrollimages08" data-tokens="{{ s.tokens }}" style="--pt:{{ s.padding_top }}px;--pb:{{ s.padding_bottom }}px" data-roast data-bscrollimages08 data-rm-magnetic
+  >{%- render 'blko-ui-section', surface: 'pop-2', bleed: true, full: true, label: s.label, children: body -%}
+</div
+
+>
+
+{% schema %}
+{
+  "name": "Scroll Images 08 - Cup",
+  "tag": "div",
+  "class": "blko-bundle",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Region label",
+      "default": "Inside the cup"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Inside the cup · Guji natural"
+    },
+    {
+      "type": "text",
+      "id": "line_1",
+      "label": "Heading line 1",
+      "default": "One bag,"
+    },
+    {
+      "type": "text",
+      "id": "line_2",
+      "label": "Heading line 2 (wrap a word in <em>)",
+      "default": "<em>four</em> notes."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Cup image"
+    },
+    {
+      "type": "text",
+      "id": "button",
+      "label": "Button",
+      "default": "Shop Guji natural"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "tokens",
+      "label": "Colors, fonts, corners",
+      "options": [
+        {
+          "value": "preset",
+          "label": "Bundled preset (Roast)"
+        },
+        {
+          "value": "theme",
+          "label": "Read the theme's tokens"
+        }
+      ],
+      "default": "preset",
+      "info": "Reads the design tokens a Blocko theme sets (--blko-color-bg, --blko-font-heading, --blko-radius-card, --blko-theme-button-case…)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0,
+      "info": "Phones use 70%."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 160,
+      "step": 8,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "note",
+      "name": "Note",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Blueberry"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "Copy",
+          "default": "The first sip: ripe, jammy fruit from a slow natural dry on raised beds."
+        },
+        {
+          "type": "text",
+          "id": "detail",
+          "label": "Detail",
+          "default": "Natural process · 21 days on beds"
+        },
+        {
+          "type": "select",
+          "id": "pop",
+          "label": "Colour block",
+          "options": [
+            {
+              "value": "1",
+              "label": "Pop 1"
+            },
+            {
+              "value": "2",
+              "label": "Pop 2"
+            },
+            {
+              "value": "3",
+              "label": "Pop 3"
+            },
+            {
+              "value": "4",
+              "label": "Pop 4"
+            }
+          ],
+          "default": "2"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scroll Images 08 - Cup",
+      "blocks": [
+        {
+          "type": "note",
+          "settings": {
+            "name": "Blueberry",
+            "copy": "The first sip: ripe, jammy fruit from a slow natural dry on raised beds.",
+            "detail": "Natural process · 21 days on beds",
+            "pop": "2"
+          }
+        },
+        {
+          "type": "note",
+          "settings": {
+            "name": "Cacao",
+            "copy": "As it cools, a soft cocoa body rounds it out. Never bitter, never burnt.",
+            "detail": "Medium roast · drop at 204 °C",
+            "pop": "4"
+          }
+        },
+        {
+          "type": "note",
+          "settings": {
+            "name": "Jasmine",
+            "copy": "A floral lift on the finish, the mark of heirloom Ethiopian varieties.",
+            "detail": "Guji · 2,100 m · heirloom",
+            "pop": "3"
+          }
+        },
+        {
+          "type": "note",
+          "settings": {
+            "name": "Honey",
+            "copy": "It ends long and sweet. Brew it 1:16 at 94 °C and give it three and a half minutes.",
+            "detail": "1:16 · 94 °C · 3 min 30",
+            "pop": "1"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,29 @@
+{%- comment -%}
+  Wraps a customer page's content (or its heading) with the optional side image set in the section.
+
+  Accepts:
+  - section: {Object} the section (reads layout, image, image_position)
+  - body: {String} captured markup
+  - fallback: {String} demo photo name used until an image is picked (default 'bathroom')
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign split = false
+  if s.layout == 'split'
+    assign split = true
+  endif
+  assign fallback = fallback | default: 'account'
+-%}
+<div class="blko-account__shell{% if split %} blko-account__shell--split blko-account__shell--media-{{ s.image_position }}{% endif %}">
+  <div class="blko-account__shell-content">{{ body }}</div>
+  {%- if split -%}
+    <div class="blko-media blko-account__media">
+      {%- if s.image != blank -%}
+        {%- assign img_alt = s.image.alt | escape -%}
+        {{ s.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '500, 800, 1100, 1400', sizes: '(min-width: 990px) 50vw, 100vw', alt: img_alt }}
+      {%- else -%}
+        {%- render 'blko-fallback-image', name: fallback, sizes: '(min-width: 990px) 50vw, 100vw' -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>

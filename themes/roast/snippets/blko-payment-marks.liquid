@@ -1,0 +1,23 @@
+{%- comment -%}
+  Payment marks as the DS PaymentMarks: five generic chips (card, wallet, pay later, bank, gift card) drawn with Lucide
+  icons, no brand logos. Labels are visually hidden unless labels is true.
+  Accepts:
+  - labels: {Boolean} show the label next to each icon
+  - class: {String} optional extra class on the list
+{%- endcomment -%}
+{%- assign marks = 'credit-card,wallet,calendar-clock,landmark,gift' | split: ',' -%}
+<ul class="blko-list-reset blko-paymarks{% if labels %} blko-paymarks--labels{% endif %}{% if class != blank %} {{ class }}{% endif %}" aria-label="{{ 'blko.footer.payment_methods' | t }}">
+  {%- for m in marks -%}
+    {%- assign key = 'blko.footer.pay_' | append: forloop.index -%}
+    <li class="blko-paymarks__item" title="{{ key | t }}">
+      {%- case m -%}
+        {%- when 'credit-card' -%}{%- render 'blko-icon', name: 'credit-card', size: 16 -%}
+        {%- when 'wallet' -%}{%- render 'blko-icon', name: 'wallet', size: 16 -%}
+        {%- when 'calendar-clock' -%}{%- render 'blko-icon', name: 'calendar-clock', size: 16 -%}
+        {%- when 'landmark' -%}{%- render 'blko-icon', name: 'landmark', size: 16 -%}
+        {%- else -%}{%- render 'blko-icon', name: 'gift', size: 16 -%}
+      {%- endcase -%}
+      <span class="{% unless labels %}blko-visually-hidden{% endunless %}">{{ key | t }}</span>
+    </li>
+  {%- endfor -%}
+</ul>

@@ -1,0 +1,12 @@
+{%- comment -%}Rating(value, count?, size='sm', tone, className). Count=0 is intentionally rendered; score always has one decimal.{%- endcomment -%}
+{%- liquid
+  assign score = value | round: 1 | append: ''
+  unless score contains '.'
+    assign score = score | append: '.0'
+  endunless
+-%}
+<span class="blko-ui-rating {{ className }}">
+  {% render 'blko-ui-stars', value: value, size: size, tone: tone %}
+  <span class="blko-ui-rating__score">{{ score }}</span>
+  {%- if count != blank -%}<span class="blko-ui-rating__count{% if tone == 'inherit' %} blko-ui-rating__count--inherit{% endif %}">({% render 'blko-ui-number', value: count %})</span>{%- endif -%}
+</span>
